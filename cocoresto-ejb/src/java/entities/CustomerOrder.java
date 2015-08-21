@@ -1,0 +1,171 @@
+
+package entities;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
+import javax.persistence.*;
+
+@Entity
+public class CustomerOrder implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String number;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date orderDate;
+    private boolean active;
+    private Integer status;
+    private Integer people;
+
+    private Integer nbTablet;
+    
+    @ManyToOne
+    private Employee employee;
+    @OneToOne
+    private CustomerTable customerTable;
+    
+
+    @ManyToMany
+    private Collection<Drink> drinks;
+    
+
+    @ManyToMany
+    private Collection<Dish> dishes;
+    
+
+    @ManyToMany
+    private Collection<Combo> combos;
+
+    public CustomerOrder() {
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public CustomerTable getCustomerTable() {
+        return customerTable;
+    }
+
+    public void setCustomerTable(CustomerTable customerTable) {
+        this.customerTable = customerTable;
+    }
+
+    public Collection<Drink> getDrinks() {
+        return drinks;
+    }
+
+    public void setDrinks(Collection<Drink> drinks) {
+        this.drinks = drinks;
+    }
+
+    public Collection<Dish> getDishes() {
+        return dishes;
+    }
+
+    public void setDishes(Collection<Dish> dishes) {
+        this.dishes = dishes;
+    }
+
+    public Collection<Combo> getCombos() {
+        return combos;
+    }
+
+    public void setCombos(Collection<Combo> combos) {
+        this.combos = combos;
+    }
+    
+    
+    
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getPeople() {
+        return people;
+    }
+
+    public void setPeople(Integer people) {
+        this.people = people;
+    }
+
+
+    public Integer getNbTablet() {
+        return nbTablet;
+    }
+
+    public void setNbTablet(Integer nbTablet) {
+        this.nbTablet = nbTablet;
+    }
+    
+    
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof CustomerOrder)) {
+            return false;
+        }
+        CustomerOrder other = (CustomerOrder) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "entities.CustomerOrder[ id=" + id + " ]";
+    }
+    
+}

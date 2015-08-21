@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="cocoresto-ejbPU" transaction-type="JTA">
+        <jta-data-source>jdbc/cocoresto</jta-data-source>
+        <class>entities.Category</class>
+        <class>entities.Combo</class>
+        <class>entities.CustomerOrder</class>
+        <class>entities.CustomerTable</class>
+        <class>entities.Discount</class>
+        <class>entities.Dish</class>
+        <class>entities.Drink</class>
+        <class>entities.Employee</class>
+        <class>entities.EmployeeGroup</class>
+        <class>entities.Format</class>
+        <class>entities.NutritiveValue</class>
+        <class>entities.Price</class>
+        <class>entities.Tax</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+        </properties>
+    </persistence-unit>
+</persistence>
