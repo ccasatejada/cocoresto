@@ -2,10 +2,13 @@
 package ejb;
 
 import entities.Employee;
+import entities.EmployeeGroup;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 @Stateless
 public class ejbEmployee implements ejbEmployeeLocal {
@@ -13,6 +16,21 @@ public class ejbEmployee implements ejbEmployeeLocal {
     @PersistenceContext(unitName = "cocoresto-ejbPU")
     private EntityManager em;
 
+    @Override
+    public List<EmployeeGroup> findGroups() {
+        
+        String query = "SELECT eg FROM EmployeeGroup eg";
+        Query qr = em.createQuery(query);
+        
+        List<EmployeeGroup> egList = qr.getResultList();
+//        EmployeeGroup eg = new EmployeeGroup();
+//        for(EmployeeGroup eGroup : egList) {
+//            eg = eGroup;
+//        }
+
+        return egList;
+    }
+    
     @Override
     public void create(Employee emp) {
 
@@ -37,7 +55,6 @@ public class ejbEmployee implements ejbEmployeeLocal {
     
     @Override
     public ArrayList<Employee> findAll(){
-        Employee employee = new Employee();
         ArrayList<Employee> employees = new ArrayList();
         
         
