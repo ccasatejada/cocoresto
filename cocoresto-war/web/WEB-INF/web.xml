@@ -16,6 +16,10 @@
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
         <url-pattern>/FrontController</url-pattern>
+        <init-param>
+            <param-name>login</param-name>
+            <param-value>controllers.loginController</param-value>
+        </init-param>
     </servlet-mapping>
     
     <session-config>
@@ -28,5 +32,9 @@
         <ejb-ref-type>Session</ejb-ref-type>
         <local>ejb.ejbEmployeeLocal</local>
         <ejb-link>cocoresto-ejb.jar#ejbEmployee</ejb-link>
+        <ejb-ref-name>ejbLogin</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>ejb.ejbLoginLocal</local>
+        <ejb-link>cocoresto-ejb.jar#ejbLogin</ejb-link>
     </ejb-local-ref>
 </web-app>
