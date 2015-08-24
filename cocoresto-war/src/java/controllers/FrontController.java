@@ -33,15 +33,12 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = "/WEB-INF/index.jsp";
-        
-        if(map.containsKey(request.getParameter("option"))) {
+
+        if (map.containsKey(request.getParameter("option"))) {
             IController c = map.get(request.getParameter("option"));
             url = c.execute(request, response);
         }
-        
-        
-        
-        
+
         request.getRequestDispatcher(url).include(request, response);
     }
 
