@@ -4,27 +4,24 @@
         <servlet-name>FrontController</servlet-name>
         <servlet-class>controllers.FrontController</servlet-class>
         <init-param>
+            <param-name>employee</param-name>
+            <param-value>controllers.EmployeeController</param-value>
+        </init-param>
+        <init-param>
             <param-name>login</param-name>
-            <param-value>controllers.loginController</param-value>
+            <param-value>controllers.LoginController</param-value>
         </init-param>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
         <url-pattern>/FrontController</url-pattern>
-        <init-param>
-            <param-name>login</param-name>
-            <param-value>controllers.loginController</param-value>
-        </init-param>
     </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    <ejb-local-ref>
-        <ejb-ref-name>ejbLogin</ejb-ref-name>
-        <ejb-ref-type>Session</ejb-ref-type>
-        <local>ejb.ejbLoginLocal</local>
-        <ejb-link>cocoresto-ejb.jar#ejbLogin</ejb-link>
-    </ejb-local-ref>
+
 </web-app>
