@@ -7,19 +7,25 @@ import javax.persistence.*;
 
 @Entity
 public class Employee implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    
+
     @ManyToOne
+    @JoinColumn(nullable = false)
     private EmployeeGroup employeeGroup;
+    @Column(nullable = false, unique = true)
     private String password;
+    @Column(nullable = false)
     private String lastName;
+    @Column(nullable = false)
     private String firstName;
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(nullable = false)
     private Date creationDate;
+    @Column(nullable = false)
     private boolean active;
     @OneToMany(mappedBy = "employee")
     private List<CustomerOrder> customerOrders;
@@ -34,9 +40,6 @@ public class Employee implements Serializable {
     public void setCustomerOrders(List<CustomerOrder> customerOrders) {
         this.customerOrders = customerOrders;
     }
-    
-    
-    
 
     public Long getId() {
         return id;
@@ -94,8 +97,6 @@ public class Employee implements Serializable {
         this.active = active;
     }
 
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -119,5 +120,5 @@ public class Employee implements Serializable {
     public String toString() {
         return "entities.Employee[ id=" + id + " ]";
     }
-    
+
 }

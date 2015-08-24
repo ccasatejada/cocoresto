@@ -1,17 +1,21 @@
-<%-- 
-    Document   : index
-    Created on : 21 août 2015, 10:16:28
-    Author     : CDI105
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <%@include file="includes/head.jsp" %>
+        <title>Connexion</title>
     </head>
     <body>
-        <h1>Hello COCORESTO!</h1>
+        <div class="container-fluid">
+            <div class="well">
+                <h1>Connexion</h1>
+                <form action="" method="post">
+                    <div class="form-group">
+                        <label>Code secret&nbsp;<input type="password" maxlength="4"  /></label>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <%@include file="includes/scripts.jsp" %>
     </body>
 </html>
