@@ -3,14 +3,26 @@
     <servlet>
         <servlet-name>FrontController</servlet-name>
         <servlet-class>controllers.FrontController</servlet-class>
+        <init-param>
+            <param-name>employee</param-name>
+            <param-value>controllers.EmployeeController</param-value>
+        </init-param>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
         <url-pattern>/FrontController</url-pattern>
     </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <ejb-local-ref>
+        <ejb-ref-name>ejbEmployee</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>ejb.ejbEmployeeLocal</local>
+        <ejb-link>cocoresto-ejb.jar#ejbEmployee</ejb-link>
+    </ejb-local-ref>
 </web-app>
