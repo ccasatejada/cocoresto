@@ -8,34 +8,43 @@
         <title>Editer l'employé</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <form action="FrontController?option=employee" method="POST">
+        <form action="FrontController?option=employee" class="well form-horizontal" method="POST">
             <div class="form-group">
-            <label>Groupe</label>
-            <select name="comboGroupEmployee">
-                <option>Serveur</option>
-                <option>Cuisinier</option>
-            </select>
+                <label for="comboGroupEmployee" class="col-sm-2 control-label">Groupe</label>
+                <div class="col-sm-10">
+                <select name="comboGroupEmployee" class="form-control">
+                    <option>Serveur</option>
+                    <option>Cuisinier</option>
+                </select>
+                </div>
             </div>
             <div class="form-group">
-            <label for="lastName">Nom : </label>
-            <input type="text" name="lastName"> 
+                <label for="lastName" class="col-sm-2 control-label">Nom : </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="lastName"> 
+                </div>
             </div>
             <div class="form-group">
-            <label for="firstName">Prénom : </label>
-            <input type="text" name="firstName">
+                <label for="firstName" class="col-sm-2 control-label">Prénom : </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="firstName">
+                </div>
             </div>
             <div class="form-group">
-            <label for="password">Mot de passe : </label>
-            <input type="password" name="password"> 
+                <label for="password" class="col-sm-2 control-label">Mot de passe : </label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password"> 
+                </div>
             </div>
             <div class="form-group">
-            <label for="confirmPassword">Confirmer mot de passe : </label>
-            <input type="password" name="confirmPassword"> 
+                <label for="confirmPassword" class="col-sm-2 control-label">Confirmer mot de passe : </label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" name="confirmPassword"> 
+                </div>
             </div>
             <button type="submit" class="btn btn-default">Ajouter</button>
         </form>
-        
+
         <%@include file="../includes/scripts.jsp" %>
     </body>
 </html>
