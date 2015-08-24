@@ -118,7 +118,7 @@ public class Employee implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Employee[ id=" + id + " ]";
+        return "Employee{" + "id=" + id + ", employeeGroup=" + employeeGroup + ", password=" + password + ", lastName=" + lastName + ", firstName=" + firstName + ", creationDate=" + creationDate + ", active=" + active + ", customerOrders=" + customerOrders + '}';
     }
 
 }

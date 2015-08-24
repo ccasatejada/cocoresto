@@ -1,6 +1,7 @@
 package models;
 
 import ejb.ejbLoginLocal;
+import entities.Employee;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +16,7 @@ public class beanLogin implements Serializable {
     public beanLogin() {
     }
 
-    public Boolean login(String password) {
+    public Employee login(String password) {
         return ejbLogin.login(password);
     }
 
