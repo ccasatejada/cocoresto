@@ -9,7 +9,7 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <form action="" method="POST">
+        <form action="FrontController?option=employee" method="POST">
             <div class="form-group">
             <label>Groupe</label>
             <select name="comboGroupEmployee">

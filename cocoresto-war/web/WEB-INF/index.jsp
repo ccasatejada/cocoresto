@@ -6,14 +6,17 @@
         <title>Connexion</title>
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="well">
-                <h1>Connexion</h1>
-                <form action="" method="post">
-                    <div class="form-group">
-                        <label>Code secret&nbsp;<input type="password" maxlength="4"  /></label>
-                    </div>
-                </form>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 col-sm-push-4">
+                    <h1>Connexion</h1>
+                    <form action="FrontController?option=login" class="well" method="post">
+                        <div class="form-group">
+                            <label>Code &nbsp;<input type="password" name="password" maxlength="4" /></label>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Se connecter</button>
+                    </form>
+                </div>
             </div>
         </div>
         <%@include file="includes/scripts.jsp" %>
