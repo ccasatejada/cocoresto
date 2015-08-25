@@ -19,7 +19,6 @@
                 <tr>
                     <th hidden>Id</th>
                     <th scope="col">Catégorie</th>
-                    <th scope="col">Liste de produit</th>
                     <th scope="col">Modifier</th>
                     <th scope="col">Supprimer</th>
                 </tr>
@@ -29,7 +28,6 @@
                     <tr>
                         <td hidden>${category.id}</td>
                         <td>${category.name}</td>
-                        <td><a href="FrontController?option=dish">Liste de produits</a></td>
                         <td><a href="FrontController?option=category&task=edit&id=${category.id}">Modifier</a></td>
                         <td><a href="FrontController?option=category&task=delete&id=${category.id}">Supprimer</a></td>
                     </tr>
