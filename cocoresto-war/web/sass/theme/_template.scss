@@ -7,6 +7,12 @@ html {
     font-size: .625em;
 }
 
+
+body {
+    background: url(../images/template/117.jpg)
+}
+
+
 // transition
 a, 
 a > span, 
@@ -24,7 +30,15 @@ input,
     text-decoration: $link-hover-decoration;
 }
 
+.text-white {
+    color: #fff;
+}
 
+// module
+.module {
+    background: rgba(255,255,255,0.2);
+    padding: 2em 0;
+}
 
 // to top
 #totop {
