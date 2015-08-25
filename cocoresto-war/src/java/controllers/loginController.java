@@ -41,6 +41,7 @@ public class loginController implements IController {
                 Long idGroup = loggedEmployee.getEmployeeGroup().getId();
                 session.setAttribute("logged", true);
                 session.setAttribute("group", idGroup);
+                session.setAttribute("employee", loggedEmployee);
                 request.setAttribute("alert", Alert.setAlert("Bienvenue", loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName(), "success"));
                 try {
                     response.sendRedirect("FrontController?option=dashboard");
@@ -54,8 +55,10 @@ public class loginController implements IController {
         if (request.getParameter("disconnect") != null) {
             session.setAttribute("logged", false);
             session.setAttribute("group", -1);
+            session.setAttribute("employee", null);
             session.removeAttribute("logged");
             session.removeAttribute("group");
+            session.removeAttribute("employee");
         }
         
         return "/WEB-INF/index.jsp";
