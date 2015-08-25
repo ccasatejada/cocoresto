@@ -35,11 +35,11 @@ public class FrontController extends HttpServlet {
         String url = "/WEB-INF/index.jsp";
         
         // resend to dashboard if already logged
-        HttpSession session = request.getSession();
-        if(session.getAttribute("logged") != null && (boolean) session.getAttribute("logged") && url.equals("/WEB-INF/index.jsp")) {
-            response.sendRedirect("FrontController?option=dashboard");
-        }
-        
+//        HttpSession session = request.getSession();
+//        if(session.getAttribute("logged") != null && (boolean) session.getAttribute("logged") && url.equals("/WEB-INF/index.jsp")) {
+//            response.sendRedirect("FrontController?option=dashboard");
+//        }
+//        
         if (map.containsKey(request.getParameter("option"))) {
             IController c = map.get(request.getParameter("option"));
             url = c.execute(request, response);

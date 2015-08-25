@@ -3,15 +3,13 @@
 <html>
     <head>
         <%@include file="includes/head.jsp" %>
-        <title>Panneau d'administration</title>
+        <title>Panneau d'administration : Cuisinier</title>
     </head>
     <body>
-        <div class="container">
+        <div class="container-fluid">
             ${alert}
-            <h1>Hello Cooker</h1>
             
-            
-        </div>
+             </div>
         <%@include file="includes/scripts.jsp" %>
     </body>
 </html>

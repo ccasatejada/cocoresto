@@ -37,11 +37,9 @@
                 </li>
             </ul>
 
-            <div class="navbar-right">
-                <form action="FrontController?option=login" method="post">
+                <form class="navbar-right navbar-form" action="FrontController?option=login" method="post">
                     <button class="btn btn-primary" type="submit" name="disconnect">Se déconnecter</button>
                 </form>
-            </div>
             
         </div>
     </div>
