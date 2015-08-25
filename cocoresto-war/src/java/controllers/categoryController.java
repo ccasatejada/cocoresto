@@ -41,8 +41,6 @@ public class categoryController implements IController {
 
         if ("delete".equals(request.getParameter("task"))) {
             c = bc.findById(Long.valueOf(request.getParameter("id")));
-            System.out.println(Long.valueOf(request.getParameter("id")));
-            System.out.println(c.getName());
             bc.delete(c);
             url = "/WEB-INF/admin/listCategory.jsp";
         }
