@@ -17,24 +17,14 @@ public class beanCategory implements Serializable {
     public beanCategory() {
     }
 
-    public boolean create(Category category) {
-        try {
-            ejbCategory.create(category);
-            return true;
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return false;
-        }
+    public void create(Category category) {
+        ejbCategory.create(category);
+
     }
 
-    public boolean update(Category category) {
-        try {
-            ejbCategory.update(category);
-            return true;
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return false;
-        }
+    public void update(Category category) {
+        ejbCategory.update(category);
+
     }
 
     public void delete(Category category) {

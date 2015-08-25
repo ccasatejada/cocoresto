@@ -3,6 +3,7 @@ package models;
 import ejb.ejbDishLocal;
 import entities.Dish;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,56 +12,40 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 public class beanDish implements Serializable {
+
     ejbDishLocal ejbDish = lookupejbDishLocal();
 
     public beanDish() {
     }
-       
-    
-    public boolean create(Dish dish){
-        try{
-           ejbDish.create(dish);
-           return true;
-        } catch(Exception ex) {
-            System.out.println(ex.getMessage());
-            return false;
-        }
+
+    public void create(Dish dish) {
+        ejbDish.create(dish);
+
     }
-    
-    public boolean update(Dish dish){  
-        try{
-           ejbDish.update(dish);
-           return true;
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-            return false;
-        }
+
+    public void update(Dish dish) {
+        ejbDish.update(dish);
+
     }
-    
-    public Dish findById(Long id){
-        if(ejbDish.findById(id) != null){
+
+    public Dish findById(Long id) {
+        if (ejbDish.findById(id) != null) {
             return ejbDish.findById(id);
         }
         return null;
     }
-    
-    public Collection<Dish> findAll(){
-        if(ejbDish.findAll() != null){
-            return ejbDish.findAll();
+
+    public ArrayList<Dish> findAll() {
+        ArrayList<Dish> ad = new ArrayList();
+        for (Dish d : ejbDish.findAll()) {
+            ad.add(d);
         }
-        return null;
+        return ad;
     }
-    
-    public boolean delete(Dish dish){
-        try{
-           ejbDish.delete(dish);
-           return true;
-        } catch (Exception ex){
-            System.out.println(ex.getMessage());
-            return false;
-        }
+
+    public void delete(Dish dish) {
+        ejbDish.delete(dish);
     }
-    
 
     private ejbDishLocal lookupejbDishLocal() {
         try {
@@ -71,7 +56,5 @@ public class beanDish implements Serializable {
             throw new RuntimeException(ne);
         }
     }
-  
-    
-    
+
 }
