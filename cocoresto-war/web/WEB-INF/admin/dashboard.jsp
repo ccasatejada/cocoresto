@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%@include file="includes/head.jsp" %>
+        <%@include file="../includes/head.jsp" %>
         <title>Panneau d'administration</title>
     </head>
     <body>
@@ -12,6 +12,6 @@
             
             
         </div>
-        <%@include file="includes/scripts.jsp" %>
+        <%@include file="../includes/scripts.jsp" %>
     </body>
 </html>
