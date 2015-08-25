@@ -3,8 +3,6 @@ package controllers;
 import entities.Employee;
 import helpers.Alert;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,40 +13,55 @@ public class loginController implements IController {
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-
+        
         HttpSession session = request.getSession();
-
+        
         beanLogin bLogin = (beanLogin) session.getAttribute("bLogin");
-
+        
         if (bLogin == null) {
             bLogin = new beanLogin();
             session.setAttribute("bLogin", bLogin);
         }
-
-        if(session.getAttribute("logged") != null) {
+        
+        if (session.getAttribute("logged") != null) {
             boolean logged = (boolean) session.getAttribute("logged");
         }
         
-        
-        
-        
-        
-
-        String password = request.getParameter("password");
-
-        Employee loggedEmployee = bLogin.login(password);
-
-        if (loggedEmployee == null) {
-            request.setAttribute("alert", Alert.setAlert("Erreur", "Votre code est invalide", "danger"));
-            return "/WEB-INF/index.jsp";
-        } else {
-            session.setAttribute("logged", true);
-
-            return "/WEB-INF/dashboardWaiter.jsp";
+        // login form has been send
+        if (request.getParameter("password") != null) {
+            
+            String password = request.getParameter("password");
+            
+            Employee loggedEmployee = bLogin.login(password);
+            
+            if (loggedEmployee == null) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Votre code est invalide", "danger"));
+                return "/WEB-INF/index.jsp";
+            } else {
+                Long idGroup = loggedEmployee.getEmployeeGroup().getId();
+                session.setAttribute("logged", true);
+                session.setAttribute("group", idGroup);
+                request.setAttribute("alert", Alert.setAlert("Bienvenue", loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName(), "success"));
+                try {
+                    response.sendRedirect("FrontController?option=dashboard");
+                } catch (IOException ex) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'accéder au tableau de bord", "danger"));
+                }
+            }
         }
-
+        
+        // Disconnect
+        if (request.getParameter("disconnect") != null) {
+            session.setAttribute("logged", false);
+            session.setAttribute("group", -1);
+            session.removeAttribute("logged");
+            session.removeAttribute("group");
+        }
+        
+        return "/WEB-INF/index.jsp";
+        
     }
-
+    
     @Override
     public String execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) {
         return null;

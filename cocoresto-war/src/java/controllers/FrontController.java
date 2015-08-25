@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class FrontController extends HttpServlet {
 
@@ -29,11 +30,16 @@ public class FrontController extends HttpServlet {
         }
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = "/WEB-INF/index.jsp";
-
+        
+        // resend to dashboard if already logged
+        HttpSession session = request.getSession();
+        if(session.getAttribute("logged") != null && (boolean) session.getAttribute("logged") && url.equals("/WEB-INF/index.jsp")) {
+            response.sendRedirect("FrontController?option=dashboard");
+        }
+        
         if (map.containsKey(request.getParameter("option"))) {
             IController c = map.get(request.getParameter("option"));
             url = c.execute(request, response);
