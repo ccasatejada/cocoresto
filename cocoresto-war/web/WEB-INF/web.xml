@@ -9,19 +9,28 @@
         </init-param>
         <init-param>
             <param-name>login</param-name>
-            <param-value>controllers.LoginController</param-value>
+            <param-value>controllers.loginController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>category</param-name>
+            <param-value>controllers.categoryController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dish</param-name>
+            <param-value>controllers.dishController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dashboard</param-name>
+            <param-value>controllers.dashboardController</param-value>
         </init-param>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
         <url-pattern>/FrontController</url-pattern>
     </servlet-mapping>
-    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-
 </web-app>
