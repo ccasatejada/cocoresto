@@ -2,6 +2,7 @@ package controllers;
 
 import entities.Employee;
 import helpers.Alert;
+import java.io.IOException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,12 +42,10 @@ public class loginController implements IController {
                 session.setAttribute("logged", true);
                 session.setAttribute("group", idGroup);
                 request.setAttribute("alert", Alert.setAlert("Bienvenue", loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName(), "success"));
-                if(idGroup == 1) { // Waiter
-                    return "/WEB-INF/dashboardWaiter.jsp";
-                } else if (idGroup == 2) { // Cooker
-                    return "/WEB-INF/dashboardCooker.jsp";
-                } else { // Admin
-                    return "/WEB-INF/admin/dashboard.jsp";
+                try {
+                    response.sendRedirect("FrontController?option=dashboard");
+                } catch (IOException ex) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'accéder au tableau de bord", "danger"));
                 }
             }
         }

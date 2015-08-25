@@ -30,7 +30,8 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <%@include file="includes/scripts.jsp" %>
+        <%@include file="includes/scripts.jsp" %>
     </body>
 </html>
