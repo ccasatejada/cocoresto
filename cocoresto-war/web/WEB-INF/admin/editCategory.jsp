@@ -4,6 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <%@include file="../includes/head.jsp" %>
         <title>Administration Catégorie</title>
     </head>
     <body>
@@ -16,5 +17,7 @@
             </div>
             <input type="submit" class="btn btn-primary" name="confirm">
         </form>
+        <%@include file="../includes/scripts.jsp" %>
+
     </body>
 </html>
