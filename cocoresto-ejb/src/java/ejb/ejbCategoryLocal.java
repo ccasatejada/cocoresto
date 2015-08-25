@@ -2,20 +2,20 @@
 package ejb;
 
 import entities.Category;
-import java.util.Collection;
+import java.util.List;
 import javax.ejb.Local;
 
 @Local
 public interface ejbCategoryLocal {
     
-    public boolean create(Category category);
+    public void create(Category category);
 
-    public boolean update(Category category);
+    public void update(Category category);
     
-    public boolean delete(Category category);
+    public void delete(Category category);
 
     public Category findById(Long id);
 
-    public Collection<Category> findAll();
+    public List<Category> findAll();
 
 }

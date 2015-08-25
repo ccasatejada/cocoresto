@@ -2,9 +2,8 @@ package models;
 
 import ejb.ejbCategoryLocal;
 import entities.Category;
-import java.beans.*;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -12,27 +11,50 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 public class beanCategory implements Serializable {
+
     ejbCategoryLocal ejbCategory = lookupejbCategoryLocal();
-    
 
-    public boolean create(Category category){
-        return ejbCategory.create(category);
+    public beanCategory() {
     }
 
-    public boolean update(Category category){
-        return ejbCategory.update(category);
+    public boolean create(Category category) {
+        try {
+            ejbCategory.create(category);
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
     }
 
-    public boolean delete(Category category){
-        return ejbCategory.delete(category);
+    public boolean update(Category category) {
+        try {
+            ejbCategory.update(category);
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
     }
 
-    public Category findById(Long id){
-        return ejbCategory.findById(id);
+    public void delete(Category category) {
+        ejbCategory.delete(category);
     }
 
-    public Collection<Category> findAll(){
-        return ejbCategory.findAll();
+    public Category findById(Long id) {
+        if (ejbCategory.findById(id) != null) {
+            return ejbCategory.findById(id);
+        }
+        return null;
+    }
+
+    public ArrayList<Category> findAll() {
+        ArrayList<Category> ac = new ArrayList();
+        for (Category c : ejbCategory.findAll()) {
+            ac.add(c);
+        }
+        return ac;
+
     }
 
     private ejbCategoryLocal lookupejbCategoryLocal() {

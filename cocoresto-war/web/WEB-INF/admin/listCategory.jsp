@@ -23,15 +23,15 @@
                 </tr>
             </thead>
             <tbody id="cBody">
-                <tr>
-                    <c:forEach var="category" items="${categories}" varStatus="loop">
+                <c:forEach var="category" items="${categories}" varStatus="loop">
+                    <tr>
                         <td hidden>${category.id}</td>
                         <td>${category.name}</td>
-                        <td><a href="listDish.jsp">Liste de produits</a></td>
+                        <td><a href="FrontController?option=dish">Liste de produits</a></td>
                         <td><a href="FrontController?option=category&task=edit&id=${category.id}">Modifier</a></td>
                         <td><a href="FrontController?option=category&task=delete&id=${category.id}">Supprimer</a></td>
-                    </c:forEach>
-                </tr>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
     </body>

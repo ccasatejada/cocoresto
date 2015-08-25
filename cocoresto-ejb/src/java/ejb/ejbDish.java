@@ -2,7 +2,8 @@
 package ejb;
 
 import entities.Dish;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,23 +15,20 @@ public class ejbDish implements ejbDishLocal {
     private EntityManager em;
     
     @Override
-    public boolean create(Dish dish) {
+    public void create(Dish dish) {
         em.persist(dish);
         
-        return false;
     }
 
     @Override
-    public boolean update(Dish dish) {
+    public void update(Dish dish) {
         em.merge(dish);
         
-        return false;
     }
     
     @Override
-    public boolean delete(Dish dish){ 
+    public void delete(Dish dish){ 
         em.remove(dish);
-        return false;
     }
 
     @Override
@@ -41,7 +39,7 @@ public class ejbDish implements ejbDishLocal {
     }
 
     @Override
-    public Collection<Dish> findAll() {
+    public List<Dish> findAll() {
         
         return null;
     }

@@ -18,26 +18,47 @@ public class beanDish implements Serializable {
        
     
     public boolean create(Dish dish){
-       return ejbDish.create(null);
+        try{
+           ejbDish.create(dish);
+           return true;
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
     }
     
-    public boolean update(Dish dish){       
-        return ejbDish.update(dish);
+    public boolean update(Dish dish){  
+        try{
+           ejbDish.update(dish);
+           return true;
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+            return false;
+        }
     }
     
     public Dish findById(Long id){
-        Dish d = ejbDish.findById(id);
-        
-        return d;
+        if(ejbDish.findById(id) != null){
+            return ejbDish.findById(id);
+        }
+        return null;
     }
     
     public Collection<Dish> findAll(){
-        
+        if(ejbDish.findAll() != null){
+            return ejbDish.findAll();
+        }
         return null;
     }
     
     public boolean delete(Dish dish){
-        return ejbDish.delete(null);
+        try{
+           ejbDish.delete(dish);
+           return true;
+        } catch (Exception ex){
+            System.out.println(ex.getMessage());
+            return false;
+        }
     }
     
 
