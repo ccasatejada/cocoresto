@@ -16,12 +16,12 @@ public interface ejbEmployeeLocal {
 
     public void update(Employee emp);
 
-    public Employee findById(Integer id);
+    public Employee findById(Long id);
 
     public void persist(Object object);
 
     public ArrayList<Employee> findAll();
 
-    public List<EmployeeGroup> findGroups();
+    public ArrayList<EmployeeGroup> findGroups();
     
 }

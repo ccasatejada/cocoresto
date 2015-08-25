@@ -17,38 +17,48 @@ public class ejbEmployee implements ejbEmployeeLocal {
     private EntityManager em;
 
     @Override
-    public List<EmployeeGroup> findGroups() {
+    public ArrayList<EmployeeGroup> findGroups() {
+        ArrayList<EmployeeGroup> groups = new ArrayList();
         
         String query = "SELECT eg FROM EmployeeGroup eg";
         Query qr = em.createQuery(query);
         
         List<EmployeeGroup> egList = qr.getResultList();
-//        EmployeeGroup eg = new EmployeeGroup();
-//        for(EmployeeGroup eGroup : egList) {
-//            eg = eGroup;
-//        }
+        for(EmployeeGroup eGroup : egList) {
+            groups.add(eGroup);
+        }
 
-        return egList;
+        return groups;
     }
     
     @Override
     public void create(Employee emp) {
-
+        em.persist(emp);
     }
     
     @Override
     public void delete(Employee emp) {
-        
+        em.merge(emp);
     }
     
     @Override
     public void update(Employee emp) {
-        
+        em.merge(emp);
     }
     
     @Override
-    public Employee findById(Integer id) {
+    public Employee findById(Long id) {
         Employee employee = new Employee();
+        String query = "SELECT e FROM Employee e";
+        Query qr = em.createQuery(query);
+        
+        List<Employee> eList = qr.getResultList();
+
+        for(Employee emp : eList) {
+            if(emp.getId().equals(id)) {
+               employee = emp; 
+            }
+        }
         
         return employee;
     }
@@ -57,6 +67,15 @@ public class ejbEmployee implements ejbEmployeeLocal {
     public ArrayList<Employee> findAll(){
         ArrayList<Employee> employees = new ArrayList();
         
+        String query = "SELECT e FROM Employee e"
+                + " WHERE e.active = :activeEmployee";
+        Query qr = em.createQuery(query);
+        qr.setParameter("activeEmployee", true);
+        
+        List<Employee> eList = qr.getResultList();
+        for(Employee emp : eList) {
+            employees.add(emp);
+        }
         
         return employees;
     }

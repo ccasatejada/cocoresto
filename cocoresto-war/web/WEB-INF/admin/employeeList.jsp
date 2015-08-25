@@ -1,4 +1,4 @@
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -8,16 +8,31 @@
         <title>Gérer les employés</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <table>
+        <div class="container-fluid">
+        <h1>Liste des employés</h1>
+        <table class="table table-striped">
             <tr>
                 <th>Nom</th>
-                <th>Prénom</th> 
+                <th>Prénom</th>
+                <th>Poste</th>
+                <th></th>
+                <th></th>
             </tr>
-            <c:forEach var="employee" items="" varStatus="loop">
+            <c:forEach var="employee" items="${employees}" varStatus="loop">
                 <tr>
-                    <td>${lastName}</td>
-                    <td>${firstName}</td>
+                    <td>${employee.lastName}</td>
+                    <td>${employee.firstName}</td>
+                    <td>${employee.employeeGroup}</td>
+                    <td>
+                    <div class="btn btn-default">
+                        <a href="FrontController?option=employee&task=modify&id=${employee.id}" name="modifyIt">Modifier</a>
+                    </div>
+                    </td>
+                    <td>
+                    <div class="btn btn-default">
+                        <a href="FrontController?option=employee&task=delete&id=${employee.id}" name="deleteIt">Supprimer</a>
+                    </div>
+                    </td>
                 </tr>                   
             </c:forEach>
 
@@ -25,6 +40,8 @@
 
         <div class="btn btn-default">
             <a href="FrontController?option=employee&task=edit" name="addEmp">Ajouter</a>
+        </div>
+        
         </div>
 
         <%@include file="../includes/scripts.jsp" %>

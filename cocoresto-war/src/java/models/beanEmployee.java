@@ -30,15 +30,7 @@ public class beanEmployee implements Serializable {
         this.employee = employee;
     }
 
-    public ejbEmployeeLocal getEjbEmployee() {
-        return ejbEmployee;
-    }
-
-    public void setEjbEmployee(ejbEmployeeLocal ejbEmployee) {
-        this.ejbEmployee = ejbEmployee;
-    }
-
-    public List<EmployeeGroup> findGroups() {
+    public ArrayList<EmployeeGroup> findGroups() {
         return ejbEmployee.findGroups();
     }
     
@@ -54,7 +46,7 @@ public class beanEmployee implements Serializable {
         ejbEmployee.update(emp);
     }
     
-    public Employee findById(Integer id) {
+    public Employee findById(Long id) {
         return ejbEmployee.findById(id);
     }
     
