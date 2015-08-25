@@ -12,7 +12,7 @@
     <body>
         <h1>Gestion des plats</h1>
 
-        <a href="FrontController?option=dish?task=edit">Ajouter un plat</a>
+        <a href="FrontController?option=dish&task=edit">Ajouter un plat</a>
         <table class="table table-striped">
             <caption>Plats</caption>
             <thead class="bg-info">

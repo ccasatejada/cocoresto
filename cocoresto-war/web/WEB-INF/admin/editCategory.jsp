@@ -13,7 +13,7 @@
         <form action="FrontController?option=category" method="post">
             <div class="form-group">
                 <label for="name">Nom de la catégorie :</label>
-                <input type="text" class="form-control" name="nameCategory" value="${category.name}">
+                <input type="text" class="form-control" id="name" name="nameCategory" value="${category.name}">
             </div>
             <input type="submit" class="btn btn-primary" name="confirm">
         </form>

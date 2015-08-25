@@ -9,7 +9,7 @@ public class dishController implements IController {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String url = "/WEB-INF/admin/listDish.jsp";
-        if("edit".equals(request.getParameter("option"))){
+        if("edit".equals(request.getParameter("task"))){
             url = "/WEB-INF/admin/editDish.jsp";
         }
         return url;
