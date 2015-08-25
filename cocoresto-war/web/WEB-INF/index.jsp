@@ -17,10 +17,10 @@
                             <div class="form-group">
                                 <label>Code &nbsp;<input type="password" name="password" maxlength="4" /></label>
                             </div>
-                            <button class="btn btn-primary" type="submit">Se connecter</button>
+                            <button class="btn btn-primary" type="submit" name="connect">Se connecter</button>
                         </c:if>
                         <c:if test="${logged}">
-                            <button class="btn btn-primary" type="submit">Se déconnecter</button>
+                            <button class="btn btn-primary" type="submit" name="disconnect">Se déconnecter</button>
                         </c:if>
                     </form>
                 </div>

@@ -8,7 +8,7 @@
     <body>
         <div class="container">
             ${alert}
-            <h1>Hello Waiter</h1>
+            <h1>Hello Admin</h1>
             
             
         </div>
