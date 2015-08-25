@@ -8,31 +8,31 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">CocoResto</a>
+            <a class="navbar-brand" href="FrontController?option=dashboard">CocoResto</a>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#">Employés</a></li>
-                <li><a href="#">Tables</a></li>
+                <li><a href="FrontController?option=employee">Employés</a></li>
+                <li><a href="FrontController?option=customerTable">Tables</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Carte <span class="caret"></span></a>
+                    <a href="FrontController?option=dish" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Carte <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Catégories</a></li>
+                        <li><a href="FrontController?option=category">Catégories</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Plats</a></li>
+                        <li><a href="FrontController?option=dish">Plats</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Boissons</a></li>
+                        <li><a href="FrontController?option=drink">Boissons</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Menus</a></li>
+                        <li><a href="FrontController?option=combo">Menus</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Prix <span class="caret"></span></a>
+                    <a href="FrontController?option=tax" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Prix <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Taxes</a></li>
+                        <li><a href="FrontController?option=tax">Taxes</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Promotions</a></li>
+                        <li><a href="FrontController?option=discount">Promotions</a></li>
                     </ul>
                 </li>
             </ul>
