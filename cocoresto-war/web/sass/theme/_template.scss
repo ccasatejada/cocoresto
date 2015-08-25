@@ -1,0 +1,46 @@
+//
+// Template
+// --------------------------------------------------
+
+// relative typo
+html {
+    font-size: .625em;
+}
+
+// transition
+a, 
+a > span, 
+a > i,
+button, 
+li, 
+input,
+.close-search,
+.featured-media,
+.featured-media img {
+    -webkit-transition:all 0.20s linear;
+    -moz-transition:all 0.20s linear;
+    -o-transition:all 0.20s linear;
+    transition:all 0.20s linear;
+    text-decoration: $link-hover-decoration;
+}
+
+
+
+// to top
+#totop {
+    background: #000;
+    bottom : 1em;
+    color: #fff;
+    display: none;
+    font-size: 1.375em;
+    height: 48px;
+    padding-top: .4em;
+    position: fixed;
+    right: 1em;
+    text-align: center;
+    width: 48px;
+
+    span {
+        text-indent: -999em;
+    }
+}
