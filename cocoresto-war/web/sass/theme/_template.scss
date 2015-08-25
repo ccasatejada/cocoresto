@@ -9,7 +9,9 @@ html {
 
 
 body {
-    background: url(../images/template/117.jpg)
+    background: url(../images/template/117.jpg) no-repeat center fixed;
+    background-size: cover;
+    padding:$navbar-padding-horizontal+$navbar-height 0;
 }
 
 
@@ -40,6 +42,15 @@ input,
     padding: 2em 0;
 }
 
+
+// btn-module
+.btn-module {
+    background: rgba(255,255,255,0.2);
+    font-size: 1.5em;
+    margin-bottom: $grid-gutter-width;
+    padding: 1em;
+    width: 100%;
+}
 // to top
 #totop {
     background: #000;

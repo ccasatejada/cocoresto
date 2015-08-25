@@ -2,7 +2,9 @@ html {
   font-size: .625em; }
 
 body {
-  background: url(../images/template/117.jpg); }
+  background: url(../images/template/117.jpg) no-repeat center fixed;
+  background-size: cover;
+  padding: 60px 0; }
 
 a,
 a > span,
@@ -25,6 +27,13 @@ input,
 .module {
   background: rgba(255, 255, 255, 0.2);
   padding: 2em 0; }
+
+.btn-module {
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 1.5em;
+  margin-bottom: 30px;
+  padding: 1em;
+  width: 100%; }
 
 #totop {
   background: #000;
