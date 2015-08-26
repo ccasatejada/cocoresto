@@ -69,7 +69,7 @@ public class EmployeeGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.EmployeeGroup[ id=" + id + " ]";
+        return name;
     }
     
 }
