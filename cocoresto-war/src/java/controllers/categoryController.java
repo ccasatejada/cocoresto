@@ -15,12 +15,12 @@ public class categoryController implements IController {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        String url = "/WEB-INF/admin/listCategory.jsp";
+        String url = "/WEB-INF/admin/categoryList.jsp";
 
         Category c = new Category();
 
         if ("edit".equals(request.getParameter("task"))) {
-            url = "/WEB-INF/admin/editCategory.jsp";
+            url = "/WEB-INF/admin/categoryEdit.jsp";
             if (request.getParameter("id") != null) {
                 c = bc.findById(Long.valueOf(request.getParameter("id")));
                 session.setAttribute("category", c);
@@ -42,7 +42,7 @@ public class categoryController implements IController {
         if ("delete".equals(request.getParameter("task"))) {
             c = bc.findById(Long.valueOf(request.getParameter("id")));
             bc.delete(c);
-            url = "/WEB-INF/admin/listCategory.jsp";
+            url = "/WEB-INF/admin/categoryList.jsp";
         }
 
         request.setAttribute("categories", bc.findAll());

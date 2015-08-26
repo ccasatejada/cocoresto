@@ -1,7 +1,5 @@
 package controllers;
 
-import entities.Category;
-import entities.Discount;
 import entities.Dish;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,23 +8,25 @@ import javax.servlet.http.HttpSession;
 import models.beanCategory;
 import models.beanDish;
 import models.beanPrice;
+import models.beanRate;
 
 public class dishController implements IController {
 
     beanDish bd = new beanDish();
     beanCategory bc = new beanCategory();
     beanPrice bp = new beanPrice();
+    beanRate br = new beanRate();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
 
-        String url = "/WEB-INF/admin/listDish.jsp";
+        String url = "/WEB-INF/admin/dishList.jsp";
 
         Dish d = new Dish();
 
         if ("edit".equals(request.getParameter("task"))) {
-            url = "/WEB-INF/admin/editDish.jsp";
+            url = "/WEB-INF/admin/dishEdit.jsp";
             if (request.getParameter("id") != null) {
                 d = bd.findById(Long.valueOf(request.getParameter("id")));
                 session.setAttribute("dish", d);
@@ -68,9 +68,10 @@ public class dishController implements IController {
         if ("delete".equals(request.getParameter("task"))) {
             d = bd.findById(Long.valueOf(request.getParameter("id")));
             bd.delete(d);
-            url = "/WEB-INF/admin/listDish.jsp";
+            url = "/WEB-INF/admin/dishList.jsp";
 
         }
+        request.setAttribute("taxes", br.findAllTaxes());
         request.setAttribute("categories", bc.findAll());
         request.setAttribute("dishes", bd.findAll());
         return url;
