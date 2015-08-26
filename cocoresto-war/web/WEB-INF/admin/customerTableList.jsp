@@ -10,6 +10,7 @@
     <body>
         <h1>Gestion des tables</h1>
         <div class="container-fluid">
+            ${alert}
             <a href="FrontController?option=customerTable&task=add" class="btn btn-success">Ajouter une table</a>
             <table class="table table-striped">
                 <tr>

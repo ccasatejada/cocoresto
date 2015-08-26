@@ -1,6 +1,5 @@
 package ejb;
 
-import entities.Category;
 import entities.CustomerTable;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -16,22 +15,24 @@ public class ejbCustomerTable implements ejbCustomerTableLocal {
 
     @Override
     public void create(CustomerTable customerTable) {
-
+        em.persist(customerTable);
     }
 
     @Override
     public void update(CustomerTable customerTable) {
-
+        em.merge(customerTable);
     }
 
     @Override
     public void delete(CustomerTable customerTable) {
-
+        CustomerTable ct = em.find(CustomerTable.class, customerTable.getId());
+        em.remove(ct);
     }
 
     @Override
     public CustomerTable findById(Long id) {
-        return null;
+        CustomerTable ct = em.find(CustomerTable.class, id);
+        return ct;
     }
 
     @Override

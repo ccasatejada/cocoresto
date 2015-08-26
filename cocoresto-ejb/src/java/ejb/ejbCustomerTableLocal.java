@@ -1,6 +1,5 @@
 package ejb;
 
-import entities.Category;
 import entities.CustomerTable;
 import java.util.List;
 import javax.ejb.Local;
