@@ -117,7 +117,7 @@ public class rateController implements IController{
         }
         
         
-        return "/WEB-INF/admin/rateList.jsp";
+        return "/WEB-INF/admin/rateList";
     }
 
     @Override
