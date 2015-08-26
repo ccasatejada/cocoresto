@@ -9,7 +9,4 @@
 /build/
 /cocoresto-ejb/dist/
 /cocoresto-war/dist/
-/cocoresto-ejb/build.xml
-/cocoresto-war/build.xml
-/build.xml
 /cocoresto-ejb/src/conf/persistence.xml
