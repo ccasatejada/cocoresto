@@ -13,8 +13,6 @@ import models.beanEmployee;
 
 public class employeeController implements IController{
 
-    
-    
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
