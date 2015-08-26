@@ -4,12 +4,20 @@
         <servlet-name>FrontController</servlet-name>
         <servlet-class>controllers.FrontController</servlet-class>
         <init-param>
-            <param-name>employee</param-name>
-            <param-value>controllers.EmployeeController</param-value>
-        </init-param>
-        <init-param>
             <param-name>login</param-name>
             <param-value>controllers.loginController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>customerTable</param-name>
+            <param-value>controllers.customerTableController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>customerOrder</param-name>
+            <param-value>controllers.customerOrderController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>employee</param-name>
+            <param-value>controllers.EmployeeController</param-value>
         </init-param>
         <init-param>
             <param-name>category</param-name>
