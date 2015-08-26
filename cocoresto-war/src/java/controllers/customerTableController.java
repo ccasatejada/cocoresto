@@ -20,8 +20,12 @@ public class customerTableController implements IController {
         String listUrl = "/WEB-INF/admin/customerTableList.jsp";
 
         if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
-            CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
-            request.setAttribute("customerTable", ct);
+            try {
+                CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
+                request.setAttribute("customerTable", ct);
+            } catch (NumberFormatException | EJBException e) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas", "danger"));
+            }
             return editUrl;
         }
 
