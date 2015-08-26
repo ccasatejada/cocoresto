@@ -12,10 +12,15 @@ public class CustomerTable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
     private Integer number;
+    @Column(nullable = false)
     private Integer capacity;
+    @Column(nullable = false)
     private boolean active;
+    @Column(nullable = false)
     private boolean busy;
+    private Integer nbTablet;
 
     public CustomerTable() {
     }
@@ -70,6 +75,14 @@ public class CustomerTable implements Serializable {
 
     public void setBusy(boolean busy) {
         this.busy = busy;
+    }
+
+    public Integer getNbTablet() {
+        return nbTablet;
+    }
+
+    public void setNbTablet(Integer nbTablet) {
+        this.nbTablet = nbTablet;
     }
     
     
