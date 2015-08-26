@@ -6,3 +6,4 @@
 /build/
 /cocoresto-ejb/dist/
 /cocoresto-war/dist/
+/cocoresto-ejb/src/conf/persistence.xml
