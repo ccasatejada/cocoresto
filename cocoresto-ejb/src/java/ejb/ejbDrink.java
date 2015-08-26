@@ -20,7 +20,7 @@ public class ejbDrink implements ejbDrinkLocal {
     public ArrayList<Format> findFormats() {
         ArrayList<Format> formats = new ArrayList();
         
-        String query = "SELECT fo FROM FORMAT fo";
+        String query = "SELECT fo FROM Format fo";
         Query qr = em.createQuery(query);
         
         List<Format> foList = qr.getResultList();

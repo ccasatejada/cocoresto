@@ -2,9 +2,12 @@
 package models;
 
 import ejb.ejbDrinkLocal;
+import entities.Category;
+import entities.Discount;
 import entities.Drink;
 import entities.Format;
-import java.beans.*;
+import entities.Price;
+import entities.Tax;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -19,6 +22,10 @@ public class beanDrink implements Serializable {
     
     Drink drink;
     Format format;
+    Category category;
+    Price price;
+    Tax tax;
+    Discount discount;
     ArrayList<Format> formats;
 
     public beanDrink() {
@@ -26,6 +33,40 @@ public class beanDrink implements Serializable {
         formats = new ArrayList();
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+    }
+
+    public Tax getTax() {
+        return tax;
+    }
+
+    public void setTax(Tax tax) {
+        this.tax = tax;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
+    
+    
     public ArrayList<Format> getFormats() {
         return formats;
     }

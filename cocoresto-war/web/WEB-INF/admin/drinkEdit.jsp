@@ -82,6 +82,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="discount" value="${drink.discount}"> 
                     </div>
+                </div>
                 <div class="form-group">
                     <label for="tax" class="col-sm-2 control-label">Taxe : </label>
                     <div class="col-sm-10">

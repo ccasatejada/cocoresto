@@ -13,6 +13,8 @@ import models.beanEmployee;
 
 public class employeeController implements IController{
 
+    
+    
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
@@ -25,8 +27,6 @@ public class employeeController implements IController{
             bEmp = new beanEmployee();
             emp = new Employee();
             group = new EmployeeGroup();
-            emp.setEmployeeGroup(group);
-            bEmp.setEmployee(emp);
             session.setAttribute("bEmp", bEmp);
         } else {
             emp = bEmp.getEmployee();
@@ -57,10 +57,8 @@ public class employeeController implements IController{
         if(request.getParameter("createIt") != null) {
             emp.setActive(true);
             emp.setCreationDate(new Date());
-            employeeGroups = (ArrayList<EmployeeGroup>)session.getAttribute("employeeGroups");
             for(EmployeeGroup eg : employeeGroups) {
                 if(eg.getName().equals(request.getParameter("comboGroupEmployee"))) {
-                    System.out.println(eg.getId());
                     group.setId(eg.getId());
                     group.setName(request.getParameter("comboGroupEmployee"));
                     break;
@@ -71,8 +69,6 @@ public class employeeController implements IController{
             emp.setLastName(request.getParameter("lastName"));
             emp.setPassword(request.getParameter("password"));
             bEmp.create(emp);
-            session.setAttribute("employee", emp);
-
         }
         
         if(request.getParameter("modifyIt") != null) {
