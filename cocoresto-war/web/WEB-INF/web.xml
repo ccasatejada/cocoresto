@@ -17,7 +17,7 @@
         </init-param>
         <init-param>
             <param-name>employee</param-name>
-            <param-value>controllers.EmployeeController</param-value>
+            <param-value>controllers.employeeController</param-value>
         </init-param>
         <init-param>
             <param-name>category</param-name>
