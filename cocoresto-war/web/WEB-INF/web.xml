@@ -23,6 +23,10 @@
             <param-name>dashboard</param-name>
             <param-value>controllers.dashboardController</param-value>
         </init-param>
+        <init-param>
+            <param-name>rate</param-name>
+            <param-value>controllers.rateController</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
