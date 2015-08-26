@@ -2,8 +2,11 @@
 package controllers;
 
 import entities.Category;
+import entities.Discount;
 import entities.Drink;
 import entities.Format;
+import entities.Price;
+import entities.Tax;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +22,9 @@ public class drinkController implements IController{
         
         Drink drink;
         Category category;
+        Tax tax;
+        Discount discount;
+        Price price;
         ArrayList<Format> formats;
         Format format;
         
@@ -29,12 +35,19 @@ public class drinkController implements IController{
             category = new Category();
             formats = new ArrayList();
             format = new Format();
+            price = new Price();
+            tax = new Tax();
+            discount = new Discount();
             drink.setFormats(formats);
             bDrink.setDrink(drink);
             session.setAttribute("bDrink", bDrink);
         } else {
             drink = bDrink.getDrink();
             format = bDrink.getFormat();
+            category = bDrink.getCategory();
+            price = bDrink.getPrice();
+            tax = bDrink.getTax();
+            discount = bDrink.getDiscount();
             formats = bDrink.getFormats();
         }
         
