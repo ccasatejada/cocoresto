@@ -1,6 +1,9 @@
 package controllers;
 
+import entities.Category;
+import entities.Discount;
 import entities.Dish;
+import entities.Price;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,9 +27,15 @@ public class dishController implements IController {
         String url = "/WEB-INF/admin/dishList.jsp";
 
         Dish d = new Dish();
+        Category c = new Category();
+        Discount di = new Discount();
+        Price p = new Price();
 
         if ("edit".equals(request.getParameter("task"))) {
             url = "/WEB-INF/admin/dishEdit.jsp";
+            
+            session.removeAttribute("dish");
+            
             if (request.getParameter("id") != null) {
                 d = bd.findById(Long.valueOf(request.getParameter("id")));
                 session.setAttribute("dish", d);
@@ -36,9 +45,12 @@ public class dishController implements IController {
             if (session.getAttribute("dish") == null) {
                 d.setName(request.getParameter("dishName"));
                 d.setActive(true);
-                d.setCategory(bc.findById(Long.valueOf(request.getParameter("category"))));
+                c.setId(Long.valueOf(request.getParameter("dishCategory")));
+                c = bc.findById(c.getId());
+                d.setCategory(c);
                 d.setCountry(request.getParameter("dishCountry"));
                 d.setDescription(request.getParameter("description"));
+                
 //                d.setDiscount(Double.valueOf(request.getParameter("dishDiscount")));
                 d.setImage(url);
                 d.setInventory(Integer.valueOf(request.getParameter("dishInventory")));
@@ -50,7 +62,9 @@ public class dishController implements IController {
             } else {
                 d = (Dish) session.getAttribute("dish");
                 d.setName(request.getParameter("dishName"));
-                d.setCategory(bc.findById(Long.valueOf(request.getParameter("category"))));
+                c.setId(Long.valueOf(request.getParameter("dishCategory")));
+                c = bc.findById(c.getId());
+                d.setCategory(c);
                 d.setCountry(request.getParameter("dishCountry"));
                 d.setDescription(request.getParameter("description"));
 //                d.setDiscount(Double.valueOf(request.getParameter("dishDiscount")));

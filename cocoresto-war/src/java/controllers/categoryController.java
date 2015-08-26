@@ -14,7 +14,6 @@ public class categoryController implements IController {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
         String url = "/WEB-INF/admin/categoryList.jsp";
 
         Category c = new Category();
@@ -23,19 +22,19 @@ public class categoryController implements IController {
             url = "/WEB-INF/admin/categoryEdit.jsp";
             if (request.getParameter("id") != null) {
                 c = bc.findById(Long.valueOf(request.getParameter("id")));
-                session.setAttribute("category", c);
+                request.setAttribute("category", c);
             }
         }
+        
         if (request.getParameter("confirm") != null) {
-            if (session.getAttribute("category") == null) {
+            if (request.getParameter("id").isEmpty()) { //create
                 c.setName(request.getParameter("nameCategory"));
                 c.setActive(true);
                 bc.create(c);
-            } else {
-                c = (Category) session.getAttribute("category");
+            } else { // update
+                c.setId(Long.valueOf(request.getParameter("id")));
                 c.setName(request.getParameter("nameCategory"));
                 bc.update(c);
-                session.removeAttribute("category");
             }
         }
 

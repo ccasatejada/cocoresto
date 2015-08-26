@@ -11,13 +11,24 @@
         <h1>Administration Catégorie</h1>
         <div class="container-fluid">
             ${alert}
+
             <form action="FrontController?option=category" method="post" class="well form-horizontal">
+                <input type="hidden" value="${category.id}" name="id"> 
                 <div class="form-group">
                     <label for="name"  class="col-sm-2 control-label">Nom de la catégorie :</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="name" name="nameCategory" value="${category.name}">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="categoryType"  class="col-sm-2 control-label">Catégorie :</label>
+                    <div class="col-sm-10">
+                        <select id="categoryType" name="dishCategory"> 
+                            <option name="category" value="Plat" <c:if test="${category.type eq 'Plat'}">selected</c:if>>Plat</option>
+                            <option name="category" value="Boisson" <c:if test="${category.type eq 'Boisson'}">selected</c:if>>Boisson</option>
+                        </select>
+                    </div> 
+                </div>    
                 <button type="submit" class="btn btn-default" name="confirm">OK</button>
             </form>
 

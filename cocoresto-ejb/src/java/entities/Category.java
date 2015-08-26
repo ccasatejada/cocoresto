@@ -20,6 +20,8 @@ public class Category implements Serializable {
     private Collection<Combo> combos;
     @OneToMany(mappedBy = "category")
     private Collection<Drink> drinks;
+    
+    private String type;
 
     public Category() {
     }
@@ -62,6 +64,14 @@ public class Category implements Serializable {
 
     public void setDrinks(Collection<Drink> drinks) {
         this.drinks = drinks;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
     
     

@@ -35,7 +35,7 @@ public class Dish implements Serializable {
     private Tax tax;
     
     @OneToMany(mappedBy = "dish")
-    private Collection<NutritiveValue> nutritiveValues;
+    private List<NutritiveValue> nutritiveValues;
     @ManyToMany(mappedBy = "dishes")
     private List<CustomerOrder> customerOrders;
 
@@ -86,16 +86,14 @@ public class Dish implements Serializable {
         this.tax = tax;
     }
 
-    public Collection<NutritiveValue> getNutritiveValues() {
+    public List<NutritiveValue> getNutritiveValues() {
         return nutritiveValues;
     }
 
-    public void setNutritiveValues(Collection<NutritiveValue> nutritiveValues) {
+    public void setNutritiveValues(List<NutritiveValue> nutritiveValues) {
         this.nutritiveValues = nutritiveValues;
     }
-
-    
-    
+  
 
     public Long getId() {
         return id;

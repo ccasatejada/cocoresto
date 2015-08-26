@@ -13,6 +13,8 @@
         <div class="container-fluid">
             ${alert}
             <form action="FrontController?option=dish" method="post" class="well form-horizontal">
+                <input type="hidden" value="${dish.id}" name="id"> 
+
                 <div class="form-group">
                     <label for="dishName"  class="col-sm-2 control-label">Nom :</label>
                     <div class="col-sm-10">
@@ -22,7 +24,7 @@
                 <div class="form-group">
                     <label for="description"  class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" rows="3" maxlength="500" id="description" name="description" required value="${dish.description}"></textarea>
+                        <textarea class="form-control" rows="3" maxlength="255" id="description" name="description" required>${dish.description}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -53,11 +55,47 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="dishKcal"  class="col-sm-2 control-label">Kilocalories :</label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="dishKcal" name="dishKcal" value="<c:if test="${dish.nutritiveValue.name == 'kilocalories'}">${dish.nutritiveValue.quantity}</c:if>">
+                            <div class="input-group-addon">grammes</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dishProtein"  class="col-sm-2 control-label">Proteines :</label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="dishProtein" name="dishProtein" required value="${dish.weight}">
+                            <div class="input-group-addon">grammes</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dishWeight"  class="col-sm-2 control-label">Glucides :</label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="dishWeight" name="dishWeight" required value="${dish.weight}">
+                            <div class="input-group-addon">grammes</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dishWeight"  class="col-sm-2 control-label">Lipides :</label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="dishWeight" name="dishWeight" required value="${dish.weight}">
+                            <div class="input-group-addon">grammes</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="dishCategory"  class="col-sm-2 control-label">Catégorie :</label>
                     <div class="col-sm-10">
-                        <select id="dishCategory">
+                        <select id="dishCategory" name="dishCategory">
                             <c:forEach var="category" items="${categories}" varStatus="loop"> 
-                                <option name="category" value="${category.id}">${category.name}</option>
+                                <option name="category" value="${category.id}" <c:if test="${dish.category.name eq category.name}">selected</c:if>>${category.name}</option>
                             </c:forEach>
                         </select>
                     </div>
