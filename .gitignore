@@ -1,3 +1,6 @@
+/nbproject/
+/cocoresto-war/nbproject/
+/cocoresto-ejb/nbproject/
 /nbproject/private/
 /cocoresto-war/nbproject/private/
 /cocoresto-ejb/nbproject/private/
@@ -6,4 +9,7 @@
 /build/
 /cocoresto-ejb/dist/
 /cocoresto-war/dist/
+/cocoresto-ejb/build.xml
+/cocoresto-war/build.xml
+/build.xml
 /cocoresto-ejb/src/conf/persistence.xml
