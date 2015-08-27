@@ -21,14 +21,11 @@
                     <label for="comboFormat" class="col-sm-2 control-label">Format</label>
                     <div class="col-sm-10">
                         <select name="comboFormat" class="form-control">
-                            <c:forEach var="format" items="${formats}" varStatus="loop">
+                            <c:forEach var="format" items="${drink.formats}" varStatus="loop">
                                 <c:if test="${not empty drink}">
-                                    <c:if test="${drink.format.id==format.id}">
-                                        <option selected>${format.name}</option>
-                                    </c:if>
-                                    <c:if test="${drink.format.id!=format.id}">
-                                        <option>${format.name}</option>
-                                    </c:if>
+                                    
+                                    <option>${format.name}</option>
+                                    
                                 </c:if>
 
                                 <c:if test="${empty drink}">
@@ -74,7 +71,7 @@
                 <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">Description : </label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" rows="3" maxlength="500" name="description" required value="${drink.description}"></textarea>
+                        <textarea class="form-control" rows="3" maxlength="500" name="description">${drink.description}</textarea>
                     </div>
                 </div>
                 <div class="form-group">

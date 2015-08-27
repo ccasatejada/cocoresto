@@ -109,7 +109,7 @@ public class Discount implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Discount[ id=" + id + " ]";
+        return "-" + rate + "%";
     }
     
 }

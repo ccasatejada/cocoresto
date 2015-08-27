@@ -90,7 +90,7 @@ public class Tax implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Tax[ id=" + id + " ]";
+        return rate + "%";
     }
     
 }

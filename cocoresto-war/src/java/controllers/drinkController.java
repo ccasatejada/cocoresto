@@ -61,6 +61,7 @@ public class drinkController implements IController{
         
         if("modify".equals(request.getParameter("task"))) {
             drink = bDrink.findById(Long.valueOf(request.getParameter("id")));
+            session.setAttribute("category", drink.getCategory());
             session.setAttribute("formats", formats);
             session.setAttribute("drink", drink);
             return "/WEB-INF/admin/drinkEdit.jsp";
@@ -102,6 +103,8 @@ public class drinkController implements IController{
                 }
             }
             drink.setFormats(formats);
+            drink.setCategory(category);
+            drink.setDescription(request.getParameter("description"));
 //            drink.setFirstName(request.getParameter("firstName"));
 //            drink.setLastName(request.getParameter("lastName"));
 //            drink.setPassword(request.getParameter("password"));
