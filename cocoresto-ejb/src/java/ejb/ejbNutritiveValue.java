@@ -1,6 +1,8 @@
 package ejb;
 
+import entities.Dish;
 import entities.NutritiveValue;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -39,6 +41,17 @@ public class ejbNutritiveValue implements ejbNutritiveValueLocal {
     public List<NutritiveValue> findAll() {
         String sq = "select nv from NutritiveValue nv";
         Query q = em.createQuery(sq);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<NutritiveValue> findByDish(Dish dish) {
+        Dish d = em.find(Dish.class, dish.getId());
+        
+        String sq = "select nv from NutritiveValue nv where nv.dish = :dish";
+        Query q = em.createQuery(sq);
+        q.setParameter("dish", d);
+
         return q.getResultList();
     }
 

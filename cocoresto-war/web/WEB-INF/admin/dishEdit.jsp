@@ -72,7 +72,7 @@
                                             <label for="dishKcal">Kilocalories :</label>
                                                 <div class="input-group">
                                                     <input type="text" class="form-control" id="dishKcal" name="dishKcal" value="<c:if test="${nutritiveValue.name == 'kilocalories'}">${nutritiveValue.quantity}</c:if>">
-                                                        <div class="input-group-addon">grammes</div>
+                                                        <div class="input-group-addon">kcal</div>
                                                     </div>
                                                 </div>
                                             <div class="form-group">
@@ -103,7 +103,7 @@
                                         <label for="dishKcal">Kilocalories :</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="dishKcal" name="dishKcal">
-                                                <div class="input-group-addon">grammes</div>
+                                                <div class="input-group-addon">kcal</div>
                                             </div>
                                     </div>
                                     <div class="form-group">

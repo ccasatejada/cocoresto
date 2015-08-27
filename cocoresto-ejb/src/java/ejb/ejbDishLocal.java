@@ -1,8 +1,6 @@
 package ejb;
 
 import entities.Dish;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -18,5 +16,9 @@ public interface ejbDishLocal {
     public Dish findById(Long id);
 
     public List<Dish> findAll();
+    
+    
+
+    public int count();
 
 }

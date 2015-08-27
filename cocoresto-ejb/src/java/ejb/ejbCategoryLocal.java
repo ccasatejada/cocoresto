@@ -17,5 +17,7 @@ public interface ejbCategoryLocal {
     public Category findById(Long id);
 
     public List<Category> findAll();
+    
+    
 
 }
