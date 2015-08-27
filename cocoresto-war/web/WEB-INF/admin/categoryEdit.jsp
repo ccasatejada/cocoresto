@@ -41,20 +41,15 @@
                             <div class="tile-body">
                                 <input type="hidden" value="${category.id}" name="id"> 
                                 <div class="form-group">
-                                    <label for="name"  class="col-sm-2 control-label">Nom de la catégorie :</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="name" name="nameCategory" value="${category.name}">
-                                    </div>
+                                    <label for="name">Nom de la catégorie :</label>
+                                    <input type="text" class="form-control" id="name" name="nameCategory" value="${category.name}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="categoryType"  class="col-sm-2 control-label">Type :</label>
-                                    <div class="col-sm-10">
-                                        <select id="categoryType" name="dishCategory"> 
-                                            <option value="Plat" <c:if test="${category.type == 'Plat'}"> selected </c:if>> Plat</option>
-                                            <option value="Boisson"  <c:if test="${category.type == 'Boisson'}"> selected </c:if> > Boisson</option>
-                                            </select>
-                                        </div> 
-                                    </div>
+                                    <label for="categoryType">Type :</label>
+                                    <select id="categoryType" name="dishCategory"> 
+                                        <option value="Plat" <c:if test="${category.type == 'Plat'}"> selected </c:if>> Plat</option>
+                                        <option value="Boisson"  <c:if test="${category.type == 'Boisson'}"> selected </c:if> > Boisson</option>
+                                    </select>
                                 </div>
                                 <div class="tile-footer dvd dvd-top">
                                     <div class="row">
@@ -70,6 +65,7 @@
                 </section>
             </div>
 
+
         <%@include file="../includes/scripts.jsp" %>
-</body>
+    </body>
 </html>
