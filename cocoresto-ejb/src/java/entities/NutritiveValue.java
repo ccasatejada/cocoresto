@@ -19,6 +19,12 @@ public class NutritiveValue implements Serializable {
     public NutritiveValue() {
     }
 
+    public NutritiveValue(String name, Double quantity, Unit unit) {
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+    }
+
     
     
     

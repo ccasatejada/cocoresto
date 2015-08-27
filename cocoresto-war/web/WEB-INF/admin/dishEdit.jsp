@@ -40,12 +40,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="imageDish" class="col-sm-2 control-label">Image :</label>
-                    <div class="col-sm-10">                       
-                        <input type="file" id="imageDish" accept="image/jpeg"/>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label for="dishWeight"  class="col-sm-2 control-label">Poids :</label>
                     <div class="col-sm-10">
                         <div class="input-group">
@@ -54,42 +48,84 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="dishKcal"  class="col-sm-2 control-label">Kilocalories :</label>
-                    <div class="col-sm-10">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="dishKcal" name="dishKcal" value="<c:if test="${dish.nutritiveValue.name == 'kilocalories'}">${dish.nutritiveValue.quantity}</c:if>">
-                            <div class="input-group-addon">grammes</div>
+                <c:if test="${not empty dish.nutritiveValues}">            
+                    <c:forEach var="nutritiveValue" items="${dish.nutritiveValues}" varStatus="loop"> 
+                        <div class="form-group">
+                            <label for="dishKcal"  class="col-sm-2 control-label">Kilocalories :</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="dishKcal" name="dishKcal" value="<c:if test="${nutritiveValue.name == 'kilocalories'}">${nutritiveValue.quantity}</c:if>">
+                                        <div class="input-group-addon">grammes</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dishProtein"  class="col-sm-2 control-label">Proteines :</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dishProtein" name="dishProtein" value="<c:if test="${nutritiveValue.name == 'protéines'}">${nutritiveValue.quantity}</c:if>">
+                                        <div class="input-group-addon">grammes</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dishGlucid"  class="col-sm-2 control-label">Glucides :</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dishGlucid" name="dishGlucid" value="<c:if test="${nutritiveValue.name == 'glucides'}">${nutritiveValue.quantity}</c:if>">
+                                        <div class="input-group-addon">grammes</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dishLipid"  class="col-sm-2 control-label">Lipides :</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dishLipid" name="dishLipid" value="<c:if test="${nutritiveValue.name == 'lipides'}">${nutritiveValue.quantity}</c:if>">
+                                        <div class="input-group-addon">grammes</div>
+                                    </div>
+                                </div>
+                            </div>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${empty dish.nutritiveValues}">
+                    <div class="form-group">
+                        <label for="dishKcal"  class="col-sm-2 control-label">Kilocalories :</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="dishKcal" name="dishKcal">
+                                <div class="input-group-addon">grammes</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="dishProtein"  class="col-sm-2 control-label">Proteines :</label>
-                    <div class="col-sm-10">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="dishProtein" name="dishProtein" required value="${dish.weight}">
-                            <div class="input-group-addon">grammes</div>
+                    <div class="form-group">
+                        <label for="dishProtein"  class="col-sm-2 control-label">Proteines :</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="dishProtein" name="dishProtein">
+                                <div class="input-group-addon">grammes</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="dishWeight"  class="col-sm-2 control-label">Glucides :</label>
-                    <div class="col-sm-10">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="dishWeight" name="dishWeight" required value="${dish.weight}">
-                            <div class="input-group-addon">grammes</div>
+                    <div class="form-group">
+                        <label for="dishGlucid"  class="col-sm-2 control-label">Glucides :</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="dishGlucid" name="dishGlucid">
+                                <div class="input-group-addon">grammes</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="dishWeight"  class="col-sm-2 control-label">Lipides :</label>
-                    <div class="col-sm-10">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="dishWeight" name="dishWeight" required value="${dish.weight}">
-                            <div class="input-group-addon">grammes</div>
+                    <div class="form-group">
+                        <label for="dishLipid"  class="col-sm-2 control-label">Lipides :</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="dishLipid" name="dishLipid">
+                                <div class="input-group-addon">grammes</div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </c:if>
                 <div class="form-group">
                     <label for="dishCategory"  class="col-sm-2 control-label">Catégorie :</label>
                     <div class="col-sm-10">
@@ -112,18 +148,28 @@
                 <div class="form-group">
                     <label for="dishTax"  class="col-sm-2 control-label">Taxe :</label>
                     <div class="col-sm-10">
+                        <select id="dishTax" name="dishTax">
+                            <c:forEach var="tax" items="${taxes}" varStatus="loop"> 
+                                <option name="tax" value="${tax.id}" <c:if test="${dish.tax.id == tax.id}">selected</c:if>>${tax}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <!-- <label for="dishTax"  class="col-sm-2 control-label">Taxe :</label>
+                    <div class="col-sm-10">
                         <div class="input-group">
                             <c:if test="${not empty dish}">
                                 <input class="form-control" type="text" placeholder="${dish.tax.rate}" readonly>
+                                <div class="input-group-addon">%</div>
                             </c:if>
+                        </div>
+                        <div class="input-group">
                             <select id="dishTax">
                                 <c:forEach var="tax" items="${taxes}" varStatus="loop"> 
                                     <option name="tax" value="${tax.id}">${tax.rate}</option>
                                 </c:forEach>
                             </select>
-                            <div class="input-group-addon">%</div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="form-group">
                     <label for="dishDiscount"  class="col-sm-2 control-label">Promotion :</label>
@@ -144,6 +190,12 @@
                     <label for="dishEndDiscount"  class="col-sm-2 control-label">Date de fin :</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="dishEndDiscount" name="dishEndDiscount" value="${dish.discount.endDate}" placeholder="jj-mm-aaaa">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="imageDish" class="col-sm-2 control-label">Image :</label>
+                    <div class="col-sm-10">                       
+                        <input type="file" id="imageDish" name="imageDish" accept="image/jpeg"/>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-default" name="confirm">OK</button>

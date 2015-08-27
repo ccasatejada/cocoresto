@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJBException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -23,24 +24,24 @@ public class beanDish implements Serializable {
     public beanDish() {
     }
 
-    public void create(Dish dish) {
+    public void create(Dish dish) throws EJBException{
         ejbDish.create(dish);
 
     }
 
-    public void update(Dish dish) {
+    public void update(Dish dish) throws EJBException{
         ejbDish.update(dish);
 
     }
 
-    public Dish findById(Long id) {
+    public Dish findById(Long id) throws EJBException{
         if (ejbDish.findById(id) != null) {
             return ejbDish.findById(id);
         }
         return null;
     }
 
-    public ArrayList<Dish> findAll() {
+    public ArrayList<Dish> findAll() throws EJBException{
         ArrayList<Dish> ad = new ArrayList();
         for (Dish d : ejbDish.findAll()) {
             ad.add(d);
@@ -48,7 +49,7 @@ public class beanDish implements Serializable {
         return ad;
     }
 
-    public void delete(Dish dish) {
+    public void delete(Dish dish) throws EJBException{
         ejbDish.delete(dish);
     }
 

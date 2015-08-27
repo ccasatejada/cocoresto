@@ -44,6 +44,7 @@ public class categoryController implements IController {
             url = "/WEB-INF/admin/categoryList.jsp";
         }
 
+        
         request.setAttribute("categories", bc.findAll());
         return url;
     }
