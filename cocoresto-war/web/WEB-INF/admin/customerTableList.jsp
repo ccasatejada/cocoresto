@@ -3,42 +3,83 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="../includes/head.jsp" %>
-        <title>Gestion des tables</title>
+        <title>Panneau d'administration</title>
     </head>
-    <body>
-        <h1>Gestion des tables</h1>
-        <div class="container-fluid">
-            ${alert}
-            <a href="FrontController?option=customerTable&task=add" class="btn btn-success">Ajouter une table</a>
-            <table class="table table-striped">
-                <tr>
-                    <th>Numéro</th>
-                    <th>Capacité</th>
-                    <th>Tablettes</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <c:forEach var="customerTable" items="${customerTables}" varStatus="loop">
-                    <tr>
-                        <td>Table n°${customerTable.number}</td>
-                        <td>${customerTable.capacity} personnes</td>
-                        <td>${customerTable.nbTablet} tablettes</td>
-                        <td>
-                            <div class="btn btn-default">
-                                <a href="FrontController?option=customerTable&task=edit&id=${customerTable.id}" name="modifyIt">Modifier</a>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="btn btn-default">
-                                <a href="FrontController?option=customerTable&task=delete&id=${customerTable.id}" name="deleteIt">Supprimer</a>
-                            </div>
-                        </td>
-                    </tr>                   
-                </c:forEach>
+    <body id="minovate" class="appWrapper">
+        <div id="wrap" class="animsition">
+            <%@include file="../includes/adminMenu.jsp" %>
+            <section id="content">
+                <div class="page page-dashboard">
 
-            </table>        
+                    <div class="pageheader">
+                        <h2>CocoResto <span>// Administrateur</span></h2>
+                        <div class="page-bar">
+                            <ul class="page-breadcrumb">
+                                <li><a href="FrontController"><i class="fa fa-home"></i> CocoResto</a></li>
+                                <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
+                                <li><a href="FrontController?option=customerTable">Gestion des tables</a></li>
+                            </ul>
+                            <div class="page-toolbar">
+                                <a role="button" tabindex="0" class="btn btn-lightred no-border pickDate">
+                                    <i class="fa fa-calendar"></i>&nbsp;&nbsp;<span>${date}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${alert}
+
+                    <section class="tile">
+
+                        <div class="tile-header dvd dvd-btm bg-greensea">
+                            <h1 class="custom-font"><strong>Tables</strong></h1>
+                        </div>
+
+                        <div class="tile-body p-0">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr class="bg-slategray">
+                                        <th>Numéro de table</th>
+                                        <th>Nombre de places</th>
+                                        <th>Nombre de tablettes</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                    
+                                    <c:forEach var="customerTable" items="${customerTables}" varStatus="loop">
+                                        <tr>
+                                            <td>Table n°${customerTable.number}</td>
+                                            <td>${customerTable.capacity} places</td>
+                                            <td>${customerTable.nbTablet} tablettes</td>
+                                            <td>
+                                                <a href="FrontController?option=customerTable&task=edit&id=${customerTable.id}" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-edit"></i> <span>Modifier</span></a>
+                                                <a href="FrontController?option=customerTable&task=delete&id=${customerTable.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-trash"></i> <span>Supprimer</span></a>
+                                            </td>
+                                        </tr>                                    
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tile-footer dvd dvd-top">
+                            <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <ul class="pagination pagination-sm m-0">
+                                        <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
+                                        <li><a href="">1</a></li>
+                                        <li><a href="">2</a></li>
+                                        <li><a href="">3</a></li>
+                                        <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </section>
+                </div>
+            </section>
         </div>
         <%@include file="../includes/scripts.jsp" %>
     </body>

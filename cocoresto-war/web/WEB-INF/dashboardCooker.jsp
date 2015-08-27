@@ -5,11 +5,12 @@
         <%@include file="includes/head.jsp" %>
         <title>Panneau d'administration : Cuisinier</title>
     </head>
-    <body>
-        <div class="container-fluid">
-            ${alert}
-            
-             </div>
+    <body id="minovate" class="appWrapper">
+        <div id="wrap" class="animsition">
+            <section id="content">            
+                ${alert}
+            </section>
+        </div>
         <%@include file="includes/scripts.jsp" %>
     </body>
 </html>
