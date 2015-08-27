@@ -17,7 +17,7 @@
                         <h2>CocoResto <span>// Administrateur</span></h2>
                         <div class="page-bar">
                             <ul class="page-breadcrumb">
-                                <li><a href="FrontController"><i class="fa fa-home"></i> CocoResto</a></li>
+                                <li><a href="FrontController?option=dashboard"><i class="fa fa-home"></i> CocoResto</a></li>
                                 <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
                             </ul>
                             <div class="page-toolbar">

@@ -2,7 +2,7 @@
     <header class="clearfix">
 
         <div class="branding scheme-default">
-            <a class="brand" href="FrontController">
+            <a class="brand" href="FrontController?option=dashboard">
                 <span><strong>COCO</strong>RESTO</span>
             </a>
         </div>
