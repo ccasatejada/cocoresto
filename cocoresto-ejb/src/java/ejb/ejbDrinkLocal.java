@@ -1,6 +1,7 @@
 
 package ejb;
 
+import entities.Category;
 import entities.Drink;
 import entities.Employee;
 import entities.EmployeeGroup;
@@ -24,6 +25,8 @@ public interface ejbDrinkLocal {
     public ArrayList<Drink> findAll();
 
     public ArrayList<Format> findFormats();
+    
+    public ArrayList<Category> findCategories();
     
     
 }

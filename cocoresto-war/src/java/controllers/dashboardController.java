@@ -1,14 +1,12 @@
 package controllers;
 
 import entities.Employee;
-import helpers.Alert;
-import java.io.IOException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class dashboardController implements IController {
+public class dashboardController extends AbstractController implements IController {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

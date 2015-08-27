@@ -108,7 +108,7 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Category[ id=" + id + " ]";
+        return name;
     }
     
 }

@@ -26,6 +26,7 @@ public class drinkController implements IController{
         Discount discount;
         Price price;
         ArrayList<Format> formats;
+        ArrayList<Category> categories;
         Format format;
         
         beanDrink bDrink = (beanDrink) session.getAttribute("bDrink");
@@ -34,6 +35,7 @@ public class drinkController implements IController{
             drink = new Drink();
             category = new Category();
             formats = new ArrayList();
+            categories = new ArrayList();
             format = new Format();
             price = new Price();
             tax = new Tax();
@@ -52,16 +54,20 @@ public class drinkController implements IController{
         }
         
         formats = bDrink.findFormats();
+        categories = bDrink.findCategories();
         
         if("edit".equals(request.getParameter("task"))) {
             session.setAttribute("formats", formats);
+            session.setAttribute("categories", categories);
             session.removeAttribute("drink");
             return "/WEB-INF/admin/drinkEdit.jsp";
         }
         
         if("modify".equals(request.getParameter("task"))) {
             drink = bDrink.findById(Long.valueOf(request.getParameter("id")));
+            session.setAttribute("category", drink.getCategory());
             session.setAttribute("formats", formats);
+            session.setAttribute("categories", categories);
             session.setAttribute("drink", drink);
             return "/WEB-INF/admin/drinkEdit.jsp";
         }
@@ -102,6 +108,8 @@ public class drinkController implements IController{
                 }
             }
             drink.setFormats(formats);
+            drink.setCategory(category);
+            drink.setDescription(request.getParameter("description"));
 //            drink.setFirstName(request.getParameter("firstName"));
 //            drink.setLastName(request.getParameter("lastName"));
 //            drink.setPassword(request.getParameter("password"));
