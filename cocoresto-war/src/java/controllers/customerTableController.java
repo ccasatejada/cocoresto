@@ -13,7 +13,9 @@ import models.beanTableCustomer;
 
 public class customerTableController implements IController {
 
-    beanTableCustomer btc = new beanTableCustomer();
+    private beanTableCustomer btc = new beanTableCustomer();
+    private String editUrl = "/WEB-INF/admin/customerTableEdit.jsp";
+    private String listUrl = "/WEB-INF/admin/customerTableList.jsp";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -27,9 +29,6 @@ public class customerTableController implements IController {
             logged = (boolean) session.getAttribute("logged");
             groupId = (Long) session.getAttribute("group");
         }
-
-        String editUrl = "/WEB-INF/admin/customerTableEdit.jsp";
-        String listUrl = "/WEB-INF/admin/customerTableList.jsp";
 
         if (logged && groupId >= 3) {
 
@@ -59,7 +58,10 @@ public class customerTableController implements IController {
 
             // form has been send
             if (request.getParameter("confirm") != null) {
-                edit(request);
+                boolean ok = edit(request);
+                if (!ok) {
+                    return editUrl;
+                }
             }
 
             getList(request);
@@ -69,9 +71,9 @@ public class customerTableController implements IController {
         } else {
             try {
                 // not logged or wrong groupId
-                response.sendRedirect(request.getRequestURI());
+                response.sendRedirect("FrontController?option=dashboard");
             } catch (IOException ex) {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "impossible d'afficher la page", "danger"));
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
             }
         }
 
@@ -89,22 +91,42 @@ public class customerTableController implements IController {
         request.setAttribute("customerTables", customerTables);
     }
 
-    private void edit(HttpServletRequest request) {
+    private boolean edit(HttpServletRequest request) {
+
+        if (request.getParameter("number").trim().isEmpty() || request.getParameter("capacity").trim().isEmpty() || request.getParameter("nbTablet").trim().isEmpty()) {
+            request.setAttribute("alert", Alert.setAlert("Attention", "Les champs * sont obligatoires", "warning"));
+            return false;
+        }
+
         CustomerTable ct = new CustomerTable();
         ct.setNumber(Integer.valueOf(request.getParameter("number")));
         ct.setCapacity(Integer.valueOf(request.getParameter("capacity")));
         ct.setNbTablet(Integer.valueOf(request.getParameter("nbTablet")));
-
+        
         if (request.getParameter("id").isEmpty()) { // add
             ct.setBusy(false);
             ct.setActive(true);
-            btc.create(ct);
-            request.setAttribute("alert", Alert.setAlert("Succès", "La table été ajoutée", "success"));
+            try {
+                btc.create(ct);
+                request.setAttribute("alert", Alert.setAlert("Succès", "La table été ajoutée", "success"));
+            } catch (EJBException e) {
+                request.setAttribute("alert", Alert.setAlert("Attention", "Cette table existe déjà", "warning"));
+                return false;
+            }
         } else { // update
             ct.setId(Long.valueOf(request.getParameter("id")));
-            btc.update(ct);
+            try {
+                btc.update(ct);
+                request.setAttribute("alert", Alert.setAlert("Succès", "La table été ajoutée", "success"));
+            } catch (EJBException e) {
+                request.setAttribute("alert", Alert.setAlert("Attention", "Cette table existe déjà", "warning"));
+                return false;
+            }
             request.setAttribute("alert", Alert.setAlert("Succès", "La table été mise à jour", "success"));
         }
+
+        return true;
+
     }
 
 }
