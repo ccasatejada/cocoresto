@@ -37,10 +37,10 @@ public class customerTableController implements IController {
                 try {
                     CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
                     request.setAttribute("customerTable", ct);
+                    return editUrl;
                 } catch (NumberFormatException | EJBException e) {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas", "danger"));
                 }
-                return editUrl;
             }
 
             if ("add".equals(request.getParameter("task")) && request.getParameter("id") == null) {
