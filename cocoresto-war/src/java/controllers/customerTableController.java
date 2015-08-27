@@ -43,6 +43,7 @@ public class customerTableController extends AbstractController implements ICont
                 try {
                     CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
                     btc.delete(ct);
+                    request.setAttribute("alert", Alert.setAlert("Succès", "La table été supprimée", "success"));
                 } catch (NumberFormatException | EJBException e) {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas", "danger"));
                 }
