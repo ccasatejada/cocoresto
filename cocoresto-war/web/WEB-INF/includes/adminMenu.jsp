@@ -64,7 +64,7 @@
 
         <ul class="nav-right pull-right list-inline">
             <li class="dropdown">
-                <a href="FrontController?option=login&task=disconnect" tabindex="0"><i class="fa fa-sign-out"></i>Déconnexnion</a>
+                <a href="FrontController?option=login&task=disconnect" tabindex="0"><i class="fa fa-sign-out"></i> Déconnexnion</a>
             </li>
         </ul>
 
