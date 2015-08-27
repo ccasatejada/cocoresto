@@ -22,7 +22,7 @@
                             <ul class="page-breadcrumb">
                                 <li><a href="FrontController"><i class="fa fa-home"></i> CocoResto</a></li>
                                 <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
-                                <li><a href="FrontController?option=customerTable">Gestion des tables</a></li>
+                                <li><a href="FrontController?option=category">Gestion des catégories</a></li>
                             </ul>
                             <div class="page-toolbar">
                                 <a role="button" tabindex="0" class="btn btn-lightred no-border pickDate">
@@ -40,23 +40,22 @@
                             <h1 class="custom-font"><strong>Tables</strong></h1>
                             <ul class="controls">
                                 <li>
-                                    <a href="FrontController?option=customerTable&task=add" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
+                                    <a href="FrontController?option=category&task=edit" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="tile-body p-0">
                             <table class ="table table-striped">
-                                <caption>Catégories</caption>
-                                <thead class="bg-info">
-                                    <tr>
+                                <thead>
+                                    <tr class="bg-slategray">
                                         <th hidden>Id</th>
-                                        <th scope="col">Catégorie</th>
-                                        <th scope="col">Modifier</th>
-                                        <th scope="col">Supprimer</th>
+                                        <th>Catégorie</th>
+                                        <th>Modifier</th>
+                                        <th>Supprimer</th>
                                     </tr>
                                 </thead>
-                                <tbody id="cBody">
+                                <tbody>
                                     <c:forEach var="category" items="${categories}" varStatus="loop">
                                         <tr>
                                             <td hidden>${category.id}</td>

@@ -47,20 +47,20 @@
                                 <thead>
                                     <tr class="bg-slategray">
                                         <th hidden>Id</th>
-                                        <th scope="col">Nom</th>
-                                        <th scope="col">Stock</th>
-                                        <th scope="col">Région</th>
-                                        <th scope="col">Poids</th>
-                                        <th scope="col">Catégorie</th>
-                                        <th scope="col">Prix</th>
-                                        <th scope="col">Taxe</th>                    
-                                        <th scope="col">Promotion</th>
-                                        <th scope="col">Prix total</th>
-                                        <th scope="col">Modifier</th>
-                                        <th scope="col">Supprimer</th>
+                                        <th>Nom</th>
+                                        <th>Stock</th>
+                                        <th>Région</th>
+                                        <th>Poids</th>
+                                        <th>Catégorie</th>
+                                        <th>Prix</th>
+                                        <th>Taxe</th>                    
+                                        <th>Promotion</th>
+                                        <th>Prix total</th>
+                                        <th>Modifier</th>
+                                        <th>Supprimer</th>
                                     </tr>
                                 </thead>
-                                <tbody id="dBody">
+                                <tbody>
                                     <c:forEach var="dish" items="${dishes}" varStatus="loop">
                                         <tr>
                                             <td hidden>${dish.id}</td>

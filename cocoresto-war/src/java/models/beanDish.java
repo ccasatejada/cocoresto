@@ -6,8 +6,6 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -54,6 +52,9 @@ public class beanDish implements Serializable {
     }
 
 
+    public int count(){
+        return ejbDish.count();
+    }
 
     private ejbDishLocal lookupejbDishLocal() {
         try {

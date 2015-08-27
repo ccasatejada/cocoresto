@@ -1,6 +1,7 @@
 
 package ejb;
 
+import entities.Dish;
 import entities.NutritiveValue;
 import java.util.List;
 import javax.ejb.Local;
@@ -12,4 +13,5 @@ public interface ejbNutritiveValueLocal {
     public void delete(NutritiveValue nv);
     public NutritiveValue findById(Long id);
     public List<NutritiveValue> findAll();
+    public List<NutritiveValue> findByDish(Dish dish);
 }

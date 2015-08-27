@@ -2,6 +2,7 @@
 package models;
 
 import ejb.ejbNutritiveValueLocal;
+import entities.Dish;
 import entities.NutritiveValue;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -41,6 +42,15 @@ public class beanNutritiveValue implements Serializable {
         for(NutritiveValue nv : ejbNutritiveValue.findAll()){
             anv.add(nv);
         }
+        return anv;
+    }
+    
+    public ArrayList<NutritiveValue> findByDish(Dish dish){
+        ArrayList<NutritiveValue> anv = new ArrayList();
+        for(NutritiveValue nv : ejbNutritiveValue.findByDish(dish)){
+            anv.add(nv);
+        }
+        
         return anv;
     }
     
