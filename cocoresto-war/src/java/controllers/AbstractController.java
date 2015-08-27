@@ -13,5 +13,23 @@ public class AbstractController {
             this.groupId = (Long) session.getAttribute("group");
         }
     }
+
+    public boolean isLogged() {
+        return logged;
+    }
+
+    public void setLogged(boolean logged) {
+        this.logged = logged;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+    
+    
     
 }
