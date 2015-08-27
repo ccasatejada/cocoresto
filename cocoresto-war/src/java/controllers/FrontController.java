@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import javax.servlet.ServletConfig;
@@ -33,6 +35,7 @@ public class FrontController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = "/WEB-INF/index.jsp";
+        request.setAttribute("date", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
         
         if (map.containsKey(request.getParameter("option"))) {
             IController c = map.get(request.getParameter("option"));
