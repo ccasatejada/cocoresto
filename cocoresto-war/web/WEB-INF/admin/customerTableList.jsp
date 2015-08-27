@@ -34,6 +34,11 @@
 
                         <div class="tile-header dvd dvd-btm bg-greensea">
                             <h1 class="custom-font"><strong>Tables</strong></h1>
+                            <ul class="controls">
+                                <li>
+                                    <a href="FrontController?option=customerTable&task=add" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
+                                </li>
+                            </ul>
                         </div>
 
                         <div class="tile-body p-0">

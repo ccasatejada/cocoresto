@@ -40,6 +40,10 @@ public class beanTableCustomer implements Serializable {
         return ejbCustomerTable.findById(id);
     }
 
+    public int count() {
+        return ejbCustomerTable.count();
+    }
+
     private ejbCustomerTableLocal lookupejbCustomerTableLocal() {
         try {
             Context c = new InitialContext();
