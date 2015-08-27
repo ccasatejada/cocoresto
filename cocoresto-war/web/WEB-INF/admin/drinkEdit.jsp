@@ -23,9 +23,9 @@
                         <select name="comboFormat" class="form-control">
                             <c:forEach var="format" items="${drink.formats}" varStatus="loop">
                                 <c:if test="${not empty drink}">
-                                    
+
                                     <option>${format.name}</option>
-                                    
+
                                 </c:if>
 
                                 <c:if test="${empty drink}">
@@ -75,15 +75,50 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="discount" class="col-sm-2 control-label">Discount : </label>
+                    <label for="comboDiscount" class="col-sm-2 control-label">Discount : </label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="discount" value="${drink.discount}"> 
+                        <select name="comboDiscount" class="form-control">
+                            <c:if test="${empty drink.discount || empty drink}">
+                                <option></option>
+                            </c:if>
+                            <c:forEach var="discount" items="${discounts}" varStatus="loop">
+                                <c:if test="${drink.discount.id==discount.id}">
+                                    <option selected>${discount.rate} / ${discount.beginDate} / ${discount.endDate}</option>
+                                </c:if>
+                                <c:if test="${drink.discount.id!=discount.id}">
+                                    <option>${discount.rate} / ${discount.beginDate} / ${discount.endDate}</option>
+                                </c:if>
+                            </c:forEach>
+                        </select>
+                        <div class="btn btn-default">
+                            <a href="FrontController?option=rate&task=editDiscount" name="addDiscount">Nouveau Discount</a>
+                        </div>
+                        <c:if test="${not empty drink && not empty drink.discount}">
+                            <div class="btn btn-default">
+                                <a href="FrontController?option=drink&task=deleteDiscountDrink" name="deleteDiscountDrink">Détacher Discount</a>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="tax" class="col-sm-2 control-label">Taxe : </label>
+                    <label for="comboTax" class="col-sm-2 control-label">Taxe : </label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="tax" value="${drink.tax}">
+                        <select name="comboTax" class="form-control">
+                            <c:forEach var="tax" items="${taxes}" varStatus="loop">
+                                <c:if test="${not empty drink}">
+                                    <c:if test="${drink.tax.id==tax.id}">
+                                        <option selected>${tax.rate}</option>
+                                    </c:if>
+                                    <c:if test="${drink.tax.id!=tax.id}">
+                                        <option>${tax.rate}</option>
+                                    </c:if>
+                                </c:if>
+
+                                <c:if test="${empty drink}">
+                                    <option>${tax.rate}</option>
+                                </c:if>   
+                            </c:forEach>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -101,7 +136,7 @@
                 <div class="form-group">
                     <label for="image" class="col-sm-2 control-label">Image : </label>
                     <div class="col-sm-10">                       
-                        <input type="file" name="image" accept="image/jpeg"/>
+                        <input type="file" name="image" accept="image/jpeg" value="${drink.image}"/>
                     </div>
                 </div>
                 <c:if test="${not empty employee}">
