@@ -24,8 +24,9 @@
                     <th scope="col">Poids</th>
                     <th scope="col">Catégorie</th>
                     <th scope="col">Prix</th>
-                    <th scope="col">Taxe</th>
+                    <th scope="col">Taxe</th>                    
                     <th scope="col">Promotion</th>
+                    <th scope="col">Prix total</th>
                     <th scope="col">Modifier</th>
                     <th scope="col">Supprimer</th>
                 </tr>
@@ -42,6 +43,7 @@
                         <td>${dish.price.price}</td>
                         <td>${dish.tax.rate}</td>
                         <td>${dish.discount.rate} (${dish.discount.beginDate} - ${dish.discount.endDate})</td>
+                        <td>${dish.totalPrice}</td>
                         <td><a href="FrontController?option=dish&task=edit&id=${dish.id}">Modifier</a></td>
                         <td><a href="FrontController?option=dish&task=delete&id=${dish.id}">Supprimer</a></td>
                     </tr>
