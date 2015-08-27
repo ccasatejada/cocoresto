@@ -45,6 +45,10 @@ public class beanPrice implements Serializable {
         return ap;
     }
     
+    public Price findLastInserted() {
+        return ejbPrice.findLastInserted();
+    }
+    
     private ejbPriceLocal lookupejbPriceLocal() {
         try {
             Context c = new InitialContext();
