@@ -4,30 +4,21 @@ import entities.CustomerTable;
 import helpers.Alert;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import models.beanTableCustomer;
 
-public class customerTableController implements IController {
+public class customerTableController extends AbstractController implements IController {
 
     beanTableCustomer btc = new beanTableCustomer();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        HttpSession session = request.getSession();
-        boolean logged = false;
-        Long groupId = 0L;
-
-        if (session.getAttribute("logged") != null && session.getAttribute("group") != null) {
-            logged = (boolean) session.getAttribute("logged");
-            groupId = (Long) session.getAttribute("group");
-        }
+        // set login values
+        setLogged(request.getSession());
 
         String editUrl = "/WEB-INF/admin/customerTableEdit.jsp";
         String listUrl = "/WEB-INF/admin/customerTableList.jsp";
@@ -64,16 +55,18 @@ public class customerTableController implements IController {
 
             getList(request);
 
+            return listUrl;
+            
         } else {
             try {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "impossible d'afficher la page", "danger"));
+                // not logged or wrong groupId
                 response.sendRedirect(request.getRequestURI());
             } catch (IOException ex) {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "impossible d'afficher la page", "danger"));
             }
         }
 
-        return listUrl;
+        return "/WEB-INF/index.jsp";
 
     }
 
