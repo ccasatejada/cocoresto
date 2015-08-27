@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.beanTableCustomer;
 
-public class dashboardController extends AbstractController implements IController {
+public class dashboardController implements IController {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
