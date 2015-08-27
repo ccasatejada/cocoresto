@@ -118,6 +118,10 @@ public class beanDrink implements Serializable {
         return ejbDrink.findFormats();
     }
     
+    public ArrayList<Category> findCategories() {
+        return ejbDrink.findCategories();
+    }
+    
     
     
 

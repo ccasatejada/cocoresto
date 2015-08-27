@@ -1,6 +1,7 @@
 
 package ejb;
 
+import entities.Category;
 import entities.Drink;
 import entities.Format;
 import java.util.ArrayList;
@@ -29,6 +30,23 @@ public class ejbDrink implements ejbDrinkLocal {
         }
 
         return formats;
+    }
+    
+    @Override
+    public ArrayList<Category> findCategories() {
+        ArrayList<Category> categories = new ArrayList();
+        
+        String query = "SELECT ca FROM Category ca";
+        Query qr = em.createQuery(query);
+        
+        List<Category> caList = qr.getResultList();
+        for(Category cat : caList) {
+            if("Boisson".equals(cat.getType())) {
+                categories.add(cat);
+            }
+        }
+
+        return categories;
     }
     
     @Override
