@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.beanTableCustomer;
 
 public class dashboardController extends AbstractController implements IController {
 
@@ -27,6 +28,9 @@ public class dashboardController extends AbstractController implements IControll
         } else if (groupId == 2) { // cooker
             return "/WEB-INF/dashboardCooker.jsp";
         }
+        
+        beanTableCustomer btc = new beanTableCustomer();
+        request.setAttribute("countCustomerTable", btc.count());
         
         // else return admin dashboard
         return "/WEB-INF/admin/dashboard.jsp";
