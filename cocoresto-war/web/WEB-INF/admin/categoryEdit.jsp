@@ -1,6 +1,6 @@
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -24,8 +24,8 @@
                     <label for="categoryType"  class="col-sm-2 control-label">Catégorie :</label>
                     <div class="col-sm-10">
                         <select id="categoryType" name="dishCategory"> 
-                            <option name="category" value="Plat" <c:if test="${category.type eq 'Plat'}">selected</c:if>>Plat</option>
-                            <option name="category" value="Boisson" <c:if test="${category.type eq 'Boisson'}">selected</c:if>>Boisson</option>
+                            <option value="Plat" <c:if test="${category.type == 'Plat'}"> selected </c:if>> Plat</option>
+                            <option value="Boisson"  <c:if test="${category.type == 'Boisson'}"> selected </c:if> > Boisson</option>
                         </select>
                     </div> 
                 </div>    

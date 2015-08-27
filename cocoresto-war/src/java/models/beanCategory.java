@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJBException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -17,28 +18,28 @@ public class beanCategory implements Serializable {
     public beanCategory() {
     }
 
-    public void create(Category category) {
+    public void create(Category category) throws EJBException {
         ejbCategory.create(category);
 
     }
 
-    public void update(Category category) {
+    public void update(Category category) throws EJBException {
         ejbCategory.update(category);
 
     }
 
-    public void delete(Category category) {
+    public void delete(Category category) throws EJBException {
         ejbCategory.delete(category);
     }
 
-    public Category findById(Long id) {
+    public Category findById(Long id) throws EJBException {
         if (ejbCategory.findById(id) != null) {
             return ejbCategory.findById(id);
         }
         return null;
     }
 
-    public ArrayList<Category> findAll() {
+    public ArrayList<Category> findAll() throws EJBException {
         ArrayList<Category> ac = new ArrayList();
         for (Category c : ejbCategory.findAll()) {
             ac.add(c);
