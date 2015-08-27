@@ -52,9 +52,9 @@ public class loginController implements IController {
         }
         
         // Disconnect
-        if (request.getParameter("disconnect") != null) {
+        if ("disconnect".equals(request.getParameter("task"))) {
             session.setAttribute("logged", false);
-            session.setAttribute("group", -1);
+            session.setAttribute("group", 0);
             session.setAttribute("employee", null);
             session.removeAttribute("logged");
             session.removeAttribute("group");

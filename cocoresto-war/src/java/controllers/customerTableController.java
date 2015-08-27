@@ -2,11 +2,15 @@ package controllers;
 
 import entities.CustomerTable;
 import helpers.Alert;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import models.beanTableCustomer;
 
 public class customerTableController implements IController {
@@ -16,40 +20,61 @@ public class customerTableController implements IController {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
+        HttpSession session = request.getSession();
+        boolean logged = false;
+        Long groupId = 0L;
+
+        if (session.getAttribute("logged") != null && session.getAttribute("group") != null) {
+            logged = (boolean) session.getAttribute("logged");
+            groupId = (Long) session.getAttribute("group");
+        }
+
         String editUrl = "/WEB-INF/admin/customerTableEdit.jsp";
         String listUrl = "/WEB-INF/admin/customerTableList.jsp";
 
-        if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
-            try {
-                CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
-                request.setAttribute("customerTable", ct);
-            } catch (NumberFormatException | EJBException e) {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas", "danger"));
+        if (logged && groupId >= 3) {
+
+            if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
+                try {
+                    CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
+                    request.setAttribute("customerTable", ct);
+                } catch (NumberFormatException | EJBException e) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas", "danger"));
+                }
+                return editUrl;
             }
-            return editUrl;
-        }
 
-        if ("add".equals(request.getParameter("task")) && request.getParameter("id") == null) {
-            return editUrl;
-        }
+            if ("add".equals(request.getParameter("task")) && request.getParameter("id") == null) {
+                return editUrl;
+            }
 
-        if ("delete".equals(request.getParameter("task")) && request.getParameter("id") != null) {
+            if ("delete".equals(request.getParameter("task")) && request.getParameter("id") != null) {
+                try {
+                    CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
+                    btc.delete(ct);
+                } catch (NumberFormatException | EJBException e) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas", "danger"));
+                }
+            }
+
+            // form has been send
+            if (request.getParameter("confirm") != null) {
+                edit(request);
+            }
+
+            getList(request);
+
+        } else {
             try {
-                CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
-                btc.delete(ct);
-            } catch (NumberFormatException | EJBException e) {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas", "danger"));
+                request.setAttribute("alert", Alert.setAlert("Erreur", "impossible d'afficher la page", "danger"));
+                response.sendRedirect(request.getRequestURI());
+            } catch (IOException ex) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "impossible d'afficher la page", "danger"));
             }
         }
-
-        // form has been send
-        if (request.getParameter("confirm") != null) {
-            edit(request);
-        }
-
-        getList(request);
 
         return listUrl;
+
     }
 
     @Override
