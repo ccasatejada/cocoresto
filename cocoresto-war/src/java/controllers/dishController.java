@@ -46,7 +46,7 @@ public class dishController implements IController {
             }
         }
         if (request.getParameter("confirm") != null) {
-            if (request.getParameter("dish").isEmpty()) { //create
+            if (request.getParameter("id").isEmpty()) { //create
                 // set Dish
                 d.setName(request.getParameter("dishName"));
                 d.setActive(true);
@@ -63,6 +63,7 @@ public class dishController implements IController {
 
                 // set price
                 p.setPrice(Double.valueOf(request.getParameter("dishPrice")));
+                bp.create(p); // or update
                 d.setPrice(p);
 
                 // set tax
@@ -70,15 +71,29 @@ public class dishController implements IController {
                 t = br.findTaxById(t.getId());
                 d.setTax(t);
 
+                bd.create(d);
+
                 // set discount
                 // set nutritiveValue
-                lnv.add(new NutritiveValue("kilocalories", Double.valueOf(request.getParameter("dishKcal")), Unit.KiloCalories));
-                lnv.add(new NutritiveValue("protéines", Double.valueOf(request.getParameter("dishProtein")), Unit.Grammes));
-                lnv.add(new NutritiveValue("glucides", Double.valueOf(request.getParameter("dishGlucid")), Unit.Grammes));
-                lnv.add(new NutritiveValue("lipides", Double.valueOf(request.getParameter("dishLipid")), Unit.Grammes));
-                d.setNutritiveValues(lnv);
-
-                bd.create(d);
+                NutritiveValue nv1 = new NutritiveValue("kilocalories", Double.valueOf(request.getParameter("dishKcal")), Unit.KiloCalories);
+                NutritiveValue nv2 = new NutritiveValue("protéines", Double.valueOf(request.getParameter("dishProtein")), Unit.Grammes);
+                NutritiveValue nv3 = new NutritiveValue("glucides", Double.valueOf(request.getParameter("dishGlucid")), Unit.Grammes);
+                NutritiveValue nv4 = new NutritiveValue("lipides", Double.valueOf(request.getParameter("dishLipid")), Unit.Grammes);
+                nv1.setDish(d);
+                nv2.setDish(d);
+                nv3.setDish(d);
+                nv4.setDish(d);
+                bnv.create(nv1);
+                bnv.create(nv2);
+                bnv.create(nv3);
+                bnv.create(nv4);
+//                lnv.add(nv1);
+//                lnv.add(nv2);
+//                lnv.add(nv3);
+//                lnv.add(nv4);
+//                d.setNutritiveValues(lnv);
+//
+//                bd.create(d);
             } else { //update
                 d.setId(Long.valueOf(request.getParameter("id")));
                 d.setName(request.getParameter("dishName"));
@@ -118,9 +133,10 @@ public class dishController implements IController {
                     if ("lipides".equals(nv.getName())) {
                         nv.setQuantity(Double.valueOf(request.getParameter("dishLipid")));
                     }
-                    
+
                     lnv.add(nv);
                 }
+
                 d.setNutritiveValues(lnv);
 
                 bd.update(d);
