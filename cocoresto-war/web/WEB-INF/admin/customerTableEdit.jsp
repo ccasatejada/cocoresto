@@ -16,7 +16,7 @@
                         <h2>CocoResto <span>// Administrateur</span></h2>
                         <div class="page-bar">
                             <ul class="page-breadcrumb">
-                                <li><a href="FrontController"><i class="fa fa-home"></i> CocoResto</a></li>
+                                <li><a href="FrontController?option=dashboard"><i class="fa fa-home"></i> CocoResto</a></li>
                                 <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
                                 <li><a href="FrontController?option=customerTable">Gestion des tables</a></li>
                                 <li><a href="#">Edition</a></li>
@@ -42,16 +42,16 @@
 
                                 <input type="hidden" name="id" value="${customerTable.id}">
                                 <div class="form-group">
-                                    <label for="number">Numéro de table :</label>
-                                    <input type="number" min="1" max="30" class="form-control" id="number" name="number" value="${customerTable.number}">
+                                    <label for="number">Numéro de table : <span>*</span></label>
+                                    <input type="number" placeholder="1" min="1" max="30" class="form-control" id="number" name="number" value="${customerTable.number}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="capacity">Capacité de la table :</label>
-                                    <input type="number" min="1" max="10" class="form-control" id="capacity" name="capacity" value="${customerTable.capacity}">
+                                    <label for="capacity">Capacité de la table : <span>*</span></label>
+                                    <input type="number" placeholder="1" min="1" max="10" class="form-control" id="capacity" name="capacity" value="${customerTable.capacity}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="nbTablet">Nombre de tablettes :</label>
-                                    <input type="number" min="1" max="20" class="form-control" id="nbTablet" name="nbTablet" value="${customerTable.nbTablet}">
+                                    <label for="nbTablet">Nombre de tablettes : <span>*</span></label>
+                                    <input type="number" placeholder="1" min="1" max="20" class="form-control" id="nbTablet" name="nbTablet" value="${customerTable.nbTablet}">
                                 </div>
 
                             </div>

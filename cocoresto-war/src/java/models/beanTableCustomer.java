@@ -22,12 +22,12 @@ public class beanTableCustomer implements Serializable {
         return ejbCustomerTable.findAll();
     }
 
-    public void create(CustomerTable customerTable) {
+    public void create(CustomerTable customerTable) throws EJBException {
         ejbCustomerTable.create(customerTable);
 
     }
 
-    public void update(CustomerTable customerTable) {
+    public void update(CustomerTable customerTable) throws EJBException {
         ejbCustomerTable.update(customerTable);
 
     }
