@@ -17,6 +17,6 @@ public interface ejbCustomerTableLocal {
 
     public List<CustomerTable> findAll();
 
-    
-    
+    public int count();
+
 }

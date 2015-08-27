@@ -2,26 +2,34 @@ package controllers;
 
 import entities.CustomerTable;
 import helpers.Alert;
+import helpers.Pagination;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import models.beanTableCustomer;
 
-public class customerTableController extends AbstractController implements IController {
+public class customerTableController implements IController {
 
-    beanTableCustomer btc = new beanTableCustomer();
+    private beanTableCustomer btc = new beanTableCustomer();
+    private String editUrl = "/WEB-INF/admin/customerTableEdit.jsp";
+    private String listUrl = "/WEB-INF/admin/customerTableList.jsp";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        // set login values
-        setLogged(request.getSession());
+        // set session values
+        HttpSession session = request.getSession();
+        boolean logged = false;
+        Long groupId = 0L;
 
-        String editUrl = "/WEB-INF/admin/customerTableEdit.jsp";
-        String listUrl = "/WEB-INF/admin/customerTableList.jsp";
+        if (session.getAttribute("logged") != null && session.getAttribute("group") != null) {
+            logged = (boolean) session.getAttribute("logged");
+            groupId = (Long) session.getAttribute("group");
+        }
 
         if (logged && groupId >= 3) {
 
@@ -29,10 +37,10 @@ public class customerTableController extends AbstractController implements ICont
                 try {
                     CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
                     request.setAttribute("customerTable", ct);
+                    return editUrl;
                 } catch (NumberFormatException | EJBException e) {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas", "danger"));
                 }
-                return editUrl;
             }
 
             if ("add".equals(request.getParameter("task")) && request.getParameter("id") == null) {
@@ -51,19 +59,22 @@ public class customerTableController extends AbstractController implements ICont
 
             // form has been send
             if (request.getParameter("confirm") != null) {
-                edit(request);
+                boolean ok = edit(request);
+                if (!ok) {
+                    return editUrl;
+                }
             }
 
             getList(request);
 
             return listUrl;
-            
+
         } else {
             try {
                 // not logged or wrong groupId
-                response.sendRedirect(request.getRequestURI());
+                response.sendRedirect("FrontController?option=dashboard");
             } catch (IOException ex) {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "impossible d'afficher la page", "danger"));
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
             }
         }
 
@@ -77,11 +88,30 @@ public class customerTableController extends AbstractController implements ICont
     }
 
     private void getList(HttpServletRequest request) {
-        List<CustomerTable> customerTables = btc.findAll();
+
+        int max = 10;
+        int currentPage = 1;
+        if (request.getParameter("page") != null) {
+            try {
+                currentPage = Integer.valueOf(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "La page n'est pas un nombre", "danger"));
+            }
+        }
+        Pagination pagination = new Pagination("customerTable", currentPage, max, btc.count());
+        request.setAttribute("pagination", pagination.getPagination());
+
+        List<CustomerTable> customerTables = btc.findAllByRange(pagination.getMin(), max);
         request.setAttribute("customerTables", customerTables);
     }
 
-    private void edit(HttpServletRequest request) {
+    private boolean edit(HttpServletRequest request) {
+
+        if (request.getParameter("number").trim().isEmpty() || request.getParameter("capacity").trim().isEmpty() || request.getParameter("nbTablet").trim().isEmpty()) {
+            request.setAttribute("alert", Alert.setAlert("Attention", "Les champs * sont obligatoires", "warning"));
+            return false;
+        }
+
         CustomerTable ct = new CustomerTable();
         ct.setNumber(Integer.valueOf(request.getParameter("number")));
         ct.setCapacity(Integer.valueOf(request.getParameter("capacity")));
@@ -90,13 +120,27 @@ public class customerTableController extends AbstractController implements ICont
         if (request.getParameter("id").isEmpty()) { // add
             ct.setBusy(false);
             ct.setActive(true);
-            btc.create(ct);
-            request.setAttribute("alert", Alert.setAlert("Succès", "La table été ajoutée", "success"));
+            try {
+                btc.create(ct);
+                request.setAttribute("alert", Alert.setAlert("Succès", "La table été ajoutée", "success"));
+            } catch (EJBException e) {
+                request.setAttribute("alert", Alert.setAlert("Attention", "Cette table existe déjà", "warning"));
+                return false;
+            }
         } else { // update
             ct.setId(Long.valueOf(request.getParameter("id")));
-            btc.update(ct);
+            try {
+                btc.update(ct);
+                request.setAttribute("alert", Alert.setAlert("Succès", "La table été ajoutée", "success"));
+            } catch (EJBException e) {
+                request.setAttribute("alert", Alert.setAlert("Attention", "Cette table existe déjà", "warning"));
+                return false;
+            }
             request.setAttribute("alert", Alert.setAlert("Succès", "La table été mise à jour", "success"));
         }
+
+        return true;
+
     }
 
 }

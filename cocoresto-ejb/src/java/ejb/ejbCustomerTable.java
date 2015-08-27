@@ -41,4 +41,11 @@ public class ejbCustomerTable implements ejbCustomerTableLocal {
         return q.getResultList();
     }
 
+    @Override
+    public int count() {
+         return ((Long) em.createQuery("select COUNT(ct) from CustomerTable ct").getSingleResult()).intValue();
+    }
+    
+    
+
 }

@@ -21,13 +21,18 @@ public class beanTableCustomer implements Serializable {
     public List<CustomerTable> findAll() {
         return ejbCustomerTable.findAll();
     }
-
-    public void create(CustomerTable customerTable) {
+    
+    
+    public List<CustomerTable> findAllByRange(int firstResult, int maxResults) {
+        return ejbCustomerTable.findAllByRange(firstResult, maxResults);
+    }
+    
+    public void create(CustomerTable customerTable) throws EJBException {
         ejbCustomerTable.create(customerTable);
 
     }
 
-    public void update(CustomerTable customerTable) {
+    public void update(CustomerTable customerTable) throws EJBException {
         ejbCustomerTable.update(customerTable);
 
     }
@@ -38,6 +43,10 @@ public class beanTableCustomer implements Serializable {
 
     public CustomerTable findById(Long id) {
         return ejbCustomerTable.findById(id);
+    }
+
+    public int count() {
+        return ejbCustomerTable.count();
     }
 
     private ejbCustomerTableLocal lookupejbCustomerTableLocal() {

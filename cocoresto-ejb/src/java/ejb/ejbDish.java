@@ -48,4 +48,9 @@ public class ejbDish implements ejbDishLocal {
         em.persist(object);
     }
 
+    @Override
+    public int count() {
+        return ((Long) em.createQuery("select COUNT(d) from Dish d").getSingleResult()).intValue();
+    }
+
 }
