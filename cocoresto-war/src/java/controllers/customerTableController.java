@@ -2,6 +2,7 @@ package controllers;
 
 import entities.CustomerTable;
 import helpers.Alert;
+import helpers.Pagination;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJBException;
@@ -87,7 +88,20 @@ public class customerTableController implements IController {
     }
 
     private void getList(HttpServletRequest request) {
-        List<CustomerTable> customerTables = btc.findAll();
+
+        int max = 10;
+        int currentPage = 1;
+        if (request.getParameter("page") != null) {
+            try {
+                currentPage = Integer.valueOf(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "La page n'est pas un nombre", "danger"));
+            }
+        }
+        Pagination pagination = new Pagination("customerTable", currentPage, max, btc.count());
+        request.setAttribute("pagination", pagination.getPagination());
+
+        List<CustomerTable> customerTables = btc.findAllByRange(pagination.getMin(), max);
         request.setAttribute("customerTables", customerTables);
     }
 
@@ -102,7 +116,7 @@ public class customerTableController implements IController {
         ct.setNumber(Integer.valueOf(request.getParameter("number")));
         ct.setCapacity(Integer.valueOf(request.getParameter("capacity")));
         ct.setNbTablet(Integer.valueOf(request.getParameter("nbTablet")));
-        
+
         if (request.getParameter("id").isEmpty()) { // add
             ct.setBusy(false);
             ct.setActive(true);
