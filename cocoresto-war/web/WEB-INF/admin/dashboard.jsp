@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="col-xs-8">
                                             <p class="text-elg text-strong mb-0">Tables</p>
-                                            <span>32</span>
+                                            <span>${countCustomerTable}</span>
                                         </div>
                                     </div>
                                 </div>
