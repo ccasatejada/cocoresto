@@ -32,6 +32,15 @@ public class ejbPrice implements ejbPriceLocal {
         Price p = em.find(Price.class, id);
         return p;
     }
+    
+    @Override
+    public Price findLastInserted() {
+        String query = "SELECT p FROM Price p";
+        Query qr = em.createQuery(query);
+        Price lastPrice = (Price)qr.getParameterValue(qr.getResultList().size());
+        
+        return lastPrice;
+    }
 
     @Override
     public List<Price> findAll() {

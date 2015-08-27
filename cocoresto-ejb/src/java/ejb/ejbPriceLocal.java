@@ -12,4 +12,5 @@ public interface ejbPriceLocal {
     public void delete(Price price);
     public Price findById(Long id);
     public List<Price> findAll();
+    public Price findLastInserted();
 }
