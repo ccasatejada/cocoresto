@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -7,48 +6,94 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="../includes/head.jsp" %>
 
-        <title>Gestion des plats</title>
+        <title>Panneau d'administration</title>
     </head>
-    <body>
-        <h1>Gestion des plats</h1>
+    <body id="minovate" class="appWrapper">
+        <div id="wrap" class="animsition">
+            <%@include file="../includes/adminMenu.jsp" %>
+            <section id="content">
+                <div class="page page-dashboard">
 
-        <a href="FrontController?option=dish&task=edit">Ajouter un plat</a>
-        <table class="table table-striped">
-            <caption>Plats</caption>
-            <thead class="bg-info">
-                <tr>
-                    <th hidden>Id</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Région</th>
-                    <th scope="col">Poids</th>
-                    <th scope="col">Catégorie</th>
-                    <th scope="col">Prix</th>
-                    <th scope="col">Taxe</th>                    
-                    <th scope="col">Promotion</th>
-                    <th scope="col">Prix total</th>
-                    <th scope="col">Modifier</th>
-                    <th scope="col">Supprimer</th>
-                </tr>
-            </thead>
-            <tbody id="dBody">
-                <c:forEach var="dish" items="${dishes}" varStatus="loop">
-                    <tr>
-                        <td hidden>${dish.id}</td>
-                        <td>${dish.name}</td>
-                        <td>${dish.inventory}</td>
-                        <td>${dish.country}</td>
-                        <td>${dish.weight}</td>
-                        <td>${dish.category.name}</td>
-                        <td>${dish.price.price}</td>
-                        <td>${dish.tax.rate}</td>
-                        <td>${dish.discount.rate} (${dish.discount.beginDate} - ${dish.discount.endDate})</td>
-                        <td>${dish.totalPrice}</td>
-                        <td><a href="FrontController?option=dish&task=edit&id=${dish.id}">Modifier</a></td>
-                        <td><a href="FrontController?option=dish&task=delete&id=${dish.id}">Supprimer</a></td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+                    <div class="pageheader">
+                        <h2>CocoResto <span>// Administrateur</span></h2>
+                        <div class="page-bar">
+                            <ul class="page-breadcrumb">
+                                <li><a href="FrontController"><i class="fa fa-home"></i> CocoResto</a></li>
+                                <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
+                                <li><a href="FrontController?option=dish">Gestion des plats</a></li>
+                            </ul>
+                            <div class="page-toolbar">
+                                <a role="button" tabindex="0" class="btn btn-lightred no-border pickDate">
+                                    <i class="fa fa-calendar"></i>&nbsp;&nbsp;<span>${date}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${alert}
+
+                    <section class="tile">
+
+                        <div class="tile-header dvd dvd-btm bg-greensea">
+                            <h1 class="custom-font"><strong>Plats</strong></h1>
+                        </div>
+                        <div class="tile-body p-0">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr class="bg-slategray">
+                                        <th hidden>Id</th>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Région</th>
+                                        <th scope="col">Poids</th>
+                                        <th scope="col">Catégorie</th>
+                                        <th scope="col">Prix</th>
+                                        <th scope="col">Taxe</th>                    
+                                        <th scope="col">Promotion</th>
+                                        <th scope="col">Prix total</th>
+                                        <th scope="col">Modifier</th>
+                                        <th scope="col">Supprimer</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dBody">
+                                    <c:forEach var="dish" items="${dishes}" varStatus="loop">
+                                        <tr>
+                                            <td hidden>${dish.id}</td>
+                                            <td>${dish.name}</td>
+                                            <td>${dish.inventory}</td>
+                                            <td>${dish.country}</td>
+                                            <td>${dish.weight}</td>
+                                            <td>${dish.category.name}</td>
+                                            <td>${dish.price.price}</td>
+                                            <td>${dish.tax.rate}</td>
+                                            <td>${dish.discount.rate} (${dish.discount.beginDate} - ${dish.discount.endDate})</td>
+                                            <td>${dish.totalPrice}</td>
+                                            <td><a href="FrontController?option=dish&task=edit&id=${dish.id}">Modifier</a></td>
+                                            <td><a href="FrontController?option=dish&task=delete&id=${dish.id}">Supprimer</a></td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tile-footer dvd dvd-top">
+                            <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <ul class="pagination pagination-sm m-0">
+                                        <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
+                                        <li><a href="">1</a></li>
+                                        <li><a href="">2</a></li>
+                                        <li><a href="">3</a></li>
+                                        <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>    
+                    </section>
+                </div>
+            </section>
+        </div>
+        <%@include file="../includes/scripts.jsp" %>
+
     </body>
 </html>

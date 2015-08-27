@@ -53,19 +53,7 @@ public class beanDish implements Serializable {
         ejbDish.delete(dish);
     }
 
-    public Double calculPrice(Dish dish) {
-        Double price = null;
-        Date d = new Date();
 
-        if (d.before(dish.getDiscount().getEndDate()) && d.after(dish.getDiscount().getBeginDate())) {
-            price = dish.getPrice().getPrice() - (dish.getPrice().getPrice() * (dish.getDiscount().getRate() / 100));
-        } else {
-            price = dish.getPrice().getPrice();
-        }
-        
-        price = price * (1 + (dish.getTax().getRate() / 100));
-        return price;
-    }
 
     private ejbDishLocal lookupejbDishLocal() {
         try {

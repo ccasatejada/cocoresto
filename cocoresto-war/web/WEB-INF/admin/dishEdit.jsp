@@ -6,13 +6,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="../includes/head.jsp" %>
 
-        <title>Administration Plat</title>
+        <title>Edition : plat</title>
     </head>
     <body>
-        <h1>Administration Plat</h1>
+        <c:if test="${not empty dish}">
+            <h1>Edition du plat : ${dish.name}</h1>
+        </c:if>
+        <c:if test="${empty dish}">
+            <h1>Ajouter un plat</h1>
+        </c:if>
         <div class="container-fluid">
             ${alert}
-            <form action="FrontController?option=dish" method="post" class="well form-horizontal">
+            <form action="FrontController?option=dish" method="post">
                 <input type="hidden" value="${dish.id}" name="id"> 
 
                 <div class="form-group">
@@ -154,22 +159,6 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <!-- <label for="dishTax"  class="col-sm-2 control-label">Taxe :</label>
-                    <div class="col-sm-10">
-                        <div class="input-group">
-                            <c:if test="${not empty dish}">
-                                <input class="form-control" type="text" placeholder="${dish.tax.rate}" readonly>
-                                <div class="input-group-addon">%</div>
-                            </c:if>
-                        </div>
-                        <div class="input-group">
-                            <select id="dishTax">
-                                <c:forEach var="tax" items="${taxes}" varStatus="loop"> 
-                                    <option name="tax" value="${tax.id}">${tax.rate}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div> -->
                 </div>
                 <div class="form-group">
                     <label for="dishDiscount"  class="col-sm-2 control-label">Promotion :</label>
@@ -198,10 +187,10 @@
                         <input type="file" id="imageDish" name="imageDish" accept="image/jpeg"/>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-default" name="confirm">OK</button>
+                <button type="submit" class="btn btn-primary" name="confirm">Valider</button>
             </form>
 
+            <%@include file="../includes/scripts.jsp" %>
         </div>
-        <%@include file="../includes/scripts.jsp" %>
     </body>
 </html>

@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -175,7 +176,13 @@ public class Dish implements Serializable {
 
         p = p * (1 + (tax.getRate() / 100));
         
-        return p;
+        return round(p,1);
+    }
+    
+    public Double round(Double d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Double.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.doubleValue();
     }
 
     @Override
