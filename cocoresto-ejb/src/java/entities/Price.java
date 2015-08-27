@@ -3,7 +3,6 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -89,7 +88,7 @@ public class Price implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Price[ id=" + id + " ]";
+        return price + "";
     }
     
 }

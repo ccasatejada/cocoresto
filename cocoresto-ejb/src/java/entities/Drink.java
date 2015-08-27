@@ -2,6 +2,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.*;
@@ -47,7 +48,22 @@ public class Drink implements Serializable {
         this.customerOrders = customerOrders;
     }
     
-    
+    public Double getTotalPrice() {
+        Double priceTax; 
+        Double totalPrice; 
+        if(discount != null) {
+            Double priceDiscount = price.getPrice() * (discount.getRate() / 100);
+            totalPrice = price.getPrice() - priceDiscount;
+            priceTax = totalPrice * (tax.getRate() / 100);
+            totalPrice += priceTax;
+        } else {
+            priceTax = price.getPrice() * (tax.getRate() / 100);
+            totalPrice = price.getPrice() + priceTax;
+        }
+        
+        
+        return round(totalPrice, 1);
+    }
 
     public Price getPrice() {
         return price;
@@ -150,7 +166,11 @@ public class Drink implements Serializable {
         this.status = status;
     }
     
-    
+    public Double round(Double d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Double.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.doubleValue();
+    }
 
     @Override
     public int hashCode() {
