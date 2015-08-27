@@ -21,7 +21,12 @@ public class beanTableCustomer implements Serializable {
     public List<CustomerTable> findAll() {
         return ejbCustomerTable.findAll();
     }
-
+    
+    
+    public List<CustomerTable> findAllByRange(int firstResult, int maxResults) {
+        return ejbCustomerTable.findAllByRange(firstResult, maxResults);
+    }
+    
     public void create(CustomerTable customerTable) throws EJBException {
         ejbCustomerTable.create(customerTable);
 
