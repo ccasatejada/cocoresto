@@ -24,7 +24,7 @@
                                 <button class="btn btn-primary" type="submit" name="connect">Se connecter</button>
                             </c:if>
                             <c:if test="${logged}">
-                                <button class="btn btn-primary" type="submit" name="disconnect">Se déconnecter</button>
+                                <a class="btn btn-primary" href="FrontController?option=login&task=disconnect" name="disconnect">Se déconnecter</a>
                             </c:if>
                         </form>
                     </div>
