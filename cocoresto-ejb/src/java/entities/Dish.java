@@ -1,18 +1,19 @@
-
 package entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
 @Entity
 public class Dish implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String image;
     private Double weight;
     private String name;
@@ -21,19 +22,19 @@ public class Dish implements Serializable {
     private String description;
     private String country;
     private Integer status;
-    
+
     @ManyToOne
     private Category category;
-    
+
     @ManyToOne
     private Price price;
-    
+
     @ManyToOne
     private Discount discount;
-    
+
     @ManyToOne
     private Tax tax;
-    
+
     @OneToMany(mappedBy = "dish")
     private List<NutritiveValue> nutritiveValues;
     @ManyToMany(mappedBy = "dishes")
@@ -49,14 +50,10 @@ public class Dish implements Serializable {
     public void setCustomerOrders(List<CustomerOrder> customerOrders) {
         this.customerOrders = customerOrders;
     }
-    
-    
 
     public Category getCategory() {
         return category;
     }
-    
-    
 
     public void setCategory(Category category) {
         this.category = category;
@@ -93,7 +90,6 @@ public class Dish implements Serializable {
     public void setNutritiveValues(List<NutritiveValue> nutritiveValues) {
         this.nutritiveValues = nutritiveValues;
     }
-  
 
     public Long getId() {
         return id;
@@ -166,8 +162,21 @@ public class Dish implements Serializable {
     public void setStatus(Integer status) {
         this.status = status;
     }
-    
-    
+
+    public Double getTotalPrice() {
+        Double p = 0d;
+        Date d = new Date();
+
+        if (discount != null && d.before(discount.getEndDate()) && d.after(discount.getBeginDate())) {
+            p = price.getPrice() - (price.getPrice() * (discount.getRate() / 100));
+        } else {
+            p = price.getPrice();
+        }
+
+        p = p * (1 + (tax.getRate() / 100));
+        
+        return p;
+    }
 
     @Override
     public int hashCode() {
@@ -193,5 +202,5 @@ public class Dish implements Serializable {
     public String toString() {
         return "entities.Dish[ id=" + id + " ]";
     }
-    
+
 }
