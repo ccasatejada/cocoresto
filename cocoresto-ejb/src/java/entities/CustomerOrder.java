@@ -12,24 +12,29 @@ public class CustomerOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
     private String number;
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(nullable = false)
     private Date orderDate;
+    @Column(nullable = false)
     private boolean active;
+    @Column(nullable = false)
     private Integer status;
+    @Column(nullable = false)
     private Integer people;
-
+    @Column(nullable = false)
     private Integer nbTablet;
     
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Employee employee;
     @OneToOne
+    @JoinColumn(nullable = false)
     private CustomerTable customerTable;
-    
 
     @ManyToMany
     private Collection<Drink> drinks;
-    
 
     @ManyToMany
     private Collection<Dish> dishes;

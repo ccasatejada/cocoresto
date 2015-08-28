@@ -39,6 +39,10 @@
             <param-name>drink</param-name>
             <param-value>controllers.drinkController</param-value>
         </init-param>
+        <init-param>
+            <param-name>customerOrder</param-name>
+            <param-value>controllers.customerOrderController</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
@@ -49,10 +53,4 @@
             30
         </session-timeout>
     </session-config>
-    <ejb-local-ref>
-        <ejb-ref-name>ejbDrink</ejb-ref-name>
-        <ejb-ref-type>Session</ejb-ref-type>
-        <local>ejb.ejbDrinkLocal</local>
-        <ejb-link>cocoresto-ejb.jar#ejbDrink</ejb-link>
-    </ejb-local-ref>
 </web-app>
