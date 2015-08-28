@@ -14,9 +14,9 @@ import models.beanTableCustomer;
 
 public class customerTableController implements IController {
 
-    private beanTableCustomer btc = new beanTableCustomer();
-    private String editUrl = "/WEB-INF/admin/customerTableEdit.jsp";
-    private String listUrl = "/WEB-INF/admin/customerTableList.jsp";
+    private final beanTableCustomer btc = new beanTableCustomer();
+    private final String editUrl = "/WEB-INF/admin/customerTableEdit.jsp";
+    private final String listUrl = "/WEB-INF/admin/customerTableList.jsp";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

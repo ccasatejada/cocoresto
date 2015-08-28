@@ -26,9 +26,9 @@ public class dashboardController implements IController {
         Employee employee = (Employee) session.getAttribute("employee");
         request.setAttribute("name", employee.getFirstName() + " " + employee.getLastName());
         
-        if(groupId == 1){ //waiter
+        if(groupId == 1){ // return waiter dashboard
             return "/WEB-INF/dashboardWaiter.jsp";
-        } else if (groupId == 2) { // cooker
+        } else if (groupId == 2) { // return cooker dashboard
             return "/WEB-INF/dashboardCooker.jsp";
         }
         
