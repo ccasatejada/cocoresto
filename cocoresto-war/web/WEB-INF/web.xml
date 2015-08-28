@@ -39,6 +39,10 @@
             <param-name>drink</param-name>
             <param-value>controllers.drinkController</param-value>
         </init-param>
+        <init-param>
+            <param-name>customerOrder</param-name>
+            <param-value>controllers.customerOrderController</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
