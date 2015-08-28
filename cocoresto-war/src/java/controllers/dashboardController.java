@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.beanCategory;
+import models.beanDish;
+import models.beanOrderCustomer;
 import models.beanTableCustomer;
 
 public class dashboardController implements IController {
@@ -29,8 +32,11 @@ public class dashboardController implements IController {
             return "/WEB-INF/dashboardCooker.jsp";
         }
         
-        beanTableCustomer btc = new beanTableCustomer();
-        request.setAttribute("countCustomerTable", btc.count());
+        // set dashboard counters
+        request.setAttribute("countCustomerTable", new beanTableCustomer().count());
+        request.setAttribute("countCustomerOrder", new beanOrderCustomer().count());
+        request.setAttribute("countDish", new beanDish().count());
+        request.setAttribute("countCategory", new beanCategory().count());
         
         // else return admin dashboard
         return "/WEB-INF/admin/dashboard.jsp";
