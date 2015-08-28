@@ -89,6 +89,7 @@ public class customerTableController implements IController {
 
     private void getList(HttpServletRequest request) {
 
+        /* pagination */
         int max = 10;
         int currentPage = 1;
         if (request.getParameter("page") != null) {
@@ -100,7 +101,8 @@ public class customerTableController implements IController {
         }
         Pagination pagination = new Pagination("customerTable", currentPage, max, btc.count());
         request.setAttribute("pagination", pagination.getPagination());
-
+        /**/
+        
         List<CustomerTable> customerTables = btc.findAllByRange(pagination.getMin(), max);
         request.setAttribute("customerTables", customerTables);
     }
