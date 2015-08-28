@@ -24,6 +24,9 @@
             </li>
             <li class="dropdown">
                 <a href="FrontController?option=customerOrder" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Commandes <span class="caret"></span></a>
+                <ul class="dropdown-menu animated littleFadeInRight" role="menu">
+                    <li><a href="FrontController?option=customerOrder" tabindex="0"><i class="fa fa-list"></i>Liste</a></li>
+                </ul>
             </li>
             <li class="dropdown">
                 <a href="FrontController?option=rate" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Taxes <span class="caret"></span></a>
