@@ -16,6 +16,8 @@ public interface ejbCustomerTableLocal {
     public CustomerTable findById(Long id);
 
     public List<CustomerTable> findAll();
+    
+    public List<CustomerTable> findAllByRange(int firstResult, int maxResults);
 
     public int count();
 

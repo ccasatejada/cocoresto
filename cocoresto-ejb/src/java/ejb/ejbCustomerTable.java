@@ -37,15 +37,25 @@ public class ejbCustomerTable implements ejbCustomerTableLocal {
 
     @Override
     public List<CustomerTable> findAll() {
-        Query q = em.createQuery("select ct from CustomerTable ct");       
+        Query q = em.createQuery("select ct from CustomerTable ct order by ct.number");
+        return q.getResultList();
+    }
+
+    @Override
+    public List<CustomerTable> findAllByRange(int firstResult, int maxResults) {
+        Query q = em.createQuery("select ct from CustomerTable ct order by ct.number");
+        if (firstResult >= 0) {
+            q.setFirstResult(firstResult);
+        }
+        if (maxResults > 0) {
+            q.setMaxResults(maxResults);
+        }
         return q.getResultList();
     }
 
     @Override
     public int count() {
-         return ((Long) em.createQuery("select COUNT(ct) from CustomerTable ct").getSingleResult()).intValue();
+        return ((Long) em.createQuery("select COUNT(ct) from CustomerTable ct").getSingleResult()).intValue();
     }
-    
-    
 
 }
