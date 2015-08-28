@@ -7,11 +7,14 @@ import entities.NutritiveValue;
 import entities.Price;
 import entities.Tax;
 import entities.Unit;
+import helpers.Alert;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import models.beanCategory;
 import models.beanDish;
 import models.beanNutritiveValue;
@@ -28,6 +31,17 @@ public class dishController implements IController {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        boolean logged = false;
+        Long groupId = 0L;
+        
+        if(session.getAttribute("logged") != null && session.getAttribute("group") != null){
+            logged = (boolean) session.getAttribute("logged");
+            groupId = (Long) session.getAttribute("group");
+        }
+        
+        if(logged && groupId >= 3){
+        
         String url = "/WEB-INF/admin/dishList.jsp";
 
         Dish d = new Dish();
@@ -87,13 +101,13 @@ public class dishController implements IController {
                 bnv.create(nv2);
                 bnv.create(nv3);
                 bnv.create(nv4);
-//                lnv.add(nv1);
-//                lnv.add(nv2);
-//                lnv.add(nv3);
-//                lnv.add(nv4);
-//                d.setNutritiveValues(lnv);
-//
-//                bd.create(d);
+                lnv.add(nv1);
+                lnv.add(nv2);
+                lnv.add(nv3);
+                lnv.add(nv4);
+                d.setNutritiveValues(lnv);
+
+                bd.create(d);
             } else { //update
                 d.setId(Long.valueOf(request.getParameter("id")));
                 d.setName(request.getParameter("dishName"));
@@ -154,6 +168,16 @@ public class dishController implements IController {
         request.setAttribute("categories", bc.findAll());
         request.setAttribute("dishes", bd.findAll());
         return url;
+        
+        } else {
+            try{
+                response.sendRedirect("FrontController?option=dashboard");
+            }catch(IOException ex) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
+            }
+        }
+        
+        return "/WEB-INF/index.jsp";
     }
 
     @Override
