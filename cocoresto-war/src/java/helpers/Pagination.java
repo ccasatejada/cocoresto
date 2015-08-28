@@ -18,6 +18,11 @@ public class Pagination {
     public String getPagination() {
         double pages = Math.ceil(totalItems / (double) itemsPerPage);
         int page = currentPage - 1;
+        
+        if(currentPage > pages) {
+            page = (int) pages -1;
+        }
+
         min = page * itemsPerPage;
         itemsPerPage += min;
 
@@ -28,15 +33,21 @@ public class Pagination {
             html += "<div class=\"tile-footer dvd dvd-top\">\n"
                     + "<div class=\"row\">\n"
                     + "<div class=\"col-xs-12 text-right\">\n"
-                    + "<ul class=\"pagination pagination-sm m-0\">"
-                    + "<li><a href=\"FrontController?option=" + option + "&page=" + (currentPage - 1) + "\"><i class=\"fa fa-chevron-left\"></i></a></li>";
+                    + "<ul class=\"pagination pagination-sm m-0\">";
+
+            if (currentPage > 1) {
+                html += "<li><a href=\"FrontController?option=" + option + "&page=" + (currentPage - 1) + "\"><i class=\"fa fa-chevron-left\"></i></a></li>";
+            }
 
             for (int i = 1; i <= pages; i++) {
                 html += " <li><a href=\"FrontController?option=" + option + "&page=" + i + "\">" + i + "</a></li>\n";
             }
 
-            html += "<li><a href=\"FrontController?option=" + option + "&page=" + (currentPage + 1) + "\"><i class=\"fa fa-chevron-right\"></i></a></li>\n"
-                    + "</ul>\n"
+            if (currentPage < pages) {
+                html += "<li><a href=\"FrontController?option=" + option + "&page=" + (currentPage + 1) + "\"><i class=\"fa fa-chevron-right\"></i></a></li>\n";
+            }
+            
+            html += "</ul>\n"
                     + "</div>\n"
                     + "</div>\n"
                     + "</div>";
