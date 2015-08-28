@@ -66,8 +66,8 @@
                                             <div class="input-group-addon">grammes</div>
                                         </div>
                                 </div>
-                                <c:if test="${not empty dish.nutritiveValues}">            
-                                    <c:forEach var="nutritiveValue" items="${dish.nutritiveValues}" varStatus="loop"> 
+                                <!-- <c:if test="${not empty dish.nutritiveValues}"> -->          
+                                    <!-- <c:forEach var="nutritiveValue" items="${dish.nutritiveValues}" varStatus="loop"> -->
                                         <div class="form-group">
                                             <label for="dishKcal">Kilocalories :</label>
                                                 <div class="input-group">
@@ -96,38 +96,8 @@
                                                         <div class="input-group-addon">grammes</div>
                                                     </div>
                                             </div>
-                                    </c:forEach>
-                                </c:if>
-                                <c:if test="${empty dish.nutritiveValues}">
-                                    <div class="form-group">
-                                        <label for="dishKcal">Kilocalories :</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="dishKcal" name="dishKcal">
-                                                <div class="input-group-addon">kcal</div>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="dishProtein">Proteines :</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="dishProtein" name="dishProtein">
-                                                <div class="input-group-addon">grammes</div>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="dishGlucid">Glucides :</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="dishGlucid" name="dishGlucid">
-                                                <div class="input-group-addon">grammes</div>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="dishLipid">Lipides :</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="dishLipid" name="dishLipid">
-                                                <div class="input-group-addon">grammes</div>
-                                            </div>
-                                    </div>
-                                </c:if>
+                                    <!-- </c:forEach> -->
+                                <!-- </c:if> -->
                                 <div class="form-group">
                                     <label for="dishCategory">Catégorie :</label>
                                         <select id="dishCategory" name="dishCategory">
