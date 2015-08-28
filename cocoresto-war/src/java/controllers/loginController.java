@@ -42,7 +42,7 @@ public class loginController implements IController {
                 session.setAttribute("logged", true);
                 session.setAttribute("group", idGroup);
                 session.setAttribute("employee", loggedEmployee);
-                request.setAttribute("alert", Alert.setAlert("Bienvenue", loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName(), "success"));
+                session.setAttribute("userName", loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName());
                 try {
                     response.sendRedirect("FrontController?option=dashboard");
                 } catch (IOException ex) {
