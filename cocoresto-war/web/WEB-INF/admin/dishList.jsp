@@ -56,8 +56,7 @@
                                         <th>Taxe</th>                    
                                         <th>Promotion</th>
                                         <th>Prix total</th>
-                                        <th>Modifier</th>
-                                        <th>Supprimer</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -73,27 +72,17 @@
                                             <td>${dish.tax.rate}</td>
                                             <td>${dish.discount.rate} (${dish.discount.beginDate} - ${dish.discount.endDate})</td>
                                             <td>${dish.totalPrice}</td>
-                                            <td><a href="FrontController?option=dish&task=edit&id=${dish.id}">Modifier</a></td>
-                                            <td><a href="FrontController?option=dish&task=delete&id=${dish.id}">Supprimer</a></td>
+                                            <td>
+                                                <a href="FrontController?option=dish&task=edit&id=${dish.id}"  class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-edit"></i> <span>Modifier</span></a>
+                                                <a href="FrontController?option=dish&task=delete&id=${dish.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-trash"></i> <span>Supprimer</span></a>
+                                            </td>                                           
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
                         </div>
 
-                        <div class="tile-footer dvd dvd-top">
-                            <div class="row">
-                                <div class="col-xs-12 text-right">
-                                    <ul class="pagination pagination-sm m-0">
-                                        <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-                                        <li><a href="">1</a></li>
-                                        <li><a href="">2</a></li>
-                                        <li><a href="">3</a></li>
-                                        <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>    
+                        ${pagination}   
                     </section>
                 </div>
             </section>

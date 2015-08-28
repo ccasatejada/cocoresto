@@ -13,4 +13,5 @@ public interface ejbPriceLocal {
     public Price findById(Long id);
     public List<Price> findAll();
     public Price findLastInserted();
+    public Price findByValue(Double price);
 }

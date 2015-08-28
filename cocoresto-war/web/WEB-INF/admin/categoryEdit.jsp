@@ -19,7 +19,7 @@
                             <ul class="page-breadcrumb">
                                 <li><a href="FrontController"><i class="fa fa-home"></i> CocoResto</a></li>
                                 <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
-                                <li><a href="FrontController?option=customerTable">Gestion des tables</a></li>
+                                <li><a href="FrontController?option=customerTable">Gestion des catégories</a></li>
                                 <li><a href="#">Edition</a></li>
                             </ul>
                             <div class="page-toolbar">
@@ -35,7 +35,7 @@
                     <section class="tile">
 
                         <div class="tile-header dvd dvd-btm bg-greensea">
-                            <h1 class="custom-font"><strong>Tables</strong></h1>
+                            <h1 class="custom-font"><strong>Catégories</strong></h1>
                         </div>
                         <form action="FrontController?option=category" method="post">
                             <div class="tile-body">
@@ -49,7 +49,8 @@
                                     <select id="categoryType" name="dishCategory"> 
                                         <option value="Plat" <c:if test="${category.type == 'Plat'}"> selected </c:if>> Plat</option>
                                         <option value="Boisson"  <c:if test="${category.type == 'Boisson'}"> selected </c:if> > Boisson</option>
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="tile-footer dvd dvd-top">
                                     <div class="row">
@@ -59,13 +60,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                </div>
                             </form>
                         </section>
                     </div>
                 </section>
             </div>
-
-
         <%@include file="../includes/scripts.jsp" %>
     </body>
 </html>

@@ -41,5 +41,10 @@ public class ejbCategory implements ejbCategoryLocal {
         Query q = em.createQuery(sq);       
         return q.getResultList();
     }
+    
+    @Override
+    public int count(){
+        return ((Long) em.createQuery("select COUNT(c) from Category c").getSingleResult()).intValue();
+    }
 
 }

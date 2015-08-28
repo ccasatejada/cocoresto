@@ -32,13 +32,13 @@ public class ejbPrice implements ejbPriceLocal {
         Price p = em.find(Price.class, id);
         return p;
     }
-    
+
     @Override
     public Price findLastInserted() {
         String query = "SELECT p FROM Price p";
         Query qr = em.createQuery(query);
-        Price lastPrice = (Price)qr.getParameterValue(qr.getResultList().size());
-        
+        Price lastPrice = (Price) qr.getParameterValue(qr.getResultList().size());
+
         return lastPrice;
     }
 
@@ -47,6 +47,16 @@ public class ejbPrice implements ejbPriceLocal {
         String sq = "select p from Price p";
         Query q = em.createQuery(sq);
         return q.getResultList();
+    }
+
+    @Override
+    public Price findByValue(Double price) {
+        String sq = "select p from Price p where p.price = :price";
+        Query q = em.createQuery(sq);
+        q.setParameter("price", price);
+        Price p = (Price)q.getSingleResult();
+        
+        return p;
     }
 
     public void persist(Object object) {
