@@ -55,4 +55,10 @@
         <local>ejb.ejbDrinkLocal</local>
         <ejb-link>cocoresto-ejb.jar#ejbDrink</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ejbFormat</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>ejb.ejbFormatLocal</local>
+        <ejb-link>cocoresto-ejb.jar#ejbFormat</ejb-link>
+    </ejb-local-ref>
 </web-app>
