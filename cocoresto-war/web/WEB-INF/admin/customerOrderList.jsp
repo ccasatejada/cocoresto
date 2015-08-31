@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -18,7 +19,7 @@
                             <ul class="page-breadcrumb">
                                 <li><a href="FrontController?option=dashboard"><i class="fa fa-home"></i> CocoResto</a></li>
                                 <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
-                                <li><a href="FrontController?option=customerTable">Gestion des tables</a></li>
+                                <li><a href="FrontController?option=customerOrder">Gestion des commandes</a></li>
                             </ul>
                             <div class="page-toolbar">
                                 <a role="button" tabindex="0" class="btn btn-lightred no-border pickDate">
@@ -33,10 +34,10 @@
                     <section class="tile">
 
                         <div class="tile-header dvd dvd-btm bg-greensea">
-                            <h1 class="custom-font"><strong>Tables</strong></h1>
+                            <h1 class="custom-font"><strong>Commandes</strong></h1>
                             <ul class="controls">
                                 <li>
-                                    <a href="FrontController?option=customerTable&task=add" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
+                                    <a href="FrontController?option=customerOrder&task=add" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
                                 </li>
                             </ul>
                         </div>
@@ -45,21 +46,27 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr class="bg-slategray">
-                                        <th>Numéro de table</th>
-                                        <th>Nombre de places</th>
-                                        <th>Nombre de tablettes</th>
+                                        <th>Numéro de la commande</th>
+                                        <th>Date</th>
+                                        <th>Statut</th>
+                                        <th>Couverts</th>
+                                        <th>Table</th>
+                                        <th>Tablettes</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>                    
-                                    <c:forEach var="customerTable" items="${customerTables}" varStatus="loop">
+                                    <c:forEach var="customerOrder" items="${customerOrders}" varStatus="loop">
                                         <tr>
-                                            <td>Table n°${customerTable.number}</td>
-                                            <td>${customerTable.capacity} places</td>
-                                            <td>${customerTable.nbTablet} tablettes</td>
+                                            <td>Commande n°${customerOrder.number}</td>
+                                            <td><fmt:formatDate value="${customerOrder.orderDate}" pattern="dd MMM yyyy à hh:MM" /></td>
+                                            <td>${customerOrder.status}</td>
+                                            <td>${customerOrder.people} personnes</td>
+                                            <td>Table n°${customerOrder.customerTable.number}</td>
+                                            <td>${customerOrder.nbTablet} tablettes</td>
                                             <td>
-                                                <a href="FrontController?option=customerTable&task=edit&id=${customerTable.id}" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-edit"></i> <span>Modifier</span></a>
-                                                <a href="FrontController?option=customerTable&task=delete&id=${customerTable.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-trash"></i> <span>Supprimer</span></a>
+                                                <a href="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-edit"></i> <span>Modifier</span></a>
+                                                <a href="FrontController?option=customerOrder&task=delete&id=${customerOrder.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-trash"></i> <span>Supprimer</span></a>
                                             </td>
                                         </tr>                                    
                                     </c:forEach>

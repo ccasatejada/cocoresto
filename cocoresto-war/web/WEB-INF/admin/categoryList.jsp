@@ -37,7 +37,7 @@
                     <section class="tile">
 
                         <div class="tile-header dvd dvd-btm bg-greensea">
-                            <h1 class="custom-font"><strong>Tables</strong></h1>
+                            <h1 class="custom-font"><strong>Catégories</strong></h1>
                             <ul class="controls">
                                 <li>
                                     <a href="FrontController?option=category&task=edit" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
@@ -51,8 +51,7 @@
                                     <tr class="bg-slategray">
                                         <th hidden>Id</th>
                                         <th>Catégorie</th>
-                                        <th>Modifier</th>
-                                        <th>Supprimer</th>
+                                        <th>Actions</th>                                       
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,34 +59,22 @@
                                         <tr>
                                             <td hidden>${category.id}</td>
                                             <td>${category.name}</td>
-                                            <td><a href="FrontController?option=category&task=edit&id=${category.id}">Modifier</a></td>
-                                            <td><a href="FrontController?option=category&task=delete&id=${category.id}">Supprimer</a></td>
+                                            <td>
+                                                <a href="FrontController?option=category&task=edit&id=${category.id}" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-edit"></i> <span>Modifier</span></a>
+                                                <a href="FrontController?option=category&task=delete&id=${category.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-trash"></i> <span>Supprimer</span></a>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
                         </div>
 
-                        <div class="tile-footer dvd dvd-top">
-                            <div class="row">
-                                <div class="col-xs-12 text-right">
-                                    <ul class="pagination pagination-sm m-0">
-                                        <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-                                        <li><a href="">1</a></li>
-                                        <li><a href="">2</a></li>
-                                        <li><a href="">3</a></li>
-                                        <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-
+                        ${pagination}
                     </section>
                 </div>
             </section>
         </div>
-                    
+
         <%@include file="../includes/scripts.jsp" %>
 
     </body>

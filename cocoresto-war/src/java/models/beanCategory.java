@@ -47,6 +47,10 @@ public class beanCategory implements Serializable {
         return ac;
 
     }
+    
+    public int count(){
+        return ejbCategory.count();
+    }
 
     private ejbCategoryLocal lookupejbCategoryLocal() {
         try {

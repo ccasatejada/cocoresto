@@ -12,24 +12,30 @@ public class CustomerOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
     private String number;
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(nullable = false)
     private Date orderDate;
+    @Column(nullable = false)
     private boolean active;
-    private Integer status;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+    @Column(nullable = false)
     private Integer people;
-
+    @Column(nullable = false)
     private Integer nbTablet;
     
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Employee employee;
     @OneToOne
+    @JoinColumn(nullable = false)
     private CustomerTable customerTable;
-    
 
     @ManyToMany
     private Collection<Drink> drinks;
-    
 
     @ManyToMany
     private Collection<Dish> dishes;
@@ -117,11 +123,11 @@ public class CustomerOrder implements Serializable {
         this.active = active;
     }
 
-    public Integer getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 

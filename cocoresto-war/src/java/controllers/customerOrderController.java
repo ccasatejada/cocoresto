@@ -1,6 +1,7 @@
 package controllers;
 
-import entities.CustomerTable;
+import entities.CustomerOrder;
+import entities.OrderStatus;
 import helpers.Alert;
 import helpers.Pagination;
 import java.io.IOException;
@@ -10,17 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import models.beanTableCustomer;
+import models.beanOrderCustomer;
 
-public class customerTableController implements IController {
+public class customerOrderController implements IController {
 
-    private final beanTableCustomer btc = new beanTableCustomer();
-    private final String editUrl = "/WEB-INF/admin/customerTableEdit.jsp";
-    private final String listUrl = "/WEB-INF/admin/customerTableList.jsp";
+    private final beanOrderCustomer boc = new beanOrderCustomer();
+    private final String editUrl = "/WEB-INF/admin/customerOrderEdit.jsp";
+    private final String listUrl = "/WEB-INF/admin/customerOrderList.jsp";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-
+        
         // set session values
         HttpSession session = request.getSession();
         boolean logged = false;
@@ -32,14 +33,14 @@ public class customerTableController implements IController {
         }
 
         if (logged && groupId >= 3) {
-
+            
             if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
                 try {
-                    CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
-                    request.setAttribute("customerTable", ct);
+                    CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
+                    request.setAttribute("customerOrder", co);
                     return editUrl;
                 } catch (NumberFormatException | EJBException e) {
-                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas", "danger"));
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
                 }
             }
 
@@ -49,11 +50,11 @@ public class customerTableController implements IController {
 
             if ("delete".equals(request.getParameter("task")) && request.getParameter("id") != null) {
                 try {
-                    CustomerTable ct = btc.findById(Long.valueOf(request.getParameter("id")));
-                    btc.delete(ct);
-                    request.setAttribute("alert", Alert.setAlert("Succès", "La table été supprimée", "success"));
+                    CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
+                    boc.delete(co);
+                    request.setAttribute("alert", Alert.setAlert("Succès", "La commande été supprimée", "success"));
                 } catch (NumberFormatException | EJBException e) {
-                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas", "danger"));
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
                 }
             }
 
@@ -68,7 +69,6 @@ public class customerTableController implements IController {
             getList(request);
 
             return listUrl;
-
         } else {
             try {
                 // not logged or wrong groupId
@@ -79,7 +79,6 @@ public class customerTableController implements IController {
         }
 
         return "/WEB-INF/index.jsp";
-
     }
 
     @Override
@@ -99,49 +98,18 @@ public class customerTableController implements IController {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "La page n'est pas un nombre", "danger"));
             }
         }
-        Pagination pagination = new Pagination("customerTable", currentPage, max, btc.count());
+        Pagination pagination = new Pagination("customerOrder", currentPage, max, boc.count());
         request.setAttribute("pagination", pagination.getPagination());
-        
-        List<CustomerTable> customerTables = btc.findAllByRange(pagination.getMin(), max);
-        request.setAttribute("customerTables", customerTables);
+
+        List<CustomerOrder> customerOrders = boc.findAllByRange(pagination.getMin(), max);
+        request.setAttribute("customerOrders", customerOrders);
     }
-
+    
     private boolean edit(HttpServletRequest request) {
+
+
         
-        // test required input
-        if (request.getParameter("number").trim().isEmpty() || request.getParameter("capacity").trim().isEmpty() || request.getParameter("nbTablet").trim().isEmpty()) {
-            request.setAttribute("alert", Alert.setAlert("Attention", "Les champs * sont obligatoires", "warning"));
-            return false;
-        }
-
-        CustomerTable ct = new CustomerTable();
-        ct.setNumber(Integer.valueOf(request.getParameter("number")));
-        ct.setCapacity(Integer.valueOf(request.getParameter("capacity")));
-        ct.setNbTablet(Integer.valueOf(request.getParameter("nbTablet")));
-
-        if (request.getParameter("id").isEmpty()) { // add
-            ct.setBusy(false);
-            ct.setActive(true);
-            try {
-                btc.create(ct);
-                request.setAttribute("alert", Alert.setAlert("Succès", "La table été ajoutée", "success"));
-            } catch (EJBException e) {
-                request.setAttribute("alert", Alert.setAlert("Attention", "Cette table existe déjà", "warning"));
-                return false;
-            }
-        } else { // update
-            ct.setId(Long.valueOf(request.getParameter("id")));
-            try {
-                btc.update(ct);
-                request.setAttribute("alert", Alert.setAlert("Succès", "La table été mise à jour", "success"));
-            } catch (EJBException e) {
-                request.setAttribute("alert", Alert.setAlert("Attention", "Cette table existe déjà", "warning"));
-                return false;
-            }
-        }
-
         return true;
 
     }
-
 }

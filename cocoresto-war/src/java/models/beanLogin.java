@@ -19,6 +19,8 @@ public class beanLogin implements Serializable {
     public Employee login(String password) {
         return ejbLogin.login(password);
     }
+    
+    
 
     private ejbLoginLocal lookupejbLoginLocal() {
         try {

@@ -6,8 +6,10 @@ import entities.Discount;
 import entities.Tax;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJBException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -81,7 +83,9 @@ public class beanRate implements Serializable {
     }
 
     
-    
+    public Discount findByDates(Double rate, Date beginDate, Date endDate) throws EJBException{
+        return ejbRate.findByDates(rate, beginDate, endDate);
+    }
     
     
     

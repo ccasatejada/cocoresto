@@ -18,6 +18,7 @@ public interface ejbCategoryLocal {
 
     public List<Category> findAll();
     
+    public int count();
     
 
 }

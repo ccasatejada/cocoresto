@@ -14,7 +14,7 @@
                 <div class="page page-dashboard">
 
                     <div class="pageheader">
-                        <h2>CocoResto <span>// Administrateur</span></h2>
+                        <h2>CocoResto <span>// Administrateur - ${userName}</span></h2>
                         <div class="page-bar">
                             <ul class="page-breadcrumb">
                                 <li><a href="FrontController?option=dashboard"><i class="fa fa-home"></i> CocoResto</a></li>
@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="col-xs-8">
                                             <p class="text-elg text-strong mb-0">Commandes</p>
-                                            <span>32</span>
+                                            <span>${countCustomerOrder}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +143,7 @@
                                         </div>
                                         <div class="col-xs-8">
                                             <p class="text-elg text-strong mb-0">Catégories</p>
-                                            <span>32</span>
+                                            <span>${countCategory}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -169,7 +169,7 @@
                                         </div>
                                         <div class="col-xs-8">
                                             <p class="text-elg text-strong mb-0">Plats</p>
-                                            <span>32</span>
+                                            <span>${countDish}</span>
                                         </div>
                                     </div>
                                 </div>
