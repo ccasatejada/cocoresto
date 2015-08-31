@@ -22,7 +22,7 @@
                     <div class="col-sm-10">
                         <c:if test="${empty drink}">
                             <c:forEach var="format" items="${formats}" varStatus="loop">
-                                <input type="checkbox" name="formatsList" value="${format.name}">${format.name}
+                                <input type="checkbox" name="formatsList${loop.index}" value="${format.id}">${format.name}
                             </c:forEach>
                         </c:if>
                         <c:if test="${not empty drink}">
@@ -79,7 +79,7 @@
                     <div class="col-sm-10">
                         <select name="comboDiscount" class="form-control">
                             <c:if test="${empty drink.discount || empty drink}">
-                                <option></option>
+                                <option value="empty"></option>
                             </c:if>
                             <c:forEach var="discount" items="${discounts}" varStatus="loop">
                                 <c:if test="${drink.discount.id==discount.id}">
@@ -127,12 +127,14 @@
                         <input type="text" class="form-control" name="price" value="${drink.price}">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="totalPrice" class="col-sm-2 control-label">Prix TTC : </label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="totalPrice" value="${drink.totalPrice}">
+                <c:if test="${not empty drink}">
+                    <div class="form-group">
+                        <label for="totalPrice" class="col-sm-2 control-label">Prix TTC : </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="totalPrice" value="${drink.totalPrice}">
+                        </div>
                     </div>
-                </div>
+                </c:if>
                 <div class="form-group">
                     <label for="image" class="col-sm-2 control-label">Image : </label>
                     <div class="col-sm-10">                       
