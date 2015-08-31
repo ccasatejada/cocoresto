@@ -41,27 +41,66 @@
 
                             <div class="tile-body">
 
-                                <input type="hidden" name="id" value="${customerOrder.id}">
-                                <c:if test="${not empty customerOrder.number}">
+                                <fieldset>
+                                    <legend>Informations</legend>
+
+                                    <input type="hidden" name="id" value="${customerOrder.id}">
+                                    <c:if test="${not empty customerOrder.number}">
+                                        <div class="form-group">
+                                            <label for="number">Numéro de commande : <span>*</span></label>
+                                            <input type="text" class="form-control" id="number" name="number" value="${customerOrder.number}" readonly required />
+                                        </div>
+                                    </c:if>
+
+                                    <c:if test="${not empty customerOrder.orderDate}">
+                                        <div class="form-group">
+                                            <label for="orderDate">Date de la commande : <span>*</span></label>
+                                            <input type="text" class="form-control" id="orderDate" name="orderDate" value="<fmt:formatDate value="${customerOrder.orderDate}" pattern="dd MMM yyyy à hh:MM" />" readonly required />
+                                        </div>
+                                    </c:if>
+
                                     <div class="form-group">
-                                        <label for="number">Numéro de commande : <span>*</span></label>
-                                        <input type="text" class="form-control" id="number" name="number" value="${customerOrder.number}" readonly required />
+                                        <label for="status">Statut de la commande : <span>*</span></label>
+                                        <select class="form-control" id="status" name="status" required>
+                                            <option value="">STATUS</option>
+                                        </select>
                                     </div>
-                                </c:if>
-                                
-                                <c:if test="${not empty customerOrder.orderDate}">
+
                                     <div class="form-group">
-                                        <label for="orderDate">Date de la commande : <span>*</span></label>
-                                        <input type="text" class="form-control" id="orderDate" name="orderDate" value="<fmt:formatDate value="${customerOrder.orderDate}" pattern="dd MMM yyyy à hh:MM" />" readonly required />
+                                        <label for="employee">Créateur de la commande : <span>*</span></label>
+                                        <select class="form-control" id="employee" name="employee" required>
+                                            <option value="">EMPLOYE</option>
+                                        </select>
                                     </div>
-                                </c:if>
-                                
-                                <div class="form-group">
-                                    <label for="status">Statut de la commande : <span>*</span></label>
-                                    <input type="text" class="form-control" id="status" name="status" value="${customerOrder.status}" required />
-                                </div>
-                                
-                                
+
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Détails</legend>
+
+                                    <div class="form-group">
+                                        <label for="customerTable">Table de la commande : <span>*</span></label>
+                                        <select class="form-control" id="customerTable" name="customerTable" required>
+                                            <option value="iddetable">N° de table</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="people">Nombre de couverts : <span>*</span></label>
+                                        <input type="number" min="1" class="form-control" id="people" name="people" value="${customerOrder.people}" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="nbTablet">Nombre de tablettes : <span>*</span></label>
+                                        <input type="number" min="1" class="form-control" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" required />
+                                    </div>
+
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Panier</legend>
+                                    
+                                    
+
+                                </fieldset>
                             </div>
 
                             <div class="tile-footer dvd dvd-top">
