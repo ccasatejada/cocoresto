@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,7 +14,7 @@
                 <div class="page page-dashboard">
 
                     <div class="pageheader">
-                        <h2>CocoResto <span>// Administrateur</span></h2>
+                        <h2>CocoResto <span>// Administrateur - ${userName}</span></h2>
                         <div class="page-bar">
                             <ul class="page-breadcrumb">
                                 <li><a href="FrontController?option=dashboard"><i class="fa fa-home"></i> CocoResto</a></li>
@@ -52,9 +53,16 @@
                                 <tbody>                    
                                     <c:forEach var="customerOrder" items="${customerOrders}" varStatus="loop">
                                         <tr>
-                                            <td>Table n°${customerOrder.number}</td>
-                                            <td>${customerOrder.orderDate}</td>
-                                            <td>${customerOrder.status}</td>
+                                            <td>Commande n°${customerOrder.number}</td>
+                                            <td><fmt:formatDate value="${customerOrder.orderDate}" pattern="dd-MM-yyyy HH:mm:ss" /></td>
+                                            <td>
+                                                <c:if test="${customerOrder.status eq 0}"><span class="label bg-danger">Annulée</span></c:if>
+                                                <c:if test="${customerOrder.status eq 1}"><span class="label bg-info">Ouverte</span></c:if>
+                                                <c:if test="${customerOrder.status eq 2}"><span class="label bg-success">Validée</span></c:if>
+                                                <c:if test="${customerOrder.status eq 3}"><span class="label bg-amethyst">En préparation</span></c:if>
+                                                <c:if test="${customerOrder.status eq 4}"><span class="label bg-warning">Terminée</span></c:if>
+                                                <c:if test="${customerOrder.status eq 5}"><span class="label bg-slategray">Payée</span></c:if>
+                                            </td>
                                             <td>${customerOrder.people} personnes</td>
                                             <td>Table n°${customerOrder.customerTable.number}</td>
                                             <td>${customerOrder.nbTablet} tablettes</td>
