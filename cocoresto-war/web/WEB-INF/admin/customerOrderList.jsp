@@ -35,6 +35,11 @@
 
                         <div class="tile-header dvd dvd-btm bg-greensea">
                             <h1 class="custom-font"><strong>Commandes</strong></h1>
+                            <ul class="controls">
+                                <li>
+                                    <a href="FrontController?option=customerOrder&task=add" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
+                                </li>
+                            </ul>
                         </div>
 
                         <div class="tile-body p-0">
@@ -54,7 +59,7 @@
                                     <c:forEach var="customerOrder" items="${customerOrders}" varStatus="loop">
                                         <tr>
                                             <td>Commande n°${customerOrder.number}</td>
-                                            <td><fmt:formatDate value="${customerOrder.orderDate}" pattern="dd-MM-yyyy HH:mm:ss" /></td>
+                                            <td><fmt:formatDate value="${customerOrder.orderDate}" pattern="dd MMM yyyy à hh:MM" /></td>
                                             <td>
                                                 <c:if test="${customerOrder.status eq 0}"><span class="label bg-danger">Annulée</span></c:if>
                                                 <c:if test="${customerOrder.status eq 1}"><span class="label bg-info">Ouverte</span></c:if>

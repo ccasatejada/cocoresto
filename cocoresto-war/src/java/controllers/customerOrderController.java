@@ -20,7 +20,7 @@ public class customerOrderController implements IController {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        
+
         // set session values
         HttpSession session = request.getSession();
         boolean logged = false;
@@ -33,7 +33,20 @@ public class customerOrderController implements IController {
 
         if (logged && groupId >= 3) {
             
-            
+            if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
+                try {
+                    CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
+                    request.setAttribute("customerOrder", co);
+                    return editUrl;
+                } catch (NumberFormatException | EJBException e) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
+                }
+            }
+
+            if ("add".equals(request.getParameter("task")) && request.getParameter("id") == null) {
+                return editUrl;
+            }
+
             if ("delete".equals(request.getParameter("task")) && request.getParameter("id") != null) {
                 try {
                     CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
@@ -43,7 +56,15 @@ public class customerOrderController implements IController {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
                 }
             }
-            
+
+            // form has been send
+            if (request.getParameter("confirm") != null) {
+                boolean ok = edit(request);
+                if (!ok) {
+                    return editUrl;
+                }
+            }
+
             getList(request);
 
             return listUrl;
@@ -55,7 +76,7 @@ public class customerOrderController implements IController {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
             }
         }
-        
+
         return "/WEB-INF/index.jsp";
     }
 
@@ -63,7 +84,7 @@ public class customerOrderController implements IController {
     public String execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) {
         return null;
     }
-    
+
     private void getList(HttpServletRequest request) {
 
         /* pagination */
@@ -78,11 +99,16 @@ public class customerOrderController implements IController {
         }
         Pagination pagination = new Pagination("customerOrder", currentPage, max, boc.count());
         request.setAttribute("pagination", pagination.getPagination());
-        
+
         List<CustomerOrder> customerOrders = boc.findAllByRange(pagination.getMin(), max);
         request.setAttribute("customerOrders", customerOrders);
     }
+    
+    private boolean edit(HttpServletRequest request) {
 
-    
-    
+
+        
+        return true;
+
+    }
 }
