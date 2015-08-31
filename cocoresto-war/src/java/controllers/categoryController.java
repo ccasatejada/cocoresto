@@ -42,16 +42,19 @@ public class categoryController implements IController {
                 c.setName(request.getParameter("nameCategory"));
                 c.setActive(true);
                 bc.create(c);
+                request.setAttribute("alert", Alert.setAlert("Succès", "La catégorie a été ajoutée", "success"));
             } else { // update
                 c.setId(Long.valueOf(request.getParameter("id")));
                 c.setName(request.getParameter("nameCategory"));
                 bc.update(c);
+                request.setAttribute("alert", Alert.setAlert("Succès", "La catégorie a été mise à jour", "succes"));
             }
         }
 
         if ("delete".equals(request.getParameter("task"))) {
             c = bc.findById(Long.valueOf(request.getParameter("id")));
             bc.delete(c);
+            request.setAttribute("alert", Alert.setAlert("Succès", "La commande a été supprimée", "success"));
             url = "/WEB-INF/admin/categoryList.jsp";
         }
 
