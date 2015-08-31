@@ -94,7 +94,7 @@ public class NutritiveValue implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.NutritiveValue[ id=" + id + " ]";
+        return String.valueOf(quantity);
     }
     
 }

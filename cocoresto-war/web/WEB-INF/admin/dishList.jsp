@@ -52,10 +52,10 @@
                                         <th>Région</th>
                                         <th>Poids</th>
                                         <th>Catégorie</th>
-                                        <th>Prix</th>
-                                        <th>Taxe</th>                    
-                                        <th>Promotion</th>
-                                        <th>Prix total</th>
+                                        <th>Prix HT</th>
+                                        <th>Prix TTC</th>
+                                        <th>Promotion</th>                    
+                                        <th>Prix Affiché</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -69,7 +69,7 @@
                                             <td>${dish.weight}</td>
                                             <td>${dish.category.name}</td>
                                             <td>${dish.price.price}</td>
-                                            <td>${dish.tax.rate}</td>
+                                            <td>${dish.priceWithTax}</td>
                                             <td>${dish.discount.rate} (${dish.discount.beginDate} - ${dish.discount.endDate})</td>
                                             <td>${dish.totalPrice}</td>
                                             <td>
