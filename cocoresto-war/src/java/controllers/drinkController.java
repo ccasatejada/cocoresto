@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.beanDrink;
+import models.beanFormat;
 import models.beanPrice;
 import models.beanRate;
 
@@ -36,6 +37,7 @@ public class drinkController implements IController {
         beanDrink bDrink = (beanDrink) session.getAttribute("bDrink");
         beanRate bRate = (beanRate) session.getAttribute("bRate");
         beanPrice bPrice = (beanPrice) session.getAttribute("bPrice");
+        beanFormat bFormat = (beanFormat) session.getAttribute("bFormat");
 
         if (bDrink == null) {
             bDrink = new beanDrink();
@@ -75,6 +77,11 @@ public class drinkController implements IController {
             session.setAttribute("bPrice", bPrice);
         }
 
+        if (bFormat == null) {
+            bFormat = new beanFormat();
+            session.setAttribute("bFormat", bFormat);
+        }
+
         formats = bDrink.findFormats();
         categories = bDrink.findCategories();
         discounts = bRate.findAllDiscounts();
@@ -82,6 +89,7 @@ public class drinkController implements IController {
         prices = bPrice.findAll();
 
         if ("edit".equals(request.getParameter("task"))) {
+
             session.setAttribute("formats", formats);
             session.setAttribute("categories", categories);
             session.setAttribute("discounts", discounts);
@@ -92,6 +100,15 @@ public class drinkController implements IController {
 
         if ("modify".equals(request.getParameter("task"))) {
             drink = bDrink.findById(Long.valueOf(request.getParameter("id")));
+            ArrayList<Format> uncheckedFormats = new ArrayList();
+            for (Format fo : formats) {
+
+                if (!drink.getFormats().contains(fo)) {
+                    uncheckedFormats.add(fo);
+                }
+            }
+
+            session.setAttribute("uncheckedFormats", uncheckedFormats);
             session.setAttribute("category", drink.getCategory());
             session.setAttribute("formats", formats);
             session.setAttribute("categories", categories);
@@ -123,11 +140,17 @@ public class drinkController implements IController {
             session.removeAttribute("discounts");
             session.removeAttribute("taxes");
             session.removeAttribute("categories");
+//            ArrayList<Format> uncheckedFormats = (ArrayList)session.getAttribute("uncheckedFormats");
+//            for(int i = 0; i < uncheckedFormats.size(); i++) {
+//                System.out.println(request.getParameter("listUncheck"+i));
+//            }
+
         }
 
         if (request.getParameter("createIt") != null) {
             drink.setActive(true);
             formats = (ArrayList<Format>) session.getAttribute("formats");
+
             for (Format fo : formats) {
                 if (fo.getName().equals(request.getParameter("comboFormat"))) {
                     format.setId(fo.getId());
@@ -181,28 +204,56 @@ public class drinkController implements IController {
 
         if (request.getParameter("modifyIt") != null) {
             drink = (Drink) session.getAttribute("drink");
-            for (Format fo : formats) {
-                if (fo.getName().equals(request.getParameter("comboFormat"))) {
-                    format.setId(fo.getId());
-                    format.setName(request.getParameter("comboFormat"));
-                    break;
+            ArrayList<Format> uncheckedFormats = (ArrayList) session.getAttribute("uncheckedFormats");
+            ArrayList<Format> drinkFormats = new ArrayList();
+            for (Format fo : drink.getFormats()) {
+                drinkFormats.add(fo);
+            }
+            drink.setFormats(new ArrayList());
+            for (int i = 0; i < uncheckedFormats.size(); i++) {
+                //System.out.println(request.getParameter("listUncheck"+i));
+                if (request.getParameter("listUncheck" + i) != null) {
+                    Long id = Long.valueOf(request.getParameter("listUncheck" + i));
+                    Format f = bFormat.findById(id);
+                    drink.getFormats().add(f);
                 }
             }
+            for (int i = 0; i < drinkFormats.size(); i++) {
+                //System.out.println(request.getParameter("listCheck"+i));
+                if (request.getParameter("listCheck" + i) != null) {
+                    Long id = Long.valueOf(request.getParameter("listCheck" + i));
+                    Format f = bFormat.findById(id);
+                    drink.getFormats().add(f);
+                }
+            }
+            System.out.println(drink.getFormats());
+
             for (Discount di : discounts) {
-                if (di.getId().equals(Long.valueOf(request.getParameter("idDiscount")))) {
-                    discount = bRate.findDiscountById(di.getId());
+                if (di.getId().equals(Long.valueOf(request.getParameter("comboDiscount")))) {
+                    discount = di;
                     break;
                 }
             }
+
+            System.out.println(request.getParameter("comboTax"));
             for (Tax ta : taxes) {
-                if (ta.getId().equals(Long.valueOf(request.getParameter("idTax")))) {
-                    tax = bRate.findTaxById(ta.getId());
+
+                if (ta.getRate().equals(Double.valueOf(request.getParameter("comboTax")))) {
+                    tax = ta;
                     break;
                 }
             }
+            
+            for(Category ca : categories) {
+                if(ca.getName().equals(request.getParameter("comboCategory"))) {
+                    category = ca;
+                    break;
+                }
+            }
+
             drink.setDiscount(discount);
             drink.setTax(tax);
-            drink.setFormats(formats);
+            //drink.setFormats(formats);
             drink.setCategory(category);
             drink.setDescription(request.getParameter("description"));
             drink.setName(request.getParameter("name"));
@@ -229,6 +280,7 @@ public class drinkController implements IController {
             }
 
             bDrink.update(drink);
+            session.setAttribute("uncheckedFormats", uncheckedFormats);
             session.setAttribute("drink", drink);
         }
 

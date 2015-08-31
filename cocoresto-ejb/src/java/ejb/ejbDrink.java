@@ -32,6 +32,8 @@ public class ejbDrink implements ejbDrinkLocal {
         return formats;
     }
     
+    
+    
     @Override
     public ArrayList<Category> findCategories() {
         ArrayList<Category> categories = new ArrayList();

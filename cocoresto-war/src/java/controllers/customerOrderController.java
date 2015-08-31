@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.CustomerOrder;
+import entities.OrderStatus;
 import helpers.Alert;
 import helpers.Pagination;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class customerOrderController implements IController {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-
+        
         // set session values
         HttpSession session = request.getSession();
         boolean logged = false;

@@ -49,8 +49,8 @@ public class Drink implements Serializable {
     }
     
     public Double getTotalPrice() {
-        Double priceTax; 
-        Double totalPrice; 
+        Double priceTax = 0d; 
+        Double totalPrice = 0d; 
         if(discount != null) {
             Double priceDiscount = price.getPrice() * (discount.getRate() / 100);
             totalPrice = price.getPrice() - priceDiscount;

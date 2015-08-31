@@ -18,21 +18,21 @@
                 </c:if>
 
                 <div class="form-group">
-                    <label for="comboFormat" class="col-sm-2 control-label">Format</label>
+                    <label for="formatsList" class="col-sm-2 control-label">Format</label>
                     <div class="col-sm-10">
-                        <select name="comboFormat" class="form-control">
-                            <c:forEach var="format" items="${drink.formats}" varStatus="loop">
-                                <c:if test="${not empty drink}">
-
-                                    <option>${format.name}</option>
-
-                                </c:if>
-
-                                <c:if test="${empty drink}">
-                                    <option>${format.name}</option>
-                                </c:if>   
+                        <c:if test="${empty drink}">
+                            <c:forEach var="format" items="${formats}" varStatus="loop">
+                                <input type="checkbox" name="formatsList" value="${format.name}">${format.name}
                             </c:forEach>
-                        </select>
+                        </c:if>
+                        <c:if test="${not empty drink}">
+                            <c:forEach var="format" items="${uncheckedFormats}" varStatus="loop">
+                                <input type="checkbox" name="listUncheck${loop.index}" value="${format.id}">${format.name}
+                            </c:forEach>
+                            <c:forEach var="formatDrink" items="${drink.formats}" varStatus="loop">
+                                <input type="checkbox" name="listCheck${loop.index}" value="${formatDrink.id}" checked>${formatDrink.name}
+                            </c:forEach>
+                        </c:if>
                     </div>
                 </div>
                 <div class="form-group">
@@ -83,10 +83,10 @@
                             </c:if>
                             <c:forEach var="discount" items="${discounts}" varStatus="loop">
                                 <c:if test="${drink.discount.id==discount.id}">
-                                    <option selected>${discount.rate} / ${discount.beginDate} / ${discount.endDate}</option>
+                                    <option value="${discount.id}" selected>${discount.rate} / ${discount.beginDate} / ${discount.endDate}</option>
                                 </c:if>
                                 <c:if test="${drink.discount.id!=discount.id}">
-                                    <option>${discount.rate} / ${discount.beginDate} / ${discount.endDate}</option>
+                                    <option value="${discount.id}">${discount.rate} / ${discount.beginDate} / ${discount.endDate}</option>
                                 </c:if>
                             </c:forEach>
                         </select>
@@ -115,7 +115,7 @@
                                 </c:if>
 
                                 <c:if test="${empty drink}">
-                                    <option>${tax.rate}</option>
+                                    <option name="${tax.id}">${tax.rate}</option>
                                 </c:if>   
                             </c:forEach>
                         </select>
@@ -139,10 +139,10 @@
                         <input type="file" name="image" accept="image/jpeg" value="${drink.image}"/>
                     </div>
                 </div>
-                <c:if test="${not empty employee}">
+                <c:if test="${not empty drink}">
                     <button type="submit" class="btn btn-default" name="modifyIt">Modifier</button>
                 </c:if>
-                <c:if test="${empty employee}">
+                <c:if test="${empty drink}">
                     <button type="submit" class="btn btn-default" name="createIt">Valider</button>
                 </c:if>
                 <button type="submit" class="btn btn-default" name="cancelIt">Annuler</button>

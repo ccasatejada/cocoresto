@@ -68,7 +68,7 @@ public class Format implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Format[ id=" + id + " ]";
+        return name;
     }
     
 }

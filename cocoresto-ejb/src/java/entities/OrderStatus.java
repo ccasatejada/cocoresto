@@ -1,24 +1,24 @@
 package entities;
 
 public enum OrderStatus {
-    
-  CANCELLED (0, "Annulée"),
-  OPENED (1, "Ouverte"),
-  VALIDATE (2, "Validée"),
-  PREPARED (3, "En préparation"),
-  FINISHED (4, "Terminée"),
-  PAYED (5, "Payée");
-   
-  private Integer id;
-  private String name = "";
-   
-  OrderStatus(Integer id, String name){
-    this.id = id;
-    this.name = name;
-  }
-   
-  public String toString(){
-    return name;
-  }
+
+    CANCELLED("Annulée"),
+    OPENED("Ouverte"),
+    VALIDATE("Validée"),
+    PREPARED("En préparation"),
+    FINISHED("Terminée"),
+    PAYED("Payée");
+
+    private String name;
+            
+    OrderStatus(String name) {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String toString() {
+        return name;
+    }
 }
-    
