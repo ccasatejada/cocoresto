@@ -101,14 +101,14 @@ public class customerTableController implements IController {
         }
         Pagination pagination = new Pagination("customerTable", currentPage, max, btc.count());
         request.setAttribute("pagination", pagination.getPagination());
-        /**/
         
         List<CustomerTable> customerTables = btc.findAllByRange(pagination.getMin(), max);
         request.setAttribute("customerTables", customerTables);
     }
 
     private boolean edit(HttpServletRequest request) {
-
+        
+        // test required input
         if (request.getParameter("number").trim().isEmpty() || request.getParameter("capacity").trim().isEmpty() || request.getParameter("nbTablet").trim().isEmpty()) {
             request.setAttribute("alert", Alert.setAlert("Attention", "Les champs * sont obligatoires", "warning"));
             return false;
@@ -133,12 +133,11 @@ public class customerTableController implements IController {
             ct.setId(Long.valueOf(request.getParameter("id")));
             try {
                 btc.update(ct);
-                request.setAttribute("alert", Alert.setAlert("Succès", "La table été ajoutée", "success"));
+                request.setAttribute("alert", Alert.setAlert("Succès", "La table été mise à jour", "success"));
             } catch (EJBException e) {
                 request.setAttribute("alert", Alert.setAlert("Attention", "Cette table existe déjà", "warning"));
                 return false;
             }
-            request.setAttribute("alert", Alert.setAlert("Succès", "La table été mise à jour", "success"));
         }
 
         return true;
