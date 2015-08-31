@@ -167,6 +167,7 @@ public class Dish implements Serializable {
     public Double getTotalPrice() {
         Double p = 0d;
         Date d = new Date();
+        
 
         if (discount != null && d.before(discount.getEndDate()) && d.after(discount.getBeginDate())) {
             p = price.getPrice() - (price.getPrice() * (discount.getRate() / 100));
@@ -176,8 +177,31 @@ public class Dish implements Serializable {
 
         p = p * (1 + (tax.getRate() / 100));
         
-        return round(p,1);
+        return round(p,2);
     }
+    
+    public Double getPriceWithDiscount(){
+        Double p = 0d;
+        Date d = new Date();
+        
+
+        if (discount != null && d.before(discount.getEndDate()) && d.after(discount.getBeginDate())) {
+            p = price.getPrice() - (price.getPrice() * (discount.getRate() / 100));
+        } else {
+            return null;
+        }
+        
+        return round(p,2);
+    }
+    
+        public Double getPriceWithTax(){
+        Double p = 0d;
+        p = price.getPrice() * (1 + (tax.getRate() / 100));
+        
+        return round(p,2);
+    }
+    
+    
     
     public Double round(Double d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Double.toString(d));
