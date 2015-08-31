@@ -1,6 +1,7 @@
 package ejb;
 
 import entities.Dish;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -34,6 +35,11 @@ public class ejbDish implements ejbDishLocal {
     @Override
     public Dish findById(Long id) {
         Dish d = em.find(Dish.class, id);
+        
+        if(d.getDiscount() != null && (new Date()).after(d.getDiscount().getEndDate())){
+            d.setDiscount(null);
+            em.merge(d);
+        }
         return d;
     }
 

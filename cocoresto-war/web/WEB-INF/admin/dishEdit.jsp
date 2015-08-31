@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,7 +16,7 @@
                 <div class="page page-dashboard">
 
                     <div class="pageheader">
-                        <h2>CocoResto <span>// Administrateur</span></h2>
+                        <h2>CocoResto <span>// Administrateur - ${userName}</span></h2>
                         <div class="page-bar">
                             <ul class="page-breadcrumb">
                                 <li><a href="FrontController"><i class="fa fa-home"></i> CocoResto</a></li>
@@ -70,33 +71,33 @@
                                     <label for="dishKcal">Kilocalories :</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="dishKcal" name="dishKcal" value="${nutritiveValue[0]}">
-                                            <div class="input-group-addon">kcal</div>
-                                        </div>
+                                        <div class="input-group-addon">kcal</div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="dishProtein">Proteines :</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="dishProtein" name="dishProtein" value="${nutritiveValue[1]}">
-                                            <div class="input-group-addon">grammes</div>
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dishProtein">Proteines :</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dishProtein" name="dishProtein" value="${nutritiveValue[1]}">
+                                        <div class="input-group-addon">grammes</div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="dishGlucid">Glucides :</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="dishGlucid" name="dishGlucid" value="${nutritiveValue[2]}">
-                                            <div class="input-group-addon">grammes</div>
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dishGlucid">Glucides :</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dishGlucid" name="dishGlucid" value="${nutritiveValue[2]}">
+                                        <div class="input-group-addon">grammes</div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="dishLipid">Lipides :</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="dishLipid" name="dishLipid" value="${nutritiveValue[3]}">
-                                            <div class="input-group-addon">grammes</div>
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dishLipid">Lipides :</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dishLipid" name="dishLipid" value="${nutritiveValue[3]}">
+                                        <div class="input-group-addon">grammes</div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="dishCategory">Catégorie :</label>
-                                        <select id="dishCategory" name="dishCategory">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dishCategory">Catégorie :</label>
+                                    <select id="dishCategory" name="dishCategory">
                                         <c:forEach var="category" items="${categories}" varStatus="loop"> 
                                             <option name="category" value="${category.id}" <c:if test="${dish.category.name eq category.name}">selected</c:if>>${category.name}</option>
                                         </c:forEach>
@@ -119,16 +120,18 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="dishDiscount">Promotion :</label>
-                                    <input type="text" class="form-control" id="dishDiscount" name="dishDiscount" value="${dish.discount.rate}">
-                                    <div class="input-group-addon">%</div>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dishDiscount" name="dishDiscount" value="${dish.discount.rate}">
+                                        <div class="input-group-addon">%</div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="dishBeginDiscount">Date de début :</label>
-                                    <input type="text" class="form-control" id="dishBeginDiscount" name="dishBeginDiscount" value="${dish.discount.beginDate}" placeholder="jj-mm-aaaa">
+                                    <input type="text" class="form-control" id="dishBeginDiscount" name="dishBeginDiscount" value="<fmt:formatDate value="${dish.discount.beginDate}" pattern="dd-MM-yyyy"/>" placeholder="jj-mm-aaaa">
                                 </div>
                                 <div class="form-group">
                                     <label for="dishEndDiscount">Date de fin :</label>
-                                    <input type="text" class="form-control" id="dishEndDiscount" name="dishEndDiscount" value="${dish.discount.endDate}" placeholder="jj-mm-aaaa">
+                                    <input type="text" class="form-control" id="dishEndDiscount" name="dishEndDiscount" value="<fmt:formatDate value="${dish.discount.endDate}" pattern="dd-MM-yyyy" />" placeholder="jj-mm-aaaa">
                                 </div>
                                 <div class="form-group">
                                     <label for="imageDish" class="col-sm-2 control-label">Image :</label>

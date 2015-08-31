@@ -9,11 +9,8 @@ import entities.Tax;
 import entities.Unit;
 import helpers.Alert;
 import java.io.IOException;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +51,6 @@ public class dishController implements IController {
             Discount di = new Discount();
             Tax t = new Tax();
             Price p = new Price();
-            List<NutritiveValue> lnv = new ArrayList();
 
             if ("edit".equals(request.getParameter("task"))) {
                 url = "/WEB-INF/admin/dishEdit.jsp";
@@ -134,11 +130,8 @@ public class dishController implements IController {
                     bnv.create(nv2);
                     bnv.create(nv3);
                     bnv.create(nv4);
-//                    lnv.add(nv1);
-//                    lnv.add(nv2);
-//                    lnv.add(nv3);
-//                    lnv.add(nv4);
-//                    d.setNutritiveValues(lnv);
+
+                    request.setAttribute("alert", Alert.setAlert("Succès", "Le plat a été ajouté", "success"));
                 } else { //update
                     d.setId(Long.valueOf(request.getParameter("id")));
                     d.setName(request.getParameter("dishName"));
@@ -206,13 +199,21 @@ public class dishController implements IController {
                         }
                         bnv.update(nv);
                     }
-
+                    
+                    request.setAttribute("alert", Alert.setAlert("Succès", "Le plat a été mis à jour", "success"));
                 }
             }
 
             if ("delete".equals(request.getParameter("task"))) {
                 d = bd.findById(Long.valueOf(request.getParameter("id")));
+
+                // delete nutritiveValue
+                for (NutritiveValue nv : bnv.findByDish(d)) {
+                    bnv.delete(nv);
+                }
+                // delete dish
                 bd.delete(d);
+                request.setAttribute("alert", Alert.setAlert("Succès", "Le plat a été supprimé", "success"));
                 url = "/WEB-INF/admin/dishList.jsp";
 
             }

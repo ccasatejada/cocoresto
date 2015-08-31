@@ -17,7 +17,7 @@
                 <div class="page page-dashboard">
 
                     <div class="pageheader">
-                        <h2>CocoResto <span>// Administrateur</span></h2>
+                        <h2>CocoResto <span>// Administrateur - ${userName}</span></h2>
                         <div class="page-bar">
                             <ul class="page-breadcrumb">
                                 <li><a href="FrontController"><i class="fa fa-home"></i> CocoResto</a></li>
