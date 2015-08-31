@@ -57,10 +57,10 @@ public class employeeController implements IController{
         if(request.getParameter("createIt") != null) {
             emp.setActive(true);
             emp.setCreationDate(new Date());
+            employeeGroups = (ArrayList)session.getAttribute("employeeGroups");
             for(EmployeeGroup eg : employeeGroups) {
                 if(eg.getName().equals(request.getParameter("comboGroupEmployee"))) {
-                    group.setId(eg.getId());
-                    group.setName(request.getParameter("comboGroupEmployee"));
+                    group = eg;
                     break;
                 }
             }
