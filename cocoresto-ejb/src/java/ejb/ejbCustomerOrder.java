@@ -39,13 +39,13 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @Override
     public List<CustomerOrder> findAll() {
-        Query q = em.createQuery("select co from CustomerOrder co where co.active = 1 order by co.orderDate");
+        Query q = em.createQuery("select co from CustomerOrder co where co.active = 1 order by co.orderDate desc");
         return q.getResultList();
     }
 
     @Override
     public List<CustomerOrder> findAllByRange(int firstResult, int maxResults) {
-        Query q = em.createQuery("select co from CustomerOrder co where co.active = 1 order by co.orderDate");
+        Query q = em.createQuery("select co from CustomerOrder co where co.active = 1 order by co.orderDate desc");
         if (firstResult >= 0) {
             q.setFirstResult(firstResult);
         }
