@@ -20,7 +20,8 @@ public class CustomerOrder implements Serializable {
     @Column(nullable = false)
     private boolean active;
     @Column(nullable = false)
-    private Integer status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
     @Column(nullable = false)
     private Integer people;
     @Column(nullable = false)
@@ -122,11 +123,11 @@ public class CustomerOrder implements Serializable {
         this.active = active;
     }
 
-    public Integer getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
