@@ -2,14 +2,19 @@
 package controllers;
 
 import entities.Discount;
+import entities.Drink;
 import entities.Tax;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.beanDrink;
 import models.beanRate;
 
 public class rateController implements IController{
@@ -102,6 +107,33 @@ public class rateController implements IController{
             bRate.update(discount);
         }
         
+        if(request.getParameter("attachDiscount") != null) {
+            Drink drink = (Drink) session.getAttribute("drink");
+            beanDrink bDrink = (beanDrink) session.getAttribute("bDrink");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            discount.setRate(Double.valueOf(request.getParameter("amount")));
+            try {
+                discount.setBeginDate(formatter.parse(request.getParameter("beginDate")));
+                discount.setEndDate(formatter.parse(request.getParameter("endDate")));
+            } catch (ParseException ex) {
+                ex.getMessage();
+            }
+            bRate.create(discount);
+            drink.setDiscount(discount);
+            bDrink.update(drink);
+            session.setAttribute("drink", drink);
+            session.setAttribute("bDrink", bDrink);
+            System.out.println(request.getRequestURI());
+            try {
+                response.sendRedirect(request.getRequestURI() + "?option=drink&task=modify&id=" + drink.getId());
+            } catch (IOException ex) {
+                ex.getMessage();
+            }
+            return "/WEB-INF/admin/drinkEdit.jsp";
+        }
+        
+        
+        
         if("rate".equals(request.getParameter("option"))) {
             ArrayList<Tax> taxes = bRate.findAllTaxes();
             session.setAttribute("taxes", taxes);
@@ -111,7 +143,7 @@ public class rateController implements IController{
         }
         
         
-        return "/WEB-INF/admin/rateList";
+        return "/WEB-INF/admin/rateList.jsp";
     }
 
     @Override

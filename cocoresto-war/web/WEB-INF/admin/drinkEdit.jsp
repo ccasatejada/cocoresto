@@ -95,7 +95,7 @@
                         </div>
                         <c:if test="${not empty drink && not empty drink.discount}">
                             <div class="btn btn-default">
-                                <a href="FrontController?option=drink&task=deleteDiscountDrink" name="deleteDiscountDrink">Détacher Discount</a>
+                                <a href="FrontController?option=drink&task=deleteDiscountDrink&id=${drink.id}" name="deleteDiscountDrink">Détacher Discount</a>
                             </div>
                         </c:if>
                     </div>

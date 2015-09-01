@@ -14,7 +14,7 @@
                     <h1>Modifier Discount</h1>
                 </c:if>
                 <c:if test="${empty discount}">
-                    <h1>Nouvelle Discount</h1>
+                    <h1>Nouveau Discount</h1>
                 </c:if>
 
                 
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="enDate" class="col-sm-2 control-label">Montant : </label>
+                    <label for="endDate" class="col-sm-2 control-label">Montant : </label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="endDate" value="${discount.endDate}"> 
                     </div>
@@ -43,6 +43,10 @@
                 <c:if test="${empty discount}">
                     <button type="submit" class="btn btn-default" name="createDiscount">Valider</button>
                 </c:if>
+                <c:if test="${not empty drink}">
+                    <button type="submit" class="btn btn-default" name="attachDiscount">Attacher Discount</button>
+                    <!--<a href="FrontController?option=drink&task=attachDiscount&id=${drink.id}" name="attachDiscount">Attacher Discount</a>-->
+                </c:if>    
                 <button type="submit" class="btn btn-default" name="cancelDiscount">Annuler</button>
 
             </form>
