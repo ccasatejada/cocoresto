@@ -1,6 +1,7 @@
 
 package ejb;
 
+import entities.Category;
 import entities.Combo;
 import java.util.List;
 import javax.ejb.Local;
@@ -14,4 +15,9 @@ public interface ejbComboLocal {
     public Combo findById(Long id);
     public List<Combo> findAll();
     public int count();
+    public List<Category> findCategories(); 
+    
+        public List<Combo> findAllByRange(int firstResult, int maxResults);
+
+    
 }

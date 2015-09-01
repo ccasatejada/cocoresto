@@ -20,5 +20,6 @@ public interface ejbCategoryLocal {
     
     public int count();
     
+    public List<Category> findAllByRange(int firstResult, int maxResults);
 
 }

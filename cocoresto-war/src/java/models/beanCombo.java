@@ -1,9 +1,11 @@
 package models;
 
 import ejb.ejbComboLocal;
+import entities.Category;
 import entities.Combo;
 import java.beans.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -40,6 +42,14 @@ public class beanCombo implements Serializable {
     
     public int count(){
         return ejbCombo.count();
+    }
+    
+    public List<Category> findCategories(){
+        return ejbCombo.findCategories();
+    }
+    
+    public List<Combo> findAllByRange(int firstResult, int maxResults) {
+        return ejbCombo.findAllByRange(firstResult, maxResults);
     }
     
 

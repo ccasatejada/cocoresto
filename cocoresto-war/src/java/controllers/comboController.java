@@ -1,14 +1,20 @@
 package controllers;
 
+import entities.Combo;
 import helpers.Alert;
+import helpers.Pagination;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.beanCombo;
 
 public class comboController implements IController {
 
+    beanCombo bc = new beanCombo();
+    
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
@@ -20,8 +26,19 @@ public class comboController implements IController {
             groupId = (Long) session.getAttribute("group");
         }
         if (logged && groupId >= 3) {
-            String url = "/WEB-INF/admin/comboList.jsp";
-
+           String url = "/WEB-INF/admin/comboList.jsp";
+           
+           Combo c = new Combo();
+           
+           if("edit".equals(request.getParameter("task"))){
+               url = "/WEB-INF/admin/comboEdit.jsp";
+               if(request.getParameter("id") != null) {
+                   c = bc.findById(Long.valueOf(request.getParameter("id")));
+                   request.setAttribute("combo", c);
+               }
+           }
+           
+           getList(request);
            return url; 
         } else {
             try {
@@ -38,6 +55,23 @@ public class comboController implements IController {
     public String execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response
     ) {
         return null;
+    }
+    
+    private void getList(HttpServletRequest request){
+        int max = 10;
+        int currentPage = 1;
+        if(request.getParameter("page") != null){
+            try{
+                currentPage = Integer.valueOf(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "La page n'est pas un nombre", "danger"));
+            }
+        }
+        Pagination pagination = new Pagination("combo", currentPage, max, bc.count());
+        request.setAttribute("pagination", pagination.getPagination());
+        
+        List<Combo> combos = bc.findAllByRange(pagination.getMin(), max);
+        request.setAttribute("combos", combos);
     }
 
 }

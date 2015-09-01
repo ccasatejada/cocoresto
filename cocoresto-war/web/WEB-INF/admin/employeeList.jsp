@@ -8,7 +8,7 @@
         <title>Gérer les employés</title>
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container-fluid" id="employeeList">
         <h1>Liste des employés</h1>
         <table class="table table-striped">
             <tr>
