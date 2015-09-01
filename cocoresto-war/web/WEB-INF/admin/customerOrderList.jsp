@@ -60,7 +60,10 @@
                                         <tr>
                                             <td>Commande n°${customerOrder.number}</td>
                                             <td><fmt:formatDate value="${customerOrder.orderDate}" pattern="dd MMM yyyy à hh:MM" /></td>
-                                            <td>${customerOrder.status}</td>
+                                            <td>
+                                                <div class="label label-${customerOrder.status}">${customerOrder.status.name}</div>
+                                                
+                                            </td>
                                             <td>${customerOrder.people} personnes</td>
                                             <td>Table n°${customerOrder.customerTable.number}</td>
                                             <td>${customerOrder.nbTablet} tablettes</td>

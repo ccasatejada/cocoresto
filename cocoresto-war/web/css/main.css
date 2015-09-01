@@ -15169,7 +15169,7 @@ body a {
   background-color: #b2e600 !important;
 }
 
-.bg-orange {
+.bg-orange, .label-FINISHED {
   background-color: #ffc100 !important;
   color: white !important;
 }
