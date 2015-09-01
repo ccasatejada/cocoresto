@@ -47,6 +47,62 @@ public class CustomerOrder implements Serializable {
     public CustomerOrder() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+    
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public Integer getPeople() {
+        return people;
+    }
+
+    public void setPeople(Integer people) {
+        this.people = people;
+    }
+
+    public Integer getNbTablet() {
+        return nbTablet;
+    }
+
+    public void setNbTablet(Integer nbTablet) {
+        this.nbTablet = nbTablet;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -86,67 +142,8 @@ public class CustomerOrder implements Serializable {
     public void setCombos(Collection<Combo> combos) {
         this.combos = combos;
     }
-    
-    
-    
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
 
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
-    public Integer getPeople() {
-        return people;
-    }
-
-    public void setPeople(Integer people) {
-        this.people = people;
-    }
-
-
-    public Integer getNbTablet() {
-        return nbTablet;
-    }
-
-    public void setNbTablet(Integer nbTablet) {
-        this.nbTablet = nbTablet;
-    }
     
     
 
