@@ -20,6 +20,7 @@ public class drinkController implements IController {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        
         HttpSession session = request.getSession();
 
         Drink drink;
@@ -176,29 +177,24 @@ public class drinkController implements IController {
             drink.setName(request.getParameter("name"));
             drink.setInventory(Integer.valueOf(request.getParameter("inventory")));
             drink.setImage(request.getParameter("image"));
-            if (drink.getPrice() != null) {
-                if (!drink.getPrice().getPrice().equals(Double.valueOf(request.getParameter("price")))) {
-                    for (Price p : prices) {
-                        if (p.getPrice().equals(Double.valueOf(request.getParameter("price")))) {
-                            price = p;
-                            break;
-                        } else {
-                            price = null;
-                        }
-                    }
-                    if (price == null) {
-                        price = new Price();
-                        price.setPrice(Double.valueOf(request.getParameter("price")));
-                        bPrice.create(price);
-                        price = bPrice.findLastInserted();
-                        drink.setPrice(price);
-                    } else {
-                        drink.setPrice(price);
-                    }
+            for (Price p : prices) {
+                if (p.getPrice().equals(Double.valueOf(request.getParameter("price")))) {
+                    price = p;
+                    break;
+                } else {
+                    price = null;
                 }
-            } else {
-                
             }
+            if (price == null) {
+                price = new Price();
+                price.setPrice(Double.valueOf(request.getParameter("price")));
+                bPrice.create(price);
+                price = bPrice.findLastInserted();
+                drink.setPrice(price);
+            } else {
+                drink.setPrice(price);
+            }
+
             bDrink.create(drink);
             session.setAttribute("drink", drink);
         }

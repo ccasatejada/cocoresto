@@ -37,7 +37,8 @@ public class ejbPrice implements ejbPriceLocal {
     public Price findLastInserted() {
         String query = "SELECT p FROM Price p";
         Query qr = em.createQuery(query);
-        Price lastPrice = (Price) qr.getParameterValue(qr.getResultList().size());
+        List<Price> pList = qr.getResultList();
+        Price lastPrice = pList.get(pList.size()-1);
 
         return lastPrice;
     }

@@ -131,7 +131,7 @@
                     <div class="form-group">
                         <label for="totalPrice" class="col-sm-2 control-label">Prix TTC : </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="totalPrice" value="${drink.totalPrice}">
+                            <input type="text" class="form-control" name="totalPrice" value="${drink.totalPrice}" disabled>
                         </div>
                     </div>
                 </c:if>
