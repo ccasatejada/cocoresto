@@ -1,7 +1,7 @@
 package controllers;
 
 import entities.CustomerOrder;
-import entities.OrderStatus;
+import entities.CustomerTable;
 import helpers.Alert;
 import helpers.Pagination;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.beanOrderCustomer;
+import models.beanTableCustomer;
 
 public class customerOrderController implements IController {
 
@@ -33,7 +34,7 @@ public class customerOrderController implements IController {
         }
 
         if (logged && groupId >= 3) {
-            
+
             if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
                 try {
                     CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));

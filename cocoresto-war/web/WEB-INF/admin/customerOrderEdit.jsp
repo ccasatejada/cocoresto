@@ -62,7 +62,7 @@
                                     <div class="form-group">
                                         <label for="status">Statut de la commande : <span>*</span></label>
                                         <select class="form-control" id="status" name="status" required>
-                                            <option value="">STATUS</option>
+                                            <option value="">${customerOrder.status.name}</option>
                                         </select>
                                     </div>
 
