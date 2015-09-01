@@ -35,7 +35,7 @@
                     <section class="tile">
 
                         <div class="tile-header dvd dvd-btm bg-greensea">
-                            <h1 class="custom-font"><strong>Commandes</strong></h1>
+                            <h1 class="custom-font"><strong>Commande</strong></h1>
                         </div>
                         <form action="FrontController?option=customerOrder" method="post">
 
@@ -70,12 +70,7 @@
 
                                     <div class="form-group">
                                         <label for="employee">Créateur de la commande : <span>*</span></label>
-                                        <div class="input-group">
-                                            <input class="form-control" id="employee" name="employee" required value="${customerOrder.employee.firstName} ${customerOrder.employee.lastName}" readonly />
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-info" type="button">Modifier</button>
-                                            </span>
-                                        </div>                                    
+                                        <input class="form-control" id="employee" name="employee" required value="${customerOrder.employee.firstName} ${customerOrder.employee.lastName}" readonly />
                                     </div>
 
                                 </fieldset>
@@ -87,7 +82,7 @@
                                         <div class="input-group">
                                             <input class="form-control" id="customerTable" name="customerTable" required value="Table n°${customerOrder.customerTable.number}" readonly />
                                             <span class="input-group-btn">
-                                                <button class="btn btn-info" type="button">Modifier</button>
+                                                <button id="modifyCustomerTable" class="btn btn-info" type="button" data-toggle="modal" data-target="#listModal">Modifier</button>
                                             </span>
                                         </div>                                    
                                     </div>
@@ -164,6 +159,24 @@
                 </div>
             </section>
         </div>
+
+        <div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="listModalLabel">
+            <div class="modal-dialog" role="document">
+                <form action="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}" method="post" class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="listModalLabel">Liste</h4>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-primary" name="save">Sauver</button>
+                    </div>
+                </form>
+            </div>
+        </div>                                    
+
+
         <%@include file="../includes/scripts.jsp" %>
     </body>
 </html>
