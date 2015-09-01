@@ -2,6 +2,7 @@ package models;
 
 import ejb.ejbCustomerOrderLocal;
 import entities.CustomerOrder;
+import entities.OrderStatus;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,16 +18,15 @@ public class beanOrderCustomer implements Serializable {
 
     public beanOrderCustomer() {
     }
-    
-        public List<CustomerOrder> findAll() {
+
+    public List<CustomerOrder> findAll() {
         return ejbCustomerOrder.findAll();
     }
-    
-    
+
     public List<CustomerOrder> findAllByRange(int firstResult, int maxResults) {
         return ejbCustomerOrder.findAllByRange(firstResult, maxResults);
     }
-    
+
     public void create(CustomerOrder customerTable) throws EJBException {
         ejbCustomerOrder.create(customerTable);
 
@@ -47,6 +47,10 @@ public class beanOrderCustomer implements Serializable {
 
     public int count() {
         return ejbCustomerOrder.count();
+    }
+    
+    public OrderStatus[] findAllOrderStatus(){
+        return OrderStatus.values();
     }
 
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {

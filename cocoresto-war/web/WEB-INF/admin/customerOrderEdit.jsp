@@ -62,15 +62,20 @@
                                     <div class="form-group">
                                         <label for="status">Statut de la commande : <span>*</span></label>
                                         <select class="form-control" id="status" name="status" required>
-                                            <option value="">${customerOrder.status.name}</option>
+                                            <c:forEach items="${statusList}" var="status" varStatus="loop">
+                                                <option value="${status}"<c:if test="${status eq customerOrder.status}"> selected</c:if>>${status.name}</option>
+                                            </c:forEach>
                                         </select>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="employee">Créateur de la commande : <span>*</span></label>
-                                        <select class="form-control" id="employee" name="employee" required>
-                                            <option value="">EMPLOYE</option>
-                                        </select>
+                                        <div class="input-group">
+                                            <input class="form-control" id="employee" name="employee" required value="${customerOrder.employee.firstName} ${customerOrder.employee.lastName}" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-info" type="button">Modifier</button>
+                                            </span>
+                                        </div>                                    
                                     </div>
 
                                 </fieldset>
@@ -79,26 +84,69 @@
 
                                     <div class="form-group">
                                         <label for="customerTable">Table de la commande : <span>*</span></label>
-                                        <select class="form-control" id="customerTable" name="customerTable" required>
-                                            <option value="iddetable">N° de table</option>
-                                        </select>
+                                        <div class="input-group">
+                                            <input class="form-control" id="customerTable" name="customerTable" required value="Table n°${customerOrder.customerTable.number}" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-info" type="button">Modifier</button>
+                                            </span>
+                                        </div>                                    
                                     </div>
 
                                     <div class="form-group">
                                         <label for="people">Nombre de couverts : <span>*</span></label>
-                                        <input type="number" min="1" class="form-control" id="people" name="people" value="${customerOrder.people}" required />
+                                        <input type="number" min="1" max="${customerOrder.customerTable.capacity}" class="form-control" id="people" name="people" value="${customerOrder.people}" required />
                                     </div>
 
                                     <div class="form-group">
                                         <label for="nbTablet">Nombre de tablettes : <span>*</span></label>
-                                        <input type="number" min="1" class="form-control" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" required />
+                                        <input type="number" min="1" max="${customerOrder.customerTable.nbTablet}" class="form-control" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" required />
                                     </div>
 
                                 </fieldset>
                                 <fieldset>
                                     <legend>Panier</legend>
-                                    
-                                    
+
+                                    <c:if test="${not empty customerOrder.drinks}">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">Boissons</div>
+                                            <div class="panel-body">    
+                                                <c:forEach items="${customerOrder.drinks}" var="drink" varStatus="loop">
+
+                                                </c:forEach>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <a class="btn btn-primary" href="">Ajouter une boisson</a>
+                                            </div>
+                                        </div>
+                                    </c:if>
+
+                                    <c:if test="${not empty customerOrder.dishes}">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">Plats</div>
+                                            <div class="panel-body">    
+                                                <c:forEach items="${customerOrder.dishes}" var="drink" varStatus="loop">
+
+                                                </c:forEach>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <a class="btn btn-primary" href="">Ajouter un plat</a>
+                                            </div>
+                                        </div>
+                                    </c:if>
+
+                                    <c:if test="${not empty customerOrder.combos}">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">Menus</div>
+                                            <div class="panel-body">    
+                                                <c:forEach items="${customerOrder.combos}" var="drink" varStatus="loop">
+
+                                                </c:forEach>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <a class="btn btn-primary" href="">Ajouter une boisson</a>
+                                            </div>
+                                        </div>
+                                    </c:if>
 
                                 </fieldset>
                             </div>

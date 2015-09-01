@@ -143,10 +143,6 @@ public class CustomerOrder implements Serializable {
         this.combos = combos;
     }
 
-
-    
-    
-
     @Override
     public int hashCode() {
         int hash = 0;

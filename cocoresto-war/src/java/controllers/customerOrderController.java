@@ -2,6 +2,7 @@ package controllers;
 
 import entities.CustomerOrder;
 import entities.CustomerTable;
+import entities.OrderStatus;
 import helpers.Alert;
 import helpers.Pagination;
 import java.io.IOException;
@@ -39,6 +40,7 @@ public class customerOrderController implements IController {
                 try {
                     CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
                     request.setAttribute("customerOrder", co);
+                    request.setAttribute("statusList", boc.findAllOrderStatus());
                     return editUrl;
                 } catch (NumberFormatException | EJBException e) {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
@@ -107,7 +109,6 @@ public class customerOrderController implements IController {
     }
     
     private boolean edit(HttpServletRequest request) {
-
 
         
         return true;
