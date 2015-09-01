@@ -8,9 +8,11 @@ import entities.Price;
 import entities.Tax;
 import entities.Unit;
 import helpers.Alert;
+import helpers.Pagination;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -199,12 +201,13 @@ public class dishController implements IController {
                         }
                         bnv.update(nv);
                     }
-                    
+
                     request.setAttribute("alert", Alert.setAlert("Succès", "Le plat a été mis à jour", "success"));
                 }
             }
 
             if ("delete".equals(request.getParameter("task"))) {
+                try{
                 d = bd.findById(Long.valueOf(request.getParameter("id")));
 
                 // delete nutritiveValue
@@ -214,13 +217,16 @@ public class dishController implements IController {
                 // delete dish
                 bd.delete(d);
                 request.setAttribute("alert", Alert.setAlert("Succès", "Le plat a été supprimé", "success"));
+                } catch(NumberFormatException | EJBException e){
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Ce plat n'existe pas", "danger"));
+                }
                 url = "/WEB-INF/admin/dishList.jsp";
 
             }
 
             request.setAttribute("taxes", br.findAllTaxes());
-            request.setAttribute("categories", bc.findAll());
-            request.setAttribute("dishes", bd.findAll());
+            request.setAttribute("categories", bd.findCategories());
+            getList(request);
             return url;
 
         } else {
@@ -237,6 +243,24 @@ public class dishController implements IController {
     @Override
     public String execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) {
         return null;
+    }
+
+    private void getList(HttpServletRequest request) {
+        // pagination
+        int max = 10;
+        int currentPage = 1;
+        if (request.getParameter("page") != null) {
+            try {
+                currentPage = Integer.valueOf(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "La page n'est pas un nombre", "danger"));
+            }
+        }
+        Pagination pagination = new Pagination("dish", currentPage, max, bd.count());
+        request.setAttribute("pagination", pagination.getPagination());
+
+        List<Dish> dishes = bd.findAllByRange(pagination.getMin(), max);
+        request.setAttribute("dishes", dishes);
     }
 
 }

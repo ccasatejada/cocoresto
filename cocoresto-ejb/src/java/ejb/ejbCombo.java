@@ -1,6 +1,8 @@
 package ejb;
 
+import entities.Category;
 import entities.Combo;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.*;
@@ -43,6 +45,42 @@ public class ejbCombo implements ejbComboLocal {
     @Override
     public int count() {
         return ((Long) em.createQuery("select COUNT(c) from Combo c").getSingleResult()).intValue();
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
+    }
+    
+    @Override
+    public List<Category> findCategories(){
+        List<Category> categories = new ArrayList();
+        String sq = "SELECT c FROM Category c";
+        Query q = em.createQuery(sq);
+        for(Category cat : (List<Category>)q.getResultList()){
+            if("Dejeuner".equals(cat.getType())){
+                categories.add(cat);
+            }
+            if("Diner".equals(cat.getType())){
+                categories.add(cat);
+            }
+            if("Brunch".equals(cat.getType())){
+                categories.add(cat);
+            }
+        }
+        return categories;
+    }
+    
+    @Override
+    public List<Combo> findAllByRange(int firstResult, int maxResults){
+        Query q = em.createQuery("select co from Combo co order by co.name");
+        if(firstResult >= 0){
+            q.setFirstResult(firstResult);
+        }
+        if(maxResults > 0){
+            q.setMaxResults(maxResults);
+        }
+        
+        return q.getResultList();
     }
 
 }

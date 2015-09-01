@@ -6,6 +6,8 @@ import entities.Drink;
 import entities.Format;
 import entities.Price;
 import entities.Tax;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -117,6 +119,7 @@ public class drinkController implements IController {
         if ("deleteDiscountDrink".equals(request.getParameter("task"))) {
             drink = bDrink.findById(Long.valueOf(request.getParameter("id")));
             drink.setDiscount(null);
+            bDrink.update(drink);
             session.setAttribute("drink", drink);
             return "/WEB-INF/admin/drinkEdit.jsp";
         }
@@ -148,7 +151,6 @@ public class drinkController implements IController {
                     drink.getFormats().add(f);
                 }
             }
-            System.out.println(request.getParameter("comboDiscount"));
             if (!"empty".equals(request.getParameter("comboDiscount"))) {
                 for (Discount di : discounts) {
                     if (di.getId().equals(Long.valueOf(request.getParameter("comboDiscount")))) {
@@ -221,10 +223,13 @@ public class drinkController implements IController {
                     drink.getFormats().add(f);
                 }
             }
-            for (Discount di : discounts) {
-                if (di.getId().equals(Long.valueOf(request.getParameter("comboDiscount")))) {
-                    discount = di;
-                    break;
+            if (!"empty".equals(request.getParameter("comboDiscount"))) {
+                for (Discount di : discounts) {
+                    if (di.getId().equals(Long.valueOf(request.getParameter("comboDiscount")))) {
+                        discount = di;
+                        drink.setDiscount(discount);
+                        break;
+                    }
                 }
             }
             for (Tax ta : taxes) {
@@ -268,6 +273,22 @@ public class drinkController implements IController {
             bDrink.update(drink);
             session.setAttribute("uncheckedFormats", uncheckedFormats);
             session.setAttribute("drink", drink);
+        }
+        
+        if("attachDiscount".equals(request.getParameter("task"))) {
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            discount.setRate(Double.valueOf(request.getParameter("amount")));
+            try {
+                discount.setBeginDate(formatter.parse(request.getParameter("beginDate")));
+                discount.setEndDate(formatter.parse(request.getParameter("endDate")));
+            } catch (ParseException ex) {
+                ex.getMessage();
+            }
+            bRate.create(discount);
+            drink.setDiscount(discount);
+            bDrink.update(drink);
+            return "/WEB-INF/admin/drinkEdit.jsp";
         }
 
         if ("drink".equals(request.getParameter("option"))) {

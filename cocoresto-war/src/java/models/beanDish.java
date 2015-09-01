@@ -1,11 +1,13 @@
 package models;
 
 import ejb.ejbDishLocal;
+import entities.Category;
 import entities.Dish;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -54,6 +56,14 @@ public class beanDish implements Serializable {
 
     public int count(){
         return ejbDish.count();
+    }
+    
+    public List<Category> findCategories(){
+        return ejbDish.findCategories();
+    }
+    
+    public List<Dish> findAllByRange(int firstResult, int maxResults){
+        return ejbDish.findAllByRange(firstResult, maxResults);
     }
 
     private ejbDishLocal lookupejbDishLocal() {
