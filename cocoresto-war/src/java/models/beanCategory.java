@@ -4,6 +4,7 @@ import ejb.ejbCategoryLocal;
 import entities.Category;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -50,6 +51,10 @@ public class beanCategory implements Serializable {
     
     public int count(){
         return ejbCategory.count();
+    }
+    
+    public List<Category> findAllByRange(int firstResult, int maxResults){
+        return ejbCategory.findAllByRange(firstResult, maxResults);
     }
 
     private ejbCategoryLocal lookupejbCategoryLocal() {

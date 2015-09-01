@@ -19,7 +19,7 @@
                             <ul class="page-breadcrumb">
                                 <li><a href="FrontController"><i class="fa fa-home"></i> CocoResto</a></li>
                                 <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
-                                <li><a href="FrontController?option=customerTable">Gestion des catégories</a></li>
+                                <li><a href="FrontController?option=category">Gestion des catégories</a></li>
                                 <li><a href="#">Edition</a></li>
                             </ul>
                             <div class="page-toolbar">
@@ -48,9 +48,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="categoryType">Type :</label>
-                                    <select id="categoryType" name="dishCategory"> 
+                                    <select id="categoryType" name="categoryType"> 
                                         <option value="Plat" <c:if test="${category.type == 'Plat'}"> selected </c:if>> Plat</option>
                                         <option value="Boisson"  <c:if test="${category.type == 'Boisson'}"> selected </c:if>> Boisson</option>
+                                        <option value="Dejeuner"  <c:if test="${category.type == 'Dejeuner'}"> selected </c:if>> Dejeuner</option>
+                                        <option value="Diner"  <c:if test="${category.type == 'Diner'}"> selected </c:if>> Diner</option>
+                                        <option value="Brunch"  <c:if test="${category.type == 'Brunch'}"> selected </c:if>> Brunch</option>
                                         </select>
                                     </div>
 
