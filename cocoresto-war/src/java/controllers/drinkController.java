@@ -239,7 +239,7 @@ public class drinkController implements IController {
                 }
             }
             for (Category ca : categories) {
-                if (ca.getName().equals(request.getParameter("comboCategory"))) {
+                if (ca.getName().equals(request.getParameter("comboCategory").replaceAll("éèà", "eea"))) {
                     category = ca;
                     break;
                 }
