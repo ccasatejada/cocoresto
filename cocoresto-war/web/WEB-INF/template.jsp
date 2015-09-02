@@ -9,7 +9,7 @@
     <body id="minovate" class="appWrapper">
         <div id="wrap" class="animsition">
 
-            <c:if test="${logged && group > 2}">
+            <c:if test="${logged}">
                 <%@include file="includes/adminMenu.jsp" %>
             </c:if>
 
