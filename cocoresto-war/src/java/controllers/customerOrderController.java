@@ -1,8 +1,6 @@
 package controllers;
 
 import entities.CustomerOrder;
-import entities.CustomerTable;
-import entities.OrderStatus;
 import helpers.Alert;
 import helpers.Pagination;
 import java.io.IOException;
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.beanOrderCustomer;
-import models.beanTableCustomer;
 
 public class customerOrderController implements IController {
 
@@ -81,7 +78,7 @@ public class customerOrderController implements IController {
             }
         }
 
-        return "/WEB-INF/index.jsp";
+        return "/WEB-INF/login.jsp";
     }
 
     @Override
