@@ -36,12 +36,12 @@ public class loginController implements IController {
             
             if (loggedEmployee == null) {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "Votre code est invalide", "danger"));
-                return "/WEB-INF/index.jsp";
+                return "/WEB-INF/login.jsp";
             } else {
                 Long idGroup = loggedEmployee.getEmployeeGroup().getId();
                 session.setAttribute("logged", true);
                 session.setAttribute("group", idGroup);
-                session.setAttribute("employee", loggedEmployee);
+                session.setAttribute("loggedEmployee", loggedEmployee);
                 session.setAttribute("userName", loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName());
                 try {
                     response.sendRedirect("FrontController?option=dashboard");
@@ -55,13 +55,13 @@ public class loginController implements IController {
         if ("disconnect".equals(request.getParameter("task"))) {
             session.setAttribute("logged", false);
             session.setAttribute("group", 0);
-            session.setAttribute("employee", null);
+            session.setAttribute("loggedEmployee", null);
             session.removeAttribute("logged");
             session.removeAttribute("group");
-            session.removeAttribute("employee");
+            session.removeAttribute("loggedEmployee");
         }
         
-        return "/WEB-INF/index.jsp";
+        return "/WEB-INF/login.jsp";
         
     }
     

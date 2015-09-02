@@ -31,6 +31,11 @@ public class customerTableController implements IController {
             groupId = (Long) session.getAttribute("group");
         }
 
+        if ("simpleList".equals(request.getParameter("task"))) {
+            getList(request, "option=customerTable&task=" + request.getParameter("task") + "&layout=component");
+            return "admin/customerTableSimpleList.jsp";
+        }
+
         if (logged && groupId >= 3) {
 
             if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
@@ -65,7 +70,7 @@ public class customerTableController implements IController {
                 }
             }
 
-            getList(request);
+            getList(request, "option=customerTable");
 
             return listUrl;
 
@@ -78,7 +83,7 @@ public class customerTableController implements IController {
             }
         }
 
-        return "/WEB-INF/index.jsp";
+        return "/WEB-INF/login.jsp";
 
     }
 
@@ -87,27 +92,18 @@ public class customerTableController implements IController {
         return null;
     }
 
-    private void getList(HttpServletRequest request) {
+    private void getList(HttpServletRequest request, String queryString) {
 
         /* pagination */
-        int max = 10;
-        int currentPage = 1;
-        if (request.getParameter("page") != null) {
-            try {
-                currentPage = Integer.valueOf(request.getParameter("page"));
-            } catch (NumberFormatException e) {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "La page n'est pas un nombre", "danger"));
-            }
-        }
-        Pagination pagination = new Pagination("customerTable", currentPage, max, btc.count());
+        Pagination pagination = new Pagination(queryString, request.getParameter("page"), 10, btc.count());
         request.setAttribute("pagination", pagination.getPagination());
-        
-        List<CustomerTable> customerTables = btc.findAllByRange(pagination.getMin(), max);
+
+        List<CustomerTable> customerTables = btc.findAllByRange(pagination.getMin(), 10);
         request.setAttribute("customerTables", customerTables);
     }
 
     private boolean edit(HttpServletRequest request) {
-        
+
         // test required input
         if (request.getParameter("number").trim().isEmpty() || request.getParameter("capacity").trim().isEmpty() || request.getParameter("nbTablet").trim().isEmpty()) {
             request.setAttribute("alert", Alert.setAlert("Attention", "Les champs * sont obligatoires", "warning"));
