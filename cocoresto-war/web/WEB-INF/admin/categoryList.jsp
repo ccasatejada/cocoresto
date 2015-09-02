@@ -1,43 +1,10 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <%@include file="../includes/head.jsp" %>
-
-        <title>Panneau d'administration</title>
-    </head>
-    <body>
-    <body id="minovate" class="appWrapper">
-        <div id="wrap" class="animsition">
-            <%@include file="../includes/adminMenu.jsp" %>
-            <section id="content">
-                <div class="page page-dashboard">
-
-                    <div class="pageheader">
-                        <h2>CocoResto <span>// Administrateur - ${userName}</span></h2>
-                        <div class="page-bar">
-                            <ul class="page-breadcrumb">
-                                <li><a href="FrontController"><i class="fa fa-home"></i> CocoResto</a></li>
-                                <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
-                                <li><a href="FrontController?option=category">Gestion des cat√©gories</a></li>
-                            </ul>
-                            <div class="page-toolbar">
-                                <a role="button" tabindex="0" class="btn btn-lightred no-border pickDate">
-                                    <i class="fa fa-calendar"></i>&nbsp;&nbsp;<span>${date}</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    ${alert}
 
                     <section class="tile">
 
                         <div class="tile-header dvd dvd-btm bg-greensea">
-                            <h1 class="custom-font"><strong>Cat√©gories</strong></h1>
+                            <h1 class="custom-font"><strong>CatÈgories</strong></h1>
                             <ul class="controls">
                                 <li>
                                     <a href="FrontController?option=category&task=edit" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
@@ -50,7 +17,7 @@
                                 <thead>
                                     <tr class="bg-slategray">
                                         <th hidden>Id</th>
-                                        <th>Cat√©gorie</th>
+                                        <th>CatÈgorie</th>
                                         <th>Actions</th>                                       
                                     </tr>
                                 </thead>
@@ -71,11 +38,4 @@
 
                         ${pagination}
                     </section>
-                </div>
-            </section>
-        </div>
 
-        <%@include file="../includes/scripts.jsp" %>
-
-    </body>
-</html>

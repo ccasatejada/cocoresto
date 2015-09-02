@@ -1,38 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <%@include file="../includes/head.jsp" %>
-
-        <title>Panneau d'administration</title>
-    </head>
-    <body id="minovate" class="appWrapper">
-        <div id="wrap" class="animsition">
-            <%@include file="../includes/adminMenu.jsp" %>
-            <section id="content">
-                <div class="page page-dashboard">
-
-                    <div class="pageheader">
-                        <h2>CocoResto <span>// Administrateur - ${userName}</span></h2>
-                        <div class="page-bar">
-                            <ul class="page-breadcrumb">
-                                <li><a href="FrontController?option=dashboard"><i class="fa fa-home"></i> CocoResto</a></li>
-                                <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
-                                <li><a href="FrontController?option=combo">Gestion des menus</a></li>
-                                <li><a href="#">Edition</a></li>
-                            </ul>
-                            <div class="page-toolbar">
-                                <a role="button" tabindex="0" class="btn btn-lightred no-border pickDate">
-                                    <i class="fa fa-calendar"></i>&nbsp;&nbsp;<span>${date}</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    ${alert}
 
                     <section class="tile">
 
@@ -48,7 +15,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="comboCategory">CatÃ©gorie :</label>
+                                    <label for="comboCategory">Catégorie :</label>
                                     <select id="comboCategory" name="comboCategory">
                                         <c:forEach var="category" items="${categories}" varStatus="loop"> 
                                             <option name="category" value="${category.id}" <c:if test="${combo.category.name eq category.name}">selected</c:if>>${category.name}</option>
@@ -109,7 +76,7 @@
                                     <label for="comboPrice">Prix :</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="comboPrice" name="comboPrice" required value="${combo.price.price}">
-                                        <div class="input-group-addon">â‚¬</div>
+                                        <div class="input-group-addon">?</div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -128,7 +95,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="comboBeginDiscount">Date de dÃ©but :</label>
+                                    <label for="comboBeginDiscount">Date de début :</label>
                                     <input type="text" class="form-control" id="comboBeginDiscount" name="comboBeginDiscount" value="<fmt:formatDate value="${combo.discount.beginDate}" pattern="dd-MM-yyyy"/>" placeholder="jj-mm-aaaa">
                                 </div>
                                 <div class="form-group">
@@ -146,9 +113,4 @@
                             </div>
                         </form>
                     </section>
-                </div>
-            </section>
-        </div>
-        <%@include file="../includes/scripts.jsp" %>
-    </body>
-</html>
+
