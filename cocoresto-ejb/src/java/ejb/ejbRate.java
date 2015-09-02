@@ -89,6 +89,30 @@ public class ejbRate implements ejbRateLocal {
 
         return discounts;
     }
+    
+    @Override
+    public List<Tax> findAllTaxesByRange(int firstResult, int maxResults) {
+        Query q = em.createQuery("select t from Tax t order by t.rate asc");
+        if (firstResult >= 0) {
+            q.setFirstResult(firstResult);
+        }
+        if (maxResults > 0) {
+            q.setMaxResults(maxResults);
+        }
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<Discount> findAllDiscountsByRange(int firstResult, int maxResults) {
+        Query q = em.createQuery("select d from Discount d order by d.endDate desc");
+        if (firstResult >= 0) {
+            q.setFirstResult(firstResult);
+        }
+        if (maxResults > 0) {
+            q.setMaxResults(maxResults);
+        }
+        return q.getResultList();
+    }
 
     @Override
     public Discount findByDates(Double rate, Date beginDate, Date endDate) {

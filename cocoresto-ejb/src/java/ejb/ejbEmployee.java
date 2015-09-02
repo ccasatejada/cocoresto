@@ -71,6 +71,18 @@ public class ejbEmployee implements ejbEmployeeLocal {
     }
     
     @Override
+    public List<Employee> findAllByRange(int firstResult, int maxResults) {
+        Query q = em.createQuery("select e from Employee e where e.active = 1 order by e.creationDate desc");
+        if (firstResult >= 0) {
+            q.setFirstResult(firstResult);
+        }
+        if (maxResults > 0) {
+            q.setMaxResults(maxResults);
+        }
+        return q.getResultList();
+    }
+    
+    @Override
     public int count() {
         return ((Long) em.createQuery("select COUNT(e) from Employee e").getSingleResult()).intValue();
     }

@@ -92,6 +92,18 @@ public class ejbDrink implements ejbDrinkLocal {
     }
     
     @Override
+    public List<Drink> findAllByRange(int firstResult, int maxResults) {
+        Query q = em.createQuery("select d from Drink d where d.active = 1 order by d.name asc");
+        if (firstResult >= 0) {
+            q.setFirstResult(firstResult);
+        }
+        if (maxResults > 0) {
+            q.setMaxResults(maxResults);
+        }
+        return q.getResultList();
+    }
+    
+    @Override
     public int count() {
         return ((Long) em.createQuery("select COUNT(d) from Drink d").getSingleResult()).intValue();
     }

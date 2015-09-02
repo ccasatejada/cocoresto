@@ -5,6 +5,7 @@ import entities.Discount;
 import entities.Tax;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 
 @Local
@@ -35,6 +36,10 @@ public interface ejbRateLocal {
     public ArrayList<Tax> findAllTaxes();
     
     public ArrayList<Discount> findAllDiscounts();
+    
+    public List<Tax> findAllTaxesByRange(int firstResult, int maxResults);
+    
+    public List<Discount> findAllDiscountsByRange(int firstResult, int maxResults);
 
     public Discount findByDates(Double rate, Date beginDate, Date endDate);
 }
