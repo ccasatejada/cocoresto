@@ -94,6 +94,10 @@ public class beanDrink implements Serializable {
         this.drink = drink;
     }
     
+    public int count() {
+        return ejbDrink.count();
+    }
+    
     public void create(Drink drink) {
         ejbDrink.create(drink);
     }
