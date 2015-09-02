@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <section class="tile">
@@ -20,13 +21,13 @@
             <div class="form-group">
                 <label for="beginDate" class="col-sm-2 control-label">Date début : </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="beginDate" value="${discount.beginDate}"> 
+                    <input type="text" class="form-control" name="beginDate" value="<fmt:formatDate value='${discount.beginDate}' pattern='dd/MM/yyyy'/>"> 
                 </div>
             </div>
             <div class="form-group">
-                <label for="endDate" class="col-sm-2 control-label">Montant : </label>
+                <label for="endDate" class="col-sm-2 control-label">Date fin : </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="endDate" value="${discount.endDate}"> 
+                    <input type="text" class="form-control" name="endDate" value="<fmt:formatDate value='${discount.endDate}' pattern='dd/MM/yyyy'/>"> 
                 </div>
             </div>
         </div>
@@ -39,7 +40,7 @@
                     <c:if test="${empty discount}">
                         <button type="submit" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="createDiscount"><i class="fa fa-save"></i> <span>Valider</span></button>
                     </c:if>
-                    <c:if test="${not empty drink}">
+                    <c:if test="${not empty isDrinkDiscount}">
                         <button type="submit" class="btn btn-darkgray btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="attachDiscount"><i class="fa fa-save"></i> <span>Attacher Discount</span></button>
                     </c:if>
                     <button type="submit" class="btn btn-darkgray btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="cancelDiscount"><i class="fa fa-remove"></i> <span>Annuler</span></button>

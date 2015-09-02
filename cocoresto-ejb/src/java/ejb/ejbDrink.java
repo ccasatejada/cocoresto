@@ -1,10 +1,10 @@
-
 package ejb;
 
 import entities.Category;
 import entities.Drink;
 import entities.Format;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -28,11 +28,8 @@ public class ejbDrink implements ejbDrinkLocal {
         for(Format form : foList) {
             formats.add(form);
         }
-
         return formats;
     }
-    
-    
     
     @Override
     public ArrayList<Category> findCategories() {
@@ -47,7 +44,6 @@ public class ejbDrink implements ejbDrinkLocal {
                 categories.add(cat);
             }
         }
-
         return categories;
     }
     
@@ -68,16 +64,11 @@ public class ejbDrink implements ejbDrinkLocal {
     
     @Override
     public Drink findById(Long id) {
-        Drink drink = new Drink();
-        String query = "SELECT d FROM Drink d";
-        Query qr = em.createQuery(query);
+        Drink drink = em.find(Drink.class, id);
         
-        List<Drink> dList = qr.getResultList();
-
-        for(Drink dr : dList) {
-            if(dr.getId().equals(id)) {
-               drink = dr; 
-            }
+        if(drink.getDiscount() != null && (new Date()).after(drink.getDiscount().getEndDate())){
+            drink.setDiscount(null);
+            em.merge(drink);
         }
         
         return drink;
@@ -101,10 +92,25 @@ public class ejbDrink implements ejbDrinkLocal {
     }
     
     @Override
+    public List<Drink> findAllByRange(int firstResult, int maxResults) {
+        Query q = em.createQuery("select d from Drink d where d.active = 1 order by d.name asc");
+        if (firstResult >= 0) {
+            q.setFirstResult(firstResult);
+        }
+        if (maxResults > 0) {
+            q.setMaxResults(maxResults);
+        }
+        return q.getResultList();
+    }
+    
+    @Override
+    public int count() {
+        return ((Long) em.createQuery("select COUNT(d) from Drink d").getSingleResult()).intValue();
+    }
+    
+    @Override
     public void persist(Object object) {
         em.persist(object);
     }
 
-    
-    
 }

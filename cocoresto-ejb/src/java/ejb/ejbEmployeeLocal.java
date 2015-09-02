@@ -21,7 +21,11 @@ public interface ejbEmployeeLocal {
     public void persist(Object object);
 
     public ArrayList<Employee> findAll();
+    
+    public List<Employee> findAllByRange(int firstResult, int maxResults);
 
     public ArrayList<EmployeeGroup> findGroups();
+    
+    public int count();
     
 }

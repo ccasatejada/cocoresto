@@ -58,7 +58,7 @@ public class customerOrderController implements IController {
                 }
             }
 
-            // form has been send
+            // edit form has been send
             if (request.getParameter("confirm") != null) {
                 boolean ok = edit(request);
                 if (!ok) {

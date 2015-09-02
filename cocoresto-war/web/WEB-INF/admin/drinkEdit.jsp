@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -83,10 +84,10 @@
                         </c:if>
                         <c:forEach var="discount" items="${discounts}" varStatus="loop">
                             <c:if test="${drink.discount.id==discount.id}">
-                                <option value="${discount.id}" selected>${discount.rate} / ${discount.beginDate} / ${discount.endDate}</option>
+                                <option value="${discount.id}" selected>${discount.rate} / <fmt:formatDate value="${discount.beginDate}" pattern="dd MMM yyyy" /> / <fmt:formatDate value="${discount.endDate}" pattern="dd MMM yyyy" /> </option>
                             </c:if>
                             <c:if test="${drink.discount.id!=discount.id}">
-                                <option value="${discount.id}">${discount.rate} / ${discount.beginDate} / ${discount.endDate}</option>
+                                <option value="${discount.id}">${discount.rate} / <fmt:formatDate value="${discount.beginDate}" pattern="dd MMM yyyy" /> / <fmt:formatDate value="${discount.endDate}" pattern="dd MMM yyyy" /></option>
                             </c:if>
                         </c:forEach>
                     </select>

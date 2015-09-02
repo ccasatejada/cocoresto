@@ -7,6 +7,7 @@ import entities.Tax;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -40,6 +41,14 @@ public class beanRate implements Serializable {
 
     public void setDiscount(Discount discount) {
         this.discount = discount;
+    }
+    
+    public int discountCount() {
+        return ejbRate.discountCount();
+    }
+    
+    public int taxCount() {
+        return ejbRate.taxCount();
     }
     
     public void create(Tax tax) {
@@ -80,6 +89,14 @@ public class beanRate implements Serializable {
     
     public ArrayList<Discount> findAllDiscounts() {
         return ejbRate.findAllDiscounts();
+    }
+    
+    public List<Tax> findAllTaxesByRange(int firstResult, int maxResults) {
+        return ejbRate.findAllTaxesByRange(firstResult, maxResults);
+    }
+    
+    public List<Discount> findAllDiscountsByRange(int firstResult, int maxResults) {
+        return ejbRate.findAllDiscountsByRange(firstResult, maxResults);
     }
 
     
