@@ -31,7 +31,7 @@
             $.ajax({
                 url: 'FrontController',
                 type: 'POST',
-                data: 'option=employee&task=simpleList',
+                data: 'option=customerTable&task=simpleList&layout=component',
                 dataType: 'html',
                 success : function (html, status) {
                     $(html).appendTo("#listModal .modal-body"); 
