@@ -24,6 +24,7 @@
         $('[data-toggle="tooltip"]').tooltip();
 
         // modifyCustomerTable
+        /*
         $('#modifyCustomerTable').on('click', function () {
             
             $("#listModal .modal-body").empty();
@@ -31,7 +32,7 @@
             $.ajax({
                 url: 'FrontController',
                 type: 'POST',
-                data: 'option=employee&task=list',
+                data: 'option=customerTable&task=simpleList&layout=component',
                 dataType: 'html',
                 success : function (html, status) {
                     $(html).appendTo("#listModal .modal-body"); 
@@ -39,6 +40,7 @@
             });
 
         });
+        */
 
     });
 })(jQuery);

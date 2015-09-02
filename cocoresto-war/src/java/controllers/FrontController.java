@@ -42,6 +42,9 @@ public class FrontController extends HttpServlet {
             IController c = map.get(request.getParameter("option"));
             content = c.execute(request, response);
         }
+        if ("component".equals(request.getParameter("layout"))) {
+            url = "/WEB-INF/component.jsp";
+        }
         
         request.setAttribute("content", content);
         request.getRequestDispatcher(url).include(request, response);
