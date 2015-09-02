@@ -6,6 +6,7 @@ import entities.Employee;
 import entities.EmployeeGroup;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -55,6 +56,10 @@ public class beanEmployee implements Serializable {
     
     public ArrayList<Employee> findAll() {    
         return ejbEmployee.findAll();
+    }
+    
+    public List<Employee> findAllByRange(int firstResult, int maxResults) {
+        return ejbEmployee.findAllByRange(firstResult, maxResults);
     }
     
     

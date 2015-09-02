@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="endDate" class="col-sm-2 control-label">Montant : </label>
+                <label for="endDate" class="col-sm-2 control-label">Date fin : </label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="endDate" value="<fmt:formatDate value='${discount.endDate}' pattern='dd/MM/yyyy'/>"> 
                 </div>

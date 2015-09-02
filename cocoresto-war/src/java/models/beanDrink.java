@@ -10,6 +10,7 @@ import entities.Price;
 import entities.Tax;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -116,6 +117,10 @@ public class beanDrink implements Serializable {
 
     public ArrayList<Drink> findAll() {
         return ejbDrink.findAll();
+    }
+    
+    public List<Drink> findAllByRange(int firstResult, int maxResults) {
+        return ejbDrink.findAllByRange(firstResult, maxResults);
     }
 
     public ArrayList<Format> findFormats() {
