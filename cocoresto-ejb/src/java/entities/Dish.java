@@ -21,6 +21,7 @@ public class Dish implements Serializable {
     private Integer inventory;
     private String description;
     private String country;
+    @Transient
     private Integer status;
 
     @ManyToOne

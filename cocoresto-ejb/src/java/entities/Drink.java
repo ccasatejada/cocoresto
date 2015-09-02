@@ -19,8 +19,9 @@ public class Drink implements Serializable {
     private boolean active;
     private Integer inventory;
     private String description;
+    @Transient
     private Integer status;
-    
+
     @ManyToOne
     private Price price;
     
@@ -34,20 +35,15 @@ public class Drink implements Serializable {
     private Category category;
     @ManyToMany
     private Collection<Format> formats;
+
     @ManyToMany(mappedBy = "drinks")
     private List<CustomerOrder> customerOrders;
 
+    
     public Drink() {
     }
 
-    public List<CustomerOrder> getCustomerOrders() {
-        return customerOrders;
-    }
 
-    public void setCustomerOrders(List<CustomerOrder> customerOrders) {
-        this.customerOrders = customerOrders;
-    }
-    
     public Double getTotalPrice() {
         Double priceTax = 0d; 
         Double totalPrice = 0d; 
@@ -88,9 +84,15 @@ public class Drink implements Serializable {
     public void setTax(Tax tax) {
         this.tax = tax;
     }
-    
-    
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+    
     public Category getCategory() {
         return category;
     }
@@ -105,6 +107,14 @@ public class Drink implements Serializable {
 
     public void setFormats(Collection<Format> formats) {
         this.formats = formats;
+    }
+
+    public List<CustomerOrder> getCustomerOrders() {
+        return customerOrders;
+    }
+
+    public void setCustomerOrders(List<CustomerOrder> customerOrders) {
+        this.customerOrders = customerOrders;
     }
     
 
@@ -158,14 +168,6 @@ public class Drink implements Serializable {
         this.description = description;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-    
     public Double round(Double d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Double.toString(d));
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);

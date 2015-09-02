@@ -119,14 +119,6 @@ public class CustomerOrder implements Serializable {
         this.customerTable = customerTable;
     }
 
-    public Collection<Drink> getDrinks() {
-        return drinks;
-    }
-
-    public void setDrinks(Collection<Drink> drinks) {
-        this.drinks = drinks;
-    }
-
     public Collection<Dish> getDishes() {
         return dishes;
     }
