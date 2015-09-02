@@ -35,25 +35,25 @@
             <div class="form-group">
                 <label for="lastName" class="col-sm-2 control-label">Nom : </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="lastName" value="${employee.lastName}"> 
+                    <input type="text" class="form-control" required name="lastName" value="${employee.lastName}"> 
                 </div>
             </div>
             <div class="form-group">
                 <label for="firstName" class="col-sm-2 control-label">Prénom : </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="firstName" value="${employee.firstName}">
+                    <input type="text" class="form-control" required name="firstName" value="${employee.firstName}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="password" class="col-sm-2 control-label">Mot de passe : </label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" name="password" value="${employee.password}"> 
+                    <input type="password" class="form-control" required name="password" value="${employee.password}"> 
                 </div>
             </div>
             <div class="form-group">
                 <label for="confirmPassword" class="col-sm-2 control-label">Confirmer mot de passe : </label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" name="confirmPassword"> 
+                    <input type="password" class="form-control" required name="confirmPassword"> 
                 </div>
             </div>
         </div> 
