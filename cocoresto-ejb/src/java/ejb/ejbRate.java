@@ -104,7 +104,8 @@ public class ejbRate implements ejbRateLocal {
     
     @Override
     public List<Discount> findAllDiscountsByRange(int firstResult, int maxResults) {
-        Query q = em.createQuery("select d from Discount d order by d.endDate desc");
+        Query q = em.createQuery("select d from Discount d where d.endDate >= :actualDate order by d.endDate desc");
+        q.setParameter("actualDate", new Date());
         if (firstResult >= 0) {
             q.setFirstResult(firstResult);
         }

@@ -8,8 +8,8 @@ import helpers.Pagination;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,17 +74,28 @@ public class rateController implements IController {
 
             if ("deleteTax".equals(request.getParameter("task"))) {
                 tax = bRate.findTaxById(Long.valueOf(request.getParameter("id")));
-                bRate.delete(tax);
+                try {
+                    bRate.delete(tax);
+                    request.setAttribute("alert", Alert.setAlert("Succès", "La taxe a été supprimée", "success"));
+                } catch (EJBException e) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette taxe n'existe pas", "danger"));
+                }
             }
 
             if ("deleteDiscount".equals(request.getParameter("task"))) {
                 discount = bRate.findDiscountById(Long.valueOf(request.getParameter("id")));
-                bRate.delete(discount);
+                try {
+                    bRate.delete(discount);
+                    request.setAttribute("alert", Alert.setAlert("Succès", "Le discount a été supprimé", "success"));
+                } catch (EJBException e) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Ce discount n'existe pas", "danger"));
+                }
             }
 
             if (request.getParameter("createTax") != null) {
                 tax.setRate(Double.valueOf(request.getParameter("amount")));
                 bRate.create(tax);
+                request.setAttribute("alert", Alert.setAlert("Succès", "La taxe a été ajoutée", "success"));
             }
 
             if (request.getParameter("createDiscount") != null) {
@@ -94,16 +105,18 @@ public class rateController implements IController {
                     discount.setBeginDate(formatter.parse(request.getParameter("beginDate")));
                     discount.setEndDate(formatter.parse(request.getParameter("endDate")));
                 } catch (ParseException ex) {
-                    ex.getMessage();
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Les dates n'ont pas été rentrées correctement", "danger"));
                 }
 
                 bRate.create(discount);
+                request.setAttribute("alert", Alert.setAlert("Succès", "Le discount a été ajouté", "success"));
             }
 
             if (request.getParameter("modifyTax") != null) {
                 tax = (Tax) session.getAttribute("tax");
                 tax.setRate(Double.valueOf(request.getParameter("amount")));
                 bRate.update(tax);
+                request.setAttribute("alert", Alert.setAlert("Succès", "La taxe a été mise à jour", "success"));
             }
 
             if (request.getParameter("modifyDiscount") != null) {
@@ -114,9 +127,10 @@ public class rateController implements IController {
                     discount.setBeginDate(formatter.parse(request.getParameter("beginDate")));
                     discount.setEndDate(formatter.parse(request.getParameter("endDate")));
                 } catch (ParseException ex) {
-                    ex.getMessage();
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Les dates n'ont pas été rentrées correctement", "danger"));
                 }
                 bRate.update(discount);
+                request.setAttribute("alert", Alert.setAlert("Succès", "Le discount a été mis à jour", "success"));
             }
 
             if (request.getParameter("attachDiscount") != null) {
@@ -135,11 +149,10 @@ public class rateController implements IController {
                 bDrink.update(drink);
                 session.setAttribute("drink", drink);
                 session.setAttribute("bDrink", bDrink);
-                System.out.println(request.getRequestURI());
                 try {
                     response.sendRedirect(request.getRequestURI() + "?option=drink&task=modify&id=" + drink.getId());
                 } catch (IOException ex) {
-                    ex.getMessage();
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Un problème est survenu, veuillez recommencer l'opération", "danger"));
                 }
                 return "/WEB-INF/admin/drinkEdit.jsp";
             }
