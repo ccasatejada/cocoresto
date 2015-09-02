@@ -97,19 +97,11 @@ public class comboController implements IController {
     }
 
     private void getList(HttpServletRequest request) {
-        int max = 10;
-        int currentPage = 1;
-        if (request.getParameter("page") != null) {
-            try {
-                currentPage = Integer.valueOf(request.getParameter("page"));
-            } catch (NumberFormatException e) {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "La page n'est pas un nombre", "danger"));
-            }
-        }
-        Pagination pagination = new Pagination("combo", currentPage, max, bco.count());
+
+        Pagination pagination = new Pagination("combo", request.getParameter("page"), 10, bco.count());
         request.setAttribute("pagination", pagination.getPagination());
 
-        List<Combo> combos = bco.findAllByRange(pagination.getMin(), max);
+        List<Combo> combos = bco.findAllByRange(pagination.getMin(), 10);
         request.setAttribute("combos", combos);
     }
 

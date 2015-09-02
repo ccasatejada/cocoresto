@@ -251,20 +251,11 @@ public class dishController implements IController {
     }
     
     private void getList(HttpServletRequest request) {
-        // pagination
-        int max = 10;
-        int currentPage = 1;
-        if (request.getParameter("page") != null) {
-            try {
-                currentPage = Integer.valueOf(request.getParameter("page"));
-            } catch (NumberFormatException e) {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "La page n'est pas un nombre", "danger"));
-            }
-        }
-        Pagination pagination = new Pagination("dish", currentPage, max, bd.count());
+
+        Pagination pagination = new Pagination("dish", request.getParameter("page"), 10, bd.count());
         request.setAttribute("pagination", pagination.getPagination());
         
-        List<Dish> dishes = bd.findAllByRange(pagination.getMin(), max);
+        List<Dish> dishes = bd.findAllByRange(pagination.getMin(), 10);
         request.setAttribute("dishes", dishes);
     }
     
