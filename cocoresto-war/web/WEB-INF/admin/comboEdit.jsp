@@ -4,6 +4,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <%@include file="../includes/head.jsp" %>
+
+        <title>Panneau d'administration</title>
+    </head>
     <body id="minovate" class="appWrapper">
         <div id="wrap" class="animsition">
             <%@include file="../includes/adminMenu.jsp" %>
@@ -69,7 +74,7 @@
                                     <label for="comboDish3">Dessert :</label>
                                     <select id="comboDish3" name="comboDish3">
                                         <c:forEach var="dish3" items="${dishes3}" varStatus="loop"> 
-                                            <option name="dish3" value="${dish1.id}" <c:if test="${combo.dishes.dish.category.name eq 'Dessert'}">selected</c:if>>${dishes3.name}</option>
+                                            <option name="dish3" value="${dish3.id}" <c:if test="${combo.dishes.dish.category.name eq 'Dessert'}">selected</c:if>>${dishes3.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

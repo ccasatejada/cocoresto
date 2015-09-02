@@ -2,7 +2,9 @@
 package entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
@@ -110,6 +112,52 @@ public class Combo implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    
+    public Double getTotalPrice() {
+        Double p = 0d;
+        Date d = new Date();
+        
+
+        if (discount != null && d.before(discount.getEndDate()) && d.after(discount.getBeginDate())) {
+            p = price.getPrice() - (price.getPrice() * (discount.getRate() / 100));
+        } else {
+            p = price.getPrice();
+        }
+
+        p = p * (1 + (tax.getRate() / 100));
+        
+        return round(p,2);
+    }
+    
+    public Double getPriceWithDiscount(){
+        Double p = 0d;
+        Date d = new Date();
+        
+
+        if (discount != null && d.before(discount.getEndDate()) && d.after(discount.getBeginDate())) {
+            p = price.getPrice() - (price.getPrice() * (discount.getRate() / 100));
+        } else {
+            return null;
+        }
+        
+        return round(p,2);
+    }
+    
+        public Double getPriceWithTax(){
+        Double p = 0d;
+        p = price.getPrice() * (1 + (tax.getRate() / 100));
+        
+        return round(p,2);
+    }
+    
+    
+    
+    public Double round(Double d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Double.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.doubleValue();
     }
 
     @Override
