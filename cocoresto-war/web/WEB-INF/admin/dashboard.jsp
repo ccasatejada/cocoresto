@@ -18,7 +18,7 @@
                                             <i class="fa fa-users fa-4x"></i>
                                         </div>
                                         <div class="col-xs-8">
-                                            <p class="text-elg text-strong mb-0">EmployÃ©s</p>
+                                            <p class="text-elg text-strong mb-0">Employés</p>
                                             <span>32</span>
                                         </div>
                                     </div>
@@ -201,7 +201,7 @@
                                         </div>
                                         <div class="col-xs-8">
                                             <p class="text-elg text-strong mb-0">Menus</p>
-                                            <span>{countCombo}</span>
+                                            <span>${countCombo}</span>
                                         </div>
                                     </div>
                                 </div>
