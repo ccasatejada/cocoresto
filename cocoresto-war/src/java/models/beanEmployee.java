@@ -33,6 +33,10 @@ public class beanEmployee implements Serializable {
         return ejbEmployee.findGroups();
     }
     
+    public int count() {
+        return ejbEmployee.count();
+    }
+    
     public void create(Employee emp) {
         ejbEmployee.create(emp);
     }

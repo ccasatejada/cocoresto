@@ -4,7 +4,6 @@ package ejb;
 import entities.Employee;
 import entities.EmployeeGroup;
 import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.Local;
 
 @Local
@@ -23,5 +22,7 @@ public interface ejbEmployeeLocal {
     public ArrayList<Employee> findAll();
 
     public ArrayList<EmployeeGroup> findGroups();
+    
+    public int count();
     
 }

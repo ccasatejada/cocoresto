@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -132,8 +130,6 @@ public class rateController implements IController{
             return "/WEB-INF/admin/drinkEdit.jsp";
         }
         
-        
-        
         if("rate".equals(request.getParameter("option"))) {
             ArrayList<Tax> taxes = bRate.findAllTaxes();
             session.setAttribute("taxes", taxes);
@@ -141,7 +137,6 @@ public class rateController implements IController{
             session.setAttribute("discounts", discounts);
             return "/WEB-INF/admin/rateList.jsp";
         }
-        
         
         return "/WEB-INF/admin/rateList.jsp";
     }

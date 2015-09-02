@@ -42,6 +42,14 @@ public class beanRate implements Serializable {
         this.discount = discount;
     }
     
+    public int discountCount() {
+        return ejbRate.discountCount();
+    }
+    
+    public int taxCount() {
+        return ejbRate.taxCount();
+    }
+    
     public void create(Tax tax) {
         ejbRate.create(tax);
     }

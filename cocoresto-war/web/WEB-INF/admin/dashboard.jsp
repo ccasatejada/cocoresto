@@ -191,7 +191,7 @@
                     </div>
                     <div class="col-xs-8">
                         <p class="text-elg text-strong mb-0">Menus</p>
-                        <span>32</span>
+                        <span>${countCombo}</span>
                     </div>
                 </div>
             </div>

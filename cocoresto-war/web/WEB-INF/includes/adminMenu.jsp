@@ -60,7 +60,7 @@
                 <a href="FrontController?option=combo" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menus <span class="caret"></span></a>
                 <ul class="dropdown-menu animated littleFadeInRight" role="menu">
                     <li><a href="FrontController?option=combo" tabindex="0"><i class="fa fa-list"></i>Liste</a></li>
-                    <li><a href="FrontController?option=combo&task=add" tabindex="0"><i class="fa fa-plus"></i>Ajouter</a></li>
+                    <li><a href="FrontController?option=combo&task=edit" tabindex="0"><i class="fa fa-plus"></i>Ajouter</a></li>
                 </ul>          
             </li>
         </ul>

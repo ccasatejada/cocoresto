@@ -30,24 +30,25 @@ public class drinkController implements IController {
         Tax tax;
         Discount discount;
         Price price;
+        
         ArrayList<Format> formats;
         ArrayList<Category> categories;
         ArrayList<Discount> discounts;
         ArrayList<Tax> taxes;
         ArrayList<Price> prices;
-        Format format;
+
+        boolean isDrinkDiscount;
 
         beanDrink bDrink = (beanDrink) session.getAttribute("bDrink");
         beanRate bRate = (beanRate) session.getAttribute("bRate");
         beanPrice bPrice = (beanPrice) session.getAttribute("bPrice");
         beanFormat bFormat = (beanFormat) session.getAttribute("bFormat");
-
+        
         if (bDrink == null) {
             bDrink = new beanDrink();
             drink = new Drink();
             category = new Category();
             formats = new ArrayList();
-            format = new Format();
             price = new Price();
             tax = new Tax();
             discount = new Discount();
@@ -56,7 +57,6 @@ public class drinkController implements IController {
             session.setAttribute("bDrink", bDrink);
         } else {
             drink = bDrink.getDrink();
-            format = bDrink.getFormat();
             category = bDrink.getCategory();
             price = bDrink.getPrice();
             tax = bDrink.getTax();
@@ -65,7 +65,6 @@ public class drinkController implements IController {
         if (bRate == null) {
             bRate = new beanRate();
             drink = new Drink();
-            format = new Format();
             category = new Category();
             session.setAttribute("bRate", bRate);
         }
@@ -73,7 +72,6 @@ public class drinkController implements IController {
             bPrice = new beanPrice();
             price = new Price();
             drink = new Drink();
-            format = new Format();
             category = new Category();
             session.setAttribute("bPrice", bPrice);
         }
@@ -94,6 +92,7 @@ public class drinkController implements IController {
             session.setAttribute("discounts", discounts);
             session.setAttribute("taxes", taxes);
             session.removeAttribute("drink");
+            session.removeAttribute("isDrinkDiscount");
             return "/WEB-INF/admin/drinkEdit.jsp";
         }
 
@@ -112,7 +111,8 @@ public class drinkController implements IController {
             session.setAttribute("discounts", discounts);
             session.setAttribute("taxes", taxes);
             session.setAttribute("drink", drink);
-
+            isDrinkDiscount = true;
+            session.setAttribute("isDrinkDiscount", isDrinkDiscount);
             return "/WEB-INF/admin/drinkEdit.jsp";
         }
 
@@ -121,6 +121,7 @@ public class drinkController implements IController {
             drink.setDiscount(null);
             bDrink.update(drink);
             session.setAttribute("drink", drink);
+            session.removeAttribute("isDrinkDiscount");
             return "/WEB-INF/admin/drinkEdit.jsp";
         }
 
@@ -128,6 +129,7 @@ public class drinkController implements IController {
             drink = bDrink.findById(Long.valueOf(request.getParameter("id")));
             drink.setActive(false);
             bDrink.delete(drink);
+            session.removeAttribute("isDrinkDiscount");
         }
 
         if (request.getParameter("cancelIt") != null) {
@@ -138,6 +140,7 @@ public class drinkController implements IController {
             session.removeAttribute("taxes");
             session.removeAttribute("categories");
             session.removeAttribute("uncheckedFormats");
+            session.removeAttribute("isDrinkDiscount");
         }
 
         if (request.getParameter("createIt") != null) {
@@ -196,9 +199,9 @@ public class drinkController implements IController {
             } else {
                 drink.setPrice(price);
             }
-
             bDrink.create(drink);
             session.setAttribute("drink", drink);
+            session.removeAttribute("isDrinkDiscount");
         }
 
         if (request.getParameter("modifyIt") != null) {
@@ -273,6 +276,7 @@ public class drinkController implements IController {
             bDrink.update(drink);
             session.setAttribute("uncheckedFormats", uncheckedFormats);
             session.setAttribute("drink", drink);
+            session.removeAttribute("isDrinkDiscount");
         }
         
         if("attachDiscount".equals(request.getParameter("task"))) {
@@ -288,12 +292,14 @@ public class drinkController implements IController {
             bRate.create(discount);
             drink.setDiscount(discount);
             bDrink.update(drink);
+            session.removeAttribute("isDrinkDiscount");
             return "/WEB-INF/admin/drinkEdit.jsp";
         }
 
         if ("drink".equals(request.getParameter("option"))) {
             ArrayList<Drink> drinks = bDrink.findAll();
             session.setAttribute("drinks", drinks);
+            session.removeAttribute("isDrinkDiscount");
             return "/WEB-INF/admin/drinkList.jsp";
         }
 

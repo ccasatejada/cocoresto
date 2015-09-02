@@ -2,8 +2,6 @@
 package ejb;
 
 import entities.Discount;
-import entities.Employee;
-import entities.EmployeeGroup;
 import entities.Tax;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +25,10 @@ public interface ejbRateLocal {
     public Tax findTaxById(Long id);
     
     public Discount findDiscountById(Long id);
+    
+    public int taxCount();
+    
+    public int discountCount();
 
     public void persist(Object object);
 
