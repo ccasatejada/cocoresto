@@ -32,6 +32,7 @@ public class customerTableController implements IController {
         }
 
         if ("simpleList".equals(request.getParameter("task"))) {
+            
             getList(request, "option=customerTable&task=" + request.getParameter("task") + "&layout=component");
             return "admin/customerTableSimpleList.jsp";
         }
@@ -62,7 +63,7 @@ public class customerTableController implements IController {
                 }
             }
 
-            // form has been send
+            // edit form has been send
             if (request.getParameter("confirm") != null) {
                 boolean ok = edit(request);
                 if (!ok) {
