@@ -21,13 +21,13 @@
             <div class="form-group">
                 <label for="beginDate" class="col-sm-2 control-label">Date début : </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="beginDate" required placeholder="jj/mm/aaaa" maxlength="10" value="<fmt:formatDate value='${discount.beginDate}' pattern='dd/MM/yyyy'/>"> 
+                    <input type="text" class="form-control" name="beginDate" value="<fmt:formatDate value='${discount.beginDate}' pattern='dd/MM/yyyy'/>"> 
                 </div>
             </div>
             <div class="form-group">
                 <label for="endDate" class="col-sm-2 control-label">Date fin : </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="endDate" required placeholder="jj/mm/aaaa" maxlength="10" value="<fmt:formatDate value='${discount.endDate}' pattern='dd/MM/yyyy'/>"> 
+                    <input type="text" class="form-control" name="endDate" value="<fmt:formatDate value='${discount.endDate}' pattern='dd/MM/yyyy'/>"> 
                 </div>
             </div>
         </div>

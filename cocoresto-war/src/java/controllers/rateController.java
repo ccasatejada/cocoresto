@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -95,42 +93,23 @@ public class rateController implements IController {
             }
 
             if (request.getParameter("createTax") != null) {
-                if (request.getParameter("amount").matches("^(0|(-?(((0|[1-9]\\d*)\\.\\d+)|([1-9]\\d*))))$")) {
-                    tax.setRate(Double.valueOf(request.getParameter("amount")));
-                    bRate.create(tax);
-                    request.setAttribute("alert", Alert.setAlert("Succès", "La taxe a été ajoutée", "success"));
-                } else {
-                    try {
-                        response.sendRedirect(request.getRequestURI() + "?option=rate&task=editTax");
-                    } catch (IOException ex) {
-                        request.setAttribute("alert", Alert.setAlert("Erreur", "Un problème est survenu, veuillez recommencer l'opération", "danger"));
-                    }
-                    request.setAttribute("alert", Alert.setAlert("Erreur", "La taxe n'a pas été rentrée correctement", "danger"));
-                }
-
+                tax.setRate(Double.valueOf(request.getParameter("amount")));
+                bRate.create(tax);
+                request.setAttribute("alert", Alert.setAlert("Succès", "La taxe a été ajoutée", "success"));
             }
 
             if (request.getParameter("createDiscount") != null) {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                if (request.getParameter("amount").matches("^(0|(-?(((0|[1-9]\\d*)\\.\\d+)|([1-9]\\d*))))$")) {
-                    discount.setRate(Double.valueOf(request.getParameter("amount")));
-                    try {
-                        discount.setBeginDate(formatter.parse(request.getParameter("beginDate")));
-                        discount.setEndDate(formatter.parse(request.getParameter("endDate")));
-                    } catch (ParseException ex) {
-                        request.setAttribute("alert", Alert.setAlert("Erreur", "Les dates n'ont pas été rentrées correctement", "danger"));
-                    }
-
-                    bRate.create(discount);
-                    request.setAttribute("alert", Alert.setAlert("Succès", "Le discount a été ajouté", "success"));
-                } else {
-                    try {
-                        response.sendRedirect(request.getRequestURI() + "?option=rate&task=editDiscount");
-                    } catch (IOException ex) {
-                        request.setAttribute("alert", Alert.setAlert("Erreur", "Un problème est survenu, veuillez recommencer l'opération", "danger"));
-                    }
+                discount.setRate(Double.valueOf(request.getParameter("amount")));
+                try {
+                    discount.setBeginDate(formatter.parse(request.getParameter("beginDate")));
+                    discount.setEndDate(formatter.parse(request.getParameter("endDate")));
+                } catch (ParseException ex) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Les dates n'ont pas été rentrées correctement", "danger"));
                 }
 
+                bRate.create(discount);
+                request.setAttribute("alert", Alert.setAlert("Succès", "Le discount a été ajouté", "success"));
             }
 
             if (request.getParameter("modifyTax") != null) {
