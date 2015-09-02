@@ -23,6 +23,7 @@
                                 <ul class="page-breadcrumb">
                                     <li><a href="FrontController?option=dashboard"><i class="fa fa-home"></i> CocoResto</a></li>
                                     <li><a href="FrontController?option=dashboard">Panneau d'administration</a></li>
+                                    ${pathway}
                                 </ul>
                                 <div class="page-toolbar">
                                     <a role="button" tabindex="0" class="btn btn-lightred no-border pickDate">
