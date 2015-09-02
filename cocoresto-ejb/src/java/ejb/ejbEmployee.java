@@ -48,17 +48,7 @@ public class ejbEmployee implements ejbEmployeeLocal {
     
     @Override
     public Employee findById(Long id) {
-        Employee employee = new Employee();
-        String query = "SELECT e FROM Employee e";
-        Query qr = em.createQuery(query);
-        
-        List<Employee> eList = qr.getResultList();
-
-        for(Employee emp : eList) {
-            if(emp.getId().equals(id)) {
-               employee = emp; 
-            }
-        }
+        Employee employee = em.find(Employee.class, id);
         
         return employee;
     }
@@ -78,6 +68,11 @@ public class ejbEmployee implements ejbEmployeeLocal {
         }
         
         return employees;
+    }
+    
+    @Override
+    public int count() {
+        return ((Long) em.createQuery("select COUNT(e) from Employee e").getSingleResult()).intValue();
     }
     
     @Override

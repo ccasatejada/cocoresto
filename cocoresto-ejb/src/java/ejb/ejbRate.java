@@ -50,29 +50,13 @@ public class ejbRate implements ejbRateLocal {
 
     @Override
     public Tax findTaxById(Long id) {
-        Tax tax = new Tax();
-        String query = "SELECT t FROM Tax t";
-        Query qr = em.createQuery(query);
-        List<Tax> tList = qr.getResultList();
-        for (Tax ta : tList) {
-            if (ta.getId().equals(id)) {
-                tax = ta;
-            }
-        }
+        Tax tax = em.find(Tax.class, id);
         return tax;
     }
 
     @Override
     public Discount findDiscountById(Long id) {
-        Discount discount = new Discount();
-        String query = "SELECT d FROM Discount d";
-        Query qr = em.createQuery(query);
-        List<Discount> dList = qr.getResultList();
-        for (Discount di : dList) {
-            if (di.getId().equals(id)) {
-                discount = di;
-            }
-        }
+        Discount discount = em.find(Discount.class, id);
         return discount;
     }
 
@@ -95,9 +79,9 @@ public class ejbRate implements ejbRateLocal {
     public ArrayList<Discount> findAllDiscounts() {
         ArrayList<Discount> discounts = new ArrayList();
 
-        String query = "SELECT d FROM Discount d";
+        String query = "SELECT d FROM Discount d WHERE d.endDate >= :actualDate";
         Query qr = em.createQuery(query);
-
+        qr.setParameter("actualDate", new Date());
         List<Discount> dList = qr.getResultList();
         for (Discount di : dList) {
             discounts.add(di);
@@ -116,6 +100,16 @@ public class ejbRate implements ejbRateLocal {
         
         Discount d = (Discount)q.getSingleResult();
         return d;
+    }
+    
+    @Override
+    public int taxCount() {
+        return ((Long) em.createQuery("select COUNT(t) from Tax t").getSingleResult()).intValue();
+    }
+    
+    @Override
+    public int discountCount() {
+        return ((Long) em.createQuery("select COUNT(d) from Discount d").getSingleResult()).intValue();
     }
 
     @Override

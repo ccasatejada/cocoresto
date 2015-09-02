@@ -3,8 +3,6 @@ package ejb;
 
 import entities.Category;
 import entities.Drink;
-import entities.Employee;
-import entities.EmployeeGroup;
 import entities.Format;
 import java.util.ArrayList;
 import javax.ejb.Local;
@@ -28,5 +26,6 @@ public interface ejbDrinkLocal {
     
     public ArrayList<Category> findCategories();
     
-    
+    public int count();
+      
 }
