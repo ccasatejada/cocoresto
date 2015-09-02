@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
@@ -69,8 +70,8 @@
                                 <tr>
                                     <td>${discount.id}</td>
                                     <td>${discount.rate}</td>
-                                    <td>${discount.beginDate}</td>
-                                    <td>${discount.endDate}</td>
+                                    <td><fmt:formatDate value='${discount.beginDate}' pattern='dd MMM yyyy'/></td>
+                                    <td><fmt:formatDate value='${discount.endDate}' pattern='dd MMM yyyy'/></td>
                                     <td>
                                         <a href="FrontController?option=rate&task=modifyDiscount&id=${discount.id}" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="modifyDiscount">Modifier</a>
                                         <a href="FrontController?option=rate&task=deleteDiscount&id=${discount.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="deleteDiscount">Supprimer</a>
