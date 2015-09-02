@@ -1,6 +1,5 @@
 package controllers;
 
-import entities.CustomerOrder;
 import entities.Employee;
 import entities.EmployeeGroup;
 import helpers.Alert;
@@ -9,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,7 +65,12 @@ public class employeeController implements IController {
             if ("delete".equals(request.getParameter("task"))) {
                 emp = bEmp.findById(Long.valueOf(request.getParameter("id")));
                 emp.setActive(false);
-                bEmp.delete(emp);
+                try {
+                    bEmp.delete(emp);
+                    request.setAttribute("alert", Alert.setAlert("Succès", "L'employé a été supprimé", "success"));
+                } catch (EJBException e) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cet employé n'existe pas", "danger"));
+                }
             }
 
             if (request.getParameter("createIt") != null) {
@@ -83,6 +88,7 @@ public class employeeController implements IController {
                 emp.setLastName(request.getParameter("lastName"));
                 emp.setPassword(request.getParameter("password"));
                 bEmp.create(emp);
+                request.setAttribute("alert", Alert.setAlert("Succès", "L'employé a été ajouté", "success"));
             }
 
             if (request.getParameter("modifyIt") != null) {
@@ -99,6 +105,7 @@ public class employeeController implements IController {
                 emp.setLastName(request.getParameter("lastName"));
                 emp.setPassword(request.getParameter("password"));
                 bEmp.update(emp);
+                request.setAttribute("alert", Alert.setAlert("Succès", "L'employé a été mis à jour", "success"));
             }
 
             if ("employee".equals(request.getParameter("option"))) {

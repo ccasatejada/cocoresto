@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJBException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -95,27 +96,31 @@ public class beanDrink implements Serializable {
         this.drink = drink;
     }
     
-    public int count() {
+    public int count() throws EJBException{
+        if(ejbDrink.count() != 0) {
         return ejbDrink.count();
+        }
+        return 0;  
+        
     }
     
-    public void create(Drink drink) {
+    public void create(Drink drink) throws EJBException {
         ejbDrink.create(drink);
     }
 
-    public void delete(Drink drink) {
+    public void delete(Drink drink) throws EJBException {
         ejbDrink.delete(drink);
     }
 
-    public void update(Drink drink) {
+    public void update(Drink drink) throws EJBException {
         ejbDrink.update(drink);
     }
 
-    public Drink findById(Long id) {
+    public Drink findById(Long id) throws EJBException {
         return ejbDrink.findById(id);
     }
 
-    public ArrayList<Drink> findAll() {
+    public ArrayList<Drink> findAll() throws EJBException {
         return ejbDrink.findAll();
     }
     
@@ -123,16 +128,13 @@ public class beanDrink implements Serializable {
         return ejbDrink.findAllByRange(firstResult, maxResults);
     }
 
-    public ArrayList<Format> findFormats() {
+    public ArrayList<Format> findFormats() throws EJBException {
         return ejbDrink.findFormats();
     }
     
-    public ArrayList<Category> findCategories() {
+    public ArrayList<Category> findCategories() throws EJBException {
         return ejbDrink.findCategories();
     }
-    
-    
-    
 
     private ejbDrinkLocal lookupejbDrinkLocal() {
         try {

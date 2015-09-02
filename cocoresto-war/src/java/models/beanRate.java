@@ -43,51 +43,57 @@ public class beanRate implements Serializable {
         this.discount = discount;
     }
     
-    public int discountCount() {
+    public int discountCount() throws EJBException {
+        if(ejbRate.discountCount() != 0) {
         return ejbRate.discountCount();
+        }
+        return 0;
     }
     
-    public int taxCount() {
+    public int taxCount() throws EJBException {
+        if(ejbRate.taxCount() != 0) {
         return ejbRate.taxCount();
+        }
+        return 0;
     }
     
-    public void create(Tax tax) {
+    public void create(Tax tax) throws EJBException {
         ejbRate.create(tax);
     }
     
-    public void create(Discount discount) {
+    public void create(Discount discount) throws EJBException {
         ejbRate.create(discount);
     }
 
-    public void delete(Tax tax) {
+    public void delete(Tax tax) throws EJBException {
         ejbRate.delete(tax);
     }
     
-    public void delete(Discount discount){
+    public void delete(Discount discount) throws EJBException {
         ejbRate.delete(discount);
     }
 
-    public void update(Tax tax) {
+    public void update(Tax tax) throws EJBException {
         ejbRate.update(tax);
     }
     
-    public void update(Discount discount) {
+    public void update(Discount discount) throws EJBException {
         ejbRate.update(discount);
     }
 
-    public Tax findTaxById(Long id) {
+    public Tax findTaxById(Long id) throws EJBException {
         return ejbRate.findTaxById(id);
     }
     
-    public Discount findDiscountById(Long id) {
+    public Discount findDiscountById(Long id) throws EJBException {
         return ejbRate.findDiscountById(id);
     }
 
-    public ArrayList<Tax> findAllTaxes() {
+    public ArrayList<Tax> findAllTaxes() throws EJBException {
         return ejbRate.findAllTaxes();
     }
     
-    public ArrayList<Discount> findAllDiscounts() {
+    public ArrayList<Discount> findAllDiscounts() throws EJBException {
         return ejbRate.findAllDiscounts();
     }
     

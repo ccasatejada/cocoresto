@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJBException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -35,26 +36,29 @@ public class beanEmployee implements Serializable {
     }
     
     public int count() {
+        if(ejbEmployee.count() != 0) {
         return ejbEmployee.count();
+        }
+        return 0;
     }
     
-    public void create(Employee emp) {
+    public void create(Employee emp) throws EJBException {
         ejbEmployee.create(emp);
     }
     
-    public void delete(Employee emp) {
+    public void delete(Employee emp) throws EJBException {
         ejbEmployee.delete(emp);
     }
     
-    public void update(Employee emp) {
+    public void update(Employee emp) throws EJBException {
         ejbEmployee.update(emp);
     }
     
-    public Employee findById(Long id) {
+    public Employee findById(Long id) throws EJBException {
         return ejbEmployee.findById(id);
     }
     
-    public ArrayList<Employee> findAll() {    
+    public ArrayList<Employee> findAll() throws EJBException {    
         return ejbEmployee.findAll();
     }
     

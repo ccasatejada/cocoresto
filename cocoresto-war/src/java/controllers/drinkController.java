@@ -3,7 +3,6 @@ package controllers;
 import entities.Category;
 import entities.Discount;
 import entities.Drink;
-import entities.Employee;
 import entities.Format;
 import entities.Price;
 import entities.Tax;
@@ -14,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -139,14 +139,20 @@ public class drinkController implements IController {
                 bDrink.update(drink);
                 session.setAttribute("drink", drink);
                 session.removeAttribute("isDrinkDiscount");
+                request.setAttribute("alert", Alert.setAlert("Succès", "Le discount a bien été détaché", "success"));
                 return "/WEB-INF/admin/drinkEdit.jsp";
             }
 
             if ("delete".equals(request.getParameter("task"))) {
                 drink = bDrink.findById(Long.valueOf(request.getParameter("id")));
                 drink.setActive(false);
-                bDrink.delete(drink);
                 session.removeAttribute("isDrinkDiscount");
+                try {
+                    bDrink.delete(drink);
+                    request.setAttribute("alert", Alert.setAlert("Succès", "La boisson a été supprimée", "success"));
+                } catch (EJBException e) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette boisson n'existe pas", "danger"));
+                }
             }
 
             if (request.getParameter("cancelIt") != null) {
@@ -219,6 +225,7 @@ public class drinkController implements IController {
                 bDrink.create(drink);
                 session.setAttribute("drink", drink);
                 session.removeAttribute("isDrinkDiscount");
+                request.setAttribute("alert", Alert.setAlert("Succès", "La boisson a été ajoutée", "success"));
             }
 
             if (request.getParameter("modifyIt") != null) {
@@ -294,6 +301,7 @@ public class drinkController implements IController {
                 session.setAttribute("uncheckedFormats", uncheckedFormats);
                 session.setAttribute("drink", drink);
                 session.removeAttribute("isDrinkDiscount");
+                request.setAttribute("alert", Alert.setAlert("Succès", "La boisson a été mise à jour", "success"));
             }
 
             if ("attachDiscount".equals(request.getParameter("task"))) {
@@ -304,12 +312,13 @@ public class drinkController implements IController {
                     discount.setBeginDate(formatter.parse(request.getParameter("beginDate")));
                     discount.setEndDate(formatter.parse(request.getParameter("endDate")));
                 } catch (ParseException ex) {
-                    ex.getMessage();
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Les dates n'ont pas été rentrées correctement", "danger"));
                 }
                 bRate.create(discount);
                 drink.setDiscount(discount);
                 bDrink.update(drink);
                 session.removeAttribute("isDrinkDiscount");
+                request.setAttribute("alert", Alert.setAlert("Succès", "Le discount a été attaché à la boisson", "success"));
                 return "/WEB-INF/admin/drinkEdit.jsp";
             }
 
