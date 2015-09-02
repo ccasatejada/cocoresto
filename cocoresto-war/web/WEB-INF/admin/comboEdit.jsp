@@ -43,7 +43,7 @@
                                 <div class="form-group">
                                     <label for="comboDish2">Plat 2 :</label>
                                     <select id="comboDish2" name="comboDish2">
-                                        <option name="listDish1" value=""></option>
+                                        <option name="listDish2" value=" "></option>
                                         <c:forEach var="listDish2" items="${dishes}" varStatus="loop"> 
                                             <c:choose>
                                                 <c:when test="${dish2.name eq listDish2.name}">
@@ -59,7 +59,7 @@
                                 <div class="form-group">
                                     <label for="comboDish3">Plat 3 :</label>
                                     <select id="comboDish3" name="comboDish3">
-                                        <option name="listDish1" value=""></option>
+                                        <option name="listDish3" value=""></option>
                                         <c:forEach var="listDish3" items="${dishes}" varStatus="loop"> 
                                             <c:choose>
                                                 <c:when test="${dish3.name eq listDish3.name}">
