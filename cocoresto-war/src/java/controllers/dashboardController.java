@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.beanCategory;
+import models.beanCombo;
 import models.beanDish;
 import models.beanOrderCustomer;
 import models.beanTableCustomer;
@@ -37,6 +38,7 @@ public class dashboardController implements IController {
         request.setAttribute("countCustomerOrder", new beanOrderCustomer().count());
         request.setAttribute("countDish", new beanDish().count());
         request.setAttribute("countCategory", new beanCategory().count());
+        request.setAttribute("countCombo", new beanCombo().count());
         
         // else return admin dashboard
         return "/WEB-INF/admin/dashboard.jsp";
