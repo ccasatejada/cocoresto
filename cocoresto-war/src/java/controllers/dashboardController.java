@@ -24,7 +24,7 @@ public class dashboardController implements IController {
         }
 
         Long groupId = (Long) session.getAttribute("group");
-        Employee employee = (Employee) session.getAttribute("employee");
+        Employee employee = (Employee) session.getAttribute("loggedEmployee");
         request.setAttribute("name", employee.getFirstName() + " " + employee.getLastName());
         
         if(groupId == 1){ // return waiter dashboard
