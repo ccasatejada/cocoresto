@@ -3890,20 +3890,6 @@ html.boxed-layout .appWrapper.header-fixed.aside-static #header {
   padding: 8px 12px;
 }
 
-@media only screen and (max-width: 992px) {
-  .page-bar .page-toolbar .btn span {
-    display: none;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .page-bar .page-toolbar .btn {
-    width: 37px;
-  }
-  .page-bar .page-toolbar .btn i:last-of-type {
-    display: none;
-  }
-}
 
 @media only screen and (max-width: 480px) {
   .pageheader h2 span {
