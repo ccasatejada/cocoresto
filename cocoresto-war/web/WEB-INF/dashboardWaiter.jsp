@@ -1,15 +1,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="btn-group btn-group-justified mb-20 mt-40" role="group">
-    <div class="btn-group" role="group">
-        <button class="btn btn-lg btn-greensea btn-ef btn-ef-3 btn-ef-3c">Créer une nouvelle commande <i class="fa fa-plus fa-4x"></i></button>
-    </div>
-</div>
 
 <div class="btn-group btn-group-justified mb-20 mt-40" role="group">
     <div class="btn-group" role="group">
-        <button class="btn btn-lg btn-lightred"><strong>4</strong> demandes d'aide en attente</button>
+        <button class="btn btn-lg btn-lightred"><i class="fa fa-bell"></i> <strong>4</strong> demandes d'aide en attente</button>
     </div>
 </div>
 
