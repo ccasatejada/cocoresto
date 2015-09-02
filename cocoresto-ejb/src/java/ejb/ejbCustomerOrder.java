@@ -1,6 +1,7 @@
 package ejb;
 
 import entities.CustomerOrder;
+import entities.Employee;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -56,9 +57,20 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     }
 
     @Override
+    public List<CustomerOrder> findAllByRangeByEmployee(int firstResult, int maxResults, Employee employee) {
+        Query q = em.createQuery("select co from CustomerOrder co where co.active = 1 AND co.employee = " + employee + " order by co.orderDate desc");
+        if (firstResult >= 0) {
+            q.setFirstResult(firstResult);
+        }
+        if (maxResults > 0) {
+            q.setMaxResults(maxResults);
+        }
+        return q.getResultList();
+    }
+
+    @Override
     public int count() {
         return ((Long) em.createQuery("select COUNT(co) from CustomerOrder co where co.active = 1").getSingleResult()).intValue();
     }
-
 
 }

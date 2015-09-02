@@ -28,8 +28,8 @@ public class dashboardController implements IController {
         request.setAttribute("name", employee.getFirstName() + " " + employee.getLastName());
         
         if(groupId == 1){ // return waiter dashboard
-            
-            
+            beanOrderCustomer boc = new beanOrderCustomer();
+            request.setAttribute("customerOrders", boc.findAllByRangeByEmployee(0, 10, employee));
             
             
             return "/WEB-INF/dashboardWaiter.jsp";
