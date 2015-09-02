@@ -76,9 +76,7 @@
                                 </tbody>
                             </table>
                         </div>
-
                         ${pagination}
-
                     </section>
                 </div>
             </section>
