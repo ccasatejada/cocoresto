@@ -20,7 +20,7 @@ public class dashboardController implements IController {
         
         // redirect to login if no logged
         if(session.getAttribute("logged") == null || (boolean) session.getAttribute("logged") == false) {
-            return "/WEB-INF/index.jsp";
+            return "/WEB-INF/login.jsp";
         }
 
         Long groupId = (Long) session.getAttribute("group");
@@ -28,6 +28,10 @@ public class dashboardController implements IController {
         request.setAttribute("name", employee.getFirstName() + " " + employee.getLastName());
         
         if(groupId == 1){ // return waiter dashboard
+            
+            
+            
+            
             return "/WEB-INF/dashboardWaiter.jsp";
         } else if (groupId == 2) { // return cooker dashboard
             return "/WEB-INF/dashboardCooker.jsp";
