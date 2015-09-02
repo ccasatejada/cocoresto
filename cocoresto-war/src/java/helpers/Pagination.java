@@ -7,6 +7,7 @@ public class Pagination {
     private int itemsPerPage;
     private int min = 0;
     private final String option;
+    private String layout;
 
     public Pagination(String option, int currentPage, int itemsPerPage, int totalItems) {
         this.option = option;

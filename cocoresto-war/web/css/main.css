@@ -17595,3 +17595,17 @@ hr.line-full {
     opacity: 1;
   }
 }
+
+
+// cocoriteam 
+.modal-body iframe{
+    background: #fff;
+    border: none;
+}
+
+.contentpane {
+    background: #fff;
+}
+.contentpane .tile {
+    margin-bottom: 0;
+}

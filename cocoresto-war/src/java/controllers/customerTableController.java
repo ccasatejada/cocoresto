@@ -31,6 +31,11 @@ public class customerTableController implements IController {
             groupId = (Long) session.getAttribute("group");
         }
 
+        if ("simpleList".equals(request.getParameter("task"))) {
+            getList(request);
+            return "admin/customerTableSimpleList.jsp";
+        }
+
         if (logged && groupId >= 3) {
 
             if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
@@ -78,7 +83,7 @@ public class customerTableController implements IController {
             }
         }
 
-        return "/WEB-INF/index.jsp";
+        return "/WEB-INF/login.jsp";
 
     }
 
@@ -101,13 +106,13 @@ public class customerTableController implements IController {
         }
         Pagination pagination = new Pagination("customerTable", currentPage, max, btc.count());
         request.setAttribute("pagination", pagination.getPagination());
-        
+
         List<CustomerTable> customerTables = btc.findAllByRange(pagination.getMin(), max);
         request.setAttribute("customerTables", customerTables);
     }
 
     private boolean edit(HttpServletRequest request) {
-        
+
         // test required input
         if (request.getParameter("number").trim().isEmpty() || request.getParameter("capacity").trim().isEmpty() || request.getParameter("nbTablet").trim().isEmpty()) {
             request.setAttribute("alert", Alert.setAlert("Attention", "Les champs * sont obligatoires", "warning"));

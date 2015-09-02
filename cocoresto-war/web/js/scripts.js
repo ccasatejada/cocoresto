@@ -24,6 +24,7 @@
         $('[data-toggle="tooltip"]').tooltip();
 
         // modifyCustomerTable
+        /*
         $('#modifyCustomerTable').on('click', function () {
             
             $("#listModal .modal-body").empty();
@@ -39,6 +40,7 @@
             });
 
         });
+        */
 
     });
 })(jQuery);
