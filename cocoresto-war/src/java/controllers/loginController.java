@@ -36,7 +36,7 @@ public class loginController implements IController {
             
             if (loggedEmployee == null) {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "Votre code est invalide", "danger"));
-                return "/WEB-INF/index.jsp";
+                return "/WEB-INF/login.jsp";
             } else {
                 Long idGroup = loggedEmployee.getEmployeeGroup().getId();
                 session.setAttribute("logged", true);
@@ -61,7 +61,7 @@ public class loginController implements IController {
             session.removeAttribute("employee");
         }
         
-        return "/WEB-INF/index.jsp";
+        return "/WEB-INF/login.jsp";
         
     }
     
