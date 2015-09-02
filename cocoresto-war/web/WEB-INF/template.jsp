@@ -16,7 +16,7 @@
             <section id="content">
                 <div class="page page-dashboard">
 
-                    <c:if test="${logged && group > 2}">
+                    <c:if test="${logged}">
                         <div class="pageheader">
                             <h2>CocoResto <span>// ${userName}</span></h2>
                             <div class="page-bar">

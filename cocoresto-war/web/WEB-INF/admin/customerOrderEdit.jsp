@@ -129,7 +129,7 @@
 
 <div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="listModalLabel">
     <div class="modal-dialog modal-lg" role="document">
-        <form action="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}" method="post" class="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="listModalLabel">Liste</h4>
@@ -139,9 +139,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary" name="save">Sauver</button>
             </div>
-        </form>
+        </div>
     </div>
 </div>                                    
 
