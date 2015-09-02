@@ -32,7 +32,7 @@ public class customerTableController implements IController {
         }
 
         if ("simpleList".equals(request.getParameter("task"))) {
-            getList(request);
+            getList(request, "option=customerTable&task=" + request.getParameter("task") + "&layout=component");
             return "admin/customerTableSimpleList.jsp";
         }
 
@@ -70,7 +70,7 @@ public class customerTableController implements IController {
                 }
             }
 
-            getList(request);
+            getList(request, "option=customerTable");
 
             return listUrl;
 
@@ -92,22 +92,13 @@ public class customerTableController implements IController {
         return null;
     }
 
-    private void getList(HttpServletRequest request) {
+    private void getList(HttpServletRequest request, String queryString) {
 
         /* pagination */
-        int max = 10;
-        int currentPage = 1;
-        if (request.getParameter("page") != null) {
-            try {
-                currentPage = Integer.valueOf(request.getParameter("page"));
-            } catch (NumberFormatException e) {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "La page n'est pas un nombre", "danger"));
-            }
-        }
-        Pagination pagination = new Pagination("customerTable", currentPage, max, btc.count());
+        Pagination pagination = new Pagination(queryString, request.getParameter("page"), 10, btc.count());
         request.setAttribute("pagination", pagination.getPagination());
 
-        List<CustomerTable> customerTables = btc.findAllByRange(pagination.getMin(), max);
+        List<CustomerTable> customerTables = btc.findAllByRange(pagination.getMin(), 10);
         request.setAttribute("customerTables", customerTables);
     }
 

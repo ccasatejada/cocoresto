@@ -66,7 +66,7 @@ public class customerOrderController implements IController {
                 }
             }
 
-            getList(request);
+            getList(request, "option=customerOrder");
 
             return listUrl;
         } else {
@@ -86,22 +86,13 @@ public class customerOrderController implements IController {
         return null;
     }
 
-    private void getList(HttpServletRequest request) {
+    private void getList(HttpServletRequest request, String queryString) {
 
         /* pagination */
-        int max = 10;
-        int currentPage = 1;
-        if (request.getParameter("page") != null) {
-            try {
-                currentPage = Integer.valueOf(request.getParameter("page"));
-            } catch (NumberFormatException e) {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "La page n'est pas un nombre", "danger"));
-            }
-        }
-        Pagination pagination = new Pagination("customerOrder", currentPage, max, boc.count());
+        Pagination pagination = new Pagination(queryString, request.getParameter("page"), 10, boc.count());
         request.setAttribute("pagination", pagination.getPagination());
 
-        List<CustomerOrder> customerOrders = boc.findAllByRange(pagination.getMin(), max);
+        List<CustomerOrder> customerOrders = boc.findAllByRange(pagination.getMin(), 10);
         request.setAttribute("customerOrders", customerOrders);
     }
     
