@@ -39,13 +39,14 @@
                         <div class="tile-header dvd dvd-btm bg-greensea">
                             <h1 class="custom-font"><strong>Commandes</strong></h1>
                         </div>
-                        <form action="FrontController?option=customerOrder" method="post">
+                        <form action="FrontController?option=combo" method="post">
                             <div class="tile-body">
                                 <input type="hidden" value="${combo.id}" name="id" /> 
                                 <div class="form-group">
                                     <label for="name">Nom du menu :</label>
                                     <input type="text" class="form-control" id="name" name="nameCombo" value="${combo.name}">
                                 </div>
+
                                 <div class="form-group">
                                     <label for="comboCategory">Catégorie :</label>
                                     <select id="comboCategory" name="comboCategory">
@@ -53,28 +54,54 @@
                                             <option name="category" value="${category.id}" <c:if test="${combo.category.name eq category.name}">selected</c:if>>${category.name}</option>
                                         </c:forEach>
                                     </select>
-                                </div>
+                                </div> 
+
+
                                 <div class="form-group">
-                                    <label for="comboDish1">Entrée :</label>
+                                    <label for="comboDish1">Plat 1 :</label>
                                     <select id="comboDish1" name="comboDish1">
-                                        <c:forEach var="dish1" items="${dishes1}" varStatus="loop"> 
-                                            <option name="dish1" value="${dish1.id}" <c:if test="${combo.dishes.dish.category.name eq 'Entree'}">selected</c:if>>${dishes1.name}</option>
+                                        <option name="listDish1" value=""></option>
+                                        <c:forEach var="listDish1" items="${dishes}" varStatus="loop"> 
+                                            <c:choose>
+                                                <c:when test="${dish1.name eq listDish1.name}">
+                                                    <option name="listDish1" value="${listDish1.id}" selected>${listDish1.name}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option name="listDish1" value="${listDish1.id}">${listDish1.name}</option>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:forEach>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="comboDish2">Plat :</label>
+                                    <label for="comboDish2">Plat 2 :</label>
                                     <select id="comboDish2" name="comboDish2">
-                                        <c:forEach var="dish2" items="${dishes2}" varStatus="loop"> 
-                                            <option name="dish2" value="${dish2.id}" <c:if test="${combo.dishes.dish.category.name eq 'Plat'}">selected</c:if>>${dishes2.name}</option>
+                                        <option name="listDish1" value=""></option>
+                                        <c:forEach var="listDish2" items="${dishes}" varStatus="loop"> 
+                                            <c:choose>
+                                                <c:when test="${dish2.name eq listDish2.name}">
+                                                    <option name="listDish2" value="${listDish2.id}" selected>${listDish2.name}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option name="listDish2" value="${listDish2.id}">${listDish2.name}</option>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:forEach>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="comboDish3">Dessert :</label>
+                                    <label for="comboDish3">Plat 3 :</label>
                                     <select id="comboDish3" name="comboDish3">
-                                        <c:forEach var="dish3" items="${dishes3}" varStatus="loop"> 
-                                            <option name="dish3" value="${dish3.id}" <c:if test="${combo.dishes.dish.category.name eq 'Dessert'}">selected</c:if>>${dishes3.name}</option>
+                                        <option name="listDish1" value=""></option>
+                                        <c:forEach var="listDish3" items="${dishes}" varStatus="loop"> 
+                                            <c:choose>
+                                                <c:when test="${dish3.name eq listDish3.name}">
+                                                    <option name="listDish3" value="${listDish3.id}" selected>${listDish3.name}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option name="listDish3" value="${listDish3.id}">${listDish3.name}</option>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:forEach>
                                     </select>
                                 </div>

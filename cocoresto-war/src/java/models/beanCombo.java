@@ -3,7 +3,6 @@ package models;
 import ejb.ejbComboLocal;
 import entities.Category;
 import entities.Combo;
-import java.beans.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,7 +17,8 @@ public class beanCombo implements Serializable {
     
     
     
-    public beanCombo(){        
+    public beanCombo(){
+        
     }
     
     public void create(Combo combo) throws EJBException {
