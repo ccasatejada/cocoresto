@@ -34,14 +34,16 @@ public class FrontController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "/WEB-INF/index.jsp";
+        String url = "/WEB-INF/template.jsp";
+        String content = "/WEB-INF/login.jsp";
         request.setAttribute("date", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
         
         if (map.containsKey(request.getParameter("option"))) {
             IController c = map.get(request.getParameter("option"));
-            url = c.execute(request, response);
+            content = c.execute(request, response);
         }
-
+        
+        request.setAttribute("content", content);
         request.getRequestDispatcher(url).include(request, response);
     }
 
