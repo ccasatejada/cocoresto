@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -74,38 +76,61 @@ public class employeeController implements IController {
             }
 
             if (request.getParameter("createIt") != null) {
-                emp.setActive(true);
-                emp.setCreationDate(new Date());
-                employeeGroups = (ArrayList) session.getAttribute("employeeGroups");
-                for (EmployeeGroup eg : employeeGroups) {
-                    if (eg.getName().equals(request.getParameter("comboGroupEmployee"))) {
-                        group = eg;
-                        break;
+                if (request.getParameter("password").equals(request.getParameter("confirmPassword"))
+                        && request.getParameter("password") != null) {
+                    emp.setActive(true);
+                    emp.setCreationDate(new Date());
+                    employeeGroups = (ArrayList) session.getAttribute("employeeGroups");
+                    for (EmployeeGroup eg : employeeGroups) {
+                        if (eg.getName().equals(request.getParameter("comboGroupEmployee"))) {
+                            group = eg;
+                            break;
+                        }
                     }
+                    emp.setEmployeeGroup(group);
+                    emp.setFirstName(request.getParameter("firstName"));
+                    emp.setLastName(request.getParameter("lastName"));
+                    emp.setPassword(request.getParameter("password"));
+
+                    bEmp.create(emp);
+                    request.setAttribute("alert", Alert.setAlert("Succès", "L'employé a été ajouté", "success"));
+                } else {
+                    try {
+                        response.sendRedirect(request.getRequestURI() + "?option=employee&task=edit");
+                    } catch (IOException ex) {
+                        request.setAttribute("alert", Alert.setAlert("Erreur", "Un problème est survenu, veuillez recommencer l'opération", "danger"));
+                    }
+
                 }
-                emp.setEmployeeGroup(group);
-                emp.setFirstName(request.getParameter("firstName"));
-                emp.setLastName(request.getParameter("lastName"));
-                emp.setPassword(request.getParameter("password"));
-                bEmp.create(emp);
-                request.setAttribute("alert", Alert.setAlert("Succès", "L'employé a été ajouté", "success"));
+
             }
 
             if (request.getParameter("modifyIt") != null) {
-                emp = (Employee) session.getAttribute("employee");
-                for (EmployeeGroup eg : employeeGroups) {
-                    if (eg.getName().equals(request.getParameter("comboGroupEmployee"))) {
-                        group.setId(eg.getId());
-                        group.setName(request.getParameter("comboGroupEmployee"));
-                        break;
+                if (request.getParameter("password").equals(request.getParameter("confirmPassword"))
+                        && request.getParameter("password") != null) {
+                    emp = (Employee) session.getAttribute("employee");
+                    for (EmployeeGroup eg : employeeGroups) {
+                        if (eg.getName().equals(request.getParameter("comboGroupEmployee"))) {
+                            group.setId(eg.getId());
+                            group.setName(request.getParameter("comboGroupEmployee"));
+                            break;
+                        }
                     }
+                    emp.setEmployeeGroup(group);
+                    emp.setFirstName(request.getParameter("firstName"));
+                    emp.setLastName(request.getParameter("lastName"));
+                    emp.setPassword(request.getParameter("password"));
+                    bEmp.update(emp);
+                    request.setAttribute("alert", Alert.setAlert("Succès", "L'employé a été mis à jour", "success"));
+                } else {
+                    try {
+                        emp = (Employee) session.getAttribute("employee");
+                        response.sendRedirect(request.getRequestURI() + "?option=employee&task=modify&id=" + emp.getId());
+                    } catch (IOException ex) {
+                        request.setAttribute("alert", Alert.setAlert("Erreur", "Un problème est survenu, veuillez recommencer l'opération", "danger"));
+                    }
+
                 }
-                emp.setEmployeeGroup(group);
-                emp.setFirstName(request.getParameter("firstName"));
-                emp.setLastName(request.getParameter("lastName"));
-                emp.setPassword(request.getParameter("password"));
-                bEmp.update(emp);
-                request.setAttribute("alert", Alert.setAlert("Succès", "L'employé a été mis à jour", "success"));
             }
 
             if ("employee".equals(request.getParameter("option"))) {
