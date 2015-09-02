@@ -9,7 +9,6 @@ import entities.Tax;
 import helpers.Alert;
 import helpers.Pagination;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -53,11 +52,8 @@ public class comboController implements IController {
                     co = bco.findById(Long.valueOf(request.getParameter("id")));
                     request.setAttribute("combo", co);
                     int i = 1;
-                    for (Iterator it = co.getDishes().iterator(); it.hasNext();) {
-                        Dish dish = (Dish) it.next();
-                        request.setAttribute("dish" + i, dish);
-                        System.out.println(dish);
-                        System.out.println(i);
+                    for(Dish dish : co.getDishes()){
+                        request.setAttribute("dish"+i, dish);
                         i++;
                     }
                 }
