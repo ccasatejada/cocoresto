@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
@@ -134,6 +133,7 @@ public class comboController implements IController {
                     co.setId(Long.valueOf(request.getParameter("id")));
                     co.setName(request.getParameter("comboName"));
                     co.setActive(true);
+
                     // set dish
                     co.setDishes(new ArrayList());
                     try {
@@ -198,11 +198,12 @@ public class comboController implements IController {
             if ("delete".equals(request.getParameter("task"))) {
                 try {
                     co = bco.findById(Long.valueOf(request.getParameter("id")));
+                    bco.delete(co);
+                    request.setAttribute("alert", Alert.setAlert("Succès", "Le menu a été supprimé", "succes"));
                 } catch (NumberFormatException | EJBException e) {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Ce menu n'existe pas", "danger"));
                 }
-                bco.delete(co);
-                request.setAttribute("alert", Alert.setAlert("Succès", "Le menu a été supprimé", "succes"));
+
                 url = "/WEB-INF/admin/comboList.jsp";
             }
 
