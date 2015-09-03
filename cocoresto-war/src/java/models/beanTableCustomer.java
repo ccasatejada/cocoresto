@@ -55,7 +55,7 @@ public class beanTableCustomer implements Serializable {
         return 0;
     }
     
-    public int countMaxCapacity(){
+    public int countMaxCapacity() throws EJBException {
         if (ejbCustomerTable.countMaxCapacity() != 0) {
             return ejbCustomerTable.countMaxCapacity();
         }

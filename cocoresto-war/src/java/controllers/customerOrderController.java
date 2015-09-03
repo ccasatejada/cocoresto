@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.CustomerOrder;
+import entities.CustomerTable;
 import entities.Employee;
 import entities.OrderStatus;
 import helpers.Alert;
@@ -8,8 +9,6 @@ import helpers.Pagination;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -84,55 +83,65 @@ public class customerOrderController implements IController {
         } else if (logged && groupId == 1) { // waiter
 
             if ("new".equals(request.getParameter("task"))) {
-                
-                request.setAttribute("customerTableCapacityMax", btc.countMaxCapacity());
+
+                try {
+                    request.setAttribute("customerTableCapacityMax", btc.countMaxCapacity());
+                } catch (EJBException ex) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Il n'y a plus de tables disponibles pour le moment", "danger"));
+                }
 
                 if (request.getParameter("confirm") != null) {
-                    
+
                     // check and set people value
                     int people;
-                    if(FieldValidation.checkInteger(request.getParameter("people"), true, 1)) {
+                    if (FieldValidation.checkInteger(request.getParameter("people"), true, 1)) {
                         people = Integer.valueOf(request.getParameter("people"));
                     } else {
                         request.setAttribute("alert", Alert.setAlert("Erreur", "Veuillez entrer un nombre de couverts valide", "danger"));
                         return newUrl;
                     }
-                    
+
                     // check and set table value
                     Long tableId;
-                    if(FieldValidation.checkInteger(request.getParameter("customerTable"), true, 1)) {
+                    if (FieldValidation.checkInteger(request.getParameter("customerTable"), true, 1)) {
                         tableId = Long.valueOf(request.getParameter("customerTable"));
                     } else {
                         request.setAttribute("alert", Alert.setAlert("Erreur", "Veuillez choisir une table", "danger"));
                         return newUrl;
                     }
-                    
+
                     // check and set nbTablet value
                     int nbTablet;
-                    if(FieldValidation.checkInteger(request.getParameter("nbTablet"), true, 1)) {
+                    if (FieldValidation.checkInteger(request.getParameter("nbTablet"), true, 1)) {
                         nbTablet = Integer.valueOf(request.getParameter("nbTablet"));
                     } else {
                         request.setAttribute("alert", Alert.setAlert("Erreur", "Veuillez choisir un nombre de tablettes valide", "danger"));
                         return newUrl;
                     }
-                    
-                    
+
                     // create customerOrder
-                    if(people > btc.countMaxCapacity()){
+                    if (people > btc.countMaxCapacity()) {
                         request.setAttribute("alert", Alert.setAlert("Erreur", "Il n'y a plus assez de places disponibles", "danger"));
                         return newUrl;
                     }
-                    
-                    if(employee == null) try {
-                        response.sendRedirect("FrontController");
-                    } catch (IOException ex) {
-                        request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
+
+                    if (employee == null) {
+                        try {
+                            response.sendRedirect("FrontController");
+                        } catch (IOException ex) {
+                            request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
+                        }
                     }
-                    
+
+                    // set table busy
+                    CustomerTable ct = btc.findById(tableId);
+                    ct.setBusy(true);
+                    btc.update(ct);
+
                     // create order
                     CustomerOrder order = new CustomerOrder();
                     order.setPeople(people);
-                    order.setCustomerTable(btc.findById(tableId));
+                    order.setCustomerTable(ct);
                     order.setNbTablet(nbTablet);
                     order.setEmployee(employee);
                     order.setOrderDate(new Date());
@@ -141,7 +150,7 @@ public class customerOrderController implements IController {
                     order.setActive(true);
 
                     boc.create(order);
-                    
+
                     // if all ok : redirect to dashboard
                     try {
                         response.sendRedirect("FrontController?option=dashboard");
