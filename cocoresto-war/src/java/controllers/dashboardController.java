@@ -11,7 +11,10 @@ import javax.servlet.http.HttpSession;
 import models.beanCategory;
 import models.beanCombo;
 import models.beanDish;
+import models.beanDrink;
+import models.beanEmployee;
 import models.beanOrderCustomer;
+import models.beanRate;
 import models.beanTableCustomer;
 
 public class dashboardController implements IController {
@@ -45,10 +48,13 @@ public class dashboardController implements IController {
         }
 
         // set dashboard counters
+        request.setAttribute("countEmployee", new beanEmployee().count());
         request.setAttribute("countCustomerTable", new beanTableCustomer().count());
         request.setAttribute("countCustomerOrder", new beanOrderCustomer().count());
-        request.setAttribute("countDish", new beanDish().count());
+        request.setAttribute("countDiscount", new beanRate().discountCount());
         request.setAttribute("countCategory", new beanCategory().count());
+        request.setAttribute("countDish", new beanDish().count());
+        request.setAttribute("countDrink", new beanDrink().count());
         request.setAttribute("countCombo", new beanCombo().count());
 
         // else return admin dashboard
