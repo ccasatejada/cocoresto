@@ -20,7 +20,7 @@ public interface ejbCustomerOrderLocal {
     
     public List<CustomerOrder> findAllByRange(int firstResult, int maxResults);
     
-    public List<CustomerOrder> findAllByRangeByEmployee(int firstResult, int maxResults, Employee employee);
+    public List<CustomerOrder> findAllByRangeByEmployee(int firstResult, int maxResults, Long id);
 
     public int count();    
     
