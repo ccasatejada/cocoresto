@@ -277,7 +277,15 @@ public class drinkController implements IController {
                 drink.setDescription(request.getParameter("description"));
                 drink.setName(request.getParameter("name"));
                 drink.setInventory(Integer.valueOf(request.getParameter("inventory")));
-                drink.setImage(request.getParameter("image"));
+                if(request.getParameter("image") != null) {
+                    System.out.println("Image param image : " + request.getParameter("image"));
+                    drink.setImage(request.getParameter("image"));
+                }
+//                 else {
+//                    System.out.println("Image param attachedImage : " + request.getParameter("attachedImage"));
+//                    drink.setImage(request.getParameter("attachedImage"));
+//                }
+                
                 if (!drink.getPrice().getPrice().equals(Double.valueOf(request.getParameter("price")))) {
                     for (Price p : prices) {
                         if (p.getPrice().equals(Double.valueOf(request.getParameter("price")))) {

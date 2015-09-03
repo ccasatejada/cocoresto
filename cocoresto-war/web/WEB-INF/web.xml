@@ -47,6 +47,10 @@
             <param-name>combo</param-name>
             <param-value>controllers.comboController</param-value>
         </init-param>
+        <init-param>
+            <param-name>menu</param-name>
+            <param-value>controllers.menuController</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
