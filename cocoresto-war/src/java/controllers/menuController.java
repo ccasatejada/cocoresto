@@ -88,6 +88,13 @@ public class menuController implements IController {
         taxes = bRate.findAllTaxes();
         prices = bPrice.findAll();
         
+        if("getDrinkDetail".equals(request.getParameter("task"))) {
+            url = "/WEB-INF/menu/drinkDetail.jsp";
+            drink = bDrink.findById(Long.valueOf(request.getParameter("id")));
+            session.setAttribute("drink", drink);
+            return url;
+        }
+        
         getList(request, "option=menu");
         
         return url;
