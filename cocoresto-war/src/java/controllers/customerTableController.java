@@ -32,11 +32,10 @@ public class customerTableController implements IController {
         }
 
         if ("simpleList".equals(request.getParameter("task"))) {
-            
             getList(request, "option=customerTable&task=" + request.getParameter("task") + "&layout=component");
             return "admin/customerTableSimpleList.jsp";
         }
-
+        
         if (logged && groupId >= 3) {
 
             if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
@@ -140,5 +139,5 @@ public class customerTableController implements IController {
         return true;
 
     }
-
+    
 }
