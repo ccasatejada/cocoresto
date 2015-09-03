@@ -18,10 +18,8 @@
                     <label for="people">Nombre de couverts : <span>*</span></label>
                     <input type="number" min="1" max="${customerTableCapacityMax}" class="form-control" id="people" name="people" value="0" required />
                 </div>
-                
-                
 
-                <div class="form-group">
+                <div id="customerTableGroup" class="form-group">
                     <label for="customerTable">Table disponible : <span>*</span></label>
                     <select name="customerTable" id="customerTable"class="form-control" required>
                         <option value="0" disabled>Sélectionnez une table disponible</option>
