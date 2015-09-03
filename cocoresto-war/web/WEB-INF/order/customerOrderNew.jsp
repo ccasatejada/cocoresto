@@ -16,24 +16,21 @@
 
                 <div class="form-group">
                     <label for="people">Nombre de couverts : <span>*</span></label>
-                    <input type="number" min="1" max="${customerTableCapacityMax}" class="form-control" id="people" name="people" value="0" required />
+                    <input type="number" min="1" max="${customerTableCapacityMax}" class="form-control input-lg" id="people" name="people" value="0" required />
                 </div>
-                
-                
 
-                <div class="form-group">
+                <div id="customerTableGroup" class="form-group">
                     <label for="customerTable">Table disponible : <span>*</span></label>
-                    <select name="customerTable" id="customerTable"class="form-control" required>
+                    <select name="customerTable" id="customerTable"class="form-control input-lg" required>
                         <option value="0" disabled>Sélectionnez une table disponible</option>
                     </select>
                 </div>
                 
-                        <!--
-                <div class="form-group">
+                <div id="nbTabletGroup" class="form-group">
                     <label for="nbTablet">Nombre de tablettes : <span>*</span></label>
-                    <input type="number" min="1" max="${customerOrder.customerTable.nbTablet}" class="form-control" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" required />
+                    <input type="number" min="1" class="form-control input-lg" id="nbTablet" name="nbTablet" value="1" required />
                 </div>
-                        -->
+
             </fieldset>
            
                 
