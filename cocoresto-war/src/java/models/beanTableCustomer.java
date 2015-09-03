@@ -22,7 +22,10 @@ public class beanTableCustomer implements Serializable {
         return ejbCustomerTable.findAll();
     }
     
-    
+    public List<CustomerTable> findAvailable(int nb) {
+        return ejbCustomerTable.findAvailable(nb);
+    }
+
     public List<CustomerTable> findAllByRange(int firstResult, int maxResults) {
         return ejbCustomerTable.findAllByRange(firstResult, maxResults);
     }
@@ -48,6 +51,13 @@ public class beanTableCustomer implements Serializable {
     public int count() {
         if (ejbCustomerTable.count() != 0) {
             return ejbCustomerTable.count();
+        }
+        return 0;
+    }
+    
+    public int countMaxCapacity(){
+        if (ejbCustomerTable.countMaxCapacity() != 0) {
+            return ejbCustomerTable.countMaxCapacity();
         }
         return 0;
     }

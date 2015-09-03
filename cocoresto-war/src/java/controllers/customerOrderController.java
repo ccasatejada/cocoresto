@@ -11,10 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.beanOrderCustomer;
+import models.beanTableCustomer;
 
 public class customerOrderController implements IController {
 
     private final beanOrderCustomer boc = new beanOrderCustomer();
+    private final beanTableCustomer btc = new beanTableCustomer();
+    private final String newUrl = "/WEB-INF/order/customerOrderNew.jsp";
     private final String editUrl = "/WEB-INF/admin/customerOrderEdit.jsp";
     private final String listUrl = "/WEB-INF/admin/customerOrderList.jsp";
 
@@ -69,6 +72,17 @@ public class customerOrderController implements IController {
             getList(request, "option=customerOrder");
 
             return listUrl;
+        } else if(logged && groupId == 1) { // waiter
+            
+            if ("new".equals(request.getParameter("task"))) { 
+                
+                // table maximum capacity 
+                request.setAttribute("customerTableCapacityMax", btc.countMaxCapacity());
+
+                return newUrl;
+            }
+            
+        
         } else {
             try {
                 // not logged or wrong groupId

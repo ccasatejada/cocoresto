@@ -17,8 +17,12 @@ public interface ejbCustomerTableLocal {
 
     public List<CustomerTable> findAll();
     
+    public List<CustomerTable> findAvailable(int nb);
+    
     public List<CustomerTable> findAllByRange(int firstResult, int maxResults);
 
     public int count();
+    
+    public int countMaxCapacity();    
 
 }

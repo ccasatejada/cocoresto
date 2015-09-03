@@ -44,6 +44,13 @@ public class ejbCustomerTable implements ejbCustomerTableLocal {
     }
 
     @Override
+    public List<CustomerTable> findAvailable(int nb) {
+        Query q = em.createQuery("SELECT ct FROM CustomerTable ct WHERE ct.active = 1 AND ct.busy = 0 AND ct.capacity >= :nb ORDER BY ct.number");
+        q.setParameter("nb", nb);
+        return q.getResultList();
+    }
+
+    @Override
     public List<CustomerTable> findAllByRange(int firstResult, int maxResults) {
         Query q = em.createQuery("select ct from CustomerTable ct where ct.active = 1 order by ct.number");
         if (firstResult >= 0) {
@@ -58,6 +65,11 @@ public class ejbCustomerTable implements ejbCustomerTableLocal {
     @Override
     public int count() {
         return ((Long) em.createQuery("select COUNT(ct) from CustomerTable ct where ct.active = 1").getSingleResult()).intValue();
+    }
+
+    @Override
+    public int countMaxCapacity() {
+        return ((Integer) em.createQuery("SELECT MAX(ct.capacity) FROM CustomerTable ct WHERE ct.active = 1").getSingleResult()).intValue();
     }
 
 }
