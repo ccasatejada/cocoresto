@@ -50,5 +50,4 @@
     ${pagination}
 
 </section>
-</div>
-</section>
+
