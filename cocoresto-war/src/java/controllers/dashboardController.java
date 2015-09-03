@@ -1,6 +1,9 @@
 package controllers;
 
+import entities.CustomerOrder;
 import entities.Employee;
+import helpers.Pagination;
+import java.util.List;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,35 +18,39 @@ public class dashboardController implements IController {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        
+
         HttpSession session = request.getSession();
-        
+        beanOrderCustomer boc = new beanOrderCustomer();
+
         // redirect to login if no logged
-        if(session.getAttribute("logged") == null || (boolean) session.getAttribute("logged") == false) {
+        if (session.getAttribute("logged") == null || (boolean) session.getAttribute("logged") == false) {
             return "/WEB-INF/login.jsp";
         }
 
         Long groupId = (Long) session.getAttribute("group");
         Employee employee = (Employee) session.getAttribute("loggedEmployee");
         request.setAttribute("name", employee.getFirstName() + " " + employee.getLastName());
-        
-        if(groupId == 1){ // return waiter dashboard
-            beanOrderCustomer boc = new beanOrderCustomer();
-            request.setAttribute("customerOrders", boc.findAllByRangeByEmployee(0, 10, employee));
-            
-            
+
+        if (groupId == 1) { // return waiter dashboard
+
+            Pagination pagination = new Pagination("option=dashboard", request.getParameter("page"), 10, boc.count());
+            request.setAttribute("pagination", pagination.getPagination());
+
+            List<CustomerOrder> customerOrders = boc.findAllByRangeByEmployee(pagination.getMin(), 10, employee.getId());
+            request.setAttribute("customerOrders", customerOrders);
+
             return "/WEB-INF/dashboardWaiter.jsp";
         } else if (groupId == 2) { // return cooker dashboard
             return "/WEB-INF/dashboardCooker.jsp";
         }
-        
+
         // set dashboard counters
         request.setAttribute("countCustomerTable", new beanTableCustomer().count());
         request.setAttribute("countCustomerOrder", new beanOrderCustomer().count());
         request.setAttribute("countDish", new beanDish().count());
         request.setAttribute("countCategory", new beanCategory().count());
         request.setAttribute("countCombo", new beanCombo().count());
-        
+
         // else return admin dashboard
         return "/WEB-INF/admin/dashboard.jsp";
     }
@@ -52,5 +59,5 @@ public class dashboardController implements IController {
     public String execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) {
         return null;
     }
-    
+
 }
