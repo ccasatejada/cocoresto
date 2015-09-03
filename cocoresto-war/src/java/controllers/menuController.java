@@ -25,7 +25,7 @@ public class menuController implements IController {
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String url = "/WEB-INF/menu/drinkMenu.jsp";
+        String url = "/WEB-INF/dashboardCustomer.jsp";
         
         HttpSession session = request.getSession();
         
