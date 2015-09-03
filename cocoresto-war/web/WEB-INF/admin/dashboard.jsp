@@ -9,7 +9,7 @@
                     </div>
                     <div class="col-xs-8">
                         <p class="text-elg text-strong mb-0">Employés</p>
-                        <span>000</span>
+                        <span>${countEmployee}</span>
                     </div>
                 </div>
             </div>
@@ -83,8 +83,8 @@
                         <i class="fa fa-euro fa-4x"></i>
                     </div>
                     <div class="col-xs-8">
-                        <p class="text-elg text-strong mb-0">Taxes</p>
-                        <span>32</span>
+                        <p class="text-elg text-strong mb-0">Promotions</p>
+                        <span>${countDiscount}</span>
                     </div>
                 </div>
             </div>
@@ -165,7 +165,7 @@
                     </div>
                     <div class="col-xs-8">
                         <p class="text-elg text-strong mb-0">Boissons</p>
-                        <span>32</span>
+                        <span>${countDrink}</span>
                     </div>
                 </div>
             </div>

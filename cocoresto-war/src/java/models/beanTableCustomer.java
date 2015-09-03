@@ -46,7 +46,10 @@ public class beanTableCustomer implements Serializable {
     }
 
     public int count() {
-        return ejbCustomerTable.count();
+        if (ejbCustomerTable.count() != 0) {
+            return ejbCustomerTable.count();
+        }
+        return 0;
     }
 
     private ejbCustomerTableLocal lookupejbCustomerTableLocal() {

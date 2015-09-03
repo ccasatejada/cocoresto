@@ -28,8 +28,8 @@ public class beanOrderCustomer implements Serializable {
         return ejbCustomerOrder.findAllByRange(firstResult, maxResults);
     }
 
-    public List<CustomerOrder> findAllByRangeByEmployee(int firstResult, int maxResults, Employee employee) {
-        return ejbCustomerOrder.findAllByRangeByEmployee(firstResult, maxResults, employee);
+    public List<CustomerOrder> findAllByRangeByEmployee(int firstResult, int maxResults, Long id) {
+        return ejbCustomerOrder.findAllByRangeByEmployee(firstResult, maxResults, id);
     }
 
     public void create(CustomerOrder customerTable) throws EJBException {
@@ -51,10 +51,13 @@ public class beanOrderCustomer implements Serializable {
     }
 
     public int count() {
-        return ejbCustomerOrder.count();
+        if (ejbCustomerOrder.count() != 0) {
+            return ejbCustomerOrder.count();
+        }
+        return 0;
     }
-    
-    public OrderStatus[] findAllOrderStatus(){
+
+    public OrderStatus[] findAllOrderStatus() {
         return OrderStatus.values();
     }
 
