@@ -33,9 +33,8 @@
             </thead>
             <tbody>                    
                 <c:forEach var="customerOrder" items="${customerOrders}" varStatus="loop">
-                <a href="">
                     <tr>
-                        <td>Commande n°${customerOrder.number}</td>
+                        <td><a class="btn btn-primary" href="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}">Commande n°${customerOrder.number}</a></td>
                         <td><fmt:formatDate value="${customerOrder.orderDate}" pattern="dd MMM yyyy à hh:MM" /></td>
                         <td>
                             <div class="label label-${customerOrder.status}">${customerOrder.status.name}</div>
@@ -44,8 +43,7 @@
                         <td>Table n°${customerOrder.customerTable.number}</td>
                         <td>${customerOrder.nbTablet} tablettes</td>
                     </tr>
-                </a>                                
-            </c:forEach>
+                </c:forEach>
             </tbody>
         </table>
     </div>
