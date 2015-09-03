@@ -69,7 +69,7 @@ public class ejbCustomerTable implements ejbCustomerTableLocal {
 
     @Override
     public int countMaxCapacity() {
-        return ((Integer) em.createQuery("SELECT MAX(ct.capacity) FROM CustomerTable ct WHERE ct.active = 1").getSingleResult()).intValue();
+        return ((Integer) em.createQuery("SELECT MAX(ct.capacity) FROM CustomerTable ct WHERE ct.active = 1 AND ct.busy = 0").getSingleResult()).intValue();
     }
 
 }

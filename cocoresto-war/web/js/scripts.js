@@ -23,24 +23,53 @@
         // tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
-        // modifyCustomerTable
-        /*
-        $('#modifyCustomerTable').on('click', function () {
-            
-            $("#listModal .modal-body").empty();
+        /************************************************************************************/
+        /************************************ Open Order ************************************/
+        /************************************************************************************/
 
-            $.ajax({
-                url: 'FrontController',
-                type: 'POST',
-                data: 'option=customerTable&task=simpleList&layout=component',
-                dataType: 'html',
-                success : function (html, status) {
-                    $(html).appendTo("#listModal .modal-body"); 
-                },
-            });
+        // initial hide fields group
+        $("#newOrder #customerTableGroup").hide();
+        $("#newOrder #nbTabletGroup").hide();
 
+        // update available tables
+        $('#newOrder #people').on('change', function () {
+            if ($(this).val() > 0) {
+                $("#newOrder #customerTableGroup").show();
+                $("#newOrder #customerTable").empty ();
+                $("#newOrder #nbTabletGroup").hide();
+                $("#newOrder #nbTabletGroup [type='number']").val(1);
+                $.ajax({
+                    url: 'Ajax',
+                    type: 'POST',
+                    data: 'task=customerTable&get=available&nb=' + $(this).val(),
+                    dataType: 'html',
+                    success: function (html) {
+                        $(html).appendTo("#newOrder #customerTable");
+                    },
+                });
+            }
         });
-        */
+        
+        $('#newOrder #customerTableGroup select').on('change', function () {
+            if ($(this).val() > 0) {
+                $("#newOrder #nbTabletGroup").show();
+                $("#newOrder #nbTabletGroup [type='number']").val(1);
+                $.ajax({
+                    url: 'Ajax',
+                    type: 'POST',
+                    data: 'task=customerTable&get=nbTablet&table=' + $(this).val(),
+                    dataType: 'text',
+                    success: function (data) {
+                        $("#newOrder #nbTabletGroup [type='number']").attr('max', data)
+                    },
+                });
+            }
+        });
+        
+        
+        
+        
+        
 
     });
 })(jQuery);
