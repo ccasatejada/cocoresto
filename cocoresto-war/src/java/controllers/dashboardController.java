@@ -31,10 +31,19 @@ public class dashboardController implements IController {
         }
 
         Long groupId = (Long) session.getAttribute("group");
-        Employee employee = (Employee) session.getAttribute("loggedEmployee");
-        request.setAttribute("name", employee.getFirstName() + " " + employee.getLastName());
-
-        if (groupId == 1) { // return waiter dashboard
+        Employee employee = null;
+        if(groupId > 0) {
+            employee = (Employee) session.getAttribute("loggedEmployee");
+            request.setAttribute("name", employee.getFirstName() + " " + employee.getLastName());
+        }
+        
+        if(groupId == 0) { // return client dashboard
+            
+            
+            
+            
+            return "/WEB-INF/dashboardCustomer.jsp";
+        } else if (groupId == 1) { // return waiter dashboard
 
             Pagination pagination = new Pagination("option=dashboard", request.getParameter("page"), 10, boc.count());
             request.setAttribute("pagination", pagination.getPagination());

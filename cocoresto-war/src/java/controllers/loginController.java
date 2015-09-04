@@ -1,39 +1,43 @@
 package controllers;
 
+import entities.CustomerTable;
 import entities.Employee;
 import helpers.Alert;
 import java.io.IOException;
+import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import library.FieldValidation;
 import models.beanLogin;
+import models.beanTableCustomer;
 
 public class loginController implements IController {
-    
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        
+
         HttpSession session = request.getSession();
-        
+
         beanLogin bLogin = (beanLogin) session.getAttribute("bLogin");
-        
+
         if (bLogin == null) {
             bLogin = new beanLogin();
             session.setAttribute("bLogin", bLogin);
         }
-        
+
         if (session.getAttribute("logged") != null) {
             boolean logged = (boolean) session.getAttribute("logged");
         }
-        
-        // login form has been send
+
+        // employee login form has been send
         if (request.getParameter("password") != null) {
-            
+
             String password = request.getParameter("password");
-            
+
             Employee loggedEmployee = bLogin.login(password);
-            
+
             if (loggedEmployee == null) {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "Votre code est invalide", "danger"));
                 return "/WEB-INF/login.jsp";
@@ -50,7 +54,35 @@ public class loginController implements IController {
                 }
             }
         }
-        
+
+        // client login form has been send
+        if (request.getParameter("tableNumber") != null) {
+
+            Integer numberTable;
+            if (FieldValidation.checkInteger(request.getParameter("tableNumber"), true, 1)) {
+                numberTable = Integer.valueOf(request.getParameter("tableNumber"));
+            } else {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Veuillez entrer un numéro de table valide", "danger"));
+                return "/WEB-INF/login.jsp";
+            }
+
+            beanTableCustomer btc = new beanTableCustomer();
+            try {
+                CustomerTable ct = btc.findByNumber(numberTable);
+                session.setAttribute("logged", true);
+                session.setAttribute("group", 0L); // client group
+            } catch (EJBException e) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas ou n'est pas assignée à une commande", "danger"));
+                return "/WEB-INF/login.jsp";
+            }
+
+            try {
+                response.sendRedirect("FrontController?option=dashboard");
+            } catch (IOException ex) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'accéder au tableau de bord", "danger"));
+            }
+        }
+
         // Disconnect
         if ("disconnect".equals(request.getParameter("task"))) {
             session.setAttribute("logged", false);
@@ -60,14 +92,14 @@ public class loginController implements IController {
             session.removeAttribute("group");
             session.removeAttribute("loggedEmployee");
         }
-        
+
         return "/WEB-INF/login.jsp";
-        
+
     }
-    
+
     @Override
     public String execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) {
         return null;
     }
-    
+
 }

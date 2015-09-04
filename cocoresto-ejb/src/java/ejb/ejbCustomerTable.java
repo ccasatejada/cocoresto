@@ -38,6 +38,13 @@ public class ejbCustomerTable implements ejbCustomerTableLocal {
     }
 
     @Override
+    public CustomerTable findByNumber(Integer number) {
+        Query q = em.createQuery("SELECT ct FROM CustomerTable ct WHERE ct.active = 1 AND ct.busy = 1 AND ct.number = :number");
+        q.setParameter("number", number);
+        return (CustomerTable) q.getSingleResult();
+    }
+
+    @Override
     public List<CustomerTable> findAll() {
         Query q = em.createQuery("select ct from CustomerTable ct where ct.active = 1 order by ct.number");
         return q.getResultList();
