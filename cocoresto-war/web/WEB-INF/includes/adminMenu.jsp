@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section id="header" class="scheme-default">
     <header class="clearfix">
 
@@ -66,11 +67,13 @@
                 </li>
             </ul>
         </c:if>
-        <ul class="nav-right pull-right list-inline">
-            <li class="dropdown">
-                <a href="FrontController?option=login&task=disconnect" tabindex="0"><i class="fa fa-sign-out"></i> Déconnexion</a>
-            </li>
-        </ul>
-
+        
+        <c:if test="${logged && group > 0}">
+            <ul class="nav-right pull-right list-inline">
+                <li class="dropdown">
+                    <a href="FrontController?option=login&task=disconnect" tabindex="0"><i class="fa fa-sign-out"></i> Déconnexion</a>
+                </li>
+            </ul>
+        </c:if>
     </header>
 </section>    

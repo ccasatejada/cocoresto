@@ -70,7 +70,7 @@ public class loginController implements IController {
             try {
                 CustomerTable ct = btc.findByNumber(numberTable);
                 session.setAttribute("logged", true);
-                session.setAttribute("group", 0); // client group
+                session.setAttribute("group", 0L); // client group
             } catch (EJBException e) {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas ou n'est pas assignée à une commande", "danger"));
                 return "/WEB-INF/login.jsp";
