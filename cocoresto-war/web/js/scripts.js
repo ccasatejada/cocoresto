@@ -67,9 +67,10 @@
         });
         
         
-        $('#getDrinks').on('click', function (event) {
+        $('#getDrinks').on('change', function (event) {
            event.preventDefault();
-           $('#menuContent').empty();
+           $('#menuContent').html("<h1>Test</h1>");
+           //$('#menuContent').empty();
            $('#menuContent').load('/WEB-INF/menu/drinkMenu.jsp');
            $('#menuContent').show();
         });
