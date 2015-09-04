@@ -26,17 +26,15 @@ public class Ajax extends HttpServlet {
                     List<CustomerTable> availableTables = btc.findAvailable(nb);
                     out.println("<option value=\"0\">Sélectionnez une table disponible</option>");
                     for (CustomerTable table : availableTables) {
-                        out.println("<option value=\"" + table.getId() + "\">Table n°" + table.getNumber() + "</option>");
+                        out.println("<option value=\"" + table.getId() + "\">Table n°" + table.getNumber() + " (" + table.getCapacity() + " places)</option>");
                     }
                 }
-                
+
                 if ("nbTablet".equals(request.getParameter("get"))) {
                     Long id = Long.valueOf(request.getParameter("table"));
                     CustomerTable ct = btc.findById(id);
                     out.print(ct.getNbTablet());
-                }                
-                
-                
+                }
 
             }
 

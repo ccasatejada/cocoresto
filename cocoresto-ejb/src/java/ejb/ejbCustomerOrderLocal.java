@@ -8,11 +8,11 @@ import javax.ejb.Local;
 @Local
 public interface ejbCustomerOrderLocal {
     
-    public void create(CustomerOrder customerTable);
+    public void create(CustomerOrder customerOrder);
 
-    public void update(CustomerOrder customerTable);
+    public void update(CustomerOrder customerOrder);
     
-    public void delete(CustomerOrder customerTable);
+    public void delete(CustomerOrder customerOrder);
 
     public CustomerOrder findById(Long id);
 
