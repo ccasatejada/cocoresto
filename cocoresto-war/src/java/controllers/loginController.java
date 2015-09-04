@@ -1,10 +1,16 @@
 package controllers;
 
+import ejb.ejbRestaurantLocal;
 import entities.CustomerTable;
 import entities.Employee;
 import helpers.Alert;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJBException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +20,7 @@ import models.beanLogin;
 import models.beanTableCustomer;
 
 public class loginController implements IController {
+    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -42,11 +49,20 @@ public class loginController implements IController {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "Votre code est invalide", "danger"));
                 return "/WEB-INF/login.jsp";
             } else {
+
+//                if(ejbRestaurant.isEmployeeLogged(loggedEmployee)){
+//                    request.setAttribute("alert", Alert.setAlert("Erreur", "Vous êtes déjà connecté sur une autre machine", "danger"));
+//                    return "/WEB-INF/login.jsp";
+//                }
+//                
+//                ejbRestaurant.addEmployee(loggedEmployee);
                 Long idGroup = loggedEmployee.getEmployeeGroup().getId();
                 session.setAttribute("logged", true);
                 session.setAttribute("group", idGroup);
                 session.setAttribute("loggedEmployee", loggedEmployee);
                 session.setAttribute("userName", loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName());
+                
+                
                 try {
                     response.sendRedirect("FrontController?option=dashboard");
                 } catch (IOException ex) {
@@ -85,12 +101,14 @@ public class loginController implements IController {
 
         // Disconnect
         if ("disconnect".equals(request.getParameter("task"))) {
+//            ejbRestaurant.removeEmployee((Employee) session.getAttribute("loggedEmployee"));
             session.setAttribute("logged", false);
             session.setAttribute("group", 0);
             session.setAttribute("loggedEmployee", null);
             session.removeAttribute("logged");
             session.removeAttribute("group");
             session.removeAttribute("loggedEmployee");
+            
         }
 
         return "/WEB-INF/login.jsp";
@@ -101,5 +119,18 @@ public class loginController implements IController {
     public String execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) {
         return null;
     }
+
+    private ejbRestaurantLocal lookupejbRestaurantLocal() {
+        try {
+            Context c = new InitialContext();
+            return (ejbRestaurantLocal) c.lookup("java:global/cocoresto/cocoresto-ejb/ejbRestaurant!ejb.ejbRestaurantLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+   
+    
 
 }
