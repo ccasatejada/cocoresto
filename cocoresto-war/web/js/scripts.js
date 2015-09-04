@@ -35,7 +35,7 @@
         $('#newOrder #people').on('change', function () {
             if ($(this).val() > 0) {
                 $("#newOrder #customerTableGroup").show();
-                $("#newOrder #customerTable").empty ();
+                $("#newOrder #customerTable").empty();
                 $("#newOrder #nbTabletGroup").hide();
                 $("#newOrder #nbTabletGroup [type='number']").val(1);
                 $.ajax({
@@ -49,7 +49,7 @@
                 });
             }
         });
-        
+
         $('#newOrder #customerTableGroup select').on('change', function () {
             if ($(this).val() > 0) {
                 $("#newOrder #nbTabletGroup").show();
@@ -65,17 +65,37 @@
                 });
             }
         });
-        
-        
-        $('#getDrinks').on('change', function (event) {
-           event.preventDefault();
-           $('#menuContent').html("<h1>Test</h1>");
-           //$('#menuContent').empty();
-           $('#menuContent').load('/WEB-INF/menu/drinkMenu.jsp');
-           $('#menuContent').show();
+
+
+        $('#getDrinks').on('click', function (event) {
+            event.preventDefault();
+           $.ajax({
+               url: 'FrontController?option=menu&task=getDrinks',
+               type: 'POST',
+               data: $('#drinkMenu').html(),
+               dataType: 'html',
+               success: function(data) {
+                   $('#menuContent').empty();
+                   $('#menuContent').html(data);
+               }
+           });
         });
         
-        
+        $('.drinkDetail').on('click', function (event) {
+            event.preventDefault();
+           $.ajax({
+               url: $(this).attr('href'),
+               type: 'POST',
+               data: $('#drinkDetails').html(),
+               dataType: 'html',
+               success: function(data) {
+                   $('#menuContent').empty();
+                   $('#menuContent').html(data);
+               }
+           });
+        });
+
+
 
     });
 })(jQuery);

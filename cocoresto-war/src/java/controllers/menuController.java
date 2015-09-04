@@ -94,6 +94,11 @@ public class menuController implements IController {
             session.setAttribute("drink", drink);
             return url;
         }
+        if("getDrinks".equals(request.getParameter("task"))) {
+            url = "/WEB-INF/menu/drinkMenu.jsp";
+            getList(request, "option=menu");
+            return url;
+        }
         
         getList(request, "option=menu");
         
