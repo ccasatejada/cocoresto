@@ -32,7 +32,6 @@ public class beanTableCustomer implements Serializable {
     
     public void create(CustomerTable customerTable) throws EJBException {
         ejbCustomerTable.create(customerTable);
-
     }
 
     public void update(CustomerTable customerTable) throws EJBException {
@@ -46,6 +45,10 @@ public class beanTableCustomer implements Serializable {
 
     public CustomerTable findById(Long id) {
         return ejbCustomerTable.findById(id);
+    }
+
+    public CustomerTable findByNumber(Integer number) {
+        return ejbCustomerTable.findByNumber(number);
     }
 
     public int count() {

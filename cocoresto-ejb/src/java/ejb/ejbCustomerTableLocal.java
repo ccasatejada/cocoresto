@@ -25,4 +25,6 @@ public interface ejbCustomerTableLocal {
     
     public int countMaxCapacity();    
 
+    public CustomerTable findByNumber(Integer number);
+
 }
