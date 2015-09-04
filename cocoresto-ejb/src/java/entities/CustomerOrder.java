@@ -14,7 +14,7 @@ public class CustomerOrder implements Serializable {
     private Long id;
     @Column(nullable = false, unique = true)
     private String number;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date orderDate;
     @Column(nullable = false)
