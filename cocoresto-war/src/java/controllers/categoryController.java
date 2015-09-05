@@ -68,7 +68,7 @@ public class categoryController implements IController {
         }
 
         
-        getList(request);
+        getList(request, "option=category");
         return url;
         } else {
             try{
@@ -86,9 +86,9 @@ public class categoryController implements IController {
         return null;
     }
     
-    private void getList(HttpServletRequest request){
+    private void getList(HttpServletRequest request, String queryString){
 
-        Pagination pagination = new Pagination("category", request.getParameter("page"), 10, bc.count());
+        Pagination pagination = new Pagination(queryString, request.getParameter("page"), 10, bc.count());
         request.setAttribute("pagination", pagination.getPagination());
         
         List<Category> categories = bc.findAllByRange(pagination.getMin(), 10);

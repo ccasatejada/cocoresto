@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label for="dishCountry">Région :</label>
-                <input type="text" class="form-control" id="dishCountry" name="dishCountry" required value="${dish.country}">
+                <input type="text" class="form-control" id="dishCountry" name="dishCountry" value="${dish.country}">
             </div>
             <div class="form-group">
                 <label for="dishWeight">Poids :</label>
@@ -102,7 +102,13 @@
             </div>
             <div class="form-group">
                 <label for="imageDish" class="col-sm-2 control-label">Image :</label>
-                <input type="file" id="imageDish" name="imageDish" accept="image/jpeg"/>
+                <input type="file" id="imageDish" name="imageDish" accept="image/jpeg" value="${dish.image}"/>
+                <c:if test="${empty dish.image}">
+                    <p>Vous n'avez pas d'image attachée à ce plat</p>
+                </c:if>
+                <c:if test="${not empty dish.image}">
+                    <input type="test" disabled name="attachedImage" value="${dish.image}" />
+                </c:if>
             </div>
         </div>
         <div class="tile-footer dvd dvd-top">

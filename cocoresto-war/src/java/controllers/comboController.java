@@ -210,7 +210,7 @@ public class comboController implements IController {
             request.setAttribute("dishes", bd.findAll());
             request.setAttribute("taxes", br.findAllTaxes());
             request.setAttribute("categories", bco.findCategories());
-            getList(request);
+            getList(request, "option=combo");
             return url;
         } else {
             try {
@@ -230,9 +230,9 @@ public class comboController implements IController {
         return null;
     }
 
-    private void getList(HttpServletRequest request) {
+    private void getList(HttpServletRequest request, String queryString) {
 
-        Pagination pagination = new Pagination("combo", request.getParameter("page"), 10, bco.count());
+        Pagination pagination = new Pagination(queryString, request.getParameter("page"), 10, bco.count());
         request.setAttribute("pagination", pagination.getPagination());
 
         List<Combo> combos = bco.findAllByRange(pagination.getMin(), 10);
