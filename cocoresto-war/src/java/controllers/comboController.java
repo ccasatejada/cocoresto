@@ -131,6 +131,7 @@ public class comboController implements IController {
                     bco.create(co);
                 } else { // update
                     co.setId(Long.valueOf(request.getParameter("id")));
+                    co = bco.findById(co.getId());
                     co.setName(request.getParameter("comboName"));
                     co.setActive(true);
 

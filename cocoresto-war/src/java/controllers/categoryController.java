@@ -49,6 +49,7 @@ public class categoryController implements IController {
                 request.setAttribute("alert", Alert.setAlert("Succès", "La catégorie a été ajoutée", "success"));
             } else { // update
                 c.setId(Long.valueOf(request.getParameter("id")));
+                c = bc.findById(c.getId());
                 c.setName(request.getParameter("nameCategory"));
                 c.setType(request.getParameter("categoryType"));
                 bc.update(c);

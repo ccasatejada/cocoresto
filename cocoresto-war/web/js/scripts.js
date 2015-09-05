@@ -69,32 +69,87 @@
 
         $('#getDrinks').on('click', function (event) {
             event.preventDefault();
-           $.ajax({
-               url: 'FrontController?option=menu&task=getDrinks',
-               type: 'POST',
-               data: $('#drinkMenu').html(),
-               dataType: 'html',
-               success: function(data) {
-                   $('#menuContent').empty();
-                   $('#menuContent').html(data);
-               }
-           });
-        });
-        
-        $('.drinkDetail').on('click', function (event) {
-            event.preventDefault();
-           $.ajax({
-               url: $(this).attr('href'),
-               type: 'POST',
-               data: $('#drinkDetails').html(),
-               dataType: 'html',
-               success: function(data) {
-                   $('#menuContent').empty();
-                   $('#menuContent').html(data);
-               }
-           });
+            $.ajax({
+                url: 'FrontController?option=menu&task=getDrinks',
+                type: 'POST',
+                data: $('#drinkMenu').html(),
+                dataType: 'html',
+                success: function (data) {
+                    $('#menuContent').empty();
+                    $('#menuContent').html(data);
+                }
+            });
         });
 
+        $('.drinkDetail').on('click', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('href'),
+                type: 'POST',
+                data: $('#drinkDetails').html(),
+                dataType: 'html',
+                success: function (data) {
+                    $('#menuContent').empty();
+                    $('#menuContent').html(data);
+                }
+            });
+        });
+
+        $('#getDishes').on('click', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: 'FrontController?option=menu&task=getDishes',
+                type: 'POST',
+                data: $('#dishMenu').html(),
+                dataType: 'html',
+                success: function (data) {
+                    $('#menuContent').empty();
+                    $('#menuContent').html(data);
+                }
+            });
+        });
+
+        $('.dishDetail').on('click', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('href'),
+                type: 'POST',
+                data: $('#dishDetails').html(),
+                dataType: 'html',
+                success: function (data) {
+                    $('#menuContent').empty();
+                    $('#menuContent').html(data);
+                }
+            });
+        });
+
+        $('#getCombos').on('click', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: 'FrontController?option=menu&task=getCombos',
+                type: 'POST',
+                data: $('#comboMenu').html(),
+                dataType: 'html',
+                success: function (data) {
+                    $('#menuContent').empty();
+                    $('#menuContent').html(data);
+                }
+            });
+        });
+
+        $('.comboDetail').on('click', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('href'),
+                type: 'POST',
+                data: $('#comboDetails').html(),
+                dataType: 'html',
+                success: function (data) {
+                    $('#menuContent').empty();
+                    $('#menuContent').html(data);
+                }
+            });
+        });
 
 
     });

@@ -47,7 +47,7 @@ public class ejbNutritiveValue implements ejbNutritiveValueLocal {
     @Override
     public List<NutritiveValue> findByDish(Dish dish) {
         Dish d = em.find(Dish.class, dish.getId());
-        
+
         String sq = "select nv from NutritiveValue nv where nv.dish = :dish";
         Query q = em.createQuery(sq);
         q.setParameter("dish", d);

@@ -1,39 +1,50 @@
-
 package controllers;
 
 import entities.Category;
+import entities.Combo;
 import entities.Discount;
+import entities.Dish;
 import entities.Drink;
 import entities.Format;
+import entities.NutritiveValue;
 import entities.Price;
 import entities.Tax;
 import helpers.Pagination;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.beanCategory;
+import models.beanCombo;
+import models.beanDish;
 import models.beanDrink;
 import models.beanFormat;
+import models.beanNutritiveValue;
 import models.beanPrice;
 import models.beanRate;
 
 public class menuController implements IController {
 
     private beanDrink bDrink = new beanDrink();
+    beanDish bDish = new beanDish();
+    beanNutritiveValue bNutritiveValue = new beanNutritiveValue();
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String url = "/WEB-INF/dashboardCustomer.jsp";
-        
+
         HttpSession session = request.getSession();
-        
+
         Drink drink;
         Category category;
         Tax tax;
         Discount discount;
         Price price;
+        Dish dish = new Dish();
+        Combo combo;
 
         ArrayList<Format> formats;
         ArrayList<Category> categories;
@@ -87,21 +98,38 @@ public class menuController implements IController {
         discounts = bRate.findAllDiscounts();
         taxes = bRate.findAllTaxes();
         prices = bPrice.findAll();
-        
-        if("getDrinkDetail".equals(request.getParameter("task"))) {
+
+        if ("getDrinkDetail".equals(request.getParameter("task"))) {
             url = "/WEB-INF/menu/drinkDetail.jsp";
             drink = bDrink.findById(Long.valueOf(request.getParameter("id")));
             session.setAttribute("drink", drink);
             return url;
         }
-        if("getDrinks".equals(request.getParameter("task"))) {
+
+        if ("getDrinks".equals(request.getParameter("task"))) {
             url = "/WEB-INF/menu/drinkMenu.jsp";
-            getList(request, "option=menu");
+            getList(request, "option=menu", "drinks");
             return url;
         }
-        
-        getList(request, "option=menu");
-        
+
+        if("getDishDetail".equals(request.getParameter("task"))){
+            url = "/WEB-INF/menu/dishDetail.jsp";
+            dish = bDish.findById(Long.valueOf(request.getParameter("id")));
+            request.setAttribute("dish", dish);
+            try{
+                request.setAttribute("nutritiveValue", bNutritiveValue.findByDish(dish));
+            } catch (EJBException e){
+                request.setAttribute("nutritiveValue", null);
+            }
+        }
+        if ("getDishes".equals(request.getParameter("task"))) {
+            url = "/WEB-INF/menu/dishMenu.jsp";
+            getList(request, "option=menu", "dishes");
+            return url;
+        }
+
+        getList(request, "option=menu", "");
+
         return url;
     }
 
@@ -109,15 +137,24 @@ public class menuController implements IController {
     public String execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    private void getList(HttpServletRequest request, String queryString) {
+
+    private void getList(HttpServletRequest request, String queryString, String category) {
 
         /* pagination */
-        Pagination pagination = new Pagination(queryString, request.getParameter("page"), 10, bDrink.count());
-        request.setAttribute("pagination", pagination.getPagination());
+        if ("drinks".equals(category)) {
+            Pagination pagination = new Pagination(queryString, request.getParameter("page"), 10, bDrink.count());
+            request.setAttribute("pagination", pagination.getPagination());
 
-        List<Drink> drinks = bDrink.findAllByRange(pagination.getMin(), 10);
-        request.setAttribute("drinks", drinks);
+            List<Drink> drinks = bDrink.findAllByRange(pagination.getMin(), 10);
+            request.setAttribute("drinks", drinks);
+        }
+
+        if ("dishes".equals(category)) {
+            Pagination pagination = new Pagination(queryString, request.getParameter("page"), 10, bDish.count());
+            request.setAttribute("pagination", pagination.getPagination());
+
+            List<Dish> dishes = bDish.findAllByRange(pagination.getMin(), 10);
+            request.setAttribute("dishes", dishes);
+        }
     }
-    
 }

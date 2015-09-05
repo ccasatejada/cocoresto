@@ -131,30 +131,43 @@ public class dishController implements IController {
                     bd.create(d);
 
                     // set nutritiveValue
+                    NutritiveValue nv1;
+                    NutritiveValue nv2;
+                    NutritiveValue nv3;
+                    NutritiveValue nv4;
                     if (!request.getParameter("dishKcal").trim().isEmpty()) {
-                        NutritiveValue nv1 = new NutritiveValue("kilocalories", Double.valueOf(request.getParameter("dishKcal")), Unit.KiloCalories);
-                        nv1.setDish(d);
-                        bnv.create(nv1);
+                        nv1 = new NutritiveValue("kilocalories", Double.valueOf(request.getParameter("dishKcal")), Unit.KiloCalories);
+                    } else {
+                        nv1 = new NutritiveValue("kilocalories", 0d, Unit.KiloCalories);
                     }
                     if (!request.getParameter("dishProtein").trim().isEmpty()) {
-                        NutritiveValue nv2 = new NutritiveValue("protéines", Double.valueOf(request.getParameter("dishProtein")), Unit.Grammes);
-                        nv2.setDish(d);
-                        bnv.create(nv2);
+                        nv2 = new NutritiveValue("protéines", Double.valueOf(request.getParameter("dishProtein")), Unit.Grammes);
+                    } else {
+                        nv2 = new NutritiveValue("protéines", 0d, Unit.Grammes);
                     }
                     if (!request.getParameter("dishGlucid").trim().isEmpty()) {
-                        NutritiveValue nv3 = new NutritiveValue("glucides", Double.valueOf(request.getParameter("dishGlucid")), Unit.Grammes);
-                        nv3.setDish(d);
-                        bnv.create(nv3);
+                        nv3 = new NutritiveValue("glucides", Double.valueOf(request.getParameter("dishGlucid")), Unit.Grammes);
+                    } else {
+                        nv3 = new NutritiveValue("glucides", 0d, Unit.Grammes);
                     }
                     if (!request.getParameter("dishLipid").trim().isEmpty()) {
-                        NutritiveValue nv4 = new NutritiveValue("lipides", Double.valueOf(request.getParameter("dishLipid")), Unit.Grammes);
-                        nv4.setDish(d);
-                        bnv.create(nv4);
+                        nv4 = new NutritiveValue("lipides", Double.valueOf(request.getParameter("dishLipid")), Unit.Grammes);
+                    } else {
+                        nv4 = new NutritiveValue("lipides", 0d, Unit.Grammes);
                     }
+                    nv1.setDish(d);
+                    nv2.setDish(d);
+                    nv3.setDish(d);
+                    nv4.setDish(d);
+                    bnv.create(nv1);
+                    bnv.create(nv2);
+                    bnv.create(nv3);
+                    bnv.create(nv4);
 
                     request.setAttribute("alert", Alert.setAlert("Succès", "Le plat a été ajouté", "success"));
                 } else { //update
                     d.setId(Long.valueOf(request.getParameter("id")));
+                    d = bd.findById(d.getId());
                     d.setName(request.getParameter("dishName"));
                     d.setActive(true);
                     if (!request.getParameter("dishCountry").trim().isEmpty()) {
@@ -207,7 +220,7 @@ public class dishController implements IController {
 
                     // set image
                     if (request.getParameter("imageDish") != null) {
-                        d.setImage(request.getParameter("image"));
+                        d.setImage(request.getParameter("imageDish"));
                     }
 
                     // update dish
@@ -215,17 +228,37 @@ public class dishController implements IController {
 
                     // set nutritiveValue
                     for (NutritiveValue nv : bnv.findByDish(d)) {
-                        if ("kilocalories".equals(nv.getName()) && !request.getParameter("dishKcal").trim().isEmpty()) {
-                            nv.setQuantity(Double.valueOf(request.getParameter("dishKcal")));
+                        if ("kilocalories".equals(nv.getName())) {
+                            if (request.getParameter("dishKcal").trim().isEmpty()) {
+                                nv.setQuantity(0d);
+                            } else {
+                                nv.setQuantity(Double.valueOf(request.getParameter("dishKcal")));
+                            }
+                            nv.setDish(d);
                         }
-                        if ("protéines".equals(nv.getName()) && !request.getParameter("dishProtein").trim().isEmpty()) {
-                            nv.setQuantity(Double.valueOf(request.getParameter("dishProtein")));
+                        if ("protéines".equals(nv.getName())) {
+                            if (request.getParameter("dishProtein").trim().isEmpty()) {
+                                nv.setQuantity(0d);
+                            } else {
+                                nv.setQuantity(Double.valueOf(request.getParameter("dishProtein")));
+                            }
+                            nv.setDish(d);
                         }
-                        if ("glucides".equals(nv.getName()) && !request.getParameter("dishGlucid").trim().isEmpty()) {
-                            nv.setQuantity(Double.valueOf(request.getParameter("dishGlucid")));
+                        if ("glucides".equals(nv.getName())) {
+                            if (request.getParameter("dishGlucid").trim().isEmpty()) {
+                                nv.setQuantity(0d);
+                            } else {
+                                nv.setQuantity(Double.valueOf(request.getParameter("dishGlucid")));
+                            }
+                            nv.setDish(d);
                         }
-                        if ("lipides".equals(nv.getName()) && !request.getParameter("dishLipid").trim().isEmpty()) {
-                            nv.setQuantity(Double.valueOf(request.getParameter("dishLipid")));
+                        if ("lipides".equals(nv.getName())) {
+                            if (request.getParameter("dishLipid").trim().isEmpty()) {
+                                nv.setQuantity(0d);
+                            } else {
+                                nv.setQuantity(Double.valueOf(request.getParameter("dishLipid")));
+                            }
+                            nv.setDish(d);
                         }
                         bnv.update(nv);
                     }

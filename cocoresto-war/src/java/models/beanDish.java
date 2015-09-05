@@ -22,6 +22,7 @@ public class beanDish implements Serializable {
     ejbDishLocal ejbDish = lookupejbDishLocal();
 
     public beanDish() {
+        
     }
 
     public void create(Dish dish) throws EJBException{
@@ -55,7 +56,10 @@ public class beanDish implements Serializable {
 
 
     public int count(){
+        if(ejbDish.count() != 0){
         return ejbDish.count();
+        }
+        return 0;
     }
     
     public List<Category> findCategories(){

@@ -15,7 +15,7 @@ import javax.naming.NamingException;
 public class beanCategory implements Serializable {
 
     ejbCategoryLocal ejbCategory = lookupejbCategoryLocal();
-
+    
     public beanCategory() {
     }
 
