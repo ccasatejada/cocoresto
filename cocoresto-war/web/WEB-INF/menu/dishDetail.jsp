@@ -27,7 +27,7 @@
                 </div>
                 <div class="group-format">
                     <c:forEach var="nutritiveValue" items="${dish.nutritiveValues}" varStatus="loop">
-                        <p>"${nutritiveValue.name} : ${nutritiveValue.quantity} ${nutritiveValue.unit.name}"</p>
+                        <c:if test="${nutritiveValue.quantity > 0}"><p>${nutritiveValue.name} : ${nutritiveValue.quantity} ${nutritiveValue.unit.name}</p></c:if>
                     </c:forEach>
                 </div>
                 <div class="group-format">

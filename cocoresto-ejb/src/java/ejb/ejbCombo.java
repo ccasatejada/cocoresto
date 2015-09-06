@@ -57,13 +57,7 @@ public class ejbCombo implements ejbComboLocal {
         String sq = "SELECT c FROM Category c";
         Query q = em.createQuery(sq);
         for(Category cat : (List<Category>)q.getResultList()){
-            if("Dejeuner".equals(cat.getType())){
-                categories.add(cat);
-            }
-            if("Diner".equals(cat.getType())){
-                categories.add(cat);
-            }
-            if("Brunch".equals(cat.getType())){
+            if("Menu".equals(cat.getType())){
                 categories.add(cat);
             }
         }

@@ -33,7 +33,7 @@ public class menuController implements IController {
     beanCombo bCombo = new beanCombo();
     beanNutritiveValue bNutritiveValue = new beanNutritiveValue();
     beanCategory bCategory = new beanCategory();
-    
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String url = "/WEB-INF/dashboardCustomer.jsp";
@@ -114,15 +114,16 @@ public class menuController implements IController {
             return url;
         }
 
-        if("getDishDetail".equals(request.getParameter("task"))){
+        if ("getDishDetail".equals(request.getParameter("task"))) {
             url = "/WEB-INF/menu/dishDetail.jsp";
             dish = bDish.findById(Long.valueOf(request.getParameter("id")));
             request.setAttribute("dish", dish);
-            try{
+            try {
                 request.setAttribute("nutritiveValue", bNutritiveValue.findByDish(dish));
-            } catch (EJBException e){
+            } catch (EJBException e) {
                 request.setAttribute("nutritiveValue", null);
             }
+            return url;
         }
         if ("getDishes".equals(request.getParameter("task"))) {
             url = "/WEB-INF/menu/dishMenu.jsp";
@@ -130,22 +131,24 @@ public class menuController implements IController {
             getList(request, "option=menu", "dishes");
             return url;
         }
-        
-        if("getComboDetail".equals(request.getParameter("task"))) {
-            url = "WEB-INF/menu/comboDetail.jsp";
+
+        if ("getComboDetail".equals(request.getParameter("task"))) {
+            url = "/WEB-INF/menu/comboDetail.jsp";
             combo = bCombo.findById(Long.valueOf(request.getParameter("id")));
             request.setAttribute("combo", combo);
             int i = 1;
-            for(Dish d : combo.getDishes()){
-                request.setAttribute("dish"+i, d);
+            for (Dish d : combo.getDishes()) {
+                request.setAttribute("dish" + i, d);
                 i++;
             }
+            return url;
         }
-        
-        if("getCombos".equals(request.getParameter("taks"))) {
+
+        if ("getCombos".equals(request.getParameter("task"))) {
             url = "/WEB-INF/menu/comboMenu.jsp";
             request.setAttribute("categories", bCombo.findCategories());
-            getList(request, "option-menu", "combos");
+            getList(request, "option=menu", "combos");
+            return url;
         }
 
         getList(request, "option=menu", "");
@@ -176,11 +179,11 @@ public class menuController implements IController {
             List<Dish> dishes = bDish.findAllByRange(pagination.getMin(), 10);
             request.setAttribute("dishes", dishes);
         }
-        
-        if("combos".equals(category)) {
+
+        if ("combos".equals(category)) {
             Pagination pagination = new Pagination(queryString, request.getParameter("page"), 10, bCombo.count());
             request.setAttribute("pagination", pagination.getPagination());
-            
+
             List<Combo> combos = bCombo.findAllByRange(pagination.getMin(), 10);
             request.setAttribute("combos", combos);
         }
