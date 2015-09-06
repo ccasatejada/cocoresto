@@ -3,15 +3,22 @@
 <div id="dishMenu" class="container-fluid">
     <div class="row">
         <h1>Ca marche!</h1>
-        <c:forEach var="dish" items="${dishes}" varStatus="loop">
+        <c:forEach var="category" items="${categories}">
             <div class="col-sm-4 mt-20">
-                <a href="FrontController?option=menu&task=getDishDetail&id=${dish.id}" class="drinkDetail btn btn-cyan btn-rounded btn-ef btn-ef-5 btn-ef-5a btn-lg" name="getDetail">
-                    <figure>
-                        <img src="../images/dishes/${dish.image}" alt="image:${dish.name}" height="220" width="220" class="img-rounded">
-                        <figcaption>${dish.name}</figcaption>
-                    </figure>
-                </a>
+                <p>${category.name}</p>
             </div>
+            <c:forEach var="dish" items="${dishes}" varStatus="loop">
+                <c:if test="${category.name eq  dish.category.name}">
+                    <div class="col-sm-4 mt-20">
+                        <a href="FrontController?option=menu&task=getDishDetail&id=${dish.id}" class="drinkDetail btn btn-cyan btn-rounded btn-ef btn-ef-5 btn-ef-5a btn-lg" name="getDetail">
+                            <figure>
+                                <img src="images/dishes/${dish.image}" alt="image:${dish.name}" height="220" width="220" class="img-rounded">
+                                <figcaption>${dish.name}</figcaption>
+                            </figure>
+                        </a>
+                    </div>
+                </c:if>
+            </c:forEach>
         </c:forEach>
     </div>
     ${pagination}

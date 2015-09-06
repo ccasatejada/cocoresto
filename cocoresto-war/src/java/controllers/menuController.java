@@ -30,7 +30,9 @@ public class menuController implements IController {
 
     private beanDrink bDrink = new beanDrink();
     beanDish bDish = new beanDish();
+    beanCombo bCombo = new beanCombo();
     beanNutritiveValue bNutritiveValue = new beanNutritiveValue();
+    beanCategory bCategory = new beanCategory();
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -39,12 +41,12 @@ public class menuController implements IController {
         HttpSession session = request.getSession();
 
         Drink drink;
-        Category category;
+        Category category = new Category();
         Tax tax;
         Discount discount;
         Price price;
         Dish dish = new Dish();
-        Combo combo;
+        Combo combo = new Combo();
 
         ArrayList<Format> formats;
         ArrayList<Category> categories;
@@ -124,8 +126,26 @@ public class menuController implements IController {
         }
         if ("getDishes".equals(request.getParameter("task"))) {
             url = "/WEB-INF/menu/dishMenu.jsp";
+            request.setAttribute("categories", bDish.findCategories());
             getList(request, "option=menu", "dishes");
             return url;
+        }
+        
+        if("getComboDetail".equals(request.getParameter("task"))) {
+            url = "WEB-INF/menu/comboDetail.jsp";
+            combo = bCombo.findById(Long.valueOf(request.getParameter("id")));
+            request.setAttribute("combo", combo);
+            int i = 1;
+            for(Dish d : combo.getDishes()){
+                request.setAttribute("dish"+i, d);
+                i++;
+            }
+        }
+        
+        if("getCombos".equals(request.getParameter("taks"))) {
+            url = "/WEB-INF/menu/comboMenu.jsp";
+            request.setAttribute("categories", bCombo.findCategories());
+            getList(request, "option-menu", "combos");
         }
 
         getList(request, "option=menu", "");
@@ -155,6 +175,14 @@ public class menuController implements IController {
 
             List<Dish> dishes = bDish.findAllByRange(pagination.getMin(), 10);
             request.setAttribute("dishes", dishes);
+        }
+        
+        if("combos".equals(category)) {
+            Pagination pagination = new Pagination(queryString, request.getParameter("page"), 10, bCombo.count());
+            request.setAttribute("pagination", pagination.getPagination());
+            
+            List<Combo> combos = bCombo.findAllByRange(pagination.getMin(), 10);
+            request.setAttribute("combos", combos);
         }
     }
 }

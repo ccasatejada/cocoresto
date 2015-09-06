@@ -77,7 +77,7 @@ public class ejbDish implements ejbDishLocal {
     
     @Override
     public List<Dish> findAllByRange(int firstResult, int maxResults){
-        Query q = em.createQuery("select d from Dish d order by d.name");
+        Query q = em.createQuery("select d from Dish d order by d.category");
         if(firstResult >= 0){
             q.setFirstResult(firstResult);
         }

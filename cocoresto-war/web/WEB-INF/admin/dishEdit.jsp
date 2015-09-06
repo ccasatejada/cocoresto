@@ -74,7 +74,7 @@
                 <label for="dishPrice">Prix :</label>
                 <div class="input-group">
                     <input type="text" class="form-control" id="dishPrice" name="dishPrice" required value="${dish.price.price}">
-                    <div class="input-group-addon">?</div>
+                    <div class="input-group-addon">euros</div>
                 </div>
             </div>
             <div class="form-group">

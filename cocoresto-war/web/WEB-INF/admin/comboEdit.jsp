@@ -76,7 +76,7 @@
                                     <label for="comboPrice">Prix :</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="comboPrice" name="comboPrice" required value="${combo.price.price}">
-                                        <div class="input-group-addon">?</div>
+                                        <div class="input-group-addon">euros</div>
                                     </div>
                                 </div>
                                 <div class="form-group">

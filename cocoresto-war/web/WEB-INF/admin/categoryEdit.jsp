@@ -19,9 +19,7 @@
                 <select id="categoryType" name="categoryType"> 
                     <option value="Plat" <c:if test="${category.type == 'Plat'}"> selected </c:if>> Plat</option>
                     <option value="Boisson"  <c:if test="${category.type == 'Boisson'}"> selected </c:if>> Boisson</option>
-                    <option value="Dejeuner"  <c:if test="${category.type == 'Dejeuner'}"> selected </c:if>> Dejeuner</option>
-                    <option value="Diner"  <c:if test="${category.type == 'Diner'}"> selected </c:if>> Diner</option>
-                    <option value="Brunch"  <c:if test="${category.type == 'Brunch'}"> selected </c:if>> Brunch</option>
+                    <option value="Menu"  <c:if test="${category.type == 'Menu'}"> selected </c:if>> Menu</option>
                 </select>
             </div>
 

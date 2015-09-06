@@ -97,7 +97,7 @@ public class comboController implements IController {
                         co.setPrice(p);
                     } catch (EJBException ex) {
                         co.setPrice(p);
-                        bco.create(co);
+                        bp.create(p);
                     }
 
                     // set tax
@@ -161,7 +161,7 @@ public class comboController implements IController {
                         co.setPrice(p);
                     } catch (EJBException ex) {
                         co.setPrice(p);
-                        bco.create(co);
+                        bp.create(p);
                     }
 
                     // set tax
