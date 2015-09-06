@@ -9,14 +9,14 @@
     <body id="minovate" class="appWrapper">
         <div id="wrap" class="animsition">
 
-            <c:if test="${logged}">
+            <c:if test="${logged && group != 0}">
                 <%@include file="includes/adminMenu.jsp" %>
             </c:if>
 
             <section id="content">
                 <div class="page page-dashboard">
 
-                    <c:if test="${logged}">
+                    <c:if test="${logged && group != 0}">
                         <div class="pageheader">
                             <h2>CocoResto <span>// ${userName}</span></h2>
                             <div class="page-bar">
