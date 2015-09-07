@@ -28,39 +28,39 @@
         /************************************************************************************/
 
         // initial hide fields group
-        $("#newOrder #customerTableGroup").hide();
-        $("#newOrder #nbTabletGroup").hide();
+        $("#editOrder.new #customerTableGroup").hide();
+        $("#editOrder.new #nbTabletGroup").hide();
 
         // update available tables
-        $('#newOrder #people').on('change', function () {
+        $('#editOrder #people').on('change', function () {
             if ($(this).val() > 0) {
-                $("#newOrder #customerTableGroup").show();
-                $("#newOrder #customerTable").empty();
-                $("#newOrder #nbTabletGroup").hide();
-                $("#newOrder #nbTabletGroup [type='number']").val(1);
+                $("#editOrder #customerTableGroup").show();
+                $("#editOrder #customerTable").empty();
+                $("#editOrder #nbTabletGroup").hide();
+                $("#editOrder #nbTabletGroup [type='number']").val(1);
                 $.ajax({
                     url: 'Ajax',
                     type: 'POST',
                     data: 'task=customerTable&get=available&nb=' + $(this).val(),
                     dataType: 'html',
                     success: function (html) {
-                        $(html).appendTo("#newOrder #customerTable");
+                        $(html).appendTo("#editOrder #customerTable");
                     },
                 });
             }
         });
 
-        $('#newOrder #customerTableGroup select').on('change', function () {
+        $('#editOrder #customerTableGroup select').on('change', function () {
             if ($(this).val() > 0) {
-                $("#newOrder #nbTabletGroup").show();
-                $("#newOrder #nbTabletGroup [type='number']").val(1);
+                $("#editOrder #nbTabletGroup").show();
+                $("#editOrder #nbTabletGroup [type='number']").val(1);
                 $.ajax({
                     url: 'Ajax',
                     type: 'POST',
                     data: 'task=customerTable&get=nbTablet&table=' + $(this).val(),
                     dataType: 'text',
                     success: function (data) {
-                        $("#newOrder #nbTabletGroup [type='number']").attr('max', data)
+                        $("#editOrder #nbTabletGroup [type='number']").attr('max', data)
                     },
                 });
             }

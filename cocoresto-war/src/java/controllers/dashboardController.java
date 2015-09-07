@@ -37,9 +37,7 @@ public class dashboardController implements IController {
             request.setAttribute("name", employee.getFirstName() + " " + employee.getLastName());
         }
         
-        if(groupId == 0) { // return client dashboard
-            
-            
+        if(groupId == 0) { // return customer dashboard
             
             
             return "/WEB-INF/dashboardCustomer.jsp";
@@ -50,7 +48,7 @@ public class dashboardController implements IController {
 
             List<CustomerOrder> customerOrders = boc.findAllByRangeByEmployee(pagination.getMin(), 10, employee.getId());
             request.setAttribute("customerOrders", customerOrders);
-
+            
             return "/WEB-INF/dashboardWaiter.jsp";
         } else if (groupId == 2) { // return cooker dashboard
             return "/WEB-INF/dashboardCooker.jsp";

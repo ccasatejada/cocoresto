@@ -135,6 +135,14 @@ public class CustomerOrder implements Serializable {
         this.combos = combos;
     }
 
+    public Collection<Drink> getDrinks() {
+        return drinks;
+    }
+
+    public void setDrinks(Collection<Drink> drinks) {
+        this.drinks = drinks;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
