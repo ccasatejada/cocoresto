@@ -25,12 +25,13 @@ import models.beanOrderCustomer;
 import models.beanTableCustomer;
 
 public class customerOrderController implements IController {
-    
+
     ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
 
     private final beanOrderCustomer boc = new beanOrderCustomer();
     private final beanTableCustomer btc = new beanTableCustomer();
     private final String newUrl = "/WEB-INF/order/customerOrderNew.jsp";
+    private final String editWaiterUrl = "/WEB-INF/order/customerOrderEdit.jsp";
     private final String editUrl = "/WEB-INF/admin/customerOrderEdit.jsp";
     private final String listUrl = "/WEB-INF/admin/customerOrderList.jsp";
 
@@ -51,7 +52,7 @@ public class customerOrderController implements IController {
 
         if (logged && groupId >= 3) {
 
-            if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
+            if ("edit".equals(request.getParameter("task")) && request.getParameter("id") != null && !request.getParameter("id").trim().isEmpty()) {
                 try {
                     CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
                     request.setAttribute("customerOrder", co);
@@ -143,11 +144,11 @@ public class customerOrderController implements IController {
 
                     // set table busy
                     CustomerTable ct = btc.findById(tableId);
-                    if(ct.isBusy() || !ct.isActive()) {
+                    if (ct.isBusy() || !ct.isActive()) {
                         request.setAttribute("alert", Alert.setAlert("Désoléé", "La table n'est plus disponible", "danger"));
                         return newUrl;
                     }
-                    
+
                     ct.setBusy(true);
                     btc.update(ct);
 
@@ -166,23 +167,40 @@ public class customerOrderController implements IController {
                     ejbRestaurant.addCustomerOrder(order);
 
                     // if all ok : redirect to dashboard
-                    try {
-                        response.sendRedirect("FrontController?option=dashboard");
-                    } catch (IOException ex) {
-                        request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
-                    }
+                    redirectToDashboard(request, response);
                 }
 
                 return newUrl;
             }
 
-        } else {
-            try {
-                // not logged or wrong groupId
-                response.sendRedirect("FrontController?option=dashboard");
-            } catch (IOException ex) {
-                request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
+            if ("edit".equals(request.getParameter("task"))) {
+
+                // no id parameter
+                if (request.getParameter("id") == null || request.getParameter("id").trim().isEmpty()) {
+                    redirectToDashboard(request, response);
+                }
+
+                Long id = 0L;
+                if (FieldValidation.checkInteger(request.getParameter("id"), true, 1)) {
+                    id = Long.valueOf(request.getParameter("id"));
+                } else {
+                    redirectToDashboard(request, response);
+                }
+                
+                try {
+                    request.setAttribute("customerTableCapacityMax", btc.countMaxCapacity());
+                } catch (EJBException ex) {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Il n'y a plus de tables disponibles pour le moment", "danger"));
+                }
+                
+                CustomerOrder ct = boc.findById(id);
+                request.setAttribute("customerOrder", ct);
+
+                return editWaiterUrl;
             }
+
+        } else { // not logged or wrong groupId
+            redirectToDashboard(request, response);
         }
 
         return "/WEB-INF/login.jsp";
@@ -216,6 +234,14 @@ public class customerOrderController implements IController {
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
+        }
+    }
+
+    private void redirectToDashboard(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            response.sendRedirect("FrontController?option=dashboard");
+        } catch (IOException | IllegalStateException ex) {
+            request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
         }
     }
 }
