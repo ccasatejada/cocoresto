@@ -26,9 +26,9 @@
                                     ${pathway}
                                 </ul>
                                 <div class="page-toolbar">
-                                    <a role="button" tabindex="0" class="btn btn-lightred no-border pickDate">
+                                    <div tabindex="0" class="btn btn-lightred no-border pickdate">
                                         <i class="fa fa-calendar"></i>&nbsp;&nbsp;<span>${date}</span>
-                                    </a>
+                                    </div>
                                 </div>
                             </div>
                         </div> 

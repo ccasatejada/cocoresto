@@ -50,12 +50,12 @@ public class loginController implements IController {
                 return "/WEB-INF/login.jsp";
             } else {
 
-//                if(ejbRestaurant.isEmployeeLogged(loggedEmployee)){
-//                    request.setAttribute("alert", Alert.setAlert("Erreur", "Vous êtes déjà connecté sur une autre machine", "danger"));
-//                    return "/WEB-INF/login.jsp";
-//                }
-//                
-//                ejbRestaurant.addEmployee(loggedEmployee);
+                if(ejbRestaurant.isEmployeeLogged(loggedEmployee)){
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Vous êtes déjà connecté sur une autre machine", "danger"));
+                    return "/WEB-INF/login.jsp";
+                }
+                
+                ejbRestaurant.addEmployee(loggedEmployee);
                 Long idGroup = loggedEmployee.getEmployeeGroup().getId();
                 session.setAttribute("logged", true);
                 session.setAttribute("group", idGroup);
@@ -101,7 +101,7 @@ public class loginController implements IController {
 
         // Disconnect
         if ("disconnect".equals(request.getParameter("task"))) {
-//            ejbRestaurant.removeEmployee((Employee) session.getAttribute("loggedEmployee"));
+            ejbRestaurant.removeEmployee((Employee) session.getAttribute("loggedEmployee"));
             session.setAttribute("logged", false);
             session.setAttribute("group", 0);
             session.setAttribute("loggedEmployee", null);

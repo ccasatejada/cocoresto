@@ -1,5 +1,6 @@
 package controllers;
 
+import ejb.ejbRestaurantLocal;
 import entities.CustomerOrder;
 import entities.CustomerTable;
 import entities.Employee;
@@ -9,7 +10,12 @@ import helpers.Pagination;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJBException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +25,8 @@ import models.beanOrderCustomer;
 import models.beanTableCustomer;
 
 public class customerOrderController implements IController {
+    
+    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
 
     private final beanOrderCustomer boc = new beanOrderCustomer();
     private final beanTableCustomer btc = new beanTableCustomer();
@@ -135,6 +143,11 @@ public class customerOrderController implements IController {
 
                     // set table busy
                     CustomerTable ct = btc.findById(tableId);
+                    if(ct.isBusy() || !ct.isActive()) {
+                        request.setAttribute("alert", Alert.setAlert("Désoléé", "La table n'est plus disponible", "danger"));
+                        return newUrl;
+                    }
+                    
                     ct.setBusy(true);
                     btc.update(ct);
 
@@ -150,6 +163,7 @@ public class customerOrderController implements IController {
                     order.setActive(true);
 
                     boc.create(order);
+                    ejbRestaurant.addCustomerOrder(order);
 
                     // if all ok : redirect to dashboard
                     try {
@@ -193,5 +207,15 @@ public class customerOrderController implements IController {
 
         return true;
 
+    }
+
+    private ejbRestaurantLocal lookupejbRestaurantLocal() {
+        try {
+            Context c = new InitialContext();
+            return (ejbRestaurantLocal) c.lookup("java:global/cocoresto/cocoresto-ejb/ejbRestaurant!ejb.ejbRestaurantLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
     }
 }
