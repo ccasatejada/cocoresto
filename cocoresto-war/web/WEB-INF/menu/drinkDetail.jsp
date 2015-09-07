@@ -11,7 +11,7 @@
         <div class="col-xs-6">
             <form>
                 <div class="group-format">
-                    <h1>${drink.name}</h1>
+                    <h1 class="text-elg text-strong mb-0 mt-20">${drink.name}</h1>
                 </div>
                 <div class="group-format">
                     <p>${drink.description}</p>
@@ -22,13 +22,13 @@
                     </c:forEach>
                 </div>
                 <div class="group-format">
-                    <p>${drink.totalPrice} €</p>
+                    <p class="text-lg text-strong mb-0 mt-20">${drink.totalPrice} €</p>
                 </div>
                 <div class="group-format">
                     <p>${drink.discount}</p>
                 </div>
                 <div class="group-format">
-                    <input type="submit" id="add-entry" name="addDrink" class="btn btn-cyan btn-rounded btn-ef btn-ef-5 btn-ef-5a btn-lg" value="Ajouter">
+                    <input type="submit" id="add-entry" name="addDrink" class="btn btn-blue btn-ef btn-ef-5 btn-ef-5a btn-lg" value="Ajouter">
                 </div>
             </form>
         </div>

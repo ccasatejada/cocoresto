@@ -2,16 +2,31 @@
 
 <div id="drinkMenu" class="container-fluid">
     <div class="row">
-        <h1>Ca marche!</h1>
         <c:forEach var="drink" items="${drinks}" varStatus="loop">
-            <div class="col-sm-4 mt-20">
-                <a href="FrontController?option=menu&task=getDrinkDetail&id=${drink.id}" class="drinkDetail btn btn-cyan btn-rounded btn-ef btn-ef-5 btn-ef-5a btn-lg" name="getDetail">
-                    <figure>
-                        <img src="images/drinks/${drink.image}" alt="image:${drink.name}" height="220" width="220" class="img-rounded">
-                        <figcaption>${drink.name}</figcaption>
-                    </figure>
-                </a>
+            <div class="card-container col-lg-4 col-sm-6 col-sm-12">
+                <div class="card">
+                    <div class="front bg-blue">
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <figure>
+                                    <img src="images/drinks/${drink.image}" alt="image:${drink.name}" height="220" width="220">
+                                    <figcaption><p class="text-elg text-strong mb-0 mt-20">${drink.name}</p></figcaption>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="back bg-blue">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a href="FrontController?option=menu&task=getDrinkDetail&id=${drink.id}" class="drinkDetail" name="getDetail"><i class="fa fa-glass fa-4x mt-40 mb-40 p-10"></i><p class="text-elg text-strong mb-0 mt-40 p-10"> Voir le détail</p></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </c:forEach>
     </div>
 </div>
+
+
+
