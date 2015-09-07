@@ -18,7 +18,7 @@ public class ejbRestaurant implements ejbRestaurantLocal {
     private HashMap<Integer, CustomerOrder> orders;
     private List<Employee> employees;
     
-
+    
     public ejbRestaurant() {
         orders = new HashMap();
         employees = new ArrayList();
