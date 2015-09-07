@@ -9,22 +9,23 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateful;
-import javax.enterprise.context.ApplicationScoped;
+import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
 import javax.websocket.Session;
 
-
-@Stateful
-@ApplicationScoped
+@Stateless
 public class ejbHelp implements ejbHelpLocal {
 
-    private int helpId = 0;
+    private final int helpId = 0;
     private ejbCustomerOrder ejbCustomerOrder;
     private ejbRestaurant ejbRestaurant;
     private final Set sessions = new HashSet<>();
     private final Set helps = new HashSet<CustomerOrder>();
+
+    public ejbHelp() {
+    }
    
     @Override
     public void addSession(Session session) {
@@ -43,6 +44,7 @@ public class ejbHelp implements ejbHelpLocal {
     }
 
     @Override
+    @PreDestroy
     public void addHelp(CustomerOrder order) {
     }
 

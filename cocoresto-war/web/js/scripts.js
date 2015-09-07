@@ -23,6 +23,27 @@
         // tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
+
+        $(window).bind('click', function (event) {
+            if (event.target.href) {
+                $(window).unbind('beforeunload');
+            }
+        });
+        
+        $(window).bind('submit', function (event) {
+            $(window).unbind('beforeunload');
+        });
+        
+        $(window).bind('beforeunload', function (event) {
+            $.ajax({
+                url: 'Ajax',
+                type: 'POST',
+                data: 'task=removeEmployee',
+            });
+            //return 'Vous allez être déconnecté';
+        });
+
+
         /************************************************************************************/
         /************************************ Open Order ************************************/
         /************************************************************************************/
