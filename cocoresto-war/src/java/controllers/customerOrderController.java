@@ -142,7 +142,7 @@ public class customerOrderController implements IController {
                         }
                     }
 
-                    // set table busy
+                    // test if table is still not busy
                     CustomerTable ct = btc.findById(tableId);
                     if (ct.isBusy() || !ct.isActive()) {
                         request.setAttribute("alert", Alert.setAlert("Désoléé", "La table n'est plus disponible", "danger"));
@@ -164,7 +164,6 @@ public class customerOrderController implements IController {
                     order.setActive(true);
 
                     boc.create(order);
-                    ejbRestaurant.addCustomerOrder(order);
 
                     // if all ok : redirect to dashboard
                     redirectToDashboard(request, response);
@@ -193,10 +192,26 @@ public class customerOrderController implements IController {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Il n'y a plus de tables disponibles pour le moment", "danger"));
                 }
                 
-                CustomerOrder ct = boc.findById(id);
-                request.setAttribute("customerOrder", ct);
+                CustomerOrder co = boc.findById(id);
+                request.setAttribute("customerOrder", co);
 
                 return editWaiterUrl;
+            }
+            
+            // cancel order
+            if(request.getParameter("cancel") != null) {
+
+                Long id = 0L;
+                if (FieldValidation.checkInteger(request.getParameter("id"), true, 1)) {
+                    id = Long.valueOf(request.getParameter("id"));
+                } else {
+                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
+                    return editWaiterUrl;
+                }      
+                
+                boc.cancelCustomerOrder(boc.findById(id));
+
+                redirectToDashboard(request, response);
             }
 
         } else { // not logged or wrong groupId
@@ -223,8 +238,10 @@ public class customerOrderController implements IController {
 
     private boolean edit(HttpServletRequest request) {
 
+        
+        
+        
         return true;
-
     }
 
     private ejbRestaurantLocal lookupejbRestaurantLocal() {
