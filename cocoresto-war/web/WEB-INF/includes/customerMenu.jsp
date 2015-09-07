@@ -67,12 +67,16 @@
             </div>
         </div>
     </div>
-    <div id="addHelp">
-        <form id="addHelpForm">
-            <input type="hidden" value="${customerOrder.customerTable.number}">
-            <input type="button" class="button" value="Demander de l'aide" onclick=formSubmit()>
-        </form>
+    <div class="card-container col-lg-4 col-sm-6 col-sm-12">
+
+        <div id="addHelp">
+            <form id="addHelpForm">
+                <input type="hidden" value="${customerOrder.customerTable.number}">
+                <input type="button" class="button" value="Demander de l'aide" onclick=formSubmit()>
+            </form>
+        </div>
     </div>
 
 </div>
+
 

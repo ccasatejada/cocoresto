@@ -17,7 +17,7 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint("/actions")
 public class HelpWebSocketServer {
 
-    @Inject
+    
     private ejbHelp ejbHelp;
     
     @OnOpen

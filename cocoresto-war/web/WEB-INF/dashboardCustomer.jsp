@@ -23,6 +23,5 @@
             </section>
         </div>
         <%@include file="/WEB-INF/includes/scripts.jsp" %>
-        <%@include file="/WEB-INF/includes/websocket.jsp" %>
     </body>
 </html>
