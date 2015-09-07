@@ -4,7 +4,6 @@ package ejb;
 import entities.CustomerOrder;
 import java.util.List;
 import javax.ejb.Local;
-import javax.json.JsonObject;
 import javax.websocket.Session;
 
 @Local

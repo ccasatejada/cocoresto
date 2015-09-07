@@ -3,6 +3,7 @@ package websocket;
 
 import ejb.ejbHelp;
 import ejb.ejbHelpLocal;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -19,13 +20,11 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 @ApplicationScoped
-@ServerEndpoint("?option=dashboard/actions")
-public class HelpWebSocketServer {
+@ServerEndpoint("actions")
+public class HelpWebSocketServer implements Serializable {
     
     @EJB
     ejbHelpLocal ejbHelp = lookupejbHelpLocal();
-
-
     
     @OnOpen
     public void open(Session session){

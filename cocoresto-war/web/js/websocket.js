@@ -1,5 +1,6 @@
 window.onload = init;
-var wsUri = "ws://" + document.location.host + document.location.pathname + "?option=dashboard/actions";
+var wsUri = "ws://" + document.location.host + document.location.pathname + "/actions";
+alert(wsUri);
 var socket = new WebSocket(wsUri);
 socket.onmessage = onMessage;
 
