@@ -7,7 +7,7 @@
     <div class="tile-header dvd dvd-btm bg-greensea">
         <h1 class="custom-font"><strong>Commande n°${customerOrder.number}</strong></h1>
     </div>
-    <form id="editOrder" action="FrontController?option=customerOrder" method="post">
+    <form id="editOrder" class="edit" action="FrontController?option=customerOrder" method="post">
 
         <div class="tile-body">
 
@@ -58,21 +58,21 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="people">Nombre de couverts : <span>*</span></label>
-                            <input type="number" min="1" max="${customerTableCapacityMax}" class="form-control input-lg" id="people" name="people" value="0" required />
+                            <input type="number" min="1" max="${customerTableCapacityMax}" class="form-control input-lg" id="people" name="people" value="${customerOrder.people}" required />
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div id="customerTableGroup" class="form-group">
                             <label for="customerTable">Table disponible : <span>*</span></label>
-                            <select name="customerTable" id="customerTable"class="form-control input-lg" required>
-                                <option value="0" disabled>Sélectionnez une table disponible</option>
+                            <select name="customerTable" id="customerTable" class="form-control input-lg" required>
+                                <option value="${customerOrder.customerTable.id}" disabled>Table n°${customerOrder.customerTable.number}</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div id="nbTabletGroup" class="form-group">
                             <label for="nbTablet">Nombre de tablettes : <span>*</span></label>
-                            <input type="number" min="1" class="form-control input-lg" id="nbTablet" name="nbTablet" value="1" required />
+                            <input type="number" min="1" class="form-control input-lg" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" required />
                         </div>
                     </div>
                 </div>

@@ -28,8 +28,8 @@
         /************************************************************************************/
 
         // initial hide fields group
-        $("#editOrder #customerTableGroup").hide();
-        $("#editOrder #nbTabletGroup").hide();
+        $("#editOrder.new #customerTableGroup").hide();
+        $("#editOrder.new #nbTabletGroup").hide();
 
         // update available tables
         $('#editOrder #people').on('change', function () {

@@ -7,7 +7,7 @@
         <div class="tile-header dvd dvd-btm bg-greensea">
             <h1 class="custom-font"><strong>Nouvelle Commande</strong></h1>
         </div>
-        <form id="editOrder" action="FrontController?option=customerOrder&task=new" method="post">
+        <form id="editOrder" class="new" action="FrontController?option=customerOrder&task=new" method="post">
 
             <div class="tile-body">
 
