@@ -151,7 +151,7 @@ public class menuController implements IController {
             return url;
         }
 
-        getList(request, "option=menu", "");
+        //getList(request, "option=menu", "");
 
         return url;
     }
