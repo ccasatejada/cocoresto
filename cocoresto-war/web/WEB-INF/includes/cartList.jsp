@@ -1,4 +1,4 @@
-<section id="cartContent" class="tile col-lg-4 col-sm-6 col-sm-12 p-0">
+<section id="cartContent" class="tile col-lg-4 col-sm-6 col-sm-12 p-0 bg-tr-white">
 
     <div class="tile-header dvd dvd-btm bg-greensea">
         <h1 class="custom-font"><strong>Votre panier</strong></h1>

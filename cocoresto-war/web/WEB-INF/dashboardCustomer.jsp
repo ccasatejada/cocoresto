@@ -13,7 +13,7 @@
                 <div class="page page-dashboard">
 
                     <%@include file="/WEB-INF/includes/customerMenu.jsp" %>
-                    <section id="menuContent" class="tile col-lg-8 col-sm-6 col-sm-12 p-0 bg-darkgray">
+                    <section id="menuContent" class="tile col-lg-8 col-sm-6 col-sm-12 p-0 bg-tr-white">
 
                     </section>
 
