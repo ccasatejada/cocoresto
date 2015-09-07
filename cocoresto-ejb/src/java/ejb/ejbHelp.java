@@ -15,7 +15,6 @@ import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
 import javax.websocket.Session;
 
-
 @Stateful
 @ApplicationScoped
 public class ejbHelp implements ejbHelpLocal {
@@ -25,6 +24,9 @@ public class ejbHelp implements ejbHelpLocal {
     private ejbRestaurant ejbRestaurant;
     private final Set sessions = new HashSet<>();
     private final Set helps = new HashSet<CustomerOrder>();
+
+    public ejbHelp() {
+    }
    
     @Override
     public void addSession(Session session) {

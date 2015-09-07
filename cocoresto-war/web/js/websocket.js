@@ -1,5 +1,5 @@
 window.onload = init;
-var wsUri = "ws://" + document.location.host + document.location.pathname + "actions";
+var wsUri = "ws://" + document.location.host + document.location.pathname + "?option=dashboard/actions";
 var socket = new WebSocket(wsUri);
 socket.onmessage = onMessage;
 
@@ -29,12 +29,12 @@ function printHelpElement(help){
 }
 
 function showForm(){
-    
+   document.getElementById("addHelpForm"); 
 }
-
-function hideForm(){
-    document.getElementById("addHelpForm").style.display = "none";
-}
+//
+//function hideForm(){
+//    document.getElementById("addHelpForm");
+//}
 
 function formSubmit(){
     var form = document.getElementById("addHelpForm");
@@ -45,5 +45,5 @@ function formSubmit(){
 }
 
 function init(){
-    hideForm();
+    showForm();
 }
