@@ -13,12 +13,13 @@ public class Price implements Serializable {
     private Long id;
     
     private Double price;
-    @OneToMany(mappedBy = "price")
+    @ManyToMany(mappedBy = "prices")
     private Collection<Drink> drinks;
     @OneToMany(mappedBy = "price")
     private Collection<Combo> combos;
     @OneToMany(mappedBy = "price")
     private Collection<Dish> dishes;
+    
 
 
     public Price() {

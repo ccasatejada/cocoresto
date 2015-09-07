@@ -104,7 +104,7 @@ public class menuController implements IController {
         if ("getDrinkDetail".equals(request.getParameter("task"))) {
             url = "/WEB-INF/menu/drinkDetail.jsp";
             drink = bDrink.findById(Long.valueOf(request.getParameter("id")));
-            session.setAttribute("drink", drink);
+            request.setAttribute("drink", drink);
             return url;
         }
 

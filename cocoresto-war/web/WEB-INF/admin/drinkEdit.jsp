@@ -16,12 +16,22 @@
 
         <div class="tile-body">
             <div class="form-group">
+                <c:forEach var="price" items="${drink.prices}" varStatus="loop">
+                    <label class="col-sm-2 control-label">Prix Unitaire HT ${loop.index+1}: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="price" value="${price.price}">
+                    </div>
+                </c:forEach>
+            </div>
+            
+            <div id="drinkFormats" class="form-group">
                 <label for="formatsList" class="col-sm-2 control-label">Format</label>
                 <div class="col-sm-10">
                     <c:if test="${empty drink}">
                         <c:forEach var="format" items="${formats}" varStatus="loop">
                             <input type="checkbox" name="formatsList${loop.index}" value="${format.id}">&nbsp;${format.name}
                         </c:forEach>
+                            
                     </c:if>
                     <c:if test="${not empty drink}">
                         <c:forEach var="format" items="${uncheckedFormats}" varStatus="loop">
@@ -32,6 +42,9 @@
                         </c:forEach>
                     </c:if>
                 </div>
+            </div>
+            <div id="drinkPrice" class="form-group">
+                
             </div>
             <div class="form-group">
                 <label for="comboCategory" class="col-sm-2 control-label">Catégorie :</label>
@@ -120,34 +133,28 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
-
-                <label for="price" class="col-sm-2 control-label">Prix Unitaire HT : </label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="price" name="price" value="${drink.price}">
-                </div>
-            </div>
             <c:if test="${not empty drink}">
                 <div class="form-group">
-
-                    <label for="totalPrice" class="col-sm-2 control-label">Prix TTC : </label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="totalPrice" name="totalPrice" value="${drink.totalPrice}" disabled>
-                    </div>
+                    <c:forEach var="totalPrice" items="${drink.totalPrices}" varStatus="loop">
+                        <label class="col-sm-2 control-label">Prix TTC ${loop.index+1}: </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="totalPrice" value="${totalPrice}" disabled>
+                        </div>
+                    </c:forEach>
                 </div>
             </c:if>
             <div class="form-group">
 
                 <label for="image" class="col-sm-2 control-label">Image : </label>
                 <div class="col-sm-10">
-                    <input type="file" id="image" name="image" accept="image/jpeg" value="${drink.image}"/>
+                    <input type="file" id="image" name="image" accept="image/jpeg"/>
                     <c:if test="${empty drink.image}">
                         <p>Vous n'avez pas d'image attachée à cette boisson</p>
                     </c:if>
                     <c:if test="${not empty drink.image}">
                         <input type="text" disabled name="attachedImage" value="${drink.image}"/>
                     </c:if>  
-                    
+
                 </div>
             </div>
         </div>

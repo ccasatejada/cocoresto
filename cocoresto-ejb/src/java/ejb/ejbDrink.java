@@ -3,6 +3,7 @@ package ejb;
 import entities.Category;
 import entities.Drink;
 import entities.Format;
+import entities.Price;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,20 @@ public class ejbDrink implements ejbDrinkLocal {
             formats.add(form);
         }
         return formats;
+    }
+    
+    @Override
+    public ArrayList<Price> findPrices() {
+        ArrayList<Price> prices = new ArrayList();
+        
+        String query = "SELECT pr FROM Price pr";
+        Query qr = em.createQuery(query);
+        
+        List<Price> prList = qr.getResultList();
+        for(Price pr : prList) {
+            prices.add(pr);
+        }
+        return prices;
     }
     
     @Override

@@ -4,6 +4,7 @@ package ejb;
 import entities.Category;
 import entities.Drink;
 import entities.Format;
+import entities.Price;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
@@ -28,6 +29,8 @@ public interface ejbDrinkLocal {
     public ArrayList<Format> findFormats();
     
     public ArrayList<Category> findCategories();
+    
+    public ArrayList<Price> findPrices();
     
     public int count();
       

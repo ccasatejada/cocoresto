@@ -1,19 +1,20 @@
-
 package entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.*;
 
 @Entity
 public class Drink implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String image;
     private String name;
     private boolean active;
@@ -22,15 +23,18 @@ public class Drink implements Serializable {
     @Transient
     private Integer status;
 
-    @ManyToOne
+    @Transient
     private Price price;
-    
+
+    @ManyToMany
+    private Collection<Price> prices;
+
     @ManyToOne
     private Discount discount;
-    
+
     @ManyToOne
     private Tax tax;
-    
+
     @ManyToOne
     private Category category;
     @ManyToMany
@@ -39,15 +43,13 @@ public class Drink implements Serializable {
     @ManyToMany(mappedBy = "drinks")
     private List<CustomerOrder> customerOrders;
 
-    
     public Drink() {
     }
 
-
     public Double getTotalPrice() {
-        Double priceTax = 0d; 
-        Double totalPrice = 0d; 
-        if(discount != null) {
+        Double priceTax = 0d;
+        Double totalPrice = 0d;
+        if (discount != null) {
             Double priceDiscount = price.getPrice() * (discount.getRate() / 100);
             totalPrice = price.getPrice() - priceDiscount;
             priceTax = totalPrice * (tax.getRate() / 100);
@@ -56,9 +58,30 @@ public class Drink implements Serializable {
             priceTax = price.getPrice() * (tax.getRate() / 100);
             totalPrice = price.getPrice() + priceTax;
         }
-        
-        
+
         return round(totalPrice, 1);
+    }
+
+    public ArrayList<Double> getTotalPrices() {
+        Double priceTax = 0d;
+        Double totalPrice = 0d;
+        ArrayList<Double> totalPrices = new ArrayList();
+
+        for (Price pr : prices) {
+            if (discount != null) {
+                Double priceDiscount = pr.getPrice() * (discount.getRate() / 100);
+                totalPrice = pr.getPrice() - priceDiscount;
+                priceTax = totalPrice * (tax.getRate() / 100);
+                totalPrice += priceTax;
+            } else {
+                priceTax = pr.getPrice() * (tax.getRate() / 100);
+                totalPrice = pr.getPrice() + priceTax;
+            }
+            totalPrice = round(totalPrice, 1);
+            totalPrices.add(totalPrice);
+        }
+
+        return totalPrices;
     }
 
     public Price getPrice() {
@@ -92,7 +115,7 @@ public class Drink implements Serializable {
     public void setStatus(Integer status) {
         this.status = status;
     }
-    
+
     public Category getCategory() {
         return category;
     }
@@ -116,10 +139,15 @@ public class Drink implements Serializable {
     public void setCustomerOrders(List<CustomerOrder> customerOrders) {
         this.customerOrders = customerOrders;
     }
-    
 
-    
-    
+    public Collection<Price> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(Collection<Price> prices) {
+        this.prices = prices;
+    }
+
     public Long getId() {
         return id;
     }
@@ -198,5 +226,5 @@ public class Drink implements Serializable {
     public String toString() {
         return "entities.Drink[ id=" + id + " ]";
     }
-    
+
 }

@@ -150,7 +150,30 @@
                 }
             });
         });
+        
+//        $('#drinkFormats input[type=checkbox]').on('change', function (event) {
+//            event.preventDefault();
+//            $.ajax({
+//                url: '',
+//                type: 'POST',
+//                data: '<label class="col-sm-2 control-label">Prix Unitaire HT ${loop.index+1}: </label>'
+//                        + '<div class="col-sm-10">'
+//                        + '<input type="text" class="form-control" name="price" value="${price.price}">'
+//                        + '</div>',
+//                dataType: 'html',
+//                success: function (data) {
+//                    //$('#drinkPrice').empty();
+//                    $('#drinkPrice').html(data);
+//                }
+//            });
+//        });
+        
+        
+        
+        
 
 
     });
 })(jQuery);
+
+

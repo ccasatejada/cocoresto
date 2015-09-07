@@ -16,6 +16,7 @@ public class Format implements Serializable {
     
     @ManyToMany(mappedBy = "formats")
     private Collection<Drink> drinks;
+    
 
     public Format() {
     }
