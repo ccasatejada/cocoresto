@@ -1,8 +1,8 @@
 package models;
 
 import ejb.ejbCustomerOrderLocal;
+import ejb.ejbRestaurantLocal;
 import entities.CustomerOrder;
-import entities.Employee;
 import entities.OrderStatus;
 import java.io.Serializable;
 import java.util.List;
@@ -15,6 +15,7 @@ import javax.naming.NamingException;
 
 public class beanOrderCustomer implements Serializable {
 
+    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
     ejbCustomerOrderLocal ejbCustomerOrder = lookupejbCustomerOrderLocal();
 
     public beanOrderCustomer() {
@@ -32,18 +33,20 @@ public class beanOrderCustomer implements Serializable {
         return ejbCustomerOrder.findAllByRangeByEmployee(firstResult, maxResults, id);
     }
 
-    public void create(CustomerOrder customerTable) throws EJBException {
-        ejbCustomerOrder.create(customerTable);
+    public void create(CustomerOrder customerOrder) throws EJBException {
+        ejbCustomerOrder.create(customerOrder);
+        ejbRestaurant.addCustomerOrder(customerOrder);
 
     }
 
-    public void update(CustomerOrder customerTable) throws EJBException {
-        ejbCustomerOrder.update(customerTable);
+    public void update(CustomerOrder customerOrder) throws EJBException {
+        ejbCustomerOrder.update(customerOrder);
 
     }
 
-    public void delete(CustomerOrder customerTable) throws EJBException {
-        ejbCustomerOrder.delete(customerTable);
+    public void delete(CustomerOrder customerOrder) throws EJBException {
+        ejbCustomerOrder.delete(customerOrder);
+        ejbRestaurant.removeCustomerOrder(customerOrder.getNbTablet());
     }
 
     public CustomerOrder findById(Long id) {
@@ -61,10 +64,31 @@ public class beanOrderCustomer implements Serializable {
         return OrderStatus.values();
     }
 
+    public void cancelCustomerOrder(CustomerOrder customerOrder) {
+        
+        // update order status and persist
+        customerOrder.setStatus(OrderStatus.CANCELLED);
+        this.update(customerOrder);
+        
+        // remove order in active orders collection
+        ejbRestaurant.removeCustomerOrder(customerOrder.getNbTablet());
+        
+    }
+
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {
         try {
             Context c = new InitialContext();
             return (ejbCustomerOrderLocal) c.lookup("java:global/cocoresto/cocoresto-ejb/ejbCustomerOrder!ejb.ejbCustomerOrderLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private ejbRestaurantLocal lookupejbRestaurantLocal() {
+        try {
+            Context c = new InitialContext();
+            return (ejbRestaurantLocal) c.lookup("java:global/cocoresto/cocoresto-ejb/ejbRestaurant!ejb.ejbRestaurantLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
