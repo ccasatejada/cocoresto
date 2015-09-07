@@ -13,7 +13,7 @@
 
             <div class="text-right">
                 <c:if test="${customerOrder.status != 'CANCELLED'}">
-                    <button class="btn btn-danger" type="submit" name="cancel">Annuler la commande</button>
+                    <button class="btn btn-danger" type="submit" name="cancel" onclick="if(!window.confirm('Voulez-vous vraiment annuler cette commande ?')){return false;}">Annuler la commande</button>
                 </c:if>
             </div>
 
@@ -58,13 +58,13 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="people">Nombre de couverts : <span>*</span></label>
-                            <input type="number" min="1" max="${customerTableCapacityMax}" class="form-control input-lg" id="people" name="people" value="${customerOrder.people}" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly <c:if />required />
+                            <input type="number" min="1" max="${customerTableCapacityMax}" class="form-control input-lg" id="people" name="people" value="${customerOrder.people}" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly </c:if>required />
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div id="customerTableGroup" class="form-group">
                             <label for="customerTable">Table disponible : <span>*</span></label>
-                            <select name="customerTable" id="customerTable" class="form-control input-lg" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly disabled <c:if />required >
+                            <select name="customerTable" id="customerTable" class="form-control input-lg" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly disabled </c:if>required >
                                 <option value="${customerOrder.customerTable.id}" disabled>Table n°${customerOrder.customerTable.number}</option>
                             </select>
                         </div>
@@ -72,7 +72,7 @@
                     <div class="col-sm-4">
                         <div id="nbTabletGroup" class="form-group">
                             <label for="nbTablet">Nombre de tablettes : <span>*</span></label>
-                            <input type="number" min="1" class="form-control input-lg" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly <c:if />required />
+                            <input type="number" min="1" class="form-control input-lg" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly </c:if>required />
                         </div>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
         <div class="tile-footer dvd dvd-top">
             <div class="row">
                 <div class="col-xs-12 text-right">
-                    <a href="FrontController?option=customerOrder" class="btn btn-darkgray btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-remove"></i> <span>Annuler</a></button>
+                    <a href="FrontController?option=dashboard" class="btn btn-darkgray btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-remove"></i> <span>Annuler</a></button>
                     <c:if test="${customerOrder.status != 'CANCELLED'}">
                         <button type="submit" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="confirm"><i class="fa fa-save"></i> <span>Valider</span></button>
                     </c:if>                    

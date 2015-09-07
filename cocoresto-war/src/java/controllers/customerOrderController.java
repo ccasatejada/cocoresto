@@ -128,12 +128,12 @@ public class customerOrderController implements IController {
                         return newUrl;
                     }
 
-                    // create customerOrder
+                    // test restaurant max capacity
                     if (people > btc.countMaxCapacity()) {
                         request.setAttribute("alert", Alert.setAlert("Erreur", "Il n'y a plus assez de places disponibles", "danger"));
                         return newUrl;
                     }
-
+                    
                     if (employee == null) {
                         try {
                             response.sendRedirect("FrontController");
