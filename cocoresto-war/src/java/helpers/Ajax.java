@@ -1,18 +1,24 @@
 package helpers;
 
+import ejb.ejbRestaurantLocal;
 import entities.CustomerTable;
+import entities.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import models.beanTableCustomer;
 
 @WebServlet(name = "Ajax", urlPatterns = {"/Ajax"})
 public class Ajax extends HttpServlet {
+    @EJB
+    private ejbRestaurantLocal ejbRestaurant;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -36,6 +42,12 @@ public class Ajax extends HttpServlet {
                     out.print(ct.getNbTablet());
                 }
 
+            }
+
+            if ("removeEmployee".equals(request.getParameter("task"))) {
+                HttpSession session = request.getSession();
+                Employee employee = (Employee) session.getAttribute("loggedEmployee");
+                ejbRestaurant.removeEmployee(employee);
             }
 
         }
