@@ -33,7 +33,11 @@
                         <td>${drink.name}</td>
                         <td>${drink.inventory}</td>
                         <td>${drink.category}</td>
-                        <td>${drink.prices}</td>
+                        <td>
+                            <c:forEach var="price" items="${drink.prices}" varStatus="loop">
+                                <span>${price.price}</span> / 
+                            </c:forEach>
+                        </td>
                         <td>${drink.tax}</td>
                         <td>${drink.discount}</td>
                         <td>${drink.totalPrices}</td>

@@ -29,11 +29,11 @@
                 $(window).unbind('beforeunload');
             }
         });
-        
+
         $(window).bind('submit', function (event) {
             $(window).unbind('beforeunload');
         });
-        
+
         $(window).bind('beforeunload', function (event) {
             $.ajax({
                 url: 'Ajax',
@@ -171,7 +171,7 @@
                 }
             });
         });
-        
+
 //        $('#drinkFormats input[type=checkbox]').on('change', function (event) {
 //            event.preventDefault();
 //            $.ajax({
@@ -188,13 +188,92 @@
 //                }
 //            });
 //        });
-        
-        
-        
-        
+
+
+
+
 
 
     });
 })(jQuery);
 
+(function () {
+
+//    var priceInput = '<label class="col-sm-2 control-label">Prix Unitaire : </label>';
+//    priceInput += '<div class="col-sm-10">';
+//    priceInput += '<input type="text" class="form-control" name="price" value="">';
+//    priceInput += '</div>';
+    var drinkPrice = document.getElementById("drinkPrice");
+    //var drinkPrices = document.getElementById("drinkPrices");
+    var drinkPricesLabels = document.querySelectorAll("#drinkPrice div label");
+    var drinkPricesInputs = document.querySelectorAll("#drinkPrice div div input[type=text]");
+    var format = document.querySelectorAll("#drinkFormats input[type=checkbox]");
+    var checkedFormats = document.querySelectorAll("#drinkFormats input[type=checkbox]:checked");
+
+//    for (var j = 0; j < checkedFormats.length; j++) {
+//        console.log(drinkPricesLabels[j].textContent);
+//        drinkPricesLabels[j].textContent = "Prix unitaire HT " + checkedFormats[j].nextSibling.nextSibling.textContent + " : ";
+//        console.log(drinkPricesLabels[j].textContent);
+//        drinkPricesInputs[j].id = checkedFormats[j].nextSibling.nextSibling.textContent;
+//        drinkPricesInputs[j].name = checkedFormats[j].nextSibling.nextSibling.textContent;
+//        console.log(drinkPricesInputs[j].id);
+//        drinkPricesLabels[j].parentNode.id = checkedFormats[j].nextSibling.nextSibling.textContent;
+//        console.log(drinkPricesLabels[j].parentNode.id);
+//    }
+
+    for (var i = 0; i < format.length; i++) {
+
+//        if(format[i].checked) {
+//            console.log("Ca marche");
+//            console.log(drinkPricesLabels[i]);
+//        }
+//
+        if (format[i].checked) {
+            for (var j = 0; j < checkedFormats.length; j++) {
+                console.log(drinkPricesLabels[j].textContent);
+                drinkPricesLabels[j].textContent = "Prix unitaire HT " + checkedFormats[j].nextSibling.nextSibling.textContent + " : ";
+                console.log(drinkPricesLabels[j].textContent);
+                drinkPricesInputs[j].id = checkedFormats[j].nextSibling.nextSibling.textContent;
+                drinkPricesInputs[j].name = checkedFormats[j].nextSibling.nextSibling.textContent;
+                console.log(drinkPricesInputs[j].id);
+                drinkPricesLabels[j].parentNode.id = checkedFormats[j].nextSibling.nextSibling.textContent;
+                console.log(drinkPricesLabels[j].parentNode.id);
+            }
+        }
+
+        format[i].addEventListener("change", function (e) {
+            var checkedFormat = e.target.nextSibling.nextSibling;
+            console.log(checkedFormat);
+            var divInput = document.createElement("div");
+            divInput.id = checkedFormat.textContent;
+
+            var labelInput = document.createElement("label");
+            var labelText = document.createTextNode('Prix Unitaire HT ' + checkedFormat.textContent);
+            labelInput.className = "col-sm-2 control-label";
+            labelInput.appendChild(labelText);
+
+            var divPrice = document.createElement("div");
+            divPrice.className = "col-sm-10";
+
+            var priceInput = document.createElement("input");
+            priceInput.type = "text";
+            priceInput.className = "form-control";
+            priceInput.name = checkedFormat.textContent;
+            priceInput.setAttribute("value", "");
+
+            divPrice.appendChild(priceInput);
+            divInput.appendChild(labelInput);
+            divInput.appendChild(divPrice);
+
+            if (e.target.checked) {
+                drinkPrice.appendChild(divInput);
+            } else if (!e.target.checked) {
+                drinkPrice.removeChild(document.getElementById(checkedFormat.textContent));
+
+            }
+        }, false);
+    }
+
+
+})();
 

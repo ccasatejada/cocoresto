@@ -167,9 +167,11 @@ public class drinkController implements IController {
             }
 
             if (request.getParameter("createIt") != null) {
+                System.out.println("Price : " + request.getParameter("33cl"));
                 drink = new Drink();
                 drink.setActive(true);
                 drink.setFormats(new ArrayList());
+                drink.setPrices(new ArrayList());
                 for (int i = 0; i < formats.size(); i++) {
                     if (request.getParameter("formatsList" + i) != null) {
                         Long id = Long.valueOf(request.getParameter("formatsList" + i));
@@ -205,23 +207,28 @@ public class drinkController implements IController {
                 drink.setName(request.getParameter("name"));
                 drink.setInventory(Integer.valueOf(request.getParameter("inventory")));
                 drink.setImage(request.getParameter("image"));
-                for (Price p : prices) {
-                    if (p.getPrice().equals(Double.valueOf(request.getParameter("price")))) {
-                        price = p;
-                        break;
-                    } else {
-                        price = null;
+                for (Format fo : drink.getFormats()) {
+                    price = new Price();
+                    price.setPrice(Double.valueOf(request.getParameter(fo.getName())));
+                    for (Price p : prices) {
+                        if (p.getPrice().equals(price.getPrice())) {
+                            price = p;
+                            drink.getPrices().add(price);
+                            break;
+                        } else {
+                            price = null;
+                            break;
+                        }
+                    }
+                    if (price == null) {
+                        price = new Price();
+                        price.setPrice(Double.valueOf(request.getParameter(fo.getName())));
+                        bPrice.create(price);
+                        price = bPrice.findLastInserted();
+                        drink.getPrices().add(price);
                     }
                 }
-                if (price == null) {
-                    price = new Price();
-                    price.setPrice(Double.valueOf(request.getParameter("price")));
-                    bPrice.create(price);
-                    price = bPrice.findLastInserted();
-                    drink.setPrice(price);
-                } else {
-                    drink.setPrice(price);
-                }
+
                 bDrink.create(drink);
                 session.setAttribute("drink", drink);
                 session.removeAttribute("isDrinkDiscount");
@@ -236,6 +243,7 @@ public class drinkController implements IController {
                     drinkFormats.add(fo);
                 }
                 drink.setFormats(new ArrayList());
+                drink.setPrices(new ArrayList());
                 for (int i = 0; i < uncheckedFormats.size(); i++) {
                     if (request.getParameter("listUncheck" + i) != null) {
                         Long id = Long.valueOf(request.getParameter("listUncheck" + i));
@@ -277,7 +285,7 @@ public class drinkController implements IController {
                 drink.setDescription(request.getParameter("description"));
                 drink.setName(request.getParameter("name"));
                 drink.setInventory(Integer.valueOf(request.getParameter("inventory")));
-                if(request.getParameter("image") != null) {
+                if (request.getParameter("image") != null) {
                     System.out.println("Image param image : " + request.getParameter("image"));
                     drink.setImage(request.getParameter("image"));
                 }
@@ -285,26 +293,49 @@ public class drinkController implements IController {
 //                    System.out.println("Image param attachedImage : " + request.getParameter("attachedImage"));
 //                    drink.setImage(request.getParameter("attachedImage"));
 //                }
+
+//                if (!drink.getPrice().getPrice().equals(Double.valueOf(request.getParameter("price")))) {
+//                    for (Price p : prices) {
+//                        if (p.getPrice().equals(Double.valueOf(request.getParameter("price")))) {
+//                            price = p;
+//                            break;
+//                        } else {
+//                            price = null;
+//                        }
+//                    }
+//                    if (price == null) {
+//                        price = new Price();
+//                        price.setPrice(Double.valueOf(request.getParameter("price")));
+//                        bPrice.create(price);
+//                        price = bPrice.findLastInserted();
+//                        drink.setPrice(price);
+//                    } else {
+//                        drink.setPrice(price);
+//                    }
+//                }
                 
-                if (!drink.getPrice().getPrice().equals(Double.valueOf(request.getParameter("price")))) {
+                for (Format fo : drink.getFormats()) {
+                    price = new Price();
+                    price.setPrice(Double.valueOf(request.getParameter(fo.getName())));
                     for (Price p : prices) {
-                        if (p.getPrice().equals(Double.valueOf(request.getParameter("price")))) {
+                        if (p.getPrice().equals(price.getPrice())) {
                             price = p;
+                            drink.getPrices().add(price);
                             break;
                         } else {
                             price = null;
+                            break;
                         }
                     }
                     if (price == null) {
                         price = new Price();
-                        price.setPrice(Double.valueOf(request.getParameter("price")));
+                        price.setPrice(Double.valueOf(request.getParameter(fo.getName())));
                         bPrice.create(price);
                         price = bPrice.findLastInserted();
-                        drink.setPrice(price);
-                    } else {
-                        drink.setPrice(price);
+                        drink.getPrices().add(price);
                     }
                 }
+                
                 bDrink.update(drink);
                 session.setAttribute("uncheckedFormats", uncheckedFormats);
                 session.setAttribute("drink", drink);
