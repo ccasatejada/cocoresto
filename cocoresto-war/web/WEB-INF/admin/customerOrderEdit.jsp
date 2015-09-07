@@ -31,7 +31,7 @@
 
                 <div class="form-group">
                     <label for="status">Statut de la commande : <span>*</span></label>
-                    <select class="form-control" id="status" name="status" required>
+                    <select class="form-control" id="status" name="status" required readonly disabled>
                         <c:forEach items="${statusList}" var="status" varStatus="loop">
                             <option value="${status}"<c:if test="${status eq customerOrder.status}"> selected</c:if>>${status.name}</option>
                         </c:forEach>
@@ -49,22 +49,25 @@
 
                 <div class="form-group">
                     <label for="customerTable">Table de la commande : <span>*</span></label>
+                    <input class="form-control" id="customerTable" name="customerTable" required value="Table n°${customerOrder.customerTable.number}" readonly />
+                    <!--
                     <div class="input-group">
                         <input class="form-control" id="customerTable" name="customerTable" required value="Table n°${customerOrder.customerTable.number}" readonly />
                         <span class="input-group-btn">
                             <button id="modifyCustomerTable" class="btn btn-info" type="button" data-toggle="modal" data-target="#listModal">Modifier</button>
                         </span>
-                    </div>                                    
+                    </div>         
+                    -->
                 </div>
 
                 <div class="form-group">
                     <label for="people">Nombre de couverts : <span>*</span></label>
-                    <input type="number" min="1" max="${customerOrder.customerTable.capacity}" class="form-control" id="people" name="people" value="${customerOrder.people}" required />
+                    <input type="number" min="1" max="${customerOrder.customerTable.capacity}" class="form-control" id="people" name="people" value="${customerOrder.people}" required readonly />
                 </div>
 
                 <div class="form-group">
                     <label for="nbTablet">Nombre de tablettes : <span>*</span></label>
-                    <input type="number" min="1" max="${customerOrder.customerTable.nbTablet}" class="form-control" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" required />
+                    <input type="number" min="1" max="${customerOrder.customerTable.nbTablet}" class="form-control" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" required readonly />
                 </div>
 
             </fieldset>

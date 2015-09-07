@@ -62,28 +62,28 @@ public class customerOrderController implements IController {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
                 }
             }
-
-            if ("add".equals(request.getParameter("task")) && request.getParameter("id") == null) {
-                return editUrl;
-            }
-
-            if ("delete".equals(request.getParameter("task")) && request.getParameter("id") != null) {
-                try {
-                    CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
-                    boc.delete(co);
-                    request.setAttribute("alert", Alert.setAlert("Succès", "La commande été supprimée", "success"));
-                } catch (NumberFormatException | EJBException e) {
-                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
-                }
-            }
-
-            // edit form has been send
-            if (request.getParameter("confirm") != null) {
-                boolean ok = edit(request);
-                if (!ok) {
-                    return editUrl;
-                }
-            }
+//
+//            if ("add".equals(request.getParameter("task")) && request.getParameter("id") == null) {
+//                return editUrl;
+//            }
+//
+//            if ("delete".equals(request.getParameter("task")) && request.getParameter("id") != null) {
+//                try {
+//                    CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
+//                    boc.delete(co);
+//                    request.setAttribute("alert", Alert.setAlert("Succès", "La commande été supprimée", "success"));
+//                } catch (NumberFormatException | EJBException e) {
+//                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
+//                }
+//            }
+//
+//            // edit form has been send
+//            if (request.getParameter("confirm") != null) {
+//                boolean ok = edit(request);
+//                if (!ok) {
+//                    return editUrl;
+//                }
+//            }
 
             getList(request, "option=customerOrder");
 
@@ -209,7 +209,12 @@ public class customerOrderController implements IController {
                     return editWaiterUrl;
                 }      
                 
-                boc.cancelCustomerOrder(boc.findById(id));
+                CustomerOrder co = boc.findById(id);
+                boc.cancelCustomerOrder(co);
+                
+                CustomerTable ct = co.getCustomerTable();
+                ct.setBusy(false);
+                btc.update(ct);
 
                 redirectToDashboard(request, response);
             }

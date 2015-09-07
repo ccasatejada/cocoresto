@@ -65,11 +65,14 @@ public class beanOrderCustomer implements Serializable {
     }
 
     public void cancelCustomerOrder(CustomerOrder customerOrder) {
+        
+        // update order status and persist
         customerOrder.setStatus(OrderStatus.CANCELLED);
         this.update(customerOrder);
+        
+        // remove order in active orders collection
         ejbRestaurant.removeCustomerOrder(customerOrder.getNbTablet());
-
-        // update busy table
+        
     }
 
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {
