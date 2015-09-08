@@ -97,9 +97,7 @@ public class loginController implements IController {
             if(co == null) {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'est pas assignée à une commande", "danger"));
                 return "/WEB-INF/login.jsp";
-            } else {
-                System.out.println(co);
-            }
+            } 
             
             
             
