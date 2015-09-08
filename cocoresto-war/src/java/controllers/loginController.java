@@ -99,7 +99,9 @@ public class loginController implements IController {
                 return "/WEB-INF/login.jsp";
             } 
             
-            
+            // test how many tablets are connected
+            Integer totalTablets = co.getNbTablet();
+            Integer currentTablets = co.getCurrentTablets() == null ? 0 : co.getCurrentTablets();
             
             
             session.setAttribute("table", numberTable);
