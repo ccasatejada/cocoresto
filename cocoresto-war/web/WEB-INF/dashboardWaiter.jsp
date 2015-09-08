@@ -4,7 +4,9 @@
 
 <div class="btn-group btn-group-justified mb-20 mt-40" role="group">
     <div class="btn-group" role="group">
-        <button class="btn btn-lg btn-lightred"><i class="fa fa-bell"></i> <strong>4</strong> demandes d'aide en attente</button>
+        <div id="content">
+            <button class="btn btn-lg btn-lightred"><i class="fa fa-bell"></i> <strong>0</strong> demandes d'aide en attente</button>
+        </div>
     </div>
 </div>
 

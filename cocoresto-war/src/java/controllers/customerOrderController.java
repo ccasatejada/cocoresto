@@ -161,6 +161,7 @@ public class customerOrderController implements IController {
                     order.setOrderDate(new Date());
                     order.setStatus(OrderStatus.OPENED);
                     order.setNumber(String.valueOf(tableId) + String.valueOf(new Date().getTime()));
+                    order.setNeedHelp(false);
                     order.setActive(true);
 
                     boc.create(order);
