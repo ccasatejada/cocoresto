@@ -27,7 +27,7 @@ public class Drink implements Serializable {
     private Price price;
 
     @ManyToMany
-    private Collection<Price> prices;
+    private List<Price> prices;
 
     @ManyToOne
     private Discount discount;
@@ -38,7 +38,7 @@ public class Drink implements Serializable {
     @ManyToOne
     private Category category;
     @ManyToMany
-    private Collection<Format> formats;
+    private List<Format> formats;
 
     @ManyToMany(mappedBy = "drinks")
     private List<CustomerOrder> customerOrders;
@@ -124,11 +124,11 @@ public class Drink implements Serializable {
         this.category = category;
     }
 
-    public Collection<Format> getFormats() {
+    public List<Format> getFormats() {
         return formats;
     }
 
-    public void setFormats(Collection<Format> formats) {
+    public void setFormats(List<Format> formats) {
         this.formats = formats;
     }
 
@@ -140,11 +140,11 @@ public class Drink implements Serializable {
         this.customerOrders = customerOrders;
     }
 
-    public Collection<Price> getPrices() {
+    public List<Price> getPrices() {
         return prices;
     }
 
-    public void setPrices(Collection<Price> prices) {
+    public void setPrices(List<Price> prices) {
         this.prices = prices;
     }
 
