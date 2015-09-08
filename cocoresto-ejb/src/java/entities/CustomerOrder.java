@@ -107,6 +107,14 @@ public class CustomerOrder implements Serializable {
         this.nbTablet = nbTablet;
     }
 
+    public Integer getCurrentTablets() {
+        return currentTablets;
+    }
+
+    public void setCurrentTablets(Integer currentTablets) {
+        this.currentTablets = currentTablets;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
