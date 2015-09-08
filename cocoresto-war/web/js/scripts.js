@@ -34,6 +34,10 @@
             $(window).unbind('beforeunload');
         });
 
+        $(window).bind('reset', function (event) {
+            $(window).unbind('beforeunload');
+        });
+
         $(window).bind('beforeunload', function (event) {
             $.ajax({
                 url: 'Ajax',
