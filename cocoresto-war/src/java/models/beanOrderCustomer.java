@@ -36,7 +36,6 @@ public class beanOrderCustomer implements Serializable {
     public void create(CustomerOrder customerOrder) throws EJBException {
         ejbCustomerOrder.create(customerOrder);
         ejbRestaurant.addCustomerOrder(customerOrder);
-
     }
 
     public void update(CustomerOrder customerOrder) throws EJBException {
@@ -76,7 +75,10 @@ public class beanOrderCustomer implements Serializable {
     }
     
     public void restoreCurrentOrders() {
-        
+        List<CustomerOrder> orders = ejbCustomerOrder.findCurrentOrders();
+        for(CustomerOrder co : orders) {
+            ejbRestaurant.addCustomerOrder(co);
+        }
     }
 
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {

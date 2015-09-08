@@ -23,5 +23,7 @@ public interface ejbCustomerOrderLocal {
     public List<CustomerOrder> findAllByRangeByEmployee(int firstResult, int maxResults, Long id);
 
     public int count();    
-    
+
+    public List<CustomerOrder> findCurrentOrders();
+
 }

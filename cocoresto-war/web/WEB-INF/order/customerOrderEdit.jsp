@@ -7,7 +7,8 @@
     <div class="tile-header dvd dvd-btm bg-greensea">
         <h1 class="custom-font"><strong>Commande n°${customerOrder.number}</strong></h1>
     </div>
-    <form id="editOrder" class="edit" action="FrontController?option=customerOrder" method="post">
+    <!-- <form id="editOrder" class="edit" action="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}" method="post"> -->
+    <form action="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}" method="post">
 
         <div class="tile-body">
 
@@ -58,21 +59,19 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="people">Nombre de couverts : <span>*</span></label>
-                            <input type="number" min="1" max="${customerTableCapacityMax}" class="form-control input-lg" id="people" name="people" value="${customerOrder.people}" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly </c:if>required />
+                            <input type="number" min="1" max="${customerOrder.customerTable.capacity}" class="form-control input-lg" id="people" name="people" value="${customerOrder.people}" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly </c:if>required />
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div id="customerTableGroup" class="form-group">
                             <label for="customerTable">Table disponible : <span>*</span></label>
-                            <select name="customerTable" id="customerTable" class="form-control input-lg" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly disabled </c:if>required >
-                                <option value="${customerOrder.customerTable.id}" disabled>Table n°${customerOrder.customerTable.number}</option>
-                            </select>
+                            <input name="customerTable" id="customerTable" class="form-control input-lg" readonly required value="${customerOrder.customerTable.number}" />
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div id="nbTabletGroup" class="form-group">
                             <label for="nbTablet">Nombre de tablettes : <span>*</span></label>
-                            <input type="number" min="1" class="form-control input-lg" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly </c:if>required />
+                            <input type="number" min="1" max="${customerOrder.customerTable.nbTablet}" class="form-control input-lg" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly </c:if>required />
                         </div>
                     </div>
                 </div>

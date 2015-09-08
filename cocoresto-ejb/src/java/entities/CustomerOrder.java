@@ -26,6 +26,8 @@ public class CustomerOrder implements Serializable {
     private Integer people;
     @Column(nullable = false)
     private Integer nbTablet;
+    @Transient
+    private Integer currentTablets = 0;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -103,6 +105,14 @@ public class CustomerOrder implements Serializable {
 
     public void setNbTablet(Integer nbTablet) {
         this.nbTablet = nbTablet;
+    }
+
+    public Integer getCurrentTablets() {
+        return currentTablets;
+    }
+
+    public void setCurrentTablets(Integer currentTablets) {
+        this.currentTablets = currentTablets;
     }
 
     public Employee getEmployee() {

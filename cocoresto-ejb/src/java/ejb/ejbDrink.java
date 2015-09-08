@@ -22,7 +22,7 @@ public class ejbDrink implements ejbDrinkLocal {
     public ArrayList<Format> findFormats() {
         ArrayList<Format> formats = new ArrayList();
         
-        String query = "SELECT fo FROM Format fo";
+        String query = "SELECT fo FROM Format fo ORDER BY fo.name ASC";
         Query qr = em.createQuery(query);
         
         List<Format> foList = qr.getResultList();
@@ -36,7 +36,7 @@ public class ejbDrink implements ejbDrinkLocal {
     public ArrayList<Price> findPrices() {
         ArrayList<Price> prices = new ArrayList();
         
-        String query = "SELECT pr FROM Price pr";
+        String query = "SELECT pr FROM Price pr ORDER BY pr.price ASC";
         Query qr = em.createQuery(query);
         
         List<Price> prList = qr.getResultList();
@@ -120,7 +120,7 @@ public class ejbDrink implements ejbDrinkLocal {
     
     @Override
     public int count() {
-        return ((Long) em.createQuery("select COUNT(d) from Drink d").getSingleResult()).intValue();
+        return ((Long) em.createQuery("select COUNT(d) from Drink d WHERE d.active=1").getSingleResult()).intValue();
     }
     
     @Override

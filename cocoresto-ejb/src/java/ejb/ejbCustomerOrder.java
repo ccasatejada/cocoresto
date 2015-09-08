@@ -1,7 +1,7 @@
 package ejb;
 
 import entities.CustomerOrder;
-import entities.Employee;
+import entities.OrderStatus;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -58,7 +58,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @Override
     public List<CustomerOrder> findAllByRangeByEmployee(int firstResult, int maxResults, Long id) {
-        Query q = em.createQuery("select co from CustomerOrder co where co.active = 1 AND co.employee.id = " + id + " order by co.orderDate desc");
+        Query q = em.createQuery("select co from CustomerOrder co where co.active = 1 AND co.employee.id = " + id + " order by co.status desc, co.orderDate desc");
         if (firstResult >= 0) {
             q.setFirstResult(firstResult);
         }
@@ -71,6 +71,14 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     @Override
     public int count() {
         return ((Long) em.createQuery("select COUNT(co) from CustomerOrder co where co.active = 1").getSingleResult()).intValue();
+    }
+
+    @Override
+    public List<CustomerOrder> findCurrentOrders() {
+        Query q = em.createQuery("SELECT co FROM CustomerOrder co WHERE co.active = 1 AND co.status != :cancelled AND co.status != :payed");
+        q.setParameter("cancelled", OrderStatus.CANCELLED);
+        q.setParameter("payed", OrderStatus.PAYED);
+        return q.getResultList();
     }
 
 }
