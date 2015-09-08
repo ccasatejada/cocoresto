@@ -22,7 +22,12 @@
                     </c:forEach>
                 </div>
                 <div class="group-format">
-                    <p class="text-lg text-strong mb-0 mt-20">${drink.totalPrice} €</p>
+                    <p class="text-lg text-strong mb-0 mt-20">
+                    <c:forEach var="price" items="${drink.prices}" varStatus="loop">
+                        
+                        <span>${price.price} €</span> /
+                    </c:forEach>
+                        </p>
                 </div>
                 <div class="group-format">
                     <p>${drink.discount}</p>

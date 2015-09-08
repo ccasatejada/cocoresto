@@ -62,7 +62,6 @@ public class drinkController implements IController {
             drink = new Drink();
             category = new Category();
             formats = new ArrayList();
-            price = new Price();
             tax = new Tax();
             discount = new Discount();
             drink.setFormats(formats);
@@ -71,7 +70,6 @@ public class drinkController implements IController {
         } else {
             drink = bDrink.getDrink();
             category = bDrink.getCategory();
-            price = bDrink.getPrice();
             tax = bDrink.getTax();
             discount = bDrink.getDiscount();
         }
@@ -83,7 +81,6 @@ public class drinkController implements IController {
         }
         if (bPrice == null) {
             bPrice = new beanPrice();
-            price = new Price();
             drink = new Drink();
             category = new Category();
             session.setAttribute("bPrice", bPrice);
@@ -118,33 +115,6 @@ public class drinkController implements IController {
 
             if ("modify".equals(request.getParameter("task"))) {
                 drink = bDrink.findById(Long.valueOf(request.getParameter("id")));
-                Collections.sort(drink.getFormats(), new Comparator<Format>() {
-                    @Override
-                    public int compare(Format f1, Format f2) {
-
-                        return f1.getName().compareTo(f2.getName());
-                    }
-                });
-                drinkPrices = drink.getPrices();
-                Collections.sort(drinkPrices, new Comparator<Price>() {
-                    @Override
-                    public int compare(Price price1, Price price2) {
-
-                        return Double.compare(price1.getPrice(), price2.getPrice());
-                    }
-                });
-                drink.setPrices(drinkPrices);
-                for (Price p : drink.getPrices()) {
-                    System.out.println(p.getPrice());
-                }
-                ArrayList<Format> uncheckedFormats = new ArrayList();
-
-                for (Format fo : formats) {
-                    if (!drink.getFormats().contains(fo)) {
-                        uncheckedFormats.add(fo);
-                    }
-                }
-                session.setAttribute("uncheckedFormats", uncheckedFormats);
                 session.setAttribute("category", drink.getCategory());
                 session.setAttribute("formats", formats);
                 session.setAttribute("categories", categories);
@@ -191,7 +161,6 @@ public class drinkController implements IController {
             }
 
             if (request.getParameter("createIt") != null) {
-                System.out.println("Price : " + request.getParameter("33cl"));
                 drink = new Drink();
                 drink.setActive(true);
                 drink.setFormats(new ArrayList());
@@ -251,22 +220,7 @@ public class drinkController implements IController {
                         drink.getPrices().add(price);
                     }
                 }
-                Collections.sort(drink.getFormats(), new Comparator<Format>() {
-                    @Override
-                    public int compare(Format f1, Format f2) {
-
-                        return f1.getName().compareTo(f2.getName());
-                    }
-                });
-                drinkPrices = drink.getPrices();
-                Collections.sort(drinkPrices, new Comparator<Price>() {
-                    @Override
-                    public int compare(Price price1, Price price2) {
-
-                        return Double.compare(price1.getPrice(), price2.getPrice());
-                    }
-                });
-                drink.setPrices(drinkPrices);
+                
                 bDrink.create(drink);
                 session.setAttribute("drink", drink);
                 session.removeAttribute("isDrinkDiscount");
@@ -275,23 +229,11 @@ public class drinkController implements IController {
 
             if (request.getParameter("modifyIt") != null) {
                 drink = (Drink) session.getAttribute("drink");
-                ArrayList<Format> uncheckedFormats = (ArrayList) session.getAttribute("uncheckedFormats");
-                ArrayList<Format> drinkFormats = new ArrayList();
-                for (Format fo : drink.getFormats()) {
-                    drinkFormats.add(fo);
-                }
-                drink.setFormats(new ArrayList());
                 drink.setPrices(new ArrayList());
-                for (int i = 0; i < uncheckedFormats.size(); i++) {
-                    if (request.getParameter("listUncheck" + i) != null) {
-                        Long id = Long.valueOf(request.getParameter("listUncheck" + i));
-                        Format f = bFormat.findById(id);
-                        drink.getFormats().add(f);
-                    }
-                }
-                for (int i = 0; i < drinkFormats.size(); i++) {
-                    if (request.getParameter("listCheck" + i) != null) {
-                        Long id = Long.valueOf(request.getParameter("listCheck" + i));
+                drink.setFormats(new ArrayList());
+                for (int i = 0; i < formats.size(); i++) {
+                    if (request.getParameter("formatsList" + i) != null) {
+                        Long id = Long.valueOf(request.getParameter("formatsList" + i));
                         Format f = bFormat.findById(id);
                         drink.getFormats().add(f);
                     }
@@ -343,24 +285,8 @@ public class drinkController implements IController {
                         }
                     }
                 }
-                Collections.sort(drink.getFormats(), new Comparator<Format>() {
-                    @Override
-                    public int compare(Format f1, Format f2) {
 
-                        return f1.getName().compareTo(f2.getName());
-                    }
-                });
-                drinkPrices = drink.getPrices();
-                Collections.sort(drinkPrices, new Comparator<Price>() {
-                    @Override
-                    public int compare(Price price1, Price price2) {
-
-                        return Double.compare(price1.getPrice(), price2.getPrice());
-                    }
-                });
-                drink.setPrices(drinkPrices);
                 bDrink.update(drink);
-                session.setAttribute("uncheckedFormats", uncheckedFormats);
                 session.setAttribute("drink", drink);
                 session.setAttribute("prices", drink.getPrices());
                 session.removeAttribute("isDrinkDiscount");
@@ -416,22 +342,6 @@ public class drinkController implements IController {
         request.setAttribute("pagination", pagination.getPagination());
 
         List<Drink> drinks = bDrink.findAllByRange(pagination.getMin(), 10);
-        for (Drink dr : drinks) {
-            Collections.sort(dr.getPrices(), new Comparator<Price>() {
-                @Override
-                public int compare(Price price1, Price price2) {
-
-                    return Double.compare(price1.getPrice(), price2.getPrice());
-                }
-            });
-            Collections.sort(dr.getFormats(), new Comparator<Format>() {
-                @Override
-                public int compare(Format f1, Format f2) {
-
-                    return f1.getName().compareTo(f2.getName());
-                }
-            });
-        }
 
         request.setAttribute("drinks", drinks);
     }

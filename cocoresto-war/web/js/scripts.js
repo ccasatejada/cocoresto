@@ -176,27 +176,6 @@
             });
         });
 
-//        $('#drinkFormats input[type=checkbox]').on('change', function (event) {
-//            event.preventDefault();
-//            $.ajax({
-//                url: '',
-//                type: 'POST',
-//                data: '<label class="col-sm-2 control-label">Prix Unitaire HT ${loop.index+1}: </label>'
-//                        + '<div class="col-sm-10">'
-//                        + '<input type="text" class="form-control" name="price" value="${price.price}">'
-//                        + '</div>',
-//                dataType: 'html',
-//                success: function (data) {
-//                    //$('#drinkPrice').empty();
-//                    $('#drinkPrice').html(data);
-//                }
-//            });
-//        });
-
-
-
-
-
 
     });
 })(jQuery);
@@ -204,88 +183,78 @@
 (function () {
 
     var drinkPrice = document.getElementById("drinkPrice");
-    var drinkPricesLabels = document.querySelectorAll("#drinkPrice div label");
-    var drinkPricesInputs = document.querySelectorAll("#drinkPrice div div input[type=text]");
-    var format = document.querySelectorAll("#drinkFormats input[type=checkbox]:checked");
-    var formats = $("#drinkFormats input:checkbox:not(:checked)");
+//    var formats = document.querySelectorAll("#drinkFormats input[type=checkbox]");
+    var formats = $("#drinkFormats input[type=checkbox]");
+//    var drinkPrices = document.querySelectorAll("#drinkFormats div input[type=hidden]");
+    var drinkPrices = $("#drinkFormats input[type=hidden]");
     
-    for (var j = 0; j < format.length; j++) {
-        console.log(drinkPricesLabels[j].textContent);
-        drinkPricesLabels[j].textContent = "Prix unitaire HT " + format[j].nextSibling.nextSibling.textContent + " : ";
-        console.log(format[j].textContent);
-        drinkPricesInputs[j].id = format[j].nextSibling.nextSibling.textContent;
-        drinkPricesInputs[j].name = format[j].nextSibling.nextSibling.textContent;
-        console.log(drinkPricesInputs[j].id);
-        drinkPricesLabels[j].parentNode.id = format[j].nextSibling.nextSibling.textContent;
-        console.log(drinkPricesLabels[j].parentNode.id);
-
-        format[j].addEventListener("change", function (e) {
-            var checkedFormat = e.target.nextSibling.nextSibling;
-            console.log(checkedFormat);
-            var divInput = document.createElement("div");
-            divInput.id = checkedFormat.textContent;
-
-            var labelInput = document.createElement("label");
-            var labelText = document.createTextNode('Prix Unitaire HT ' + checkedFormat.textContent);
-            labelInput.className = "col-sm-2 control-label";
-            labelInput.appendChild(labelText);
-
-            var divPrice = document.createElement("div");
-            divPrice.className = "col-sm-10";
-
-            var priceInput = document.createElement("input");
-            priceInput.type = "text";
-            priceInput.className = "form-control";
-            priceInput.name = checkedFormat.textContent;
-            priceInput.setAttribute("value", "");
-
-            divPrice.appendChild(priceInput);
-            divInput.appendChild(labelInput);
-            divInput.appendChild(divPrice);
-
-            if (e.target.checked) {
-                drinkPrice.appendChild(divInput);
-            } else if (!e.target.checked) {
-                drinkPrice.removeChild(document.getElementById(checkedFormat.textContent));
-
-            }
-        }, false);
-    }
-
+    var checkIndex = 0;
     for (var i = 0; i < formats.length; i++) {
 
-        formats[i].addEventListener("change", function (e) {
-            var checkedFormat = e.target.nextSibling.nextSibling;
-            console.log(checkedFormat);
+        if (formats[i].checked) {
+            var checkedFormat = formats[i].nextSibling.nextSibling;
+
             var divInput = document.createElement("div");
-            divInput.id = checkedFormat.textContent;
+            divInput.id = "price" + checkedFormat.textContent;
 
             var labelInput = document.createElement("label");
             var labelText = document.createTextNode('Prix Unitaire HT ' + checkedFormat.textContent);
             labelInput.className = "col-sm-2 control-label";
+            labelInput.setAttribute("for", checkedFormat.textContent);
             labelInput.appendChild(labelText);
 
             var divPrice = document.createElement("div");
             divPrice.className = "col-sm-10";
+            divPrice.id = checkedFormat.textContent;
 
             var priceInput = document.createElement("input");
             priceInput.type = "text";
             priceInput.className = "form-control";
             priceInput.name = checkedFormat.textContent;
-            priceInput.setAttribute("value", "");
+            priceInput.setAttribute("value", drinkPrices[checkIndex].value);
+            checkIndex++;
 
             divPrice.appendChild(priceInput);
             divInput.appendChild(labelInput);
             divInput.appendChild(divPrice);
 
-            if (e.target.checked) {
-                drinkPrice.appendChild(divInput);
-            } else if (!e.target.checked) {
-                drinkPrice.removeChild(document.getElementById(checkedFormat.textContent));
+            drinkPrice.appendChild(divInput);
+        }
+        formats[i].addEventListener("change", function (e) {
 
+            if (e.target.checked) {
+                drinkPrice.appendChild(getDivInput(e));
+            } else if (!e.target.checked) {
+                drinkPrice.removeChild(document.getElementById("price" + e.target.nextSibling.nextSibling.textContent));
             }
         }, false);
     }
 
+    function getDivInput(element) {
+        var checkedFormat = element.target.nextSibling.nextSibling;
+        var divInput = document.createElement("div");
+        divInput.id = "price" + checkedFormat.textContent;
+
+        var labelInput = document.createElement("label");
+        var labelText = document.createTextNode('Prix Unitaire HT ' + checkedFormat.textContent);
+        labelInput.className = "col-sm-2 control-label";
+        labelInput.setAttribute("for", checkedFormat.textContent);
+        labelInput.appendChild(labelText);
+
+        var divPrice = document.createElement("div");
+        divPrice.className = "col-sm-10";
+
+        var priceInput = document.createElement("input");
+        priceInput.type = "text";
+        priceInput.className = "form-control";
+        priceInput.name = checkedFormat.textContent;
+        priceInput.setAttribute("value", "");
+
+        divPrice.appendChild(priceInput);
+        divInput.appendChild(labelInput);
+        divInput.appendChild(divPrice);
+
+        return divInput;
+    }
 })();
 
