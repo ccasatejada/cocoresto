@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.beanOrderCustomer;
 
 public class FrontController extends HttpServlet {
 
@@ -29,6 +30,11 @@ public class FrontController extends HttpServlet {
                 System.out.println(ex.getMessage());
             }
         }
+        
+        // restore all orders from db to ejb on server restart
+        beanOrderCustomer boc = new beanOrderCustomer();
+        boc.restoreCurrentOrders();
+        
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

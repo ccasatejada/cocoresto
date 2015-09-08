@@ -74,6 +74,10 @@ public class beanOrderCustomer implements Serializable {
         ejbRestaurant.removeCustomerOrder(customerOrder.getNbTablet());
         
     }
+    
+    public void restoreCurrentOrders() {
+        
+    }
 
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {
         try {

@@ -1,6 +1,7 @@
 package controllers;
 
 import ejb.ejbRestaurantLocal;
+import entities.CustomerOrder;
 import entities.CustomerTable;
 import entities.Employee;
 import helpers.Alert;
@@ -62,7 +63,6 @@ public class loginController implements IController {
                 session.setAttribute("loggedEmployee", loggedEmployee);
                 session.setAttribute("userName", loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName());
                 
-                
                 try {
                     response.sendRedirect("FrontController?option=dashboard");
                 } catch (IOException ex) {
@@ -73,7 +73,8 @@ public class loginController implements IController {
 
         // client login form has been send
         if (request.getParameter("tableNumber") != null) {
-
+            
+            // test integer input value
             Integer numberTable;
             if (FieldValidation.checkInteger(request.getParameter("tableNumber"), true, 1)) {
                 numberTable = Integer.valueOf(request.getParameter("tableNumber"));
@@ -81,16 +82,31 @@ public class loginController implements IController {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "Veuillez entrer un numéro de table valide", "danger"));
                 return "/WEB-INF/login.jsp";
             }
-
+            
+            // test if table exist
             beanTableCustomer btc = new beanTableCustomer();
             try {
                 CustomerTable ct = btc.findByNumber(numberTable);
-                session.setAttribute("logged", true);
-                session.setAttribute("group", 0L); // client group
             } catch (EJBException e) {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas ou n'est pas assignée à une commande", "danger"));
                 return "/WEB-INF/login.jsp";
             }
+            
+            // test if there is an associated order
+            CustomerOrder co = ejbRestaurant.getOrder(numberTable);
+            if(co == null) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'est pas assignée à une commande", "danger"));
+                return "/WEB-INF/login.jsp";
+            } else {
+                System.out.println(co);
+            }
+            
+            
+            
+            
+            session.setAttribute("table", numberTable);
+            session.setAttribute("logged", true);
+            session.setAttribute("group", 0L); // client group
 
             try {
                 response.sendRedirect("FrontController?option=dashboard");
@@ -108,7 +124,6 @@ public class loginController implements IController {
             session.removeAttribute("logged");
             session.removeAttribute("group");
             session.removeAttribute("loggedEmployee");
-            
         }
 
         return "/WEB-INF/login.jsp";
