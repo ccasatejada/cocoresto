@@ -67,32 +67,37 @@
             </div>
         </div>
     </div>
-    <div class="card-container col-lg-4 col-sm-6 col-sm-12">
-        <div class="card">
-            <div class="front bg-lightred">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <i class="fa fa-info-circle fa-4x"></i>
-                    </div>
-                    <div class="col-xs-8">
-                        <p class="text-elg text-strong mb-0">Demander de l'aide</p>
-                    </div>
-                    <div class="back bg-lightred">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div id="addHelp">
-                                    <form id="addHelpForm">
-                                        <input type="hidden" id="customerTable" value="${customerOrder.customerTable.number}">
-                                        <input type="button" class="button" value="Demander de l'aide" onclick=formSubmit()>
-                                    </form>
-                                </div>
+    <!--
+        <div class="card-container col-lg-4 col-sm-6 col-sm-12">
+            <div class="card">
+                <div class="front bg-lightred">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <i class="fa fa-info-circle fa-4x"></i>
+                        </div>
+                        <div class="col-xs-8">
+                            <p class="text-elg text-strong mb-0">Demander de l'aide</p>
+                        </div>
+                        <div class="back bg-lightred">
+                            <div class="row">
+    -->
+    <div class="col-xs-12">
+        <div id="addHelp">
+            <form id="addHelpForm">
+                                <input type="hidden" id="customerTable" value="3">
+
+                <!--<input type="hidden" id="customerTable" value="${customerOrder.customerTable.number}">-->
+                <input type="button" class="button" value="Demander de l'aide" onclick=formSubmit()>
+            </form>
+        </div>
+    </div>
+    <!--
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+    -->
 </div>
 
 

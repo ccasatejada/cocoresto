@@ -1,5 +1,6 @@
-window.onload = init;
-var wsUri = "ws://" + document.location.host + document.location.pathname + "/actions";
+//window.onload = init;
+ var wsUri = "ws://" + document.location.host + document.location.pathname + "/actions";
+//var wsUri = "ws://localhost:8080/FrontController?option=dashboard/actions";
 var socket = new WebSocket(wsUri);
 socket.onmessage = onMessage;
 
@@ -16,9 +17,12 @@ function onMessage(event){
 function addHelp(customerTable){
     var HelpAction = {
         action: "add", 
-        customerTable: customerTable
+        id: customerTable,
+        count: 1
     };
-    socket.send(JSON.stringify(addHelp));
+    alert(HelpAction);
+    socket.send(JSON.stringify(HelpAction));
+    alert(JSON.stringify(HelpAction));
 }
 
 function removeHelp(element){
@@ -31,12 +35,22 @@ function removeHelp(element){
 }
 
 function printHelpElement(help){
-    document.querySelector("#content strong").innerHTML = help;
+//    document.querySelector("#content strong").innerHTML = help.count;
+    var content = document.getElementById("content");
+    var helpDiv = document.createElement("div");
+    helpDiv.setAttribute("id", help.id);
+    helpDiv.setAttribute("class", "help")
+    content.appendChild(helpDiv);
+    
+    var helpCount = document.createElement("span");
+    helpCount.setAttribute("class", "helpCount");
+    helpCount.innerHTML = "<strong>" + help.count + "</strong>";
+    helpDiv.appendChild(helpCount);
 }
 
-function showForm(){
-   document.getElementById("addHelpForm"); 
-}
+//function showForm(){
+//   document.getElementById("addHelpForm"); 
+//}
 //
 //function hideForm(){
 //    document.getElementById("addHelpForm");
@@ -45,11 +59,11 @@ function showForm(){
 function formSubmit(){
     var form = document.getElementById("addHelpForm");
     var id = form.elements["customerTable"].value;
-    hideForm();
-    document.getElementById("addHelp").reset();
-    addHelp(customerTable);
+//    hideForm();
+//    document.getElementById("addHelp").reset();
+    addHelp(id);
 }
 
-function init(){
-    showForm();
-}
+//function init(){
+//    showForm();
+//}

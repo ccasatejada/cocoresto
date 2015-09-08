@@ -1,7 +1,6 @@
 
 package websocket;
 
-import ejb.ejbHelp;
 import ejb.ejbHelpLocal;
 import ejb.ejbRestaurantLocal;
 import entities.CustomerOrder;
@@ -26,17 +25,24 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 @ApplicationScoped
-@ServerEndpoint("actions")
+@ServerEndpoint("/FrontController/actions")
 public class HelpWebSocketServer implements Serializable {
-    @EJB
+    
     ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
     
-    @EJB
-    ejbHelpLocal ejbHelp = lookupejbHelpLocal();
+    @Inject
+    ejbHelpLocal ejbHelp;
+
+    public HelpWebSocketServer() {
+        ejbHelp = lookupejbHelpLocal();
+    }
+    
+    
     
     @OnOpen
     public void open(Session session){
         ejbHelp.addSession(session);
+        
     }
     
     @OnClose
@@ -55,13 +61,16 @@ public class HelpWebSocketServer implements Serializable {
             JsonObject jsonMessage = reader.readObject();
             if("add".equals(jsonMessage.getString("action"))){
                 CustomerOrder order = new CustomerOrder();
-                order = ejbRestaurant.getOrder(jsonMessage.getInt("customerTable"));
+//                order = ejbRestaurant.getOrder(jsonMessage.getInt("customerTable"));
                 order.setNeedHelp(true);
-                ejbHelp.addHelp(order);
+                ejbHelp.addHelp(order, 1);
             }
             
             if("remove".equals(jsonMessage.getString("action"))){
                 Integer customerTable = jsonMessage.getInt("customerTable");
+                CustomerOrder order = new CustomerOrder();
+                order = ejbRestaurant.getOrder(customerTable);
+                order.setNeedHelp(false);
                 ejbHelp.removeHelp(customerTable);
             }
         }

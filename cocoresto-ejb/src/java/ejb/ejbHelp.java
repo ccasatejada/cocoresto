@@ -21,7 +21,7 @@ public class ejbHelp implements ejbHelpLocal {
 
     private int helpCount = 0;
     private ejbCustomerOrder ejbCustomerOrder;
-    private ejbRestaurant ejbRestaurant;
+    private ejbRestaurant ejbRestaurant = new ejbRestaurant();
     private final Set sessions = new HashSet<>();
     private final Set helps = new HashSet<CustomerOrder>();
 
@@ -34,7 +34,7 @@ public class ejbHelp implements ejbHelpLocal {
         for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
             Integer key = entry.getKey();
             CustomerOrder order = entry.getValue();
-            JsonObject addMessage = createAddMessage(order);
+            JsonObject addMessage = createAddMessage(order, helpCount);
             sendToSession(session, addMessage);
         }
 
@@ -51,10 +51,10 @@ public class ejbHelp implements ejbHelpLocal {
     }
 
     @Override
-    public void addHelp(CustomerOrder order) {
+    public void addHelp(CustomerOrder order, int count) {
         helps.add(order);
-        helpCount++;
-        JsonObject addMessage = createAddMessage(order);
+        helpCount = helpCount + count;
+        JsonObject addMessage = createAddMessage(order, helpCount);
         sendToAllConnectedSessions(addMessage);
     }
 
@@ -84,10 +84,11 @@ public class ejbHelp implements ejbHelpLocal {
         return null;
     }
 
-    private JsonObject createAddMessage(CustomerOrder order) {
+    private JsonObject createAddMessage(CustomerOrder order, int helpCount) {
         JsonProvider provider = JsonProvider.provider();
         JsonObject addMessage = provider.createObjectBuilder()
-                .add("", "")
+                .add("action", "add")
+                .add("count", helpCount)
                 .build();
         return addMessage;
     }
