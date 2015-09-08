@@ -36,7 +36,6 @@ public class beanOrderCustomer implements Serializable {
     public void create(CustomerOrder customerOrder) throws EJBException {
         ejbCustomerOrder.create(customerOrder);
         ejbRestaurant.addCustomerOrder(customerOrder);
-
     }
 
     public void update(CustomerOrder customerOrder) throws EJBException {

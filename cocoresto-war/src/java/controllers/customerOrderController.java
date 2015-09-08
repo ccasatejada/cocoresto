@@ -223,12 +223,18 @@ public class customerOrderController implements IController {
         }
         
         // get order
+        CustomerOrder co;
         try {
-            CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("customerTable")));
+            co = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("customerTable")));
         } catch (Exception e) {
             request.setAttribute("alert", Alert.setAlert("Attention", "Commande introuvable", "danger"));
             return false;
         }
+        
+        co.setPeople(Integer.valueOf(request.getParameter("people")));
+        co.setNbTablet(Integer.valueOf(request.getParameter("nbTablet")));
+        
+        boc.update(co);
 
         return true;
     }
