@@ -1,5 +1,6 @@
 package controllers;
 
+import helpers.Alert;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import models.beanOrderCustomer;
 
 public class FrontController extends HttpServlet {
@@ -42,15 +44,33 @@ public class FrontController extends HttpServlet {
         String url = "/WEB-INF/template.jsp";
         String content = "/WEB-INF/login.jsp";
         request.setAttribute("date", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
+
+        // redirect to dashboar if already logged
+        HttpSession session = request.getSession();
+        boolean logged = false;
+        if (session.getAttribute("logged") != null) {
+            logged = (boolean) session.getAttribute("logged");
+        }
+        if (logged == true && request.getQueryString() == null) {
+            try {
+                response.sendRedirect("FrontController?option=dashboard");
+            } catch (IOException | IllegalStateException ex) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
+            }
+        }
         
+        // get sub controller
         if (map.containsKey(request.getParameter("option"))) {
             IController c = map.get(request.getParameter("option"));
             content = c.execute(request, response);
         }
+        
+        // change layout for modals
         if ("component".equals(request.getParameter("layout"))) {
             url = "/WEB-INF/component.jsp";
         }
         
+        // set view into template
         request.setAttribute("content", content);
         request.getRequestDispatcher(url).include(request, response);
     }
