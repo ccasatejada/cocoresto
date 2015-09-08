@@ -157,6 +157,7 @@ public class customerOrderController implements IController {
                     order.setPeople(people);
                     order.setCustomerTable(ct);
                     order.setNbTablet(nbTablet);
+                    order.setCurrentTablets(0);
                     order.setEmployee(employee);
                     order.setOrderDate(new Date());
                     order.setStatus(OrderStatus.OPENED);
