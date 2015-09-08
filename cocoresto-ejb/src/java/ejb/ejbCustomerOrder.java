@@ -58,7 +58,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @Override
     public List<CustomerOrder> findAllByRangeByEmployee(int firstResult, int maxResults, Long id) {
-        Query q = em.createQuery("select co from CustomerOrder co where co.active = 1 AND co.employee.id = " + id + " order by co.orderDate desc");
+        Query q = em.createQuery("select co from CustomerOrder co where co.active = 1 AND co.employee.id = " + id + " order by co.status desc, co.orderDate desc");
         if (firstResult >= 0) {
             q.setFirstResult(firstResult);
         }
