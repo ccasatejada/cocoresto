@@ -26,6 +26,8 @@ public class CustomerOrder implements Serializable {
     private Integer people;
     @Column(nullable = false)
     private Integer nbTablet;
+    @Transient
+    private Integer currentTablets;
 
     @ManyToOne
     @JoinColumn(nullable = false)
