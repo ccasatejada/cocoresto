@@ -19,7 +19,7 @@ import javax.websocket.Session;
 @Stateless
 public class ejbHelp implements ejbHelpLocal {
 
-    private final Long helpId = 0L;
+    private int helpCount = 0;
     private ejbCustomerOrder ejbCustomerOrder;
     private ejbRestaurant ejbRestaurant;
     private final Set sessions = new HashSet<>();
@@ -52,17 +52,18 @@ public class ejbHelp implements ejbHelpLocal {
 
     @Override
     public void addHelp(CustomerOrder order) {
-        CustomerOrder o = ejbRestaurant.getOrder(order.getCustomerTable().getNumber());
-        helps.add(o);
-        JsonObject addMessage = createAddMessage(o);
+        helps.add(order);
+        helpCount++;
+        JsonObject addMessage = createAddMessage(order);
         sendToAllConnectedSessions(addMessage);
     }
 
     @Override
-    public void removeHelp(Long id) {
+    public void removeHelp(Integer id) {
         CustomerOrder order = getOrderById(id);
         if(order != null) {
             helps.remove(order);
+            helpCount--;
             JsonProvider provider = JsonProvider.provider();
             JsonObject removeMessage = provider.createObjectBuilder()
                     .add("action", "remove")
@@ -72,11 +73,11 @@ public class ejbHelp implements ejbHelpLocal {
         }
     }
 
-    private CustomerOrder getOrderById(Long id) {
+    private CustomerOrder getOrderById(Integer id) {
         for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
             Integer key = entry.getKey();
             CustomerOrder order = entry.getValue();
-            if (order.getId() == id) {
+            if (order.getCustomerTable().getNumber() == id) {
                 return order;
             }
         }

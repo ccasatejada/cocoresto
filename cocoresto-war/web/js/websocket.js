@@ -4,12 +4,18 @@ var socket = new WebSocket(wsUri);
 socket.onmessage = onMessage;
 
 function onMessage(event){
-    
+    var help = JSON.parse(event.data);
+    if(help.action === "add"){
+        printHelpElement(help);
+    }
+    if(help.action === "remove"){
+        document.getElementById(help.id).remove();
+    }
 }
 
 function addHelp(customerTable){
     var HelpAction = {
-        action: "add",
+        action: "add", 
         customerTable: customerTable
     };
     socket.send(JSON.stringify(addHelp));
@@ -38,7 +44,7 @@ function showForm(){
 
 function formSubmit(){
     var form = document.getElementById("addHelpForm");
-    var customerTable = form.elements["customerTable"].value;
+    var id = form.elements["customerTable"].value;
     hideForm();
     document.getElementById("addHelp").reset();
     addHelp(customerTable);
