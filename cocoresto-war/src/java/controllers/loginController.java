@@ -1,6 +1,7 @@
 package controllers;
 
 import ejb.ejbRestaurantLocal;
+import entities.CustomerOrder;
 import entities.CustomerTable;
 import entities.Employee;
 import helpers.Alert;
@@ -20,6 +21,7 @@ import models.beanLogin;
 import models.beanTableCustomer;
 
 public class loginController implements IController {
+
     ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
 
     @Override
@@ -33,9 +35,19 @@ public class loginController implements IController {
             bLogin = new beanLogin();
             session.setAttribute("bLogin", bLogin);
         }
-
+        
+        // redirect to dashboar if already logged
+        boolean logged = false;
         if (session.getAttribute("logged") != null) {
-            boolean logged = (boolean) session.getAttribute("logged");
+            logged = (boolean) session.getAttribute("logged");
+        }
+
+        if (logged == true) {
+            try {
+                response.sendRedirect("FrontController?option=dashboard");
+            } catch (IOException | IllegalStateException ex) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
+            }
         }
 
         // employee login form has been send
@@ -50,19 +62,18 @@ public class loginController implements IController {
                 return "/WEB-INF/login.jsp";
             } else {
 
-                if(ejbRestaurant.isEmployeeLogged(loggedEmployee)){
+                if (ejbRestaurant.isEmployeeLogged(loggedEmployee)) {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Vous êtes déjà connecté sur une autre machine", "danger"));
                     return "/WEB-INF/login.jsp";
                 }
-                
+
                 ejbRestaurant.addEmployee(loggedEmployee);
                 Long idGroup = loggedEmployee.getEmployeeGroup().getId();
                 session.setAttribute("logged", true);
                 session.setAttribute("group", idGroup);
                 session.setAttribute("loggedEmployee", loggedEmployee);
                 session.setAttribute("userName", loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName());
-                
-                
+
                 try {
                     response.sendRedirect("FrontController?option=dashboard");
                 } catch (IOException ex) {
@@ -74,6 +85,7 @@ public class loginController implements IController {
         // client login form has been send
         if (request.getParameter("tableNumber") != null) {
 
+            // test integer input value
             Integer numberTable;
             if (FieldValidation.checkInteger(request.getParameter("tableNumber"), true, 1)) {
                 numberTable = Integer.valueOf(request.getParameter("tableNumber"));
@@ -82,15 +94,35 @@ public class loginController implements IController {
                 return "/WEB-INF/login.jsp";
             }
 
+            // test if table exist
             beanTableCustomer btc = new beanTableCustomer();
             try {
                 CustomerTable ct = btc.findByNumber(numberTable);
-                session.setAttribute("logged", true);
-                session.setAttribute("group", 0L); // client group
             } catch (EJBException e) {
                 request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'existe pas ou n'est pas assignée à une commande", "danger"));
                 return "/WEB-INF/login.jsp";
             }
+
+            // test if there is an associated order
+            CustomerOrder co = ejbRestaurant.getOrder(numberTable);
+            if (co == null) {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Cette table n'est pas assignée à une commande", "danger"));
+                return "/WEB-INF/login.jsp";
+            }
+
+            // test how many tablets are connected
+            Integer totalTablets = co.getNbTablet();
+            Integer currentTablets = co.getCurrentTablets() == null ? 0 : co.getCurrentTablets();
+            if (currentTablets < totalTablets) {
+                co.setCurrentTablets(++currentTablets);
+            } else {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Toutes les tablettes assignées à la commande sont activées", "danger"));
+                return "/WEB-INF/login.jsp";
+            }
+
+            session.setAttribute("table", numberTable);
+            session.setAttribute("logged", true);
+            session.setAttribute("group", 0L); // client group
 
             try {
                 response.sendRedirect("FrontController?option=dashboard");
@@ -108,7 +140,6 @@ public class loginController implements IController {
             session.removeAttribute("logged");
             session.removeAttribute("group");
             session.removeAttribute("loggedEmployee");
-            
         }
 
         return "/WEB-INF/login.jsp";
@@ -129,8 +160,5 @@ public class loginController implements IController {
             throw new RuntimeException(ne);
         }
     }
-
-   
-    
 
 }

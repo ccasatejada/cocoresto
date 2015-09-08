@@ -157,10 +157,12 @@ public class customerOrderController implements IController {
                     order.setPeople(people);
                     order.setCustomerTable(ct);
                     order.setNbTablet(nbTablet);
+                    order.setCurrentTablets(0);
                     order.setEmployee(employee);
                     order.setOrderDate(new Date());
                     order.setStatus(OrderStatus.OPENED);
                     order.setNumber(String.valueOf(tableId) + String.valueOf(new Date().getTime()));
+                    order.setNeedHelp(false);
                     order.setActive(true);
 
                     boc.create(order);
