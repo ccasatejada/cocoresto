@@ -1,6 +1,5 @@
 window.onload = init;
 var wsUri = "ws://" + document.location.host + document.location.pathname + "/actions";
-alert(wsUri);
 var socket = new WebSocket(wsUri);
 socket.onmessage = onMessage;
 
@@ -26,7 +25,7 @@ function removeHelp(element){
 }
 
 function printHelpElement(help){
-    
+    document.querySelector("#content strong").innerHTML = help;
 }
 
 function showForm(){

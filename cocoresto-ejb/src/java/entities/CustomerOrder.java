@@ -1,4 +1,3 @@
-
 package entities;
 
 import java.io.Serializable;
@@ -8,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 public class CustomerOrder implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class CustomerOrder implements Serializable {
     private Integer people;
     @Column(nullable = false)
     private Integer nbTablet;
-    
+
     @ManyToOne
     @JoinColumn(nullable = false)
     private Employee employee;
@@ -39,10 +39,12 @@ public class CustomerOrder implements Serializable {
 
     @ManyToMany
     private Collection<Dish> dishes;
-    
 
     @ManyToMany
     private Collection<Combo> combos;
+
+    @Transient
+    private boolean needHelp;
 
     public CustomerOrder() {
     }
@@ -82,7 +84,7 @@ public class CustomerOrder implements Serializable {
     public OrderStatus getStatus() {
         return status;
     }
-    
+
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
@@ -143,6 +145,14 @@ public class CustomerOrder implements Serializable {
         this.drinks = drinks;
     }
 
+    public boolean isNeedHelp() {
+        return needHelp;
+    }
+
+    public void setNeedHelp(boolean needHelp) {
+            this.needHelp = needHelp;        
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -166,5 +176,5 @@ public class CustomerOrder implements Serializable {
     public String toString() {
         return "entities.CustomerOrder[ id=" + id + " ]";
     }
-    
+
 }
