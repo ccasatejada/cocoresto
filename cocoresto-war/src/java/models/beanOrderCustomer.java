@@ -76,7 +76,10 @@ public class beanOrderCustomer implements Serializable {
     }
     
     public void restoreCurrentOrders() {
-        
+        List<CustomerOrder> orders = ejbCustomerOrder.findCurrentOrders();
+        for(CustomerOrder co : orders) {
+            ejbRestaurant.addCustomerOrder(co);
+        }
     }
 
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {
