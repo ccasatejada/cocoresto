@@ -3,12 +3,18 @@ package websocket;
 
 import ejb.ejbHelp;
 import ejb.ejbHelpLocal;
+import ejb.ejbRestaurantLocal;
+import entities.CustomerOrder;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -22,6 +28,8 @@ import javax.websocket.server.ServerEndpoint;
 @ApplicationScoped
 @ServerEndpoint("actions")
 public class HelpWebSocketServer implements Serializable {
+    @EJB
+    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
     
     @EJB
     ejbHelpLocal ejbHelp = lookupejbHelpLocal();
@@ -42,14 +50,39 @@ public class HelpWebSocketServer implements Serializable {
     }
     
     @OnMessage
-    public String handleMessage(String message, Session session) {
-        return null;
+    public void handleMessage(String message, Session session) {
+        try(JsonReader reader = Json.createReader(new StringReader(message))){
+            JsonObject jsonMessage = reader.readObject();
+            if("add".equals(jsonMessage.getString("action"))){
+                CustomerOrder order = new CustomerOrder();
+                order = ejbRestaurant.getOrder(jsonMessage.getInt("customerTable"));
+                order.setNeedHelp(true);
+                ejbHelp.addHelp(order);
+            }
+            
+            if("remove".equals(jsonMessage.getString("action"))){
+                Integer customerTable = jsonMessage.getInt("customerTable");
+                ejbHelp.removeHelp(customerTable);
+            }
+        }
     }
 
+    
+    
     private ejbHelpLocal lookupejbHelpLocal() {
         try {
             Context c = new InitialContext();
             return (ejbHelpLocal) c.lookup("java:global/cocoresto/cocoresto-ejb/ejbHelp!ejb.ejbHelpLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private ejbRestaurantLocal lookupejbRestaurantLocal() {
+        try {
+            Context c = new InitialContext();
+            return (ejbRestaurantLocal) c.lookup("java:global/cocoresto/cocoresto-ejb/ejbRestaurant!ejb.ejbRestaurantLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

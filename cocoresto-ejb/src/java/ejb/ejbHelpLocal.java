@@ -13,7 +13,7 @@ public interface ejbHelpLocal {
     public void removeSession(Session session);
     public List getHelps();
     public void addHelp(CustomerOrder order);
-    public void removeHelp(Long id);
+    public void removeHelp(Integer id);
     
 //    private JsonObject createAddMessage(CustomerOrder order);
 //    private void sendToAllConnectedSessions(JsonObject message);
