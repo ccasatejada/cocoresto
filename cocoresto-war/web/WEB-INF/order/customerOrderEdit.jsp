@@ -65,9 +65,7 @@
                     <div class="col-sm-4">
                         <div id="customerTableGroup" class="form-group">
                             <label for="customerTable">Table disponible : <span>*</span></label>
-                            <select name="customerTable" id="customerTable" class="form-control input-lg" readonly disabled required >
-                                <option value="${customerOrder.customerTable.number}">Table n°${customerOrder.customerTable.number}</option>
-                            </select>
+                            <input name="customerTable" id="customerTable" class="form-control input-lg" readonly required value="${customerOrder.customerTable.number}" />
                         </div>
                     </div>
                     <div class="col-sm-4">

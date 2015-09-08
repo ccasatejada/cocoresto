@@ -223,7 +223,6 @@ public class customerOrderController implements IController {
         }
         
         // get order
-        System.out.println(request.getParameter("customerTable"));
         try {
             CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("customerTable")));
         } catch (Exception e) {
