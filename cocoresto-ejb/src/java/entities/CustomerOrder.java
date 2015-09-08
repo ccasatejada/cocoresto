@@ -27,7 +27,7 @@ public class CustomerOrder implements Serializable {
     @Column(nullable = false)
     private Integer nbTablet;
     @Transient
-    private Integer currentTablets;
+    private Integer currentTablets = 0;
 
     @ManyToOne
     @JoinColumn(nullable = false)

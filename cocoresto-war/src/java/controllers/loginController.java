@@ -102,7 +102,12 @@ public class loginController implements IController {
             // test how many tablets are connected
             Integer totalTablets = co.getNbTablet();
             Integer currentTablets = co.getCurrentTablets() == null ? 0 : co.getCurrentTablets();
-            
+            if(currentTablets < totalTablets) {
+                co.setCurrentTablets(++currentTablets);
+            } else {
+                request.setAttribute("alert", Alert.setAlert("Erreur", "Toutes les tablettes assignées à la commande sont activées", "danger"));
+                return "/WEB-INF/login.jsp";
+            }
             
             session.setAttribute("table", numberTable);
             session.setAttribute("logged", true);
