@@ -62,28 +62,6 @@ public class customerOrderController implements IController {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
                 }
             }
-//
-//            if ("add".equals(request.getParameter("task")) && request.getParameter("id") == null) {
-//                return editUrl;
-//            }
-//
-//            if ("delete".equals(request.getParameter("task")) && request.getParameter("id") != null) {
-//                try {
-//                    CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
-//                    boc.delete(co);
-//                    request.setAttribute("alert", Alert.setAlert("Succès", "La commande été supprimée", "success"));
-//                } catch (NumberFormatException | EJBException e) {
-//                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
-//                }
-//            }
-//
-//            // edit form has been send
-//            if (request.getParameter("confirm") != null) {
-//                boolean ok = edit(request);
-//                if (!ok) {
-//                    return editUrl;
-//                }
-//            }
 
             getList(request, "option=customerOrder");
 
@@ -133,7 +111,7 @@ public class customerOrderController implements IController {
                         request.setAttribute("alert", Alert.setAlert("Erreur", "Il n'y a plus assez de places disponibles", "danger"));
                         return newUrl;
                     }
-                    
+
                     if (employee == null) {
                         try {
                             response.sendRedirect("FrontController");
@@ -176,6 +154,20 @@ public class customerOrderController implements IController {
 
             if ("edit".equals(request.getParameter("task"))) {
 
+                // edit form has been send to update
+                if (request.getParameter("confirm") != null) {
+                    if (edit(request)) {
+                        redirectToDashboard(request, response);
+                    }
+                }
+
+                // edit form has been send to cancel order
+                if (request.getParameter("cancel") != null) {
+                    if (cancel(request)) {
+                        redirectToDashboard(request, response);
+                    }
+                }
+
                 // no id parameter
                 if (request.getParameter("id") == null || request.getParameter("id").trim().isEmpty()) {
                     redirectToDashboard(request, response);
@@ -187,38 +179,17 @@ public class customerOrderController implements IController {
                 } else {
                     redirectToDashboard(request, response);
                 }
-                
+
                 try {
                     request.setAttribute("customerTableCapacityMax", btc.countMaxCapacity());
                 } catch (EJBException ex) {
                     request.setAttribute("alert", Alert.setAlert("Erreur", "Il n'y a plus de tables disponibles pour le moment", "danger"));
                 }
-                
+
                 CustomerOrder co = boc.findById(id);
                 request.setAttribute("customerOrder", co);
 
                 return editWaiterUrl;
-            }
-            
-            // cancel order
-            if(request.getParameter("cancel") != null) {
-
-                Long id = 0L;
-                if (FieldValidation.checkInteger(request.getParameter("id"), true, 1)) {
-                    id = Long.valueOf(request.getParameter("id"));
-                } else {
-                    request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
-                    return editWaiterUrl;
-                }      
-                
-                CustomerOrder co = boc.findById(id);
-                boc.cancelCustomerOrder(co);
-                
-                CustomerTable ct = co.getCustomerTable();
-                ct.setBusy(false);
-                btc.update(ct);
-
-                redirectToDashboard(request, response);
             }
 
         } else { // not logged or wrong groupId
@@ -245,9 +216,46 @@ public class customerOrderController implements IController {
 
     private boolean edit(HttpServletRequest request) {
 
+        // test required input
+        if (request.getParameter("people").trim().isEmpty() || request.getParameter("nbTablet").trim().isEmpty()) {
+            request.setAttribute("alert", Alert.setAlert("Attention", "Les champs * sont obligatoires", "warning"));
+            return false;
+        }
         
+        // get order
+        CustomerOrder co;
+        try {
+            co = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("customerTable")));
+        } catch (Exception e) {
+            request.setAttribute("alert", Alert.setAlert("Attention", "Commande introuvable", "danger"));
+            return false;
+        }
         
+        co.setPeople(Integer.valueOf(request.getParameter("people")));
+        co.setNbTablet(Integer.valueOf(request.getParameter("nbTablet")));
         
+        boc.update(co);
+
+        return true;
+    }
+
+    private boolean cancel(HttpServletRequest request) {
+
+        Long id = 0L;
+        if (FieldValidation.checkInteger(request.getParameter("id"), true, 1)) {
+            id = Long.valueOf(request.getParameter("id"));
+        } else {
+            request.setAttribute("alert", Alert.setAlert("Erreur", "Cette commande n'existe pas", "danger"));
+            return false;
+        }
+
+        CustomerOrder co = boc.findById(id);
+        boc.cancelCustomerOrder(co);
+
+        CustomerTable ct = co.getCustomerTable();
+        ct.setBusy(false);
+        btc.update(ct);
+
         return true;
     }
 
