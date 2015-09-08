@@ -140,6 +140,13 @@ public class loginController implements IController {
             session.removeAttribute("logged");
             session.removeAttribute("group");
             session.removeAttribute("loggedEmployee");
+            
+            // customer disconnect
+            if(session.getAttribute("table") != null) {
+                CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(session.getAttribute("table").toString()));
+                co.setCurrentTablets(co.getCurrentTablets() - 1);
+                session.removeAttribute("table");
+            }
         }
 
         return "/WEB-INF/login.jsp";
