@@ -34,6 +34,7 @@ public class customerOrderController implements IController {
     private final String editWaiterUrl = "/WEB-INF/order/customerOrderEdit.jsp";
     private final String editUrl = "/WEB-INF/admin/customerOrderEdit.jsp";
     private final String listUrl = "/WEB-INF/admin/customerOrderList.jsp";
+    private final String helpUrl = "/WEB-INF/order/customerOrderHelp.jsp";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -190,6 +191,12 @@ public class customerOrderController implements IController {
                 request.setAttribute("customerOrder", co);
 
                 return editWaiterUrl;
+            }
+            
+            if("help".equals(request.getParameter("task"))){
+                request.setAttribute("customerHelpOrders", boc.getNeedHelpOrders());
+                
+                return helpUrl;
             }
 
         } else { // not logged or wrong groupId
