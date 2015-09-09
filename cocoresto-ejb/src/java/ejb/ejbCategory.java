@@ -93,5 +93,13 @@ public class ejbCategory implements ejbCategoryLocal {
         
         return q.getResultList();
     }
+    
+    @Override
+    public List<Category> findAvailableCategories(String type) {
+        Query q = em.createQuery("SELECT c FROM Category c WHERE c.active = 1 AND c.type = :type");
+        q.setParameter("type", type);
+        return q.getResultList();
+    }
+    
 
 }
