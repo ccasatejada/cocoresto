@@ -11,8 +11,7 @@ public interface ejbHelpLocal {
     
     public void addSession(Session session);
     public void removeSession(Session session);
-    public List getHelps();
-    public void addHelp(CustomerOrder order, int count);
+    public void addHelp(CustomerOrder order);
     public void removeHelp(Integer id);
     
 //    private JsonObject createAddMessage(CustomerOrder order);
