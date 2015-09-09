@@ -64,14 +64,13 @@ public class ejbDish implements ejbDishLocal {
     @Override
     public List<Category> findCategories(){
         List<Category> categories = new ArrayList();
-        String sq = "SELECT c FROM Category c";
+        String sq = "SELECT c FROM Category c where c.active = 1";
         Query q = em.createQuery(sq);
         for(Category cat : (List<Category>)q.getResultList()){
             if("Plat".equals(cat.getType())) {
                 categories.add(cat);
             }
         }
-        
         return categories;
     }
     
