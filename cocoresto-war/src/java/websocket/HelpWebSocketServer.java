@@ -19,6 +19,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -35,15 +36,17 @@ public class HelpWebSocketServer implements Serializable {
 
     @Inject
     ejbHelpLocal ejbHelp;
+    
 
     public HelpWebSocketServer() {
-        ejbHelp = lookupejbHelpLocal();
-        ejbRestaurant = lookupejbRestaurantLocal();
+//        ejbHelp = lookupejbHelpLocal();
+//        ejbRestaurant = lookupejbRestaurantLocal();
     }
 
     @OnOpen
-    public void open(Session session) {
+    public void open(Session session, EndpointConfig config) {
         ejbHelp.addSession(session);
+        
 
     }
 
@@ -62,17 +65,15 @@ public class HelpWebSocketServer implements Serializable {
         try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
             if ("add".equals(jsonMessage.getString("action"))) {
-                CustomerOrder order = new CustomerOrder();
-                order = ejbRestaurant.getOrder(Integer.valueOf(jsonMessage.getString("id")));
-                ejbHelp.addHelp(order);
+                CustomerOrder order = ejbRestaurant.getOrder(Integer.valueOf(jsonMessage.getString("id")));
+                order.setNeedHelp(true);
+                ejbHelp.addHelp(order);                
             }
 
             if ("remove".equals(jsonMessage.getString("action"))) {
-                Integer customerTable = jsonMessage.getInt("customerTable");
-                CustomerOrder order = new CustomerOrder();
-                order = ejbRestaurant.getOrder(customerTable);
+                CustomerOrder order = ejbRestaurant.getOrder(jsonMessage.getInt("id"));
                 order.setNeedHelp(false);
-                ejbHelp.removeHelp(customerTable);
+                ejbHelp.removeHelp(order);
             }
         }
     }

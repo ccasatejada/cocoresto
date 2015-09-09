@@ -15,20 +15,16 @@ function onMessage(event) {
 function addHelp(table) {
     var HelpAction = {
         action: "add",
-        id: table,
-        count: 1
+        id: table
     };
-    alert(HelpAction);
     socket.send(JSON.stringify(HelpAction));
-    alert(JSON.stringify(HelpAction));
 }
 
 function removeHelp(element) {
     var table = element;
     var HelpAction = {
         action: "remove",
-        id: table,
-        count: -1
+        id: table
     };
     socket.send(JSON.stringify(HelpAction));
 }
