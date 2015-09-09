@@ -79,7 +79,8 @@ public class ejbCombo implements ejbComboLocal {
 
     @Override
     public List<Combo> findAllByCategory(Long id) {
-        return null;
+        Query q = em.createQuery("SELECT c FROM Combo c WHERE c.active = 1 AND c.category.id = " + id );
+        return q.getResultList();
     }
 
 }
