@@ -52,6 +52,11 @@ public class ejbDish implements ejbDishLocal {
         return q.getResultList();
     }
 
+    @Override
+    public List<Dish> findAllByCategory(String type) {
+        return null;
+    }
+
     public void persist(Object object) {
         em.persist(object);
     }

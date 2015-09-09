@@ -124,6 +124,10 @@ public class beanDrink implements Serializable {
         return ejbDrink.findAll();
     }
     
+    public List<Drink> findAllByCategory(String type) {
+        return ejbDrink.findAllByCategory(type);
+    }
+    
     public List<Drink> findAllByRange(int firstResult, int maxResults) {
         return ejbDrink.findAllByRange(firstResult, maxResults);
     }
@@ -145,6 +149,6 @@ public class beanDrink implements Serializable {
             throw new RuntimeException(ne);
         }
     }
-    
+
     
 }

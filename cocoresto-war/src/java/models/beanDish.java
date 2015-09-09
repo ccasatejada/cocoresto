@@ -70,6 +70,10 @@ public class beanDish implements Serializable {
         return ejbDish.findAllByRange(firstResult, maxResults);
     }
 
+    public List<Dish> findAllByCategory(String type){
+        return ejbDish.findAllByCategory(type);
+    }
+
     private ejbDishLocal lookupejbDishLocal() {
         try {
             Context c = new InitialContext();

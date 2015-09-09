@@ -77,4 +77,9 @@ public class ejbCombo implements ejbComboLocal {
         return q.getResultList();
     }
 
+    @Override
+    public List<Combo> findAllByCategory(String type) {
+        return null;
+    }
+
 }

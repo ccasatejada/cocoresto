@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.beanCategory;
+import models.beanCombo;
 import models.beanDish;
+import models.beanDrink;
 import models.beanTableCustomer;
 
 @WebServlet(name = "Ajax", urlPatterns = {"/Ajax"})
@@ -32,7 +34,10 @@ public class Ajax extends HttpServlet {
 
                 beanCategory bc = new beanCategory();
                 String type = "Plat";
-
+                beanDish bdish = new beanDish();
+                beanDrink bdrink = new beanDrink();
+                beanCombo bcombo = new beanCombo();
+                
                 if ("dishes".equals(request.getParameter("list"))) {
                     type = "Plat";
                 }
@@ -55,6 +60,19 @@ public class Ajax extends HttpServlet {
                             + "</div>\n"
                             + "<div id=\"collapse" + cat.getId() + "\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"heading" + cat.getId() + "\">\n"
                             + "<div class=\"panel-body\">");
+                    
+                    switch(type) {
+                        case "Boisson ":
+                            bdish.findAllByCategory(type);
+                        break;
+                        case "Menu":
+                            bcombo.findAllByCategory(type);
+                        break;
+                        default:
+                            bdrink.findAllByCategory(type);
+                    }
+                    
+                    
 
                     out.println("</div>\n</div>\n</div>");
                 }
