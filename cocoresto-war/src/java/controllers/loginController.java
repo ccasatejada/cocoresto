@@ -26,7 +26,7 @@ public class loginController implements IController {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-
+        
         HttpSession session = request.getSession();
 
         beanLogin bLogin = (beanLogin) session.getAttribute("bLogin");
@@ -133,13 +133,14 @@ public class loginController implements IController {
 
         // Disconnect
         if ("disconnect".equals(request.getParameter("task"))) {
-            ejbRestaurant.removeEmployee((Employee) session.getAttribute("loggedEmployee"));
-            session.setAttribute("logged", false);
-            session.setAttribute("group", 0);
-            session.setAttribute("loggedEmployee", null);
+            
             session.removeAttribute("logged");
             session.removeAttribute("group");
-            session.removeAttribute("loggedEmployee");
+                
+            if(session.getAttribute("loggedEmployee") != null) {
+                ejbRestaurant.removeEmployee((Employee) session.getAttribute("loggedEmployee"));
+                session.removeAttribute("loggedEmployee");            
+            }
             
             // customer disconnect
             if(session.getAttribute("table") != null) {
