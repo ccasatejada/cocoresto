@@ -17654,3 +17654,10 @@ hr.line-full {
     width: 32px;
     height: 32px;
 }
+
+
+/* cart */
+#cartContent {
+    position: fixed;
+    right: 15px;
+}
