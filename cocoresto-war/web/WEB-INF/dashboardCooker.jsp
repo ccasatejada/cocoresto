@@ -11,32 +11,63 @@
             <table class="table table-striped">
                 <thead>
                     <tr class="bg-slategray">
-                        <th>Numéro de la commande</th>
+                        <th>Commande</th>
                         <th>Date</th>
                         <th>Statut</th>
-                        <th>Couverts</th>
-                        <th>Table</th>
-                        <th>Tablettes</th>
+                        <th>Plats</th>
+                        <th>Choisir</th>
                     </tr>
                 </thead>
                 <tbody>                    
-                    <c:forEach var="customerOrder" items="${customerOrders}" varStatus="loop">
-                        <tr>
-                            <td><a class="btn btn-primary" href="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}">Commande n°${customerOrder.number}</a></td>
-                            <td><fmt:formatDate value="${customerOrder.orderDate}" pattern="dd MMM yyyy à hh:MM" /></td>
-                            <td>
-                                <div class="label label-${customerOrder.status}">${customerOrder.status.name}</div>
-                            </td>
-                            <td>${customerOrder.people} personnes</td>
-                            <td>Table n°${customerOrder.customerTable.number}</td>
-                            <td>${customerOrder.nbTablet} tablettes</td>
-                        </tr>
+                    <c:forEach var="co" items="${coToDo}" varStatus="loop">
+                        <c:forEach var="dish" items="${co.dishes}" varStatus="loop">
+                            <tr class="text-center">
+                                <td><div class="bg-primary text-center mt-5">${co.number}</div></td>
+                                <td><div class="mt-5"><fmt:formatDate value="${co.orderDate}" pattern="dd/MM à hh:MM" /></div></td>
+                                <td>
+                                    <div class="label label-${co.status} mt-5">${co.status.name}</div>
+                                </td>
+                                <td><p class="text-lg text-strong mt-5">${dish.name}</p></td>
+                                <td><a class="btn btn-primary center-block" href="FrontController?option=customerOrder&task=swap&id=${co.id}">Préparer</a></td>
+                            </tr>
+                        </c:forEach>
                     </c:forEach>
                 </tbody>
             </table>
         </div>
 
-        ${pagination}
+        <div class="tile-header dvd dvd-btm bg-greensea">
+            <h1 class="custom-font"><strong>Boissons à faire pour ${userName}</strong></h1>
+        </div>
+
+        <div class="tile-body p-0">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="bg-slategray">
+                        <th>Numéro de la commande</th>
+                        <th>Date</th>
+                        <th>Statut</th>
+                        <th>Boissons</th>
+                        <th>Choisir</th>
+                    </tr>
+                </thead>
+                <tbody>                    
+                    <c:forEach var="co" items="${coToDo}" varStatus="loop">
+                        <c:forEach var="drink" items="${co.drinks}" varStatus="loop">
+                            <tr class="text-center">
+                                <td><div class="bg-primary text-center mt-5">${co.number}</div></td>
+                                <td><div class="mt-5"><fmt:formatDate value="${co.orderDate}" pattern="dd/MM à hh:MM" /></div></td>
+                                <td>
+                                    <div class="label label-${co.status} mt-5">${co.status.name}</div>
+                                </td>
+                                <td><p class="text-lg text-strong mt-5">${drink.name}</p></td>
+                                <td><a class="btn btn-primary center-block" href="FrontController?option=customerOrder&task=swap&id=${co.id}">Préparer</a></td>
+                            </tr>
+                        </c:forEach>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
 
     </div>
 
@@ -53,28 +84,60 @@
                         <th>Numéro de la commande</th>
                         <th>Date</th>
                         <th>Statut</th>
-                        <th>Couverts</th>
-                        <th>Table</th>
-                        <th>Tablettes</th>
+                        <th>Plats</th>
+                        <th>Choisir</th>
                     </tr>
                 </thead>
                 <tbody>                    
-                    <c:forEach var="customerOrder" items="${customerOrders}" varStatus="loop">
-                        <tr>
-                            <td><a class="btn btn-primary" href="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}">Commande n°${customerOrder.number}</a></td>
-                            <td><fmt:formatDate value="${customerOrder.orderDate}" pattern="dd MMM yyyy à hh:MM" /></td>
-                            <td>
-                                <div class="label label-${customerOrder.status}">${customerOrder.status.name}</div>
-                            </td>
-                            <td>${customerOrder.people} personnes</td>
-                            <td>Table n°${customerOrder.customerTable.number}</td>
-                            <td>${customerOrder.nbTablet} tablettes</td>
-                        </tr>
+                    <c:forEach var="cOrder" items="${coOnPrep}" varStatus="loop">
+                        <c:forEach var="dishOnPrep" items="${cOrder.dishes}" varStatus="loop">
+                            <tr class="text-center">
+                                <td><div class="bg-primary text-center mt-5">${cOrder.number}</div></td>
+                                <td><div class="mt-5"><fmt:formatDate value="${cOrder.orderDate}" pattern="dd/MM à hh:MM" /></div></td>
+                                <td>
+                                    <div class="label label-${cOrder.status} mt-5">${cOrder.status.name}</div>
+                                </td>
+                                <td><p class="text-lg text-strong mt-5">${dishOnPrep.name}</p></td>
+                                <td><a class="btn btn-primary center-block" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}">Prêt!</a></td>
+                            </tr>
+                        </c:forEach>
                     </c:forEach>
                 </tbody>
             </table>
         </div>
 
-        ${pagination}
+        <div class="tile-header dvd dvd-btm bg-greensea">
+            <h1 class="custom-font"><strong>Boissons en cours pour ${userName}</strong></h1>
+        </div>
+
+        <div class="tile-body p-0">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="bg-slategray">
+                        <th>Numéro de la commande</th>
+                        <th>Date</th>
+                        <th>Statut</th>
+                        <th>Boissons</th>
+                        <th>Choisir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="cOrder" items="${coOnPrep}" varStatus="loop">
+                        <c:forEach var="drinkOnPrep" items="${coOnPrep.drinks}" varStatus="loop">
+                            <tr class="text-center">
+                                <td><div class="bg-primary text-center mt-5">${cOrder.number}</div></td>
+                                <td><div class="mt-5"><fmt:formatDate value="${cOrder.orderDate}" pattern="dd/MM à hh:MM" /></div></td>
+                                <td>
+                                    <div class="label label-${cOrder.status} mt-5">${cOrder.status.name}</div>
+                                </td>
+                                <td><p class="text-lg text-strong mt-5">${drinkOnPrep.name}</p></td>
+                                <td><a class="btn btn-primary center-block" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}">Prêt!</a></td>
+                            </tr>
+                        </c:forEach>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </section>

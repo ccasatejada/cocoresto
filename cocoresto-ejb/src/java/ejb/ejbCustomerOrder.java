@@ -80,5 +80,12 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
         q.setParameter("payed", OrderStatus.PAYED);
         return q.getResultList();
     }
+    
+    @Override
+    public List<CustomerOrder> findOrdersByStatus(OrderStatus status) {
+        Query q = em.createQuery("SELECT co FROM CustomerOrder co WHERE co.active = 1 AND co.status = :orderStatus ORDER BY co.orderDate asc");
+        q.setParameter("orderStatus", status);
+        return q.getResultList();
+    }
 
 }

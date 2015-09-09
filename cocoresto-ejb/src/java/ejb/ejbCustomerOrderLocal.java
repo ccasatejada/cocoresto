@@ -2,6 +2,7 @@ package ejb;
 
 import entities.CustomerOrder;
 import entities.Employee;
+import entities.OrderStatus;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -25,5 +26,7 @@ public interface ejbCustomerOrderLocal {
     public int count();    
 
     public List<CustomerOrder> findCurrentOrders();
+    
+    public List<CustomerOrder> findOrdersByStatus(OrderStatus status);
 
 }

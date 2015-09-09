@@ -62,6 +62,10 @@ public class beanOrderCustomer implements Serializable {
     public OrderStatus[] findAllOrderStatus() {
         return OrderStatus.values();
     }
+    
+    public List<CustomerOrder> findOrdersByStatus(OrderStatus status) {
+        return ejbCustomerOrder.findOrdersByStatus(status);
+    };
 
     public void cancelCustomerOrder(CustomerOrder customerOrder) {
         

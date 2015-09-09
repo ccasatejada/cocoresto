@@ -192,6 +192,22 @@ public class customerOrderController implements IController {
                 return editWaiterUrl;
             }
 
+        } else if (logged && groupId == 2) {
+            
+            if("swap".equals(request.getParameter("task"))) {
+                
+                CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
+                co.setStatus(OrderStatus.PREPARED);
+                
+            }
+            
+            if("ready".equals(request.getParameter("task"))) {
+                
+                CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
+                co.setStatus(OrderStatus.FINISHED);
+            }
+            
+        
         } else { // not logged or wrong groupId
             redirectToDashboard(request, response);
         }

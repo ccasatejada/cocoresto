@@ -2,6 +2,7 @@ package controllers;
 
 import entities.CustomerOrder;
 import entities.Employee;
+import entities.OrderStatus;
 import helpers.Pagination;
 import java.util.List;
 import javax.servlet.http.HttpServlet;
@@ -54,6 +55,18 @@ public class dashboardController implements IController {
             
             return "/WEB-INF/dashboardWaiter.jsp";
         } else if (groupId == 2) { // return cooker dashboard
+            
+//            Pagination pagination = new Pagination("option=dashboard", request.getParameter("page"), 10, boc.count());
+//            request.setAttribute("pagination", pagination.getPagination());
+//
+//            List<CustomerOrder> customerOrders = boc.findAllByRange(pagination.getMin(), 10);
+            
+            List<CustomerOrder> coToDo = boc.findOrdersByStatus(OrderStatus.VALIDATE);
+            request.setAttribute("coToDo", coToDo);
+            
+            List<CustomerOrder> coOnPrep = boc.findOrdersByStatus(OrderStatus.PREPARED);
+            request.setAttribute("coOnPrep", coOnPrep);
+            
             return "/WEB-INF/dashboardCooker.jsp";
         }
 
