@@ -2,15 +2,11 @@ package ejb;
 
 import entities.CustomerOrder;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
@@ -20,10 +16,8 @@ import javax.websocket.Session;
 public class ejbHelp implements ejbHelpLocal {
 
     private int helpCount = 0;
-    private ejbCustomerOrder ejbCustomerOrder;
     private ejbRestaurant ejbRestaurant = new ejbRestaurant();
     private final Set sessions = new HashSet<>();
-    private final Set helps = new HashSet<CustomerOrder>();
 
     public ejbHelp() {
     }
@@ -46,31 +40,22 @@ public class ejbHelp implements ejbHelpLocal {
     }
 
     @Override
-    public List getHelps() {
-        return new ArrayList(helps);
-    }
-
-    @Override
-    public void addHelp(CustomerOrder order, int count) {
-        helps.add(order);
-        helpCount = helpCount + count;
+    public void addHelp(CustomerOrder order) {
+        helpCount += 1;
         JsonObject addMessage = createAddMessage(order, helpCount);
         sendToAllConnectedSessions(addMessage);
     }
 
     @Override
-    public void removeHelp(Integer id) {
-        CustomerOrder order = getOrderById(id);
-        if(order != null) {
-            helps.remove(order);
-            helpCount--;
-            JsonProvider provider = JsonProvider.provider();
-            JsonObject removeMessage = provider.createObjectBuilder()
-                    .add("action", "remove")
-                    .add("id", id)
-                    .build();
-            sendToAllConnectedSessions(removeMessage);
-        }
+    public void removeHelp(CustomerOrder order) {
+        helpCount -= 1;
+        JsonProvider provider = JsonProvider.provider();
+        JsonObject removeMessage = provider.createObjectBuilder()
+                .add("action", "remove")
+                .add("id", order.getCustomerTable().getNumber())
+                .build();
+        sendToAllConnectedSessions(removeMessage);
+
     }
 
     private CustomerOrder getOrderById(Integer id) {
@@ -89,6 +74,7 @@ public class ejbHelp implements ejbHelpLocal {
         JsonObject addMessage = provider.createObjectBuilder()
                 .add("action", "add")
                 .add("count", helpCount)
+                .add("number", order.getCustomerTable().getNumber())
                 .build();
         return addMessage;
     }

@@ -33,5 +33,7 @@ public interface ejbDrinkLocal {
     public ArrayList<Price> findPrices();
     
     public int count();
+
+    public List<Drink> findAllByCategory(Long id);
       
 }

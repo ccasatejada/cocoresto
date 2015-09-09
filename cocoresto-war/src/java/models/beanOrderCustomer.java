@@ -5,7 +5,9 @@ import ejb.ejbRestaurantLocal;
 import entities.CustomerOrder;
 import entities.OrderStatus;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -68,21 +70,48 @@ public class beanOrderCustomer implements Serializable {
     };
 
     public void cancelCustomerOrder(CustomerOrder customerOrder) {
-        
+
         // update order status and persist
         customerOrder.setStatus(OrderStatus.CANCELLED);
         this.update(customerOrder);
-        
+
         // remove order in active orders collection
         ejbRestaurant.removeCustomerOrder(customerOrder.getNbTablet());
-        
+
     }
-    
+
     public void restoreCurrentOrders() {
         List<CustomerOrder> orders = ejbCustomerOrder.findCurrentOrders();
-        for(CustomerOrder co : orders) {
+        for (CustomerOrder co : orders) {
             ejbRestaurant.addCustomerOrder(co);
         }
+    }
+
+    public List<CustomerOrder> getNeedHelpOrders() {
+        ArrayList<CustomerOrder> aco = new ArrayList();
+        for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
+            CustomerOrder order = entry.getValue();
+            System.out.println(order.getCustomerTable().getNumber());
+            System.out.println(order.isNeedHelp());
+            if (order.isNeedHelp() == true) {
+                aco.add(order);
+            }
+        }
+        return aco;
+    }
+
+    public int getNbHelp() {
+        int i = 0;
+        for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
+            CustomerOrder order = entry.getValue();
+            System.out.println(order.getCustomerTable().getNumber());
+            System.out.println(order.isNeedHelp());
+            if (order.isNeedHelp() == true) {
+                i++;
+            }
+        }
+        
+        return i;
     }
 
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {

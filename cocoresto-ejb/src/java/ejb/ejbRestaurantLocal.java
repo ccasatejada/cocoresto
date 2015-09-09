@@ -24,4 +24,5 @@ public interface ejbRestaurantLocal {
     public void removeEmployee(Employee employee);
     
     public boolean isEmployeeLogged(Employee employee);
+
 }

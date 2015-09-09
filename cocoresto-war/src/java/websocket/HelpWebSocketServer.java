@@ -1,7 +1,7 @@
-
 package websocket;
 
 import ejb.ejbHelpLocal;
+import ejb.ejbRestaurant;
 import ejb.ejbRestaurantLocal;
 import entities.CustomerOrder;
 import java.io.Serializable;
@@ -17,6 +17,9 @@ import javax.json.JsonReader;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -27,57 +30,54 @@ import javax.websocket.server.ServerEndpoint;
 @ApplicationScoped
 @ServerEndpoint("/FrontController/actions")
 public class HelpWebSocketServer implements Serializable {
-    
-    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
-    
+
+    @Inject
+    ejbRestaurantLocal ejbRestaurant;
+
     @Inject
     ejbHelpLocal ejbHelp;
+    
 
     public HelpWebSocketServer() {
-        ejbHelp = lookupejbHelpLocal();
+//        ejbHelp = lookupejbHelpLocal();
+//        ejbRestaurant = lookupejbRestaurantLocal();
     }
-    
-    
-    
+
     @OnOpen
-    public void open(Session session){
+    public void open(Session session, EndpointConfig config) {
         ejbHelp.addSession(session);
         
+
     }
-    
+
     @OnClose
-    public void close(Session session){
+    public void close(Session session) {
         ejbHelp.removeSession(session);
     }
-    
+
     @OnError
-    public void onError(Throwable error){
+    public void onError(Throwable error) {
         Logger.getLogger(HelpWebSocketServer.class.getName()).log(Level.SEVERE, null, error);
     }
-    
+
     @OnMessage
     public void handleMessage(String message, Session session) {
-        try(JsonReader reader = Json.createReader(new StringReader(message))){
+        try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
-            if("add".equals(jsonMessage.getString("action"))){
-                CustomerOrder order = new CustomerOrder();
-//                order = ejbRestaurant.getOrder(jsonMessage.getInt("customerTable"));
+            if ("add".equals(jsonMessage.getString("action"))) {
+                CustomerOrder order = ejbRestaurant.getOrder(Integer.valueOf(jsonMessage.getString("id")));
                 order.setNeedHelp(true);
-                ejbHelp.addHelp(order, 1);
+                ejbHelp.addHelp(order);                
             }
-            
-            if("remove".equals(jsonMessage.getString("action"))){
-                Integer customerTable = jsonMessage.getInt("customerTable");
-                CustomerOrder order = new CustomerOrder();
-                order = ejbRestaurant.getOrder(customerTable);
+
+            if ("remove".equals(jsonMessage.getString("action"))) {
+                CustomerOrder order = ejbRestaurant.getOrder(jsonMessage.getInt("id"));
                 order.setNeedHelp(false);
-                ejbHelp.removeHelp(customerTable);
+                ejbHelp.removeHelp(order);
             }
         }
     }
 
-    
-    
     private ejbHelpLocal lookupejbHelpLocal() {
         try {
             Context c = new InitialContext();
@@ -97,7 +97,5 @@ public class HelpWebSocketServer implements Serializable {
             throw new RuntimeException(ne);
         }
     }
-    
-    
-    
+
 }

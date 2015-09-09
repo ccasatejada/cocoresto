@@ -18,6 +18,8 @@ public interface ejbCategoryLocal {
 
     public List<Category> findAll();
     
+    public List<Category> findAvailableCategories(String type);
+    
     public int count();
     
     public List<Category> findAllByRange(int firstResult, int maxResults);

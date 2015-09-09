@@ -128,4 +128,10 @@ public class ejbDrink implements ejbDrinkLocal {
         em.persist(object);
     }
 
+    @Override
+    public List<Drink> findAllByCategory(Long id) {
+        Query q = em.createQuery("SELECT d FROM Drink d WHERE d.active = 1 AND d.category.id = " + id +" AND d.inventory > 0");
+        return q.getResultList();
+    }
+
 }

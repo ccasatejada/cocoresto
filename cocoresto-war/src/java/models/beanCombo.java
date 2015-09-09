@@ -52,7 +52,10 @@ public class beanCombo implements Serializable {
         return ejbCombo.findAllByRange(firstResult, maxResults);
     }
     
-
+    public List<Combo> findAllByCategory(Long id) {
+        return ejbCombo.findAllByCategory(id);
+    }
+    
     private ejbComboLocal lookupejbComboLocal() {
         try {
             Context c = new InitialContext();
@@ -62,6 +65,6 @@ public class beanCombo implements Serializable {
             throw new RuntimeException(ne);
         }
     }
-    
+
 
 }

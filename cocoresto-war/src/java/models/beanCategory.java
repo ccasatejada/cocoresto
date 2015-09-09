@@ -56,6 +56,10 @@ public class beanCategory implements Serializable {
     public List<Category> findAllByRange(int firstResult, int maxResults){
         return ejbCategory.findAllByRange(firstResult, maxResults);
     }
+    
+    public List<Category> findAvailableCategories(String type) {
+        return ejbCategory.findAvailableCategories(type);
+    }
 
     private ejbCategoryLocal lookupejbCategoryLocal() {
         try {

@@ -4,12 +4,17 @@
 
 <div class="btn-group btn-group-justified mb-20 mt-40" role="group">
     <div class="btn-group" role="group">
-        <div id="content">
-            <a href="FrontController?option=customerOrder&task=help" class="btn btn-lg btn-lightred"><i class="fa fa-bell"></i> <strong>0</strong> demande(s) d'aide en attente</a>
+        <div id="helpDiv">
+            <a href="FrontController?option=customerOrder&task=help" class="btn btn-lg btn-lightred"><i class="fa fa-bell"></i> <strong><span id="helpSpan"></span></strong> demande(s) d'aide en attente</a>
         </div>
     </div>
 </div>
 
+<!--
+<div id="helpDiv">
+
+</div>
+-->
 <section class="tile">
 
     <div class="tile-header dvd dvd-btm bg-greensea">
