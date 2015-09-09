@@ -5,12 +5,9 @@ import entities.Combo;
 import entities.Discount;
 import entities.Dish;
 import entities.Drink;
-import entities.Format;
-import entities.NutritiveValue;
 import entities.Price;
 import entities.Tax;
 import helpers.Pagination;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
@@ -21,10 +18,7 @@ import models.beanCategory;
 import models.beanCombo;
 import models.beanDish;
 import models.beanDrink;
-import models.beanFormat;
 import models.beanNutritiveValue;
-import models.beanPrice;
-import models.beanRate;
 
 public class menuController implements IController {
 
@@ -48,58 +42,7 @@ public class menuController implements IController {
         Dish dish = new Dish();
         Combo combo = new Combo();
 
-//        ArrayList<Format> formats;
-//        ArrayList<Category> categories;
-//        ArrayList<Discount> discounts;
-//        ArrayList<Tax> taxes;
-//        ArrayList<Price> prices;
-//
-//        bDrink = (beanDrink) session.getAttribute("bDrink");
-//        beanRate bRate = (beanRate) session.getAttribute("bRate");
-//        beanPrice bPrice = (beanPrice) session.getAttribute("bPrice");
-//        beanFormat bFormat = (beanFormat) session.getAttribute("bFormat");
-//
-//        if (bDrink == null) {
-//            bDrink = new beanDrink();
-//            drink = new Drink();
-//            category = new Category();
-//            formats = new ArrayList();
-//            price = new Price();
-//            tax = new Tax();
-//            discount = new Discount();
-//            drink.setFormats(formats);
-//            bDrink.setDrink(drink);
-//            session.setAttribute("bDrink", bDrink);
-//        } else {
-//            drink = bDrink.getDrink();
-//            category = bDrink.getCategory();
-//            price = bDrink.getPrice();
-//            tax = bDrink.getTax();
-//            discount = bDrink.getDiscount();
-//        }
-//        if (bRate == null) {
-//            bRate = new beanRate();
-//            drink = new Drink();
-//            category = new Category();
-//            session.setAttribute("bRate", bRate);
-//        }
-//        if (bPrice == null) {
-//            bPrice = new beanPrice();
-//            price = new Price();
-//            drink = new Drink();
-//            category = new Category();
-//            session.setAttribute("bPrice", bPrice);
-//        }
-//        if (bFormat == null) {
-//            bFormat = new beanFormat();
-//            session.setAttribute("bFormat", bFormat);
-//        }
-//
-//        formats = bDrink.findFormats();
-//        categories = bDrink.findCategories();
-//        discounts = bRate.findAllDiscounts();
-//        taxes = bRate.findAllTaxes();
-//        prices = bPrice.findAll();
+
 
         if ("getDrinkDetail".equals(request.getParameter("task"))) {
             url = "/WEB-INF/menu/drinkDetail.jsp";

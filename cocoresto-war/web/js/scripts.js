@@ -91,8 +91,46 @@
             }
         });
 
+        /************************************************************************************/
+        /*************************************** Menu ***************************************/
+        /************************************************************************************/
 
-        $('#getDrinks').on('click', function (event) {
+        $("#customerMenu #dishes").addClass('active');
+        
+        $('body').on('load', getDishList);
+        
+        
+        
+        var getDishList = function (event) {
+            //event.preventDefault();
+            $.ajax({
+                url: 'FrontController',
+                type: 'POST',
+                data: 'option=menu&task=getDishes&layout=component',
+                dataType: 'html',
+                success: function (data) {
+                    $('#menuContent').empty();
+                    $('#menuContent').html(data);
+                }
+            });
+        };
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        $('#drink').on('click', function (event) {
             event.preventDefault();
             $.ajax({
                 url: 'FrontController?option=menu&task=getDrinks',
@@ -120,20 +158,6 @@
             });
         });
 
-        $('#getDishes').on('click', function (event) {
-            event.preventDefault();
-            $.ajax({
-                url: 'FrontController?option=menu&task=getDishes',
-                type: 'POST',
-                data: $('#dishMenu').html(),
-                dataType: 'html',
-                success: function (data) {
-                    $('#menuContent').empty();
-                    $('#menuContent').html(data);
-                }
-            });
-        });
-
         $('.dishDetail').on('click', function (event) {
             event.preventDefault();
             $.ajax({
@@ -148,7 +172,7 @@
             });
         });
 
-        $('#getCombos').on('click', function (event) {
+        $('#combos').on('click', function (event) {
             event.preventDefault();
             $.ajax({
                 url: 'FrontController?option=menu&task=getCombos',

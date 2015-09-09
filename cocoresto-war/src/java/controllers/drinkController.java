@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.servlet.http.HttpServlet;
@@ -48,7 +46,6 @@ public class drinkController implements IController {
         ArrayList<Discount> discounts;
         ArrayList<Tax> taxes;
         ArrayList<Price> prices;
-        List<Price> drinkPrices;
 
         boolean isDrinkDiscount;
 
@@ -266,7 +263,6 @@ public class drinkController implements IController {
                 drink.setName(request.getParameter("name"));
                 drink.setInventory(Integer.valueOf(request.getParameter("inventory")));
                 if (request.getParameter("image") != null) {
-                    System.out.println("Image param image : " + request.getParameter("image"));
                     drink.setImage(request.getParameter("image"));
                 }
                 for (Format fo : drink.getFormats()) {
