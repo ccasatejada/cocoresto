@@ -145,7 +145,6 @@
                 </div>
             </c:if>
             <div class="form-group">
-
                 <label for="image" class="col-sm-2 control-label">Image : </label>
                 <div class="col-sm-10">
                     <input type="file" id="image" name="image" accept="image/jpeg"/>
@@ -155,7 +154,6 @@
                     <c:if test="${not empty drink.image}">
                         <input type="text" disabled name="attachedImage" value="${drink.image}"/>
                     </c:if>  
-
                 </div>
             </div>
         </div>
