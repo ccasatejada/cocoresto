@@ -17,7 +17,8 @@ public interface ejbComboLocal {
     public int count();
     public List<Category> findCategories(); 
     
-        public List<Combo> findAllByRange(int firstResult, int maxResults);
+    public List<Combo> findAllByRange(int firstResult, int maxResults);
 
+    public List<Combo> findAllByCategory(Long id);
     
 }

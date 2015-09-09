@@ -128,4 +128,9 @@ public class ejbDrink implements ejbDrinkLocal {
         em.persist(object);
     }
 
+    @Override
+    public List<Drink> findAllByCategory(Long id) {
+        return null;
+    }
+
 }

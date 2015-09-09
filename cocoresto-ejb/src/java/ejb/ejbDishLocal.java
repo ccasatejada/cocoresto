@@ -19,9 +19,11 @@ public interface ejbDishLocal {
     public List<Dish> findAll();
 
     public List<Category> findCategories();
-
+    
     public int count();
 
     public List<Dish> findAllByRange(int firstResult, int maxResults);
+
+    public List<Dish> findAllByCategory(Long id);
 
 }
