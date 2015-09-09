@@ -52,8 +52,8 @@ public class beanCombo implements Serializable {
         return ejbCombo.findAllByRange(firstResult, maxResults);
     }
     
-    public List<Combo> findAllByCategory(String type) {
-        return ejbCombo.findAllByCategory(type);
+    public List<Combo> findAllByCategory(Long id) {
+        return ejbCombo.findAllByCategory(id);
     }
     
     private ejbComboLocal lookupejbComboLocal() {

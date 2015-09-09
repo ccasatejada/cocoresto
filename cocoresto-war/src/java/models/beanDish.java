@@ -70,8 +70,8 @@ public class beanDish implements Serializable {
         return ejbDish.findAllByRange(firstResult, maxResults);
     }
 
-    public List<Dish> findAllByCategory(String type){
-        return ejbDish.findAllByCategory(type);
+    public List<Dish> findAllByCategory(Long id){
+        return ejbDish.findAllByCategory(id);
     }
 
     private ejbDishLocal lookupejbDishLocal() {

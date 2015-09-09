@@ -124,8 +124,8 @@ public class beanDrink implements Serializable {
         return ejbDrink.findAll();
     }
     
-    public List<Drink> findAllByCategory(String type) {
-        return ejbDrink.findAllByCategory(type);
+    public List<Drink> findAllByCategory(Long id) {
+        return ejbDrink.findAllByCategory(id);
     }
     
     public List<Drink> findAllByRange(int firstResult, int maxResults) {

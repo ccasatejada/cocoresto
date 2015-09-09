@@ -2,7 +2,10 @@ package helpers;
 
 import ejb.ejbRestaurantLocal;
 import entities.Category;
+import entities.Combo;
 import entities.CustomerTable;
+import entities.Dish;
+import entities.Drink;
 import entities.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,7 +40,7 @@ public class Ajax extends HttpServlet {
                 beanDish bdish = new beanDish();
                 beanDrink bdrink = new beanDrink();
                 beanCombo bcombo = new beanCombo();
-                
+
                 if ("dishes".equals(request.getParameter("list"))) {
                     type = "Plat";
                 }
@@ -59,22 +62,34 @@ public class Ajax extends HttpServlet {
                             + "</h1>\n"
                             + "</div>\n"
                             + "<div id=\"collapse" + cat.getId() + "\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"heading" + cat.getId() + "\">\n"
-                            + "<div class=\"panel-body\">");
-                    
-                    switch(type) {
-                        case "Boisson ":
-                            bdish.findAllByCategory(type);
-                        break;
-                        case "Menu":
-                            bcombo.findAllByCategory(type);
-                        break;
-                        default:
-                            bdrink.findAllByCategory(type);
-                    }
-                    
-                    
+                            + "<div class=\"panel-body\">\n"
+                            + "<div class=\"row\">\n");
 
-                    out.println("</div>\n</div>\n</div>");
+                    switch (type) {
+                        case "Boisson ":
+                            List<Drink> drinks = bdrink.findAllByCategory(cat.getId());
+                            for (Drink drink : drinks) {
+
+                            }
+                            break;
+                        case "Menu":
+                            List<Combo> combos = bcombo.findAllByCategory(cat.getId());
+
+                            break;
+                        default:
+                            List<Dish> dishes = bdish.findAllByCategory(cat.getId());
+                            for (Dish dish : dishes) {
+                                out.println("<div class=\"col-sm-6 col-md-4\"><div class=\"thumbnail\">");
+                                out.println("<img src=\"images/products/" + dish.getImage() + "\" alt=\"" + dish.getName() + "\">");
+                                out.println("<div class=\"caption\">"
+                                        + "<h3>" + dish.getName() + "</h3>"
+                                        + "<p><a href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                        + "</div>");
+                                out.println("</div></div>");
+                            }
+                    }
+
+                    out.println("</div>\n</div>\n</div>\n</div>");
                 }
                 out.println("</div>");
 

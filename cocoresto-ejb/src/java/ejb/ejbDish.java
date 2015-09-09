@@ -37,8 +37,8 @@ public class ejbDish implements ejbDishLocal {
     @Override
     public Dish findById(Long id) {
         Dish d = em.find(Dish.class, id);
-        
-        if(d.getDiscount() != null && (new Date()).after(d.getDiscount().getEndDate())){
+
+        if (d.getDiscount() != null && (new Date()).after(d.getDiscount().getEndDate())) {
             d.setDiscount(null);
             em.merge(d);
         }
@@ -53,8 +53,9 @@ public class ejbDish implements ejbDishLocal {
     }
 
     @Override
-    public List<Dish> findAllByCategory(String type) {
-        return null;
+    public List<Dish> findAllByCategory(Long id) {
+        Query q = em.createQuery("SELECT d FROM Dish d WHERE d.active = 1 AND d.category.id = " + id +" AND d.inventory > 0");
+        return q.getResultList();
     }
 
     public void persist(Object object) {
@@ -65,27 +66,27 @@ public class ejbDish implements ejbDishLocal {
     public int count() {
         return ((Long) em.createQuery("select COUNT(d) from Dish d").getSingleResult()).intValue();
     }
-    
+
     @Override
-    public List<Category> findCategories(){
+    public List<Category> findCategories() {
         List<Category> categories = new ArrayList();
         String sq = "SELECT c FROM Category c where c.active = 1";
         Query q = em.createQuery(sq);
-        for(Category cat : (List<Category>)q.getResultList()){
-            if("Plat".equals(cat.getType())) {
+        for (Category cat : (List<Category>) q.getResultList()) {
+            if ("Plat".equals(cat.getType())) {
                 categories.add(cat);
             }
         }
         return categories;
     }
-    
+
     @Override
-    public List<Dish> findAllByRange(int firstResult, int maxResults){
+    public List<Dish> findAllByRange(int firstResult, int maxResults) {
         Query q = em.createQuery("select d from Dish d order by d.category");
-        if(firstResult >= 0){
+        if (firstResult >= 0) {
             q.setFirstResult(firstResult);
         }
-        if(maxResults > 0){
+        if (maxResults > 0) {
             q.setMaxResults(maxResults);
         }
         return q.getResultList();

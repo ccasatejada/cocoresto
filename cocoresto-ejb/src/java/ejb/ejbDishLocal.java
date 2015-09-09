@@ -24,6 +24,6 @@ public interface ejbDishLocal {
 
     public List<Dish> findAllByRange(int firstResult, int maxResults);
 
-    public List<Dish> findAllByCategory(String type);
+    public List<Dish> findAllByCategory(Long id);
 
 }

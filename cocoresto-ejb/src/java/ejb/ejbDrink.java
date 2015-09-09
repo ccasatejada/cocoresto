@@ -129,7 +129,7 @@ public class ejbDrink implements ejbDrinkLocal {
     }
 
     @Override
-    public List<Drink> findAllByCategory(String type) {
+    public List<Drink> findAllByCategory(Long id) {
         return null;
     }
 
