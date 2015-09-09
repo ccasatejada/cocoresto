@@ -20,10 +20,8 @@ import javax.websocket.Session;
 public class ejbHelp implements ejbHelpLocal {
 
     private int helpCount = 0;
-    private ejbCustomerOrder ejbCustomerOrder;
     private ejbRestaurant ejbRestaurant = new ejbRestaurant();
     private final Set sessions = new HashSet<>();
-    private final Set helps = new HashSet<CustomerOrder>();
 
     public ejbHelp() {
     }
@@ -46,14 +44,15 @@ public class ejbHelp implements ejbHelpLocal {
     }
 
     @Override
-    public List getHelps() {
-        return new ArrayList(helps);
-    }
-
-    @Override
-    public void addHelp(CustomerOrder order, int count) {
-        helps.add(order);
-        helpCount = helpCount + count;
+    public void addHelp(CustomerOrder order) {
+        for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
+            Integer key = entry.getKey();
+            if (key == order.getCustomerTable().getNumber()) {
+                order = entry.getValue();
+                order.setNeedHelp(true);
+            }
+        }
+        helpCount += 1;
         JsonObject addMessage = createAddMessage(order, helpCount);
         sendToAllConnectedSessions(addMessage);
     }
@@ -61,9 +60,9 @@ public class ejbHelp implements ejbHelpLocal {
     @Override
     public void removeHelp(Integer id) {
         CustomerOrder order = getOrderById(id);
-        if(order != null) {
-            helps.remove(order);
-            helpCount--;
+        if (order != null) {
+            ejbRestaurant.getOrder(id).setNeedHelp(false);
+            helpCount -= 1;
             JsonProvider provider = JsonProvider.provider();
             JsonObject removeMessage = provider.createObjectBuilder()
                     .add("action", "remove")
@@ -89,6 +88,7 @@ public class ejbHelp implements ejbHelpLocal {
         JsonObject addMessage = provider.createObjectBuilder()
                 .add("action", "add")
                 .add("count", helpCount)
+                .add("number", order.getCustomerTable().getNumber())
                 .build();
         return addMessage;
     }

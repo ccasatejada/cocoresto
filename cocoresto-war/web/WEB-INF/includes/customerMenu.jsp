@@ -84,9 +84,10 @@
     <div class="col-xs-12">
         <div id="addHelp">
             <form id="addHelpForm">
-                                <input type="hidden" id="customerTable" value="3">
-
-                <!--<input type="hidden" id="customerTable" value="${customerOrder.customerTable.number}">-->
+<!--
+                <input type="hidden" id="customerTable" value="3">
+-->
+                <input type="hidden" id="table" value="${table}">
                 <input type="button" class="button" value="Demander de l'aide" onclick=formSubmit()>
             </form>
         </div>
