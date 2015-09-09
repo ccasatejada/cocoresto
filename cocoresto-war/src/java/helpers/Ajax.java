@@ -69,12 +69,25 @@ public class Ajax extends HttpServlet {
                         case "Boisson ":
                             List<Drink> drinks = bdrink.findAllByCategory(cat.getId());
                             for (Drink drink : drinks) {
-
+                                out.println("<div class=\"col-sm-6 col-md-4\"><div class=\"thumbnail\">");
+                                out.println("<img src=\"images/products/" + drink.getImage() + "\" alt=\"" + drink.getName() + "\">");
+                                out.println("<div class=\"caption\">"
+                                        + "<h3>" + drink.getName() + "</h3>"
+                                        + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a data-task=\"show\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                        + "</div>");
+                                out.println("</div></div>");
                             }
                             break;
                         case "Menu":
                             List<Combo> combos = bcombo.findAllByCategory(cat.getId());
-
+                            for (Combo combo : combos) {
+                                out.println("<div class=\"col-sm-6 col-md-4\"><div class=\"thumbnail\">");
+                                out.println("<div class=\"caption\">"
+                                        + "<h3>" + combo.getName() + "</h3>"
+                                        + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a data-task=\"show\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                        + "</div>");
+                                out.println("</div></div>");
+                            }
                             break;
                         default:
                             List<Dish> dishes = bdish.findAllByCategory(cat.getId());
@@ -83,7 +96,7 @@ public class Ajax extends HttpServlet {
                                 out.println("<img src=\"images/products/" + dish.getImage() + "\" alt=\"" + dish.getName() + "\">");
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + dish.getName() + "</h3>"
-                                        + "<p><a href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                        + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a data-task=\"show\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
                             }
