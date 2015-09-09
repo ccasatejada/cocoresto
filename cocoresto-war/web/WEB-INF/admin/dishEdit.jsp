@@ -102,13 +102,13 @@
             </div>
             <div class="form-group">
                 <label for="imageDish" class="col-sm-2 control-label">Image :</label>
-                <input type="file" id="imageDish" name="imageDish" accept="image/jpeg" value="${dish.image}"/>
-                <c:if test="${empty dish.image}">
-                    <p>Vous n'avez pas d'image attachée à ce plat</p>
-                </c:if>
-                <c:if test="${not empty dish.image}">
-                    <input type="test" disabled name="attachedImage" value="${dish.image}" />
-                </c:if>
+                    <input type="file" id="imageDish" name="imageDish" accept="image/jpeg" />
+                    <c:if test="${empty dish.image}">
+                        <p>Vous n'avez pas d'image attachée à ce plat</p>
+                    </c:if>
+                    <c:if test="${not empty dish.image}">
+                        <input type="text" disabled name="attachedImage" value="${dish.image}" />
+                    </c:if>
             </div>
         </div>
         <div class="tile-footer dvd dvd-top">
