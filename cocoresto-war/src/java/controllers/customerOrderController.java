@@ -1,13 +1,17 @@
 package controllers;
 
 import ejb.ejbRestaurantLocal;
+import entities.Combo;
 import entities.CustomerOrder;
 import entities.CustomerTable;
+import entities.Dish;
+import entities.Drink;
 import entities.Employee;
 import entities.OrderStatus;
 import helpers.Alert;
 import helpers.Pagination;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,6 +39,7 @@ public class customerOrderController implements IController {
     private final String editUrl = "/WEB-INF/admin/customerOrderEdit.jsp";
     private final String listUrl = "/WEB-INF/admin/customerOrderList.jsp";
     private final String helpUrl = "/WEB-INF/order/customerOrderHelp.jsp";
+    private final String cookUrl = "/WEB-INF/dashboardCooker.jsp";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -192,29 +197,62 @@ public class customerOrderController implements IController {
 
                 return editWaiterUrl;
             }
-            
-            if("help".equals(request.getParameter("task"))){
+
+            if ("help".equals(request.getParameter("task"))) {
                 request.setAttribute("customerHelpOrders", boc.getNeedHelpOrders());
-                
+
                 return helpUrl;
             }
 
         } else if (logged && groupId == 2) {
-            
-            if("swap".equals(request.getParameter("task"))) {
-                
+
+            if ("swap".equals(request.getParameter("task"))) {
+
+                List<Dish> dishesOnPrep = new ArrayList();
+                List<Drink> drinksOnPrep = new ArrayList();
+                List<Combo> combosOnPrep = new ArrayList();
+
                 CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
                 co.setStatus(OrderStatus.PREPARED);
+                boc.update(co);
+                if (request.getParameter("dNb") != null) {
+                    for (Dish d : co.getDishes()) {
+                        if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))) {
+                            d.setStatus(2);
+                            dishesOnPrep.add(d);
+                            break;
+                        }
+                    }
+                } else if (request.getParameter("drNb") != null) {
+                    for (Drink dr : co.getDrinks()) {
+                        if (dr.getId().equals(Long.valueOf(request.getParameter("drNb")))) {
+                            dr.setStatus(2);
+                            drinksOnPrep.add(dr);
+                            break;
+                        }
+                    }
+                } else if (request.getParameter("dcNb") != null) {
+                    for (Combo c : co.getCombos()) {
+                        for (Dish d : c.getDishes()) {
+                            if (d.getId().equals(Long.valueOf(request.getParameter("dcNb")))) {
+                                d.setStatus(2);
+                                dishesOnPrep.add(d);
+                                break;
+                            }
+                        }
+                    }
+                }
                 
+                return cookUrl;
+
             }
-            
-            if("ready".equals(request.getParameter("task"))) {
-                
+
+            if ("ready".equals(request.getParameter("task"))) {
+
                 CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
                 co.setStatus(OrderStatus.FINISHED);
             }
-            
-        
+
         } else { // not logged or wrong groupId
             redirectToDashboard(request, response);
         }
@@ -244,7 +282,7 @@ public class customerOrderController implements IController {
             request.setAttribute("alert", Alert.setAlert("Attention", "Les champs * sont obligatoires", "warning"));
             return false;
         }
-        
+
         // get order
         CustomerOrder co;
         try {
@@ -253,10 +291,10 @@ public class customerOrderController implements IController {
             request.setAttribute("alert", Alert.setAlert("Attention", "Commande introuvable", "danger"));
             return false;
         }
-        
+
         co.setPeople(Integer.valueOf(request.getParameter("people")));
         co.setNbTablet(Integer.valueOf(request.getParameter("nbTablet")));
-        
+
         boc.update(co);
 
         return true;
