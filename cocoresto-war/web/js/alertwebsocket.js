@@ -12,16 +12,37 @@ function GetURLParameter(sParam) {
         }
     }
 };
-// example of usage
+// example of usage for : "http://dummy.com/?technology=jquery&blog=jquerybyexample". 
 // var tech = GetURLParameter('technology');
 // var blog = GetURLParameter('blog');
 
 function onMessage(event) {
-
+    var alert = JSON.parse(event.data);
+    
 }
 
-function sendToWaiter() {
+// document.querySelectorAll('#ordersToDo .btn.status').addEventListener('click', function(e) {
+//  var product = e.target;
+//  var order = product.dataset.order;
+// 
+// });
+// 
+// product.dataset.dish
+// product.dataset.drink
+// product.dataset.combo
 
+// var product = document.querySelectorAll('#ordersInProcess .btn.status').addEventListener('click', mafonction);
+// product.dataset.order
+// product.dataset.dish
+// product.dataset.drink
+// product.dataset.combo
+
+function sendToWaiter() {
+    var AlertAction = {
+        action: "add",
+        id : order,
+        
+    }
 }
 
 function sendToCustomer() {
@@ -29,7 +50,7 @@ function sendToCustomer() {
 }
 
 function printAlertElement(alert) {
-
+    
 }
 
 
