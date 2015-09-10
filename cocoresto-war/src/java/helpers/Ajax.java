@@ -7,8 +7,10 @@ import entities.CustomerTable;
 import entities.Dish;
 import entities.Drink;
 import entities.Employee;
+import entities.Price;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -69,12 +71,15 @@ public class Ajax extends HttpServlet {
                         case "Boisson":
                             List<Drink> drinks = bdrink.findAllByCategory(cat.getId());
                             for (Drink drink : drinks) {
+                                ArrayList<Double> prices = drink.getTotalPrices();
                                 out.println("<div class=\"col-sm-6 col-md-4\"><div class=\"thumbnail\">");
                                 out.println("<img src=\"images/products/" + drink.getImage() + "\" alt=\"" + drink.getName() + "\">");
                                 out.println("<div class=\"caption\">"
-                                        + "<h3>" + drink.getName() + "</h3>"
-                                        + "<h4>" + drink.getTotalPrice() + " €</h4>"
-                                        + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a data-task=\"show\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                        + "<h3>" + drink.getName() + "</h3>");
+                                for (Double price : prices) {
+                                    out.println("<h4>" + price + " €</h4>");
+                                }
+                                out.println("<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a data-task=\"show\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
                             }
@@ -85,7 +90,6 @@ public class Ajax extends HttpServlet {
                                 out.println("<div class=\"col-sm-6 col-md-4\"><div class=\"thumbnail\">");
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + combo.getName() + "</h3>"
-                                        + "<span class=\"label label-primary\">" + combo.getTotalPrice() + " €</span>"
                                         + "<h4>" + combo.getTotalPrice() + " €</h4>"
                                         + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a data-task=\"show\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
@@ -100,7 +104,6 @@ public class Ajax extends HttpServlet {
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + dish.getName() + "</h3>"
                                         + "<h4>" + dish.getTotalPrice() + " €</h4>"
-                                        + "<div class=\"label label-greensea\">" + dish.getTotalPrice() + " €</div>"
                                         + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a data-task=\"show\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
