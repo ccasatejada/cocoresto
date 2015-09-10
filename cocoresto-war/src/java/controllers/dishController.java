@@ -220,12 +220,10 @@ public class dishController implements IController {
 
                     // set image
                     if (request.getParameter("imageDish") != null) {
-                        System.out.println("imagedish " +request.getParameter("imageDish"));
                         d.setImage(request.getParameter("imageDish"));
                     } 
                     else {
-                        System.out.println("attach image " + request.getParameter("attachedImage"));
-                        System.out.println("d get image " + bd.findById(d.getId()).getImage());
+
                         d.setImage(bd.findById(d.getId()).getImage());
                     }
 
