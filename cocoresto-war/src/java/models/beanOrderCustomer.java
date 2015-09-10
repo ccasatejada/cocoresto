@@ -91,8 +91,6 @@ public class beanOrderCustomer implements Serializable {
         ArrayList<CustomerOrder> aco = new ArrayList();
         for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
             CustomerOrder order = entry.getValue();
-            System.out.println(order.getCustomerTable().getNumber());
-            System.out.println(order.isNeedHelp());
             if (order.isNeedHelp() == true) {
                 aco.add(order);
             }
@@ -104,8 +102,6 @@ public class beanOrderCustomer implements Serializable {
         int i = 0;
         for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
             CustomerOrder order = entry.getValue();
-            System.out.println(order.getCustomerTable().getNumber());
-            System.out.println(order.isNeedHelp());
             if (order.isNeedHelp() == true) {
                 i++;
             }

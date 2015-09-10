@@ -53,7 +53,7 @@ public class dashboardController implements IController {
 
             Pagination pagination = new Pagination("option=dashboard", request.getParameter("page"), 10, boc.count());
             request.setAttribute("pagination", pagination.getPagination());
-
+            request.setAttribute("nbHelp", boc.getNbHelp());
             List<CustomerOrder> customerOrders = boc.findAllByRangeByEmployee(pagination.getMin(), 10, employee.getId());
             request.setAttribute("customerOrders", customerOrders);
             

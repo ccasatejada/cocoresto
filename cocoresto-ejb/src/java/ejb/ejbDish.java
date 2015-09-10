@@ -54,7 +54,7 @@ public class ejbDish implements ejbDishLocal {
 
     @Override
     public List<Dish> findAllByCategory(Long id) {
-        Query q = em.createQuery("SELECT d FROM Dish d WHERE d.active = 1 AND d.category.id = " + id +" AND d.inventory > 0");
+        Query q = em.createQuery("SELECT d FROM Dish d WHERE d.active = 1 AND d.category.id = " + id + " AND d.inventory > 0");
         return q.getResultList();
     }
 
