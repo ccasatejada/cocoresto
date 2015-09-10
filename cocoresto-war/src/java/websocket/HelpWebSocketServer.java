@@ -1,14 +1,12 @@
 package websocket;
 
 import ejb.ejbHelpLocal;
-import ejb.ejbRestaurant;
 import ejb.ejbRestaurantLocal;
 import entities.CustomerOrder;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -17,8 +15,6 @@ import javax.json.JsonReader;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -39,15 +35,11 @@ public class HelpWebSocketServer implements Serializable {
     
 
     public HelpWebSocketServer() {
-//        ejbHelp = lookupejbHelpLocal();
-//        ejbRestaurant = lookupejbRestaurantLocal();
     }
 
     @OnOpen
-    public void open(Session session, EndpointConfig config) {
-        ejbHelp.addSession(session);
-        
-
+    public void open(Session session) {
+        ejbHelp.addSession(session);        
     }
 
     @OnClose
