@@ -18,7 +18,7 @@ public class Dish implements Serializable {
     private Double weight;
     private String name;
     private boolean active;
-    private Integer inventory;
+    private Integer inventory;    
     private String description;
     private String country;
     @Transient
