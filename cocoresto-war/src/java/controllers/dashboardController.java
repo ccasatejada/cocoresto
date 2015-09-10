@@ -1,9 +1,13 @@
 package controllers;
 
+import entities.Combo;
 import entities.CustomerOrder;
+import entities.Dish;
+import entities.Drink;
 import entities.Employee;
 import entities.OrderStatus;
 import helpers.Pagination;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -62,6 +66,30 @@ public class dashboardController implements IController {
 //            List<CustomerOrder> customerOrders = boc.findAllByRange(pagination.getMin(), 10);
             
             List<CustomerOrder> coToDo = boc.findOrdersByStatus(OrderStatus.VALIDATE);
+            List<Dish> dishesToDo = new ArrayList();
+            List<Drink> drinksToDo = new ArrayList();
+            List<Combo> combosToDo = new ArrayList();
+            
+            for(CustomerOrder co : coToDo) {
+                for(Drink dr : co.getDrinks()){
+                    dr.setStatus(1);
+                    drinksToDo.add(dr);
+                }
+                for(Dish d : co.getDishes()) {
+                    d.setStatus(1);
+                    dishesToDo.add(d);
+                }
+                for(Combo c : co.getCombos()) {
+                    for(Dish di : c.getDishes()) {
+                        di.setStatus(1);
+                    }
+                    combosToDo.add(c);
+                }
+                co.setDrinks(drinksToDo);
+                co.setDishes(dishesToDo);
+                co.setCombos(combosToDo);
+            }
+            
             request.setAttribute("coToDo", coToDo);
             
             List<CustomerOrder> coOnPrep = boc.findOrdersByStatus(OrderStatus.PREPARED);
