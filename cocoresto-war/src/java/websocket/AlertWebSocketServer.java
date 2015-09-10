@@ -2,9 +2,13 @@
 package websocket;
 
 import ejb.ejbCustomerOrderLocal;
+import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -23,12 +27,12 @@ public class AlertWebSocketServer {
 
     @OnOpen
     public void open(Session session){
-        
+        ejbCustomerOrder.addSession(session);
     }
     
     @OnClose
     public void close(Session session){
-        
+        ejbCustomerOrder.removeSession(session);
     }
     
     @OnError
@@ -37,8 +41,16 @@ public class AlertWebSocketServer {
     }
     
     @OnMessage
-    public String onMessage(String message) {
-        return null;
+    public void handleMessage(String message, Session session) {
+        try(JsonReader reader = Json.createReader(new StringReader(message))) {
+            JsonObject jsonMessage = reader.readObject();
+            if("sendToWaiter".equals(jsonMessage.getString("action"))){
+                
+            }
+            if("sendToCustomer".equals(jsonMessage.getString("action"))){
+                
+            }
+        }
     }
     
 }

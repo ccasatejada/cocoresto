@@ -94,15 +94,15 @@
         /************************************************************************************/
         /*************************************** Menu ***************************************/
         /************************************************************************************/
-        
+
         $('#customerMenu a').on('click', function (event) {
             event.preventDefault();
-            
-            $('#customerMenu a').each(function(i) {
+
+            $('#customerMenu a').each(function (i) {
                 $(this).removeClass('active');
             });
             $(this).addClass('active');
-            
+
             var query = $(this).data('query');
 
             $.ajax({
@@ -116,54 +116,15 @@
                 }
             });
         });
-        
-        
-        $('#customerMenu #dishes').trigger('click');
-        
-//
-//        
-//
-//        $('.drinkDetail').on('click', function (event) {
-//            event.preventDefault();
-//            $.ajax({
-//                url: $(this).attr('href'),
-//                type: 'POST',
-//                data: $('#drinkDetails').html(),
-//                dataType: 'html',
-//                success: function (data) {
-//                    $('#menuContent').empty();
-//                    $('#menuContent').html(data);
-//                }
-//            });
-//        });
-//
-//        $('.dishDetail').on('click', function (event) {
-//            event.preventDefault();
-//            $.ajax({
-//                url: $(this).attr('href'),
-//                type: 'POST',
-//                data: $('#dishDetails').html(),
-//                dataType: 'html',
-//                success: function (data) {
-//                    $('#menuContent').empty();
-//                    $('#menuContent').html(data);
-//                }
-//            });
-//        });
-//
-//        $('.comboDetail').on('click', function (event) {
-//            event.preventDefault();
-//            $.ajax({
-//                url: $(this).attr('href'),
-//                type: 'POST',
-//                data: $('#comboDetails').html(),
-//                dataType: 'html',
-//                success: function (data) {
-//                    $('#menuContent').empty();
-//                    $('#menuContent').html(data);
-//                }
-//            });
-//        });
+
+        $('#customerMenu [data-query="dishes"]').trigger('click');
+
+        $('#menuContent').on('click', '[data-task="show"]', function (event) {
+            event.preventDefault();
+            var link = $(this).data('link');
+            $('#detailModal iframe').attr('src', link);
+        });
+
 
 
     });
@@ -176,7 +137,7 @@
     var formats = $("#drinkFormats input[type=checkbox]");
 //    var drinkPrices = document.querySelectorAll("#drinkFormats div input[type=hidden]");
     var drinkPrices = $("#drinkFormats input[type=hidden]");
-    
+
     var checkIndex = 0;
     for (var i = 0; i < formats.length; i++) {
 

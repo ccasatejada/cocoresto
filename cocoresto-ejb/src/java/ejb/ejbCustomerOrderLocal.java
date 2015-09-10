@@ -5,6 +5,7 @@ import entities.Employee;
 import entities.OrderStatus;
 import java.util.List;
 import javax.ejb.Local;
+import javax.websocket.Session;
 
 @Local
 public interface ejbCustomerOrderLocal {
@@ -28,5 +29,11 @@ public interface ejbCustomerOrderLocal {
     public List<CustomerOrder> findCurrentOrders();
     
     public List<CustomerOrder> findOrdersByStatus(OrderStatus status1, OrderStatus status2);
+    public List<CustomerOrder> findOrdersByStatus(OrderStatus status);
+    
+    public void addSession(Session session);
+    public void removeSession(Session session);
+    public void sendToWaiter();
+    public void sendToCustomer();
 
 }
