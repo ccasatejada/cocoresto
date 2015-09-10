@@ -14,98 +14,98 @@ import javax.persistence.Query;
 
 @Stateless
 public class ejbDrink implements ejbDrinkLocal {
-    
+
     @PersistenceContext(unitName = "cocoresto-ejbPU")
     private EntityManager em;
 
     @Override
     public ArrayList<Format> findFormats() {
         ArrayList<Format> formats = new ArrayList();
-        
+
         String query = "SELECT fo FROM Format fo ORDER BY fo.name ASC";
         Query qr = em.createQuery(query);
-        
+
         List<Format> foList = qr.getResultList();
-        for(Format form : foList) {
+        for (Format form : foList) {
             formats.add(form);
         }
         return formats;
     }
-    
+
     @Override
     public ArrayList<Price> findPrices() {
         ArrayList<Price> prices = new ArrayList();
-        
+
         String query = "SELECT pr FROM Price pr ORDER BY pr.price ASC";
         Query qr = em.createQuery(query);
-        
+
         List<Price> prList = qr.getResultList();
-        for(Price pr : prList) {
+        for (Price pr : prList) {
             prices.add(pr);
         }
         return prices;
     }
-    
+
     @Override
     public ArrayList<Category> findCategories() {
         ArrayList<Category> categories = new ArrayList();
-        
+
         String query = "SELECT ca FROM Category ca";
         Query qr = em.createQuery(query);
-        
+
         List<Category> caList = qr.getResultList();
-        for(Category cat : caList) {
-            if("Boisson".equals(cat.getType())) {
+        for (Category cat : caList) {
+            if ("Boisson".equals(cat.getType())) {
                 categories.add(cat);
             }
         }
         return categories;
     }
-    
+
     @Override
     public void create(Drink drink) {
         em.persist(drink);
     }
-    
+
     @Override
     public void delete(Drink drink) {
         em.merge(drink);
     }
-    
+
     @Override
     public void update(Drink drink) {
         em.merge(drink);
     }
-    
+
     @Override
     public Drink findById(Long id) {
         Drink drink = em.find(Drink.class, id);
-        
-        if(drink.getDiscount() != null && (new Date()).after(drink.getDiscount().getEndDate())){
+
+        if (drink.getDiscount() != null && (new Date()).after(drink.getDiscount().getEndDate())) {
             drink.setDiscount(null);
             em.merge(drink);
         }
-        
+
         return drink;
     }
-    
+
     @Override
-    public ArrayList<Drink> findAll(){
+    public ArrayList<Drink> findAll() {
         ArrayList<Drink> drinks = new ArrayList();
-        
+
         String query = "SELECT d FROM Drink d"
                 + " WHERE d.active = :activeDrink";
         Query qr = em.createQuery(query);
         qr.setParameter("activeDrink", true);
-        
+
         List<Drink> dList = qr.getResultList();
-        for(Drink dr : dList) {
+        for (Drink dr : dList) {
             drinks.add(dr);
         }
-        
+
         return drinks;
     }
-    
+
     @Override
     public List<Drink> findAllByRange(int firstResult, int maxResults) {
         Query q = em.createQuery("select d from Drink d where d.active = 1 order by d.name asc");
@@ -117,12 +117,12 @@ public class ejbDrink implements ejbDrinkLocal {
         }
         return q.getResultList();
     }
-    
+
     @Override
     public int count() {
         return ((Long) em.createQuery("select COUNT(d) from Drink d WHERE d.active=1").getSingleResult()).intValue();
     }
-    
+
     @Override
     public void persist(Object object) {
         em.persist(object);
@@ -130,7 +130,7 @@ public class ejbDrink implements ejbDrinkLocal {
 
     @Override
     public List<Drink> findAllByCategory(Long id) {
-        Query q = em.createQuery("SELECT d FROM Drink d WHERE d.active = 1 AND d.category.id = " + id +" AND d.inventory > 0");
+        Query q = em.createQuery("SELECT d FROM Drink d WHERE d.active = 1 AND d.category.id = " + id + " AND d.inventory > 0");
         return q.getResultList();
     }
 
