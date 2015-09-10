@@ -13,8 +13,5 @@ public interface ejbHelpLocal {
     public void removeSession(Session session);
     public void addHelp(CustomerOrder order);
     public void removeHelp(CustomerOrder order);
-    
-//    private JsonObject createAddMessage(CustomerOrder order);
-//    private void sendToAllConnectedSessions(JsonObject message);
-//    private void sendToSession(Session session, JsonObject message);
+
 }
