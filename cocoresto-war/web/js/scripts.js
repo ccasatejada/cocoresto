@@ -121,9 +121,8 @@
 
         $('#menuContent').on('click', '[data-task="show"]', function (event) {
             event.preventDefault();
-
-        
-        
+            var link = $(this).data('link');
+            $('#detailModal iframe').attr('src', link);
         });
 
 

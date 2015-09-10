@@ -17584,7 +17584,7 @@ hr.line-full {
 
 
 // cocoriteam 
-.modal-body iframe{
+iframe{
     background: #fff;
     border: none;
 }
@@ -17660,4 +17660,8 @@ hr.line-full {
 #cartContent {
     position: fixed;
     right: 15px;
+}
+
+.w100 {
+    width:100%;
 }
