@@ -2,17 +2,27 @@ package ejb;
 
 import entities.CustomerOrder;
 import entities.OrderStatus;
+import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.json.JsonObject;
+import javax.json.spi.JsonProvider;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.websocket.Session;
 
 @Stateless
 public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @PersistenceContext(unitName = "cocoresto-ejbPU")
     private EntityManager em;
+    
+    private final Set sessions = new HashSet<>();
 
     @Override
     public void create(CustomerOrder customerOrder) {
@@ -88,4 +98,46 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
         return q.getResultList();
     }
 
+    @Override
+    public void addSession(Session session) {
+    }
+
+    @Override
+    public void removeSession(Session session) {
+    }
+
+    @Override
+    public void sendToWaiter() {
+    }
+
+    @Override
+    public void sendToCustomer() {
+    }
+    
+    private JsonObject createAddMessage(CustomerOrder order){
+        JsonProvider provider = JsonProvider.provider();
+        JsonObject addMessage = provider.createObjectBuilder()
+                .add("","")
+                .add("","")
+                .add("", "")
+                .add("","")
+                .build();
+        
+        return addMessage;
+    }
+
+    private void sendToAllConnectedSessions(JsonObject message) {
+        for(Session session : (HashSet<Session>) sessions){
+            sendToSession(session, message);
+        }
+    }
+    
+    private void sendToSession(Session session, JsonObject message){
+        try{
+            session.getBasicRemote().sendText(message.toString());
+        } catch(IOException ex){
+            sessions.remove(session);
+            Logger.getLogger(ejbCustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
