@@ -66,7 +66,7 @@ public class Ajax extends HttpServlet {
                             + "<div class=\"row\">\n");
 
                     switch (type) {
-                        case "Boisson ":
+                        case "Boisson":
                             List<Drink> drinks = bdrink.findAllByCategory(cat.getId());
                             for (Drink drink : drinks) {
                                 out.println("<div class=\"col-sm-6 col-md-4\"><div class=\"thumbnail\">");

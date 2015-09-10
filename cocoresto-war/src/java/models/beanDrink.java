@@ -1,4 +1,3 @@
-
 package models;
 
 import ejb.ejbDrinkLocal;
@@ -19,9 +18,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 public class beanDrink implements Serializable {
-    
+
     ejbDrinkLocal ejbDrink = lookupejbDrinkLocal();
-    
+
     Drink drink;
     Format format;
     Category category;
@@ -67,8 +66,6 @@ public class beanDrink implements Serializable {
         this.discount = discount;
     }
 
-    
-    
     public ArrayList<Format> getFormats() {
         return formats;
     }
@@ -85,9 +82,6 @@ public class beanDrink implements Serializable {
         this.format = format;
     }
 
-    
-    
-    
     public Drink getDrink() {
         return drink;
     }
@@ -95,15 +89,14 @@ public class beanDrink implements Serializable {
     public void setDrink(Drink drink) {
         this.drink = drink;
     }
-    
-    public int count() throws EJBException{
-        if(ejbDrink.count() != 0) {
-        return ejbDrink.count();
+
+    public int count() throws EJBException {
+        if (ejbDrink.count() != 0) {
+            return ejbDrink.count();
         }
-        return 0;  
-        
+        return 0;
     }
-    
+
     public void create(Drink drink) throws EJBException {
         ejbDrink.create(drink);
     }
@@ -123,11 +116,11 @@ public class beanDrink implements Serializable {
     public ArrayList<Drink> findAll() throws EJBException {
         return ejbDrink.findAll();
     }
-    
+
     public List<Drink> findAllByCategory(Long id) {
         return ejbDrink.findAllByCategory(id);
     }
-    
+
     public List<Drink> findAllByRange(int firstResult, int maxResults) {
         return ejbDrink.findAllByRange(firstResult, maxResults);
     }
@@ -135,7 +128,7 @@ public class beanDrink implements Serializable {
     public ArrayList<Format> findFormats() throws EJBException {
         return ejbDrink.findFormats();
     }
-    
+
     public ArrayList<Category> findCategories() throws EJBException {
         return ejbDrink.findCategories();
     }
@@ -150,5 +143,4 @@ public class beanDrink implements Serializable {
         }
     }
 
-    
 }
