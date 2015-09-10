@@ -4,7 +4,7 @@
     </div>
 
     <div class="tile-body p-0">
-        <table class="table table-striped">
+        <table id="cart" class="table table-striped">
             <thead>
                 <tr class="bg-slategray">
                     <th>Nom</th>
@@ -12,14 +12,13 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tfoot>
                 <tr>
-                    <td>Tartiflette</td>
-                    <td>0</td>
-                    <td>
-                        <a href="#" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="deleteIt"><i class="fa fa-minus-circle"></i></a>
-                    </td>
-                </tr>                   
+                    <th class="bg-default">Total</th>
+                    <td colspan="2">0 &euro;</td>
+                </tr>
+            </tfoot>
+            <tbody>
             </tbody>
         </table>
     </div>

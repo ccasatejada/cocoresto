@@ -125,7 +125,25 @@
             $('#detailModal iframe').attr('src', link);
         });
 
+        /************************************************************************************/
+        /*************************************** Cart ***************************************/
+        /************************************************************************************/
 
+        $('#menuContent').on('click', '[data-task="add"]', function (event) { // add item to cart
+            var id = $(this).data('id');
+            var type = $(this).data('type');
+
+            $.ajax({
+                url: 'Ajax',
+                type: 'POST',
+                data: 'task=cart&action=add&type=' + type + '&id=' + id,
+                dataType: 'html',
+                success: function (html) {
+                    $(html).appendTo("#cart tbody");
+                }
+            });
+
+        });
 
     });
 })(jQuery);
