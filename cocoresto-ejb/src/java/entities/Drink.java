@@ -46,21 +46,21 @@ public class Drink implements Serializable {
     public Drink() {
     }
 
-    public Double getTotalPrice() {
-        Double priceTax = 0d;
-        Double totalPrice = 0d;
-        if (discount != null) {
-            Double priceDiscount = price.getPrice() * (discount.getRate() / 100);
-            totalPrice = price.getPrice() - priceDiscount;
-            priceTax = totalPrice * (tax.getRate() / 100);
-            totalPrice += priceTax;
-        } else {
-            priceTax = price.getPrice() * (tax.getRate() / 100);
-            totalPrice = price.getPrice() + priceTax;
-        }
-
-        return round(totalPrice, 1);
-    }
+//    public Double getTotalPrice() {
+//        Double priceTax = 0d;
+//        Double totalPrice = 0d;
+//        if (discount != null) {
+//            Double priceDiscount = price.getPrice() * (discount.getRate() / 100);
+//            totalPrice = price.getPrice() - priceDiscount;
+//            priceTax = totalPrice * (tax.getRate() / 100);
+//            totalPrice += priceTax;
+//        } else {
+//            priceTax = price.getPrice() * (tax.getRate() / 100);
+//            totalPrice = price.getPrice() + priceTax;
+//        }
+//
+//        return round(totalPrice, 1);
+//    }
 
     public ArrayList<Double> getTotalPrices() {
         Double priceTax = 0d;
