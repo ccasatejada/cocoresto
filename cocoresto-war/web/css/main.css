@@ -17584,7 +17584,7 @@ hr.line-full {
 
 
 // cocoriteam 
-.modal-body iframe{
+iframe{
     background: #fff;
     border: none;
 }
@@ -17661,3 +17661,4 @@ hr.line-full {
     position: fixed;
     right: 15px;
 }
+

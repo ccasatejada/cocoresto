@@ -3,6 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div id="drinkDetails" class="container-fluid">
+    ${alert}
     <div class="row">
         <div class="col-xs-6">
             <img src="images/drinks/${drink.image}" alt="image:${drink.name}" height="220" width="220" class="img-rounded">

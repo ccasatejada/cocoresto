@@ -3,6 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div id="comboDetails" class="container-fluid">
+    ${alert}
     <div class="row">
         <h1>${combo.name}</h1>
         <form>

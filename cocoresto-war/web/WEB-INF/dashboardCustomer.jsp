@@ -24,10 +24,10 @@
                     <h4 class="modal-title" id="detailModalLabel">Détail</h4>
                 </div>
                 <div class="modal-body">
-
+                    <iframe width="868" height="400" src="" style="border:none;"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                 </div>
             </div>
         </div>

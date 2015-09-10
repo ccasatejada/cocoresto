@@ -80,7 +80,7 @@ public class Ajax extends HttpServlet {
                                     out.println("<h4>" + price + " €</h4>");
                                 }
                                 out.println("<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
-                                        + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                        + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" data-link=\"FrontController?option=menu&task=detail&id=" + drink.getId() + "&type=" + type + "&layout=component\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
                             }
@@ -93,7 +93,7 @@ public class Ajax extends HttpServlet {
                                         + "<h3>" + combo.getName() + "</h3>"
                                         + "<h4>" + combo.getTotalPrice() + " €</h4>"
                                         + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
-                                        + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                        + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" data-link=\"FrontController?option=menu&task=detail&id=" + combo.getId() + "&type=" + type + "&layout=component\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
                             }
@@ -107,7 +107,7 @@ public class Ajax extends HttpServlet {
                                         + "<h3>" + dish.getName() + "</h3>"
                                         + "<h4>" + dish.getTotalPrice() + " €</h4>"
                                         + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
-                                        + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                        + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" data-link=\"FrontController?option=menu&task=detail&id=" + dish.getId() + "&type=" + type + "&layout=component\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
                             }
