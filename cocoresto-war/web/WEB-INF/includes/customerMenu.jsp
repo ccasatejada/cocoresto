@@ -13,10 +13,3 @@
         </div>
     </div>
 </div>
-
-<div id="addHelp">
-    <form id="addHelpForm">
-        <input type="hidden" id="table" value="${table}">
-        <input type="button" class="button" value="Demander de l'aide" onclick=formSubmit()>
-    </form>
-</div>
