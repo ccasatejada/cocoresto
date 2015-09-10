@@ -1,44 +1,34 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<div id="drinkDetails" class="container-fluid">
+<div class="container-fluid">
     ${alert}
     <div class="row">
-        <div class="col-xs-6">
-            <img src="images/drinks/${drink.image}" alt="image:${drink.name}" height="220" width="220" class="img-rounded">
+        <div class="hidden-xs col-sm-4">
+            <img src="images/products/${drink.image}" alt="${drink.name}" class="img-thumbnail w100" />
         </div>
-
-        <div class="col-xs-6">
-            <form>
-                <div class="group-format">
-                    <h1 class="text-elg text-strong mb-0 mt-20">${drink.name}</h1>
-                </div>
-                <div class="group-format">
-                    <p>${drink.description}</p>
-                </div>
-                <div class="group-format">
+        <div class="col-xs-12 col-sm-8">
+            <h1 class="text-greensea">${drink.name}<small>&nbsp;(${drink.category})</small></h1>
+            <c:if test="${not empty drink.description}">
+                <p class="lead">${drink.description}</p>
+            </c:if>
+                
+            <c:if test="${not empty drink.formats}">
+                <hr />
+                <ol>
                     <c:forEach var="format" items="${drink.formats}" varStatus="loop">
-                        <input type="radio" name="format" value="${format}">&nbsp;${format}
+                        <li>${format}</li>
                     </c:forEach>
-                </div>
-                <div class="group-format">
-                    <p class="text-lg text-strong mb-0 mt-20">
-                    <c:forEach var="price" items="${drink.prices}" varStatus="loop">
-                        
-                        <span>${price.price} €</span> /
-                    </c:forEach>
-                        </p>
-                </div>
-                <div class="group-format">
-                    <p>${drink.discount}</p>
-                </div>
-                <div class="group-format">
-                    <input type="submit" id="add-entry" name="addDrink" class="btn btn-blue btn-ef btn-ef-5 btn-ef-5a btn-lg" value="Ajouter">
-                </div>
-            </form>
+                </ol>
+            </c:if>
+
+            <hr />
+            <h2 class="text-info">
+                <c:forEach var="price" items="${drink.prices}" varStatus="loop">
+                    ${price} € <c:if test="${not empty drink.discount}"><span class="label label-success">Promo : - ${drink.discount}%</span></c:if>&nbsp;/
+                </c:forEach>
+            </h2>
         </div>
 
     </div>
 </div>
-

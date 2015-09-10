@@ -24,7 +24,7 @@
                     <h4 class="modal-title" id="detailModalLabel">Détail</h4>
                 </div>
                 <div class="modal-body">
-                    <iframe width="868" height="400" src="" style="border:none;"></iframe>
+                    <iframe height="400" src="" style="border:none;width:100%;"></iframe>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>

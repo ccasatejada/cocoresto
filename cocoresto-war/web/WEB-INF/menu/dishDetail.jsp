@@ -2,45 +2,40 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<div id="dishDetails" class="container-fluid">
+<div class="container-fluid">
     ${alert}
     <div class="row">
-        <div class="col-xs-6">
-            <img src="images/dishes/${dish.image}" alt="image:${dish.name}" height="220" width="220" class="img-rounded">
+        <div class="hidden-xs col-sm-4">
+            <img src="images/products/${dish.image}" alt="${dish.name}" class="img-thumbnail w100" />
         </div>
+        <div class="col-xs-12 col-sm-8">
+            <h1 class="text-greensea">${dish.name}<small>&nbsp;(${dish.category})</small></h1>
+            <c:if test="${not empty dish.country}">
+                <p class="h4 darkgray">Origine : ${dish.country}</p>
+            </c:if>
+            <c:if test="${not empty dish.description}">
+                <p class="lead">${dish.description}</p>
+            </c:if>
+            <c:if test="${dish.weight > 0}">
+                <hr />
+                <ul>
+                    <li>Poids : ${dish.weight} g</li>
+                </ul>
+            </c:if>
 
-        <div class="col-xs-6">
-            <form>
-                <div class="group-format">
-                    <h1>${dish.category}</h1>
-                </div>
-                <div class="group-format">
-                    <h1>${dish.name}</h1>
-                </div>
-                <div class="group-format">
-                    <p>${dish.description}</p>
-                </div>
-                <div class="group-format">
-                    <p>${dish.country}</p>
-                </div>
-                <div class="group-format">
-                    <p>${dish.weight} g</p>
-                </div>
-                <div class="group-format">
+                <hr />
+                <ol>
                     <c:forEach var="nutritiveValue" items="${dish.nutritiveValues}" varStatus="loop">
-                        <c:if test="${nutritiveValue.quantity > 0}"><p>${nutritiveValue.name} : ${nutritiveValue.quantity} ${nutritiveValue.unit.name}</p></c:if>
+                        <c:if test="${nutritiveValue.quantity > 0}">
+                        <li>${nutritiveValue.name} : ${nutritiveValue.quantity} ${nutritiveValue.unit.name}</li>
+                        </c:if>
                     </c:forEach>
-                </div>
-                <div class="group-format">
-                    <p>${dish.totalPrice} €</p>
-                </div>
-                <div class="group-format">
-                    <p>${dish.discount}</p>
-                </div>
-                <div class="group-format">
-                    <input type="submit" id="add-entry" name="addDish" class="btn btn-cyan btn-rounded btn-ef btn-ef-5 btn-ef-5a btn-lg" value="Ajouter">
-                </div>
-            </form>
+                </ol>
+
+                
+            <hr />
+            <h2 class="text-info">${dish.totalPrice} € <c:if test="${not empty dish.discount}"><span class="label label-success">Promo : ${dish.discount}</span></c:if></h2>
+
         </div>
 
     </div>
