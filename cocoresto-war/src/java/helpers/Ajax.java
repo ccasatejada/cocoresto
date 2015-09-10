@@ -7,7 +7,6 @@ import entities.CustomerTable;
 import entities.Dish;
 import entities.Drink;
 import entities.Employee;
-import entities.Price;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -34,6 +33,53 @@ public class Ajax extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+
+            if ("cart".equals(request.getParameter("task"))) {
+
+                if ("add".equals(request.getParameter("action"))) {
+
+                    beanDish bdish = new beanDish();
+                    beanDrink bdrink = new beanDrink();
+                    beanCombo bcombo = new beanCombo();
+
+                    Long id = Long.valueOf(request.getParameter("id"));
+                    String type = request.getParameter("type");
+
+                    switch (type) {
+                        case "Boisson":
+                            Drink dr = bdrink.findById(id);
+//                            out.println("<tr>\n"
+//                                    + "<td>"+dr.getName()+"</td>\n"
+//                                    + "<td>"+dr.getTotalPrice()+"</td>\n"
+//                                    + "<td>\n"
+//                                    + "<a href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+//                                    + "</td>\n"
+//                                    + "</tr>");
+                            break;
+                        case "Menu":
+                            Combo c = bcombo.findById(id);
+                            out.println("<tr>\n"
+                                    + "<td>"+c.getName()+"</td>\n"
+                                    + "<td>"+c.getTotalPrice()+"</td>\n"
+                                    + "<td>\n"
+                                    + "<a href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "</td>\n"
+                                    + "</tr>");
+                            break;
+                        default:
+                            Dish d = bdish.findById(id);
+                            out.println("<tr>\n"
+                                    + "<td>"+d.getName()+"</td>\n"
+                                    + "<td>"+d.getTotalPrice()+"</td>\n"
+                                    + "<td>\n"
+                                    + "<a href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "</td>\n"
+                                    + "</tr>");
+                    }
+
+                }
+
+            }
 
             if ("menu".equals(request.getParameter("task"))) {
 
@@ -92,7 +138,7 @@ public class Ajax extends HttpServlet {
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + combo.getName() + "</h3>"
                                         + "<h4>" + combo.getTotalPrice() + " €</h4>"
-                                        + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
+                                        + "<p><a data-task=\"add\" data-id=\"" + combo.getId() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
                                         + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" data-link=\"FrontController?option=menu&task=detail&id=" + combo.getId() + "&type=" + type + "&layout=component\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
@@ -106,7 +152,7 @@ public class Ajax extends HttpServlet {
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + dish.getName() + "</h3>"
                                         + "<h4>" + dish.getTotalPrice() + " €</h4>"
-                                        + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
+                                        + "<p><a data-task=\"add\" data-id=\"" + dish.getId() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
                                         + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" data-link=\"FrontController?option=menu&task=detail&id=" + dish.getId() + "&type=" + type + "&layout=component\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
