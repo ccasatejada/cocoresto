@@ -29,7 +29,6 @@ public interface ejbCustomerOrderLocal {
     public List<CustomerOrder> findCurrentOrders();
     
     public List<CustomerOrder> findOrdersByStatus(OrderStatus status1, OrderStatus status2);
-    public List<CustomerOrder> findOrdersByStatus(OrderStatus status);
     
     public void addSession(Session session);
     public void removeSession(Session session);
