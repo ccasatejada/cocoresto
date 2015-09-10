@@ -107,7 +107,7 @@
                         <p>Vous n'avez pas d'image attachée à ce plat</p>
                     </c:if>
                     <c:if test="${not empty dish.image}">
-                        <input type="text" disabled name="attachedImage" value="${dish.image}" />
+                        <input type="text" disabled id="attachedImage" name="attachedImage" value="${dish.image}" />
                     </c:if>
             </div>
         </div>

@@ -37,17 +37,16 @@ public class dashboardController implements IController {
 
         Long groupId = (Long) session.getAttribute("group");
         Employee employee = null;
-        if(groupId > 0) {
+        if (groupId > 0) {
             employee = (Employee) session.getAttribute("loggedEmployee");
             request.setAttribute("name", employee.getFirstName() + " " + employee.getLastName());
         }
-        
-        if(groupId == 0) { // return customer dashboard
-            
+
+        if (groupId == 0) { // return customer dashboard
+
 //            if(request.getParameter("task") == null || "dish".equals(request.getParameter("task"))) {
 //                
 //            }
-
             return "/WEB-INF/dashboardCustomer.jsp";
         } else if (groupId == 1) { // return waiter dashboard
 
@@ -56,45 +55,31 @@ public class dashboardController implements IController {
             request.setAttribute("nbHelp", boc.getNbHelp());
             List<CustomerOrder> customerOrders = boc.findAllByRangeByEmployee(pagination.getMin(), 10, employee.getId());
             request.setAttribute("customerOrders", customerOrders);
-            
+
             return "/WEB-INF/dashboardWaiter.jsp";
         } else if (groupId == 2) { // return cooker dashboard
-            
-//            Pagination pagination = new Pagination("option=dashboard", request.getParameter("page"), 10, boc.count());
-//            request.setAttribute("pagination", pagination.getPagination());
-//
-//            List<CustomerOrder> customerOrders = boc.findAllByRange(pagination.getMin(), 10);
-            
-            List<CustomerOrder> coToDo = boc.findOrdersByStatus(OrderStatus.VALIDATE);
-            List<Dish> dishesToDo = new ArrayList();
-            List<Drink> drinksToDo = new ArrayList();
-            List<Combo> combosToDo = new ArrayList();
-            
-            for(CustomerOrder co : coToDo) {
-                for(Drink dr : co.getDrinks()){
-                    dr.setStatus(1);
-                    drinksToDo.add(dr);
-                }
-                for(Dish d : co.getDishes()) {
-                    d.setStatus(1);
-                    dishesToDo.add(d);
-                }
-                for(Combo c : co.getCombos()) {
-                    for(Dish di : c.getDishes()) {
-                        di.setStatus(1);
+
+            List<CustomerOrder> cos = (List) session.getAttribute("cos");
+
+            if (cos == null) {
+                cos = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
+                for (CustomerOrder co : cos) {
+                    for (Drink dr : co.getDrinks()) {
+                        dr.setStatus(1);
                     }
-                    combosToDo.add(c);
+                    for (Dish d : co.getDishes()) {
+                        d.setStatus(1);
+                    }
+                    for (Combo c : co.getCombos()) {
+                        for (Dish di : c.getDishes()) {
+                            di.setStatus(1);
+                        }
+                    }
                 }
-                co.setDrinks(drinksToDo);
-                co.setDishes(dishesToDo);
-                co.setCombos(combosToDo);
             }
-            
-            request.setAttribute("coToDo", coToDo);
-            
-            List<CustomerOrder> coOnPrep = boc.findOrdersByStatus(OrderStatus.PREPARED);
-            request.setAttribute("coOnPrep", coOnPrep);
-            
+
+            session.setAttribute("cos", cos);
+
             return "/WEB-INF/dashboardCooker.jsp";
         }
 
