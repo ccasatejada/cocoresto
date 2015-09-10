@@ -20,7 +20,7 @@ public class ejbCombo implements ejbComboLocal {
 
     @Override
     public void update(Combo combo) {
-        em.persist(combo);
+        em.merge(combo);
     }
 
     @Override
