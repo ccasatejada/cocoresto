@@ -208,41 +208,58 @@ public class customerOrderController implements IController {
 
             if ("swap".equals(request.getParameter("task"))) {
 
-                List<Dish> dishesOnPrep = new ArrayList();
-                List<Drink> drinksOnPrep = new ArrayList();
-                List<Combo> combosOnPrep = new ArrayList();
-
                 CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
                 co.setStatus(OrderStatus.PREPARED);
                 boc.update(co);
+                List<CustomerOrder> cos = (List) session.getAttribute("cos");
+                co = boc.findById(Long.valueOf(request.getParameter("id")));
+                for (CustomerOrder cOrder : cos) {
+                    if (cOrder.getId().equals(co.getId())) {
+                        co = cOrder;
+                        co.setStatus(OrderStatus.PREPARED);
+                    }
+                }
+
                 if (request.getParameter("dNb") != null) {
                     for (Dish d : co.getDishes()) {
-                        if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))) {
+                        if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))
+                                && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
                             d.setStatus(2);
-                            dishesOnPrep.add(d);
-                            break;
                         }
                     }
-                } else if (request.getParameter("drNb") != null) {
+                }
+                if (request.getParameter("drNb") != null) {
                     for (Drink dr : co.getDrinks()) {
-                        if (dr.getId().equals(Long.valueOf(request.getParameter("drNb")))) {
+                        if (dr.getId().equals(Long.valueOf(request.getParameter("drNb")))
+                                && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
                             dr.setStatus(2);
-                            drinksOnPrep.add(dr);
-                            break;
                         }
                     }
-                } else if (request.getParameter("dcNb") != null) {
+                }
+                if (request.getParameter("dcNb") != null) {
                     for (Combo c : co.getCombos()) {
-                        for (Dish d : c.getDishes()) {
-                            if (d.getId().equals(Long.valueOf(request.getParameter("dcNb")))) {
-                                d.setStatus(2);
-                                dishesOnPrep.add(d);
-                                break;
+                        if (c.getId().equals(request.getParameter("cId"))) {
+                            for (Dish di : c.getDishes()) {
+                                if (di.getId().equals(Long.valueOf(request.getParameter("dcNb")))
+                                        && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                    di.setStatus(2);
+                                    break;
+                                }
                             }
                         }
                     }
                 }
-                
+                for (int i = 0; i < cos.size(); i++) {
+                    if (cos.get(i).getId().equals(co.getId())) {
+                        cos.remove(i);
+                        break;
+                    }
+                }
+
+                cos.add(co);
+
+                session.setAttribute("cos", cos);
+
                 return cookUrl;
 
             }

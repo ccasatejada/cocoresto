@@ -27,6 +27,6 @@ public interface ejbCustomerOrderLocal {
 
     public List<CustomerOrder> findCurrentOrders();
     
-    public List<CustomerOrder> findOrdersByStatus(OrderStatus status);
+    public List<CustomerOrder> findOrdersByStatus(OrderStatus status1, OrderStatus status2);
 
 }
