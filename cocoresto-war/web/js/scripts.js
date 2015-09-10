@@ -94,15 +94,15 @@
         /************************************************************************************/
         /*************************************** Menu ***************************************/
         /************************************************************************************/
-        
+
         $('#customerMenu a').on('click', function (event) {
             event.preventDefault();
-            
-            $('#customerMenu a').each(function(i) {
+
+            $('#customerMenu a').each(function (i) {
                 $(this).removeClass('active');
             });
             $(this).addClass('active');
-            
+
             var query = $(this).data('query');
 
             $.ajax({
@@ -116,11 +116,15 @@
                 }
             });
         });
-        
+
         $('#customerMenu [data-query="dishes"]').trigger('click');
+
+        $('#menuContent').on('click', '[data-task="show"]', function (event) {
+            event.preventDefault();
+
         
         
-        
+        });
 
 
 
@@ -134,7 +138,7 @@
     var formats = $("#drinkFormats input[type=checkbox]");
 //    var drinkPrices = document.querySelectorAll("#drinkFormats div input[type=hidden]");
     var drinkPrices = $("#drinkFormats input[type=hidden]");
-    
+
     var checkIndex = 0;
     for (var i = 0; i < formats.length; i++) {
 

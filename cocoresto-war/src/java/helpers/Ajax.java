@@ -79,7 +79,8 @@ public class Ajax extends HttpServlet {
                                 for (Double price : prices) {
                                     out.println("<h4>" + price + " €</h4>");
                                 }
-                                out.println("<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a data-task=\"show\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                out.println("<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
+                                        + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
                             }
@@ -91,7 +92,8 @@ public class Ajax extends HttpServlet {
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + combo.getName() + "</h3>"
                                         + "<h4>" + combo.getTotalPrice() + " €</h4>"
-                                        + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a data-task=\"show\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                        + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
+                                        + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
                             }
@@ -104,7 +106,8 @@ public class Ajax extends HttpServlet {
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + dish.getName() + "</h3>"
                                         + "<h4>" + dish.getTotalPrice() + " €</h4>"
-                                        + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> <a data-task=\"show\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
+                                        + "<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
+                                        + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" href=\"#\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
                             }
