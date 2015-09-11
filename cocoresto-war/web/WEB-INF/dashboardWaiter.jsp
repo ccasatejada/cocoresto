@@ -1,15 +1,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-<div class="btn-group btn-group-justified mb-20 mt-40" role="group">
-    <div class="btn-group" role="group">
-        <div id="helpDiv">
-            <a href="FrontController?option=customerOrder&task=help" class="btn btn-lg btn-lightred"><i class="fa fa-bell"></i> <strong><span id="helpSpan">${nbHelp}</span></strong> demande(s) d'aide en attente</a>
+<c:if test="${nbHelp > 0}">
+    <div class="btn-group btn-group-justified mb-20 mt-40" role="group">
+        <div class="btn-group" role="group">
+            <div id="helpDiv">
+                <a href="FrontController?option=customerOrder&task=help" class="btn btn-lg btn-lightred"><i class="fa fa-bell"></i> <strong><span id="helpSpan">${nbHelp}</span></strong> demande(s) d'aide en attente</a>
+            </div>
         </div>
     </div>
-</div>
-
+</c:if>
 
 <section class="tile">
 
