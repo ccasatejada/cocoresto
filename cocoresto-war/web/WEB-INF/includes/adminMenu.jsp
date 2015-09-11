@@ -34,7 +34,8 @@
                     <a href="FrontController?option=rate" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Taxes <span class="caret"></span></a>
                     <ul class="dropdown-menu animated littleFadeInRight" role="menu">
                         <li><a href="FrontController?option=rate" tabindex="0"><i class="fa fa-list"></i>Liste</a></li>
-                        <li><a href="FrontController?option=rate&task=edit" tabindex="0"><i class="fa fa-plus"></i>Ajouter</a></li>
+                        <li><a href="FrontController?option=rate&task=editTax" tabindex="0"><i class="fa fa-plus"></i>Ajouter une taxe</a></li>
+                        <li><a href="FrontController?option=rate&task=editDiscount" tabindex="0"><i class="fa fa-plus"></i>Ajouter une promo</a></li>
                     </ul>          
                 </li>
                 <li class="dropdown">
