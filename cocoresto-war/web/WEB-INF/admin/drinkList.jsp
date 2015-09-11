@@ -20,10 +20,10 @@
                     <th>Nom</th>
                     <th>Stock</th>
                     <th>Catégorie</th>
-                    <th>Prix unitaires</th>
+                    <th>Prix unitaire</th>
                     <th>Taxe</th>
                     <th>Discount</th>
-                    <th>Prix totaux</th>
+                    <th>Prix total</th>
                     <th></th>
                 </tr>
             </thead>
@@ -33,14 +33,10 @@
                         <td>${drink.name}</td>
                         <td>${drink.inventory}</td>
                         <td>${drink.category}</td>
-                        <td>
-                            <c:forEach var="price" items="${drink.prices}" varStatus="loop">
-                                <span>${price.price}</span> / 
-                            </c:forEach>
-                        </td>
+                        <td>${drink.price}</td>
                         <td>${drink.tax}</td>
                         <td>${drink.discount}</td>
-                        <td>${drink.totalPrices}</td>
+                        <td>${drink.totalPrice}</td>
                         <td>
                             <a href="FrontController?option=drink&task=modify&id=${drink.id}" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="modifyIt">Modifier</a>
                             <a href="FrontController?option=drink&task=delete&id=${drink.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="deleteIt">Supprimer</a>

@@ -29,7 +29,7 @@
                                         <span class="label label-${co.status} mt-5">${co.status.name}</span>
                                     </td>
                                     <td><span class="text-lg text-strong mt-5">${dish.name}</span></td>
-                                    <td><a class="btn btn-primary center-block" href="FrontController?option=customerOrder&task=swap&id=${co.id}&dNb=${dish.id}">Préparer</a></td>
+                                    <td><a class="btn btn-primary center-block status" data-order="${co.id}" data-dish="${dish.id}" href="FrontController?option=customerOrder&task=swap&id=${co.id}&dNb=${dish.id}">Préparer</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
@@ -43,7 +43,7 @@
                                             <span class="label label-${co.status} mt-5">${co.status.name}</span>
                                         </td>
                                         <td><span class="text-lg text-strong mt-5">${dishCombo.name}</span></td>
-                                        <td><a class="btn btn-primary center-block" href="FrontController?option=customerOrder&task=swap&id=${co.id}&dcNb=${dishCombo.id}&cId=${combo.id}">Préparer</a></td>
+                                        <td><a class="btn btn-primary center-block status" data-order="${co.id}" data-combo="${combo.id}" data-dishcombo="${dishCombo.id}" href="FrontController?option=customerOrder&task=swap&id=${co.id}&dcNb=${dishCombo.id}&cId=${combo.id}">Préparer</a></td>
                                     </tr>
                                 </c:if>
                             </c:forEach>
@@ -79,7 +79,7 @@
                                         <span class="label label-${co.status} mt-5">${co.status.name}</span>
                                     </td>
                                     <td><span class="text-lg text-strong mt-5">${drink.name}</span></td>
-                                    <td><a class="btn btn-primary center-block" href="FrontController?option=customerOrder&task=swap&id=${co.id}&drNb=${drink.id}">Préparer</a></td>
+                                    <td><a class="btn btn-primary center-block status" data-order="${co.id}" data-drink="${drink.id}" href="FrontController?option=customerOrder&task=swap&id=${co.id}&drNb=${drink.id}">Préparer</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
@@ -118,7 +118,7 @@
                                         <span class="label label-${cOrder.status} mt-5">${cOrder.status.name}</span>
                                     </td>
                                     <td><span class="text-lg text-strong mt-5">${dishOnPrep.name}</span></td>
-                                    <td><a class="btn btn-primary center-block" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&dNb=${dishOnPrep.id}">Prêt!</a></td>
+                                    <td><a class="btn btn-primary center-block status" data-corder="${cOrder.id}" data-dishonprep="${dishOnPrep.id}" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&dNb=${dishOnPrep.id}">Prêt!</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
@@ -132,7 +132,7 @@
                                             <span class="label label-${cOrder.status} mt-5">${cOrder.status.name}</span>
                                         </td>
                                         <td><span class="text-lg text-strong mt-5">${dishComboOnPrep.name}</span></td>
-                                        <td><a class="btn btn-primary center-block" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&dcNb=${dishComboOnPrep.id}&cId=${combo.id}">Prêt!</a></td>
+                                        <td><a class="btn btn-primary center-block status" data-corder="${cOrder.id}" data-comboonprep="${comboOnPrep.id}" data-dishcomboonprep="${dishComboOnPrep.id}" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&dcNb=${dishComboOnPrep.id}&cId=${combo.id}">Prêt!</a></td>
                                     </tr>
                                 </c:if>
                             </c:forEach>
@@ -168,7 +168,7 @@
                                         <span class="label label-${cOrder.status} mt-5">${cOrder.status.name}</span>
                                     </td>
                                     <td><span class="text-lg text-strong mt-5">${drinkOnPrep.name}</span></td>
-                                    <td><a class="btn btn-primary center-block" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&drNb=${drinkOnPrep.id}">Prêt!</a></td>
+                                    <td><a class="btn btn-primary center-block status" data-corder="${cOrder.id}" data-drinkonprep="${drinkOnPrep.id}" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&drNb=${drinkOnPrep.id}">Prêt!</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>

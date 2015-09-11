@@ -24,6 +24,15 @@ function onMessage(event) {
 // document.querySelectorAll('#ordersToDo .btn.status').addEventListener('click', function(e) {
 //  var product = e.target;
 //  var order = product.dataset.order;
+//  var dish = product.dataset.dish
+//  var combo = product.dataset.combo
+//  var dishcombo = product.dataset.dishcombo
+//  var drink = product.dataset.drink
+//  var corder = product.dataset.corder
+//  var dishonprep = product.dataset.dishonprep
+//  var comboonprep = product.dataset.comboonprep
+//  var dishcomboonprep = product.dataset.dishcomboonprep
+//  var drinkonprep = product.dataset.drinkonprep
 // 
 // });
 // 

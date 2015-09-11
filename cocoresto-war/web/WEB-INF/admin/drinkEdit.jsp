@@ -18,6 +18,11 @@
             <div id="drinkFormats" class="form-group">
                 <label for="formatsList" class="col-sm-2 control-label">Format</label>
                 <div class="col-sm-10">
+                    <select id="dishCategory" name="dishCategory">
+                    <c:forEach var="format" items="${formats}" varStatus="loop"> 
+                        <option name="format" value="${format.id}" <c:if test="${drink.format.name eq format.name}">selected</c:if>>${format.name}</option>
+                    </c:forEach>
+                    </select>
                     <c:if test="${empty drink}">
                         <c:forEach var="format" items="${formats}" varStatus="loop">
                             <input type="checkbox" name="formatsList${loop.index}" value="${format.id}">&nbsp;<span>${format.name}</span>
@@ -25,27 +30,17 @@
 
                     </c:if>
                     <c:if test="${not empty drink}">
+                        <div class="form-group">
+                
+                    </div>
+                </div>
+            </div>
 
-                        <c:forEach var="format" items="${formats}" varStatus="loop">
-                            <c:set var="contains" value="false" />
-                            <c:forEach var="formatDrink" items="${drink.formats}">
-                                <c:if test="${format.name == formatDrink.name}">
-                                    <input type="checkbox" name="formatsList${loop.index}" value="${format.id}" checked>&nbsp;<span>${format.name}</span>
-                                    <c:set var="contains" value="true"></c:set>
-                                </c:if>
-                                
-                            </c:forEach>
-                            <c:if test="${contains == false}">
-                                <input type="checkbox" name="formatsList${loop.index}" value="${format.id}">&nbsp;<span>${format.name}</span>
-                            </c:if>
-                        </c:forEach>
+                        
                         <c:forEach var="price" items="${prices}" varStatus="loop">
                             <input type="hidden" name="price${price.price}" value="${price.price}">
                         </c:forEach>
-                    </c:if>
                 </div>
-            </div>
-            <div id="drinkPrice" class="form-group">
             </div>
             <div class="form-group">
                 <label for="comboCategory" class="col-sm-2 control-label">Catégorie :</label>
