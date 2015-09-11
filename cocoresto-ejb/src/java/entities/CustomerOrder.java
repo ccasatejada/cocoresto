@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -28,22 +29,18 @@ public class CustomerOrder implements Serializable {
     private Integer nbTablet;
     @Transient
     private Integer currentTablets = 0;
-
     @ManyToOne
     @JoinColumn(nullable = false)
     private Employee employee;
     @OneToOne
     @JoinColumn(nullable = false)
     private CustomerTable customerTable;
-
     @ManyToMany
-    private Collection<Drink> drinks;
-
+    private Collection<DishOrderLine> dishes;
     @ManyToMany
-    private Collection<Dish> dishes;
-
+    private Collection<DrinkOrderLine> drinks;
     @ManyToMany
-    private Collection<Combo> combos;
+    private Collection<ComboOrderLine> combos;
 
     @Transient
     private boolean needHelp;
@@ -131,27 +128,27 @@ public class CustomerOrder implements Serializable {
         this.customerTable = customerTable;
     }
 
-    public Collection<Dish> getDishes() {
+    public Collection<DishOrderLine> getDishes() {
         return dishes;
     }
 
-    public void setDishes(Collection<Dish> dishes) {
+    public void setDishes(Collection<DishOrderLine> dishes) {
         this.dishes = dishes;
     }
 
-    public Collection<Combo> getCombos() {
+    public Collection<ComboOrderLine> getCombos() {
         return combos;
     }
 
-    public void setCombos(Collection<Combo> combos) {
+    public void setCombos(Collection<ComboOrderLine> combos) {
         this.combos = combos;
     }
 
-    public Collection<Drink> getDrinks() {
+    public Collection<DrinkOrderLine> getDrinks() {
         return drinks;
     }
 
-    public void setDrinks(Collection<Drink> drinks) {
+    public void setDrinks(Collection<DrinkOrderLine> drinks) {
         this.drinks = drinks;
     }
 

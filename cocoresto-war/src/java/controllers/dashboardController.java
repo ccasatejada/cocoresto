@@ -44,9 +44,7 @@ public class dashboardController implements IController {
 
         if (groupId == 0) { // return customer dashboard
 
-//            if(request.getParameter("task") == null || "dish".equals(request.getParameter("task"))) {
-//                
-//            }
+
             return "/WEB-INF/dashboardCustomer.jsp";
         } else if (groupId == 1) { // return waiter dashboard
 
