@@ -34,11 +34,11 @@ public class CustomerOrder implements Serializable {
     @OneToOne
     @JoinColumn(nullable = false)
     private CustomerTable customerTable;
-    @OneToMany
+    @OneToMany(mappedBy = "customerOrder")
     private Collection<DishOrderLine> dishes;
-    @OneToMany
+    @OneToMany(mappedBy = "customerOrder")
     private Collection<DrinkOrderLine> drinks;
-    @OneToMany
+    @OneToMany(mappedBy = "customerOrder")
     private Collection<ComboOrderLine> combos;
 
     @Transient

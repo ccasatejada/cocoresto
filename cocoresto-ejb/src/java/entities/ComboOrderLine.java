@@ -13,11 +13,11 @@ import javax.persistence.OneToMany;
 public class ComboOrderLine implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private Combo combo;
-    @OneToMany
+    @OneToMany(mappedBy = "comboOrderLine")
     private List<DishOrderLine> dishes;
     @ManyToOne
     private CustomerOrder customerOrder;

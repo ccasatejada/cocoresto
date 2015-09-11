@@ -1,7 +1,6 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +12,7 @@ import javax.persistence.Transient;
 public class DishOrderLine implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private Dish dish;
@@ -22,7 +21,7 @@ public class DishOrderLine implements Serializable {
     @ManyToOne
     private CustomerOrder customerOrder;
     @ManyToOne
-    private ComboOrderLine combo;
+    private ComboOrderLine comboOrderLine;
 
     public DishOrderLine() {
     }
@@ -60,11 +59,11 @@ public class DishOrderLine implements Serializable {
     }
 
     public ComboOrderLine getCombo() {
-        return combo;
+        return comboOrderLine;
     }
 
     public void setCombo(ComboOrderLine combo) {
-        this.combo = combo;
+        this.comboOrderLine = combo;
     }
     
     
