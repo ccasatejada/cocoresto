@@ -9,7 +9,6 @@ import entities.Drink;
 import entities.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -48,31 +47,31 @@ public class Ajax extends HttpServlet {
                     switch (type) {
                         case "Boisson":
                             Drink dr = bdrink.findById(id);
-//                            out.println("<tr>\n"
-//                                    + "<td>"+dr.getName()+"</td>\n"
-//                                    + "<td>"+dr.getTotalPrice()+"</td>\n"
-//                                    + "<td>\n"
-//                                    + "<a href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
-//                                    + "</td>\n"
-//                                    + "</tr>");
+                            out.println("<tr>\n"
+                                    + "<td>"+dr.getName()+"</td>\n"
+                                    + "<td>"+dr.getTotalPrice()+"</td>\n"
+                                    + "<td>\n"
+                                    + "<a data-task=\"remove\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "</td>\n"
+                                    + "</tr>");
                             break;
                         case "Menu":
                             Combo c = bcombo.findById(id);
                             out.println("<tr>\n"
-                                    + "<td>"+c.getName()+"</td>\n"
-                                    + "<td>"+c.getTotalPrice()+"</td>\n"
+                                    + "<td>" + c.getName() + "</td>\n"
+                                    + "<td>" + c.getTotalPrice() + "</td>\n"
                                     + "<td>\n"
-                                    + "<a href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "<a data-task=\"remove\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
                                     + "</td>\n"
                                     + "</tr>");
                             break;
                         default:
                             Dish d = bdish.findById(id);
                             out.println("<tr>\n"
-                                    + "<td>"+d.getName()+"</td>\n"
-                                    + "<td>"+d.getTotalPrice()+"</td>\n"
+                                    + "<td>" + d.getName() + "</td>\n"
+                                    + "<td>" + d.getTotalPrice() + "</td>\n"
                                     + "<td>\n"
-                                    + "<a href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "<a data-task=\"remove\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
                                     + "</td>\n"
                                     + "</tr>");
                     }
@@ -117,14 +116,12 @@ public class Ajax extends HttpServlet {
                         case "Boisson":
                             List<Drink> drinks = bdrink.findAllByCategory(cat.getId());
                             for (Drink drink : drinks) {
-                                ArrayList<Double> prices = drink.getTotalPrices();
+                                Double price = drink.getTotalPrice();
                                 out.println("<div class=\"col-sm-6 col-md-4\"><div class=\"thumbnail\">");
                                 out.println("<img src=\"images/products/" + drink.getImage() + "\" alt=\"" + drink.getName() + "\">");
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + drink.getName() + "</h3>");
-                                for (Double price : prices) {
-                                    out.println("<h4>" + price + " €</h4>");
-                                }
+                                out.println("<h4>" + price + " €</h4>");
                                 out.println("<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
                                         + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" data-link=\"FrontController?option=menu&task=detail&id=" + drink.getId() + "&type=" + type + "&layout=component\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");

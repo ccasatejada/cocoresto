@@ -11,17 +11,14 @@ public class Price implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private Double price;
-    @ManyToMany(mappedBy = "prices")
+    @OneToMany(mappedBy = "price")
     private Collection<Drink> drinks;
     @OneToMany(mappedBy = "price")
     private Collection<Combo> combos;
     @OneToMany(mappedBy = "price")
     private Collection<Dish> dishes;
     
-
-
     public Price() {
     }
 

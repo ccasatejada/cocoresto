@@ -1,4 +1,3 @@
-
 package entities;
 
 import java.io.Serializable;
@@ -11,13 +10,10 @@ public class Format implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private String name;
-    
-    @ManyToMany(mappedBy = "formats")
+    @OneToMany
     private Collection<Drink> drinks;
     
-
     public Format() {
     }
 
@@ -29,8 +25,6 @@ public class Format implements Serializable {
         this.drinks = drinks;
     }
 
-    
-    
     public String getName() {
         return name;
     }
@@ -38,7 +32,6 @@ public class Format implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
 
     public Long getId() {
         return id;

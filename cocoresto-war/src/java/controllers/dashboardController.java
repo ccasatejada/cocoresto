@@ -1,9 +1,12 @@
 package controllers;
 
 import entities.Combo;
+import entities.ComboOrderLine;
 import entities.CustomerOrder;
 import entities.Dish;
+import entities.DishOrderLine;
 import entities.Drink;
+import entities.DrinkOrderLine;
 import entities.Employee;
 import entities.OrderStatus;
 import helpers.Pagination;
@@ -44,9 +47,7 @@ public class dashboardController implements IController {
 
         if (groupId == 0) { // return customer dashboard
 
-//            if(request.getParameter("task") == null || "dish".equals(request.getParameter("task"))) {
-//                
-//            }
+
             return "/WEB-INF/dashboardCustomer.jsp";
         } else if (groupId == 1) { // return waiter dashboard
 
@@ -64,14 +65,14 @@ public class dashboardController implements IController {
             if (cos == null) {
                 cos = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
                 for (CustomerOrder co : cos) {
-                    for (Drink dr : co.getDrinks()) {
+                    for (DrinkOrderLine dr : co.getDrinks()) {
                         dr.setStatus(1);
                     }
-                    for (Dish d : co.getDishes()) {
+                    for (DishOrderLine d : co.getDishes()) {
                         d.setStatus(1);
                     }
-                    for (Combo c : co.getCombos()) {
-                        for (Dish di : c.getDishes()) {
+                    for (ComboOrderLine c : co.getCombos()) {
+                        for (DishOrderLine di : c.getDishes()) {
                             di.setStatus(1);
                         }
                     }
