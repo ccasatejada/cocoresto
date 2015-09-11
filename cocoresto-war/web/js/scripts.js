@@ -142,7 +142,21 @@
                     $(html).appendTo("#cart tbody");
                 }
             });
+        });
 
+        $('#cart').on('click', '[data-task="remove"]', function (event) { // add item to cart
+            var id = $(this).data('id');
+            var type = $(this).data('type');
+
+            $.ajax({
+                url: 'Ajax',
+                type: 'POST',
+                data: 'task=cart&action=remove&type=' + type + '&id=' + id,
+                dataType: 'html',
+                success: function () {
+                    $(this).parent().parent().remove();
+                }
+            });
         });
 
     });

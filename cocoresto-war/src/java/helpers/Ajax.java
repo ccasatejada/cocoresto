@@ -9,6 +9,7 @@ import entities.Drink;
 import entities.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -31,9 +32,29 @@ public class Ajax extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        HttpSession session = request.getSession();
+        
         try (PrintWriter out = response.getWriter()) {
 
             if ("cart".equals(request.getParameter("task"))) {
+                
+                if(session.getAttribute("cartDishes") != null) {
+                    List<Dish> cartDishes = new ArrayList();
+                    session.setAttribute("cartDishes", cartDishes);
+                }
+                
+                if(session.getAttribute("cartDrinks") != null) {
+                    List<Drink> cartDrinks = new ArrayList();
+                    session.setAttribute("cartDrinks", cartDrinks);
+                }
+                
+                if(session.getAttribute("cartCombos") != null) {
+                    List<Combo> cartCombos = new ArrayList();
+                    session.setAttribute("cartCombos", cartCombos);
+                }
+                
+                
 
                 if ("add".equals(request.getParameter("action"))) {
 
@@ -51,7 +72,7 @@ public class Ajax extends HttpServlet {
                                     + "<td>"+dr.getName()+"</td>\n"
                                     + "<td>"+dr.getTotalPrice()+"</td>\n"
                                     + "<td>\n"
-                                    + "<a data-task=\"remove\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "<a data-task=\"remove\" data-id=\"" + dr.getId() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
                                     + "</td>\n"
                                     + "</tr>");
                             break;
@@ -61,17 +82,22 @@ public class Ajax extends HttpServlet {
                                     + "<td>" + c.getName() + "</td>\n"
                                     + "<td>" + c.getTotalPrice() + "</td>\n"
                                     + "<td>\n"
-                                    + "<a data-task=\"remove\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "<a data-task=\"remove\" data-id=\"" + c.getId() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
                                     + "</td>\n"
                                     + "</tr>");
                             break;
                         default:
                             Dish d = bdish.findById(id);
+                            
+                            List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
+                            cartDishes.add(d);
+                            session.setAttribute("cartDishes", cartDishes);
+                            
                             out.println("<tr>\n"
                                     + "<td>" + d.getName() + "</td>\n"
                                     + "<td>" + d.getTotalPrice() + "</td>\n"
                                     + "<td>\n"
-                                    + "<a data-task=\"remove\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "<a data-task=\"remove\" data-id=\"" + d.getId() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
                                     + "</td>\n"
                                     + "</tr>");
                     }
@@ -183,7 +209,6 @@ public class Ajax extends HttpServlet {
             }
 
             if ("removeEmployee".equals(request.getParameter("task"))) {
-                HttpSession session = request.getSession();
                 Employee employee = (Employee) session.getAttribute("loggedEmployee");
                 ejbRestaurant.removeEmployee(employee);
             }
