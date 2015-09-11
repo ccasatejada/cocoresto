@@ -237,14 +237,17 @@ public class customerOrderController implements IController {
                     }
                 }
                 if (request.getParameter("dcNb") != null) {
-                    for (Combo c : co.getCombos()) {
-                        if (c.getId().equals(request.getParameter("cId"))) {
-                            for (Dish di : c.getDishes()) {
-                                if (di.getId().equals(Long.valueOf(request.getParameter("dcNb")))
-                                        && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
-                                    di.setStatus(2);
-                                    break;
+                    if (co.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                        for (Combo c : co.getCombos()) {
+                            if (c.getId().equals(Long.valueOf(request.getParameter("cId")))) {
+                                for (Dish di : c.getDishes()) {
+                                    if (di.getId().equals(Long.valueOf(request.getParameter("dcNb")))
+                                            && !di.getStatus().equals(2)) {
+                                        di.setStatus(2);
+                                        break;
+                                    }
                                 }
+                                break;
                             }
                         }
                     }
