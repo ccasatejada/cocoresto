@@ -12,105 +12,25 @@ public class Drink implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String image;
     private String name;
-    private boolean active;
     private Integer inventory;
     private String description;
-    @Transient
-    private Integer status;
-
-    @OneToOne
-    private Price price;
-
-    @ManyToOne
-    private Discount discount;
-
-    @ManyToOne
-    private Tax tax;
-
     @ManyToOne
     private Category category;
-    @OneToOne
+    @ManyToOne
     private Format format;
-
-    @ManyToMany(mappedBy = "drinks")
-    private List<CustomerOrder> customerOrders;
+    @ManyToOne
+    private Price price;
+    @ManyToOne
+    private Discount discount;
+    @ManyToOne
+    private Tax tax;
+    @OneToMany(mappedBy = "drink")
+    private List<DrinkOrderLine> drinkOrderLines;
+    private boolean active;
 
     public Drink() {
-    }
-
-    public Double getTotalPrice() {
-        Double priceTax = 0d;
-        Double totalPrice = 0d;
-        if (discount != null) {
-            Double priceDiscount = price.getPrice() * (discount.getRate() / 100);
-            totalPrice = price.getPrice() - priceDiscount;
-            priceTax = totalPrice * (tax.getRate() / 100);
-            totalPrice += priceTax;
-        } else {
-            priceTax = price.getPrice() * (tax.getRate() / 100);
-            totalPrice = price.getPrice() + priceTax;
-        }
-
-        return round(totalPrice, 1);
-    }
-
-    public Price getPrice() {
-        return price;
-    }
-
-    public void setPrice(Price price) {
-        this.price = price;
-    }
-
-    public Discount getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Discount discount) {
-        this.discount = discount;
-    }
-
-    public Tax getTax() {
-        return tax;
-    }
-
-    public void setTax(Tax tax) {
-        this.tax = tax;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Format getFormat() {
-        return format;
-    }
-
-    public void setFormat(Format format) {
-        this.format = format;
-    }
-
-    public List<CustomerOrder> getCustomerOrders() {
-        return customerOrders;
-    }
-
-    public void setCustomerOrders(List<CustomerOrder> customerOrders) {
-        this.customerOrders = customerOrders;
     }
 
     public Long getId() {
@@ -137,14 +57,6 @@ public class Drink implements Serializable {
         this.name = name;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public Integer getInventory() {
         return inventory;
     }
@@ -159,6 +71,78 @@ public class Drink implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Format getFormat() {
+        return format;
+    }
+
+    public void setFormat(Format format) {
+        this.format = format;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
+    public Tax getTax() {
+        return tax;
+    }
+
+    public void setTax(Tax tax) {
+        this.tax = tax;
+    }
+
+    public List<DrinkOrderLine> getDrinkOrderLines() {
+        return drinkOrderLines;
+    }
+
+    public void setDrinkOrderLines(List<DrinkOrderLine> drinkOrderLines) {
+        this.drinkOrderLines = drinkOrderLines;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+    public Double getTotalPrice() {
+        Double priceTax = 0d;
+        Double totalPrice = 0d;
+        if (discount != null) {
+            Double priceDiscount = price.getPrice() * (discount.getRate() / 100);
+            totalPrice = price.getPrice() - priceDiscount;
+            priceTax = totalPrice * (tax.getRate() / 100);
+            totalPrice += priceTax;
+        } else {
+            priceTax = price.getPrice() * (tax.getRate() / 100);
+            totalPrice = price.getPrice() + priceTax;
+        }
+
+        return round(totalPrice, 1);
     }
 
     public Double round(Double d, int decimalPlace) {
