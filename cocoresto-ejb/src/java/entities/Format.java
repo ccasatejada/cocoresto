@@ -12,8 +12,6 @@ public class Format implements Serializable {
     private Long id;
     private String name;
     @OneToMany
-    
-    @OneToMany(mappedBy = "format")
     private Collection<Drink> drinks;
     
     public Format() {
