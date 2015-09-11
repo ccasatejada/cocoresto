@@ -114,10 +114,10 @@ public class customerTableController implements IController {
         ct.setNumber(Integer.valueOf(request.getParameter("number")));
         ct.setCapacity(Integer.valueOf(request.getParameter("capacity")));
         ct.setNbTablet(Integer.valueOf(request.getParameter("nbTablet")));
+        ct.setActive(true);
 
         if (request.getParameter("id").isEmpty()) { // add
             ct.setBusy(false);
-            ct.setActive(true);
             try {
                 btc.create(ct);
                 request.setAttribute("alert", Alert.setAlert("Succès", "La table été ajoutée", "success"));
