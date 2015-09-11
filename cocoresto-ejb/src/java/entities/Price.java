@@ -11,7 +11,6 @@ public class Price implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private Double price;
     @OneToMany(mappedBy = "price")
     private Collection<Drink> drinks;
@@ -20,8 +19,6 @@ public class Price implements Serializable {
     @OneToMany(mappedBy = "price")
     private Collection<Dish> dishes;
     
-
-
     public Price() {
     }
 

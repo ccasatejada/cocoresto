@@ -13,43 +13,83 @@ public class Dish implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String image;
     private Double weight;
     private String name;
-    private boolean active;
-    private Integer inventory;    
+    private Integer inventory;
     private String description;
     private String country;
-    @Transient
-    private Integer status;
-
     @ManyToOne
     private Category category;
-
     @ManyToOne
     private Price price;
-
     @ManyToOne
     private Discount discount;
-
     @ManyToOne
     private Tax tax;
-
     @OneToMany(mappedBy = "dish")
     private List<NutritiveValue> nutritiveValues;
-    @ManyToMany(mappedBy = "dishes")
-    private List<CustomerOrder> customerOrders;
+    @OneToMany(mappedBy = "dish")
+    private List<DishOrderLine> dishOrderLines;
+    private boolean active;
 
     public Dish() {
     }
 
-    public List<CustomerOrder> getCustomerOrders() {
-        return customerOrders;
+    public Long getId() {
+        return id;
     }
 
-    public void setCustomerOrders(List<CustomerOrder> customerOrders) {
-        this.customerOrders = customerOrders;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Integer inventory) {
+        this.inventory = inventory;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public Category getCategory() {
@@ -92,36 +132,12 @@ public class Dish implements Serializable {
         this.nutritiveValues = nutritiveValues;
     }
 
-    public Long getId() {
-        return id;
+    public List<DishOrderLine> getDishOrderLines() {
+        return dishOrderLines;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setDishOrderLines(List<DishOrderLine> dishOrderLines) {
+        this.dishOrderLines = dishOrderLines;
     }
 
     public boolean isActive() {
@@ -131,43 +147,10 @@ public class Dish implements Serializable {
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    public Integer getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Integer inventory) {
-        this.inventory = inventory;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
+    
     public Double getTotalPrice() {
         Double p = 0d;
         Date d = new Date();
-        
 
         if (discount != null && d.before(discount.getEndDate()) && d.after(discount.getBeginDate())) {
             p = price.getPrice() - (price.getPrice() * (discount.getRate() / 100));
@@ -176,33 +159,29 @@ public class Dish implements Serializable {
         }
 
         p = p * (1 + (tax.getRate() / 100));
-        
-        return round(p,2);
+
+        return round(p, 2);
     }
-    
-    public Double getPriceWithDiscount(){
+
+    public Double getPriceWithDiscount() {
         Double p = 0d;
         Date d = new Date();
-        
 
         if (discount != null && d.before(discount.getEndDate()) && d.after(discount.getBeginDate())) {
             p = price.getPrice() - (price.getPrice() * (discount.getRate() / 100));
         } else {
             return null;
         }
-        
-        return round(p,2);
+
+        return round(p, 2);
     }
-    
-        public Double getPriceWithTax(){
+
+    public Double getPriceWithTax() {
         Double p = 0d;
         p = price.getPrice() * (1 + (tax.getRate() / 100));
-        
-        return round(p,2);
+        return round(p, 2);
     }
-    
-    
-    
+
     public Double round(Double d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Double.toString(d));
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
