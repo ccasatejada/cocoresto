@@ -51,7 +51,7 @@ public class ejbCategory implements ejbCategoryLocal {
             }
         }
         
-        if("Dejeuner".equals(c.getType()) || "Diner".equals(c.getType())){
+        if("Menu".equals(c.getType())){
             String sq = "select co FROM Combo co WHERE co.category = :category";
             Query q = em.createQuery(sq);
             q.setParameter("category", category);
@@ -82,6 +82,7 @@ public class ejbCategory implements ejbCategoryLocal {
         return ((Long) em.createQuery("select COUNT(c) from Category c").getSingleResult()).intValue();
     }
     
+    @Override
     public List<Category> findAllByRange(int firstResult, int maxResults) {
         Query q = em.createQuery("select ca from Category ca ORDER BY ca.name");
         if(firstResult >= 0){
