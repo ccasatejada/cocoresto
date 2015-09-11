@@ -2,10 +2,13 @@ package controllers;
 
 import ejb.ejbRestaurantLocal;
 import entities.Combo;
+import entities.ComboOrderLine;
 import entities.CustomerOrder;
 import entities.CustomerTable;
 import entities.Dish;
+import entities.DishOrderLine;
 import entities.Drink;
+import entities.DrinkOrderLine;
 import entities.Employee;
 import entities.OrderStatus;
 import helpers.Alert;
@@ -221,7 +224,7 @@ public class customerOrderController implements IController {
                 }
 
                 if (request.getParameter("dNb") != null) {
-                    for (Dish d : co.getDishes()) {
+                    for (DishOrderLine d : co.getDishes()) {
                         if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))
                                 && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
                             d.setStatus(2);
@@ -229,7 +232,7 @@ public class customerOrderController implements IController {
                     }
                 }
                 if (request.getParameter("drNb") != null) {
-                    for (Drink dr : co.getDrinks()) {
+                    for (DrinkOrderLine dr : co.getDrinks()) {
                         if (dr.getId().equals(Long.valueOf(request.getParameter("drNb")))
                                 && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
                             dr.setStatus(2);
@@ -238,9 +241,9 @@ public class customerOrderController implements IController {
                 }
                 if (request.getParameter("dcNb") != null) {
                     if (co.getId().equals(Long.valueOf(request.getParameter("id")))) {
-                        for (Combo c : co.getCombos()) {
+                        for (ComboOrderLine c : co.getCombos()) {
                             if (c.getId().equals(Long.valueOf(request.getParameter("cId")))) {
-                                for (Dish di : c.getDishes()) {
+                                for (DishOrderLine di : c.getDishes()) {
                                     if (di.getId().equals(Long.valueOf(request.getParameter("dcNb")))
                                             && !di.getStatus().equals(2)) {
                                         di.setStatus(2);

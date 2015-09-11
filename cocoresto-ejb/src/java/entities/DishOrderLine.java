@@ -22,6 +22,8 @@ public class DishOrderLine implements Serializable {
     private Integer status;
     @ManyToMany(mappedBy = "dishes")
     private List<CustomerOrder> customerOrders;
+    @ManyToOne
+    private ComboOrderLine combo;
 
     public DishOrderLine() {
     }
@@ -57,6 +59,16 @@ public class DishOrderLine implements Serializable {
     public void setCustomerOrders(List<CustomerOrder> customerOrders) {
         this.customerOrders = customerOrders;
     }
+
+    public ComboOrderLine getCombo() {
+        return combo;
+    }
+
+    public void setCombo(ComboOrderLine combo) {
+        this.combo = combo;
+    }
+    
+    
 
     @Override
     public int hashCode() {

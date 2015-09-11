@@ -161,15 +161,7 @@ public class drinkController implements IController {
             if (request.getParameter("createIt") != null) {
                 drink = new Drink();
                 drink.setActive(true);
-                //drink.setFormat(request.getParameter("format"));
-//                drink.setPrice(new ArrayList());
-//                for (int i = 0; i < formats.size(); i++) {
-//                    if (request.getParameter("formatsList" + i) != null) {
-//                        Long id = Long.valueOf(request.getParameter("formatsList" + i));
-//                        Format f = bFormat.findById(id);
-//                        drink.getFormats().add(f);
-//                    }
-//                }
+
                 if (!"empty".equals(request.getParameter("comboDiscount"))) {
                     for (Discount di : discounts) {
                         if (di.getId().equals(Long.valueOf(request.getParameter("comboDiscount")))) {
@@ -204,16 +196,16 @@ public class drinkController implements IController {
                 }
                 price = new Price();
                 price.setPrice(Double.valueOf(request.getParameter("price")));
+                System.out.println(price.getPrice());
                 for (Price p : prices) {
+                    System.out.println("Prix de prices : " + p.getPrice());
                     if (p.getPrice().equals(price.getPrice())) {
                         price = p;
                         drink.setPrice(price);
                         break;
-                    } else {
-                        price = null;
-                    }
+                    } 
                 }
-                if (price == null) {
+                if (price.getId() == null) {
                     price = new Price();
                     price.setPrice(Double.valueOf(request.getParameter("price")));
                     bPrice.create(price);
