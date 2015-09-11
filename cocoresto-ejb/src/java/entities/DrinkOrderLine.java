@@ -20,7 +20,7 @@ public class DrinkOrderLine implements Serializable {
     private Drink drink;
     @Transient
     private Integer status;
-    @ManyToMany(mappedBy = "drinks")
+    @ManyToOne
     private List<CustomerOrder> customerOrders;
 
     public DrinkOrderLine() {

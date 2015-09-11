@@ -20,7 +20,7 @@ public class DishOrderLine implements Serializable {
     private Dish dish;
     @Transient
     private Integer status;
-    @ManyToMany(mappedBy = "dishes")
+    @ManyToOne
     private List<CustomerOrder> customerOrders;
     @ManyToOne
     private ComboOrderLine combo;

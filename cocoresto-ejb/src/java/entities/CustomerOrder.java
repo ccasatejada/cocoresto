@@ -35,11 +35,11 @@ public class CustomerOrder implements Serializable {
     @OneToOne
     @JoinColumn(nullable = false)
     private CustomerTable customerTable;
-    @ManyToMany
+    @OneToMany
     private Collection<DishOrderLine> dishes;
-    @ManyToMany
+    @OneToMany
     private Collection<DrinkOrderLine> drinks;
-    @ManyToMany
+    @OneToMany
     private Collection<ComboOrderLine> combos;
 
     @Transient

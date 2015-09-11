@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 @Entity
 public class ComboOrderLine implements Serializable {
@@ -21,7 +20,7 @@ public class ComboOrderLine implements Serializable {
     private Combo combo;
     @OneToMany
     private List<DishOrderLine> dishes;
-    @ManyToMany(mappedBy = "combos")
+    @ManyToOne
     private List<CustomerOrder> customerOrders;
 
     public ComboOrderLine() {
