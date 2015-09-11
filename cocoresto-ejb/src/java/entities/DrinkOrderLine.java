@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
@@ -21,7 +20,7 @@ public class DrinkOrderLine implements Serializable {
     @Transient
     private Integer status;
     @ManyToOne
-    private List<CustomerOrder> customerOrders;
+    private CustomerOrder customerOrder;
 
     public DrinkOrderLine() {
     }
@@ -50,12 +49,12 @@ public class DrinkOrderLine implements Serializable {
         this.status = status;
     }
 
-    public List<CustomerOrder> getCustomerOrders() {
-        return customerOrders;
+    public CustomerOrder getCustomerOrders() {
+        return customerOrder;
     }
 
-    public void setCustomerOrders(List<CustomerOrder> customerOrders) {
-        this.customerOrders = customerOrders;
+    public void setCustomerOrders(CustomerOrder customerOrder) {
+        this.customerOrder = customerOrder;
     }
 
     @Override
