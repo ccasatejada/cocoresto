@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity
@@ -18,8 +19,8 @@ public class ComboOrderLine implements Serializable {
     private Long id;
     @ManyToOne
     private Combo combo;
-    @Transient
-    private Integer status;
+    @OneToMany
+    private List<DishOrderLine> dishes;
     @ManyToMany(mappedBy = "combos")
     private List<CustomerOrder> customerOrders;
 
@@ -42,13 +43,15 @@ public class ComboOrderLine implements Serializable {
         this.combo = combo;
     }
 
-    public Integer getStatus() {
-        return status;
+    public List<DishOrderLine> getDishes() {
+        return dishes;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setDishes(List<DishOrderLine> dishes) {
+        this.dishes = dishes;
     }
+
+    
 
     public List<CustomerOrder> getCustomerOrders() {
         return customerOrders;

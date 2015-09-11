@@ -113,9 +113,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Prix HT : </label>
+                <label for="price" class="col-sm-2 control-label">Prix HT : </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="price" value="${drink.price}">
+                    <input type="text" id="price" class="form-control" name="price" value="${drink.price}">
                 </div>
             </div>
             <c:if test="${not empty drink}">
