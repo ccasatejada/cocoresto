@@ -9,7 +9,6 @@ import entities.Drink;
 import entities.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -48,13 +47,13 @@ public class Ajax extends HttpServlet {
                     switch (type) {
                         case "Boisson":
                             Drink dr = bdrink.findById(id);
-//                            out.println("<tr>\n"
-//                                    + "<td>"+dr.getName()+"</td>\n"
-//                                    + "<td>"+dr.getTotalPrice()+"</td>\n"
-//                                    + "<td>\n"
-//                                    + "<a href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
-//                                    + "</td>\n"
-//                                    + "</tr>");
+                            out.println("<tr>\n"
+                                    + "<td>"+dr.getName()+"</td>\n"
+                                    + "<td>"+dr.getTotalPrice()+"</td>\n"
+                                    + "<td>\n"
+                                    + "<a data-task=\"remove\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "</td>\n"
+                                    + "</tr>");
                             break;
                         case "Menu":
                             Combo c = bcombo.findById(id);
@@ -62,7 +61,7 @@ public class Ajax extends HttpServlet {
                                     + "<td>" + c.getName() + "</td>\n"
                                     + "<td>" + c.getTotalPrice() + "</td>\n"
                                     + "<td>\n"
-                                    + "<a href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "<a data-task=\"remove\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
                                     + "</td>\n"
                                     + "</tr>");
                             break;
@@ -72,7 +71,7 @@ public class Ajax extends HttpServlet {
                                     + "<td>" + d.getName() + "</td>\n"
                                     + "<td>" + d.getTotalPrice() + "</td>\n"
                                     + "<td>\n"
-                                    + "<a href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "<a data-task=\"remove\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
                                     + "</td>\n"
                                     + "</tr>");
                     }

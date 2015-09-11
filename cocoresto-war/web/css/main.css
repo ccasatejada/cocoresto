@@ -17666,3 +17666,6 @@ iframe{
     width:100%;
 }
 
+#cart td{
+    vertical-align: middle;
+}
