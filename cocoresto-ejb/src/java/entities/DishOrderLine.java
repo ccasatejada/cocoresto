@@ -58,16 +58,14 @@ public class DishOrderLine implements Serializable {
         this.customerOrder = customerOrder;
     }
 
-    public ComboOrderLine getCombo() {
+    public ComboOrderLine getComboOrderLine() {
         return comboOrderLine;
     }
 
-    public void setCombo(ComboOrderLine combo) {
+    public void setComboOrderLine(ComboOrderLine combo) {
         this.comboOrderLine = combo;
     }
     
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
