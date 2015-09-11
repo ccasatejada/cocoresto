@@ -143,13 +143,13 @@
         <div class="tile-footer dvd dvd-top">
             <div class="row">
                 <div class="col-xs-12 text-right">
+                    <a href="FrontController?option=drink" class="btn btn-darkgray btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-remove"></i> <span>Annuler</span></a>
                     <c:if test="${not empty drink}">
                         <button type="submit" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="modifyIt"><i class="fa fa-save"></i> <span>Modifier</span></button>
                     </c:if>
                     <c:if test="${empty drink}">
                         <button type="submit" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="createIt"><i class="fa fa-save"></i> <span>Valider</span></button>
                     </c:if>
-                    <button type="submit" class="btn btn-darkgray btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="cancelIt"><i class="fa fa-remove"></i> <span>Annuler</span></button>
                 </div>
             </div>
         </div>
