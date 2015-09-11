@@ -15,7 +15,7 @@ public class ejbCategory implements ejbCategoryLocal {
 
     @PersistenceContext(unitName = "cocoresto-ejbPU")
     private EntityManager em;
-    
+
     @Override
     public void create(Category category) {
         em.persist(category);
@@ -29,38 +29,38 @@ public class ejbCategory implements ejbCategoryLocal {
     @Override
     public void delete(Category category) {
         Category c = em.find(Category.class, category.getId());
-        
-        if("Plat".equals(c.getType())){
-           String sq = "select di FROM Dish di WHERE di.category = :category";
-           Query q = em.createQuery(sq);
-           q.setParameter("category", category);
-           
-           for(Dish d : (List<Dish>)q.getResultList()){
-              d.setCategory(null);
-              em.merge(d);
-           }
-        }
-        
-        if("Boisson".equals(c.getType())){
-            String sq = "select dr FROM Drink dr WHERE dr.category = :category";
+
+        if ("Plat".equals(c.getType())) {
+            String sq = "select di FROM Dish di WHERE di.category = :category";
             Query q = em.createQuery(sq);
             q.setParameter("category", category);
-            for(Drink d : (List<Drink>)q.getResultList()){
+
+            for (Dish d : (List<Dish>) q.getResultList()) {
                 d.setCategory(null);
                 em.merge(d);
             }
         }
-        
-        if("Menu".equals(c.getType())){
+
+        if ("Boisson".equals(c.getType())) {
+            String sq = "select dr FROM Drink dr WHERE dr.category = :category";
+            Query q = em.createQuery(sq);
+            q.setParameter("category", category);
+            for (Drink d : (List<Drink>) q.getResultList()) {
+                d.setCategory(null);
+                em.merge(d);
+            }
+        }
+
+        if ("Menu".equals(c.getType())) {
             String sq = "select co FROM Combo co WHERE co.category = :category";
             Query q = em.createQuery(sq);
             q.setParameter("category", category);
-            for(Combo co : (List<Combo>)q.getResultList()){
+            for (Combo co : (List<Combo>) q.getResultList()) {
                 co.setCategory(null);
                 em.merge(co);
             }
         }
-        
+
         em.remove(c);
     }
 
@@ -73,34 +73,33 @@ public class ejbCategory implements ejbCategoryLocal {
     @Override
     public List<Category> findAll() {
         String sq = "select c from Category c";
-        Query q = em.createQuery(sq);       
+        Query q = em.createQuery(sq);
         return q.getResultList();
     }
-    
+
     @Override
-    public int count(){
+    public int count() {
         return ((Long) em.createQuery("select COUNT(c) from Category c").getSingleResult()).intValue();
     }
-    
+
     @Override
     public List<Category> findAllByRange(int firstResult, int maxResults) {
         Query q = em.createQuery("select ca from Category ca ORDER BY ca.name");
-        if(firstResult >= 0){
+        if (firstResult >= 0) {
             q.setFirstResult(firstResult);
         }
-        if(maxResults > 0){
+        if (maxResults > 0) {
             q.setMaxResults(maxResults);
         }
-        
+
         return q.getResultList();
     }
-    
+
     @Override
     public List<Category> findAvailableCategories(String type) {
-        Query q = em.createQuery("SELECT c FROM Category c WHERE c.active = 1 AND c.type = :type");
+        Query q = em.createQuery("SELECT c FROM Category c WHERE c.active = 1 AND c.type = :type AND (SIZE(c.dishes) > 0 OR SIZE(c.drinks) > 0 OR SIZE(c.combos) > 0)");
         q.setParameter("type", type);
         return q.getResultList();
     }
-    
 
 }
