@@ -17662,6 +17662,10 @@ iframe{
     right: 15px;
 }
 
-.w100 {
+.w100, .thumbnail a>img, .thumbnail>img {
     width:100%;
+}
+
+#cart td{
+    vertical-align: middle;
 }

@@ -18,6 +18,7 @@
                                     <tr class="bg-slategray">
                                         <th hidden>Id</th>
                                         <th>Catégorie</th>
+                                        <th>Type</th>
                                         <th>Actions</th>                                       
                                     </tr>
                                 </thead>
@@ -26,6 +27,7 @@
                                         <tr>
                                             <td hidden>${category.id}</td>
                                             <td>${category.name}</td>
+                                            <td>${category.type}</td>
                                             <td>
                                                 <a href="FrontController?option=category&task=edit&id=${category.id}" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-edit"></i> <span>Modifier</span></a>
                                                 <a href="FrontController?option=category&task=delete&id=${category.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-trash"></i> <span>Supprimer</span></a>
