@@ -5,6 +5,7 @@ import entities.OrderStatus;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,8 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @PersistenceContext(unitName = "cocoresto-ejbPU")
     private EntityManager em;
-    
+
+    private ejbRestaurant ejbRestaurant = new ejbRestaurant();
     private final Set sessions = new HashSet<>();
 
     @Override
@@ -90,7 +92,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
         q.setParameter("payed", OrderStatus.PAYED);
         return q.getResultList();
     }
-    
+
     @Override
     public List<CustomerOrder> findOrdersByStatus(OrderStatus status1, OrderStatus status2) {
         Query q = em.createQuery("SELECT co FROM CustomerOrder co WHERE co.active = 1 AND co.status = :orderStatus1 OR co.status = :orderStatus2 ORDER BY co.orderDate asc");
@@ -101,6 +103,11 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @Override
     public void addSession(Session session) {
+        sessions.add(session);
+        for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
+            Integer key = entry.getKey();
+            CustomerOrder order = entry.getValue();
+        }
     }
 
     @Override
@@ -114,29 +121,29 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     @Override
     public void sendToCustomer() {
     }
-    
-    private JsonObject createAddMessage(CustomerOrder order){
+
+    private JsonObject createAddMessage(CustomerOrder order) {
         JsonProvider provider = JsonProvider.provider();
         JsonObject addMessage = provider.createObjectBuilder()
-                .add("","")
-                .add("","")
                 .add("", "")
-                .add("","")
+                .add("", "")
+                .add("", "")
+                .add("", "")
                 .build();
-        
+
         return addMessage;
     }
 
     private void sendToAllConnectedSessions(JsonObject message) {
-        for(Session session : (HashSet<Session>) sessions){
+        for (Session session : (HashSet<Session>) sessions) {
             sendToSession(session, message);
         }
     }
-    
-    private void sendToSession(Session session, JsonObject message){
-        try{
+
+    private void sendToSession(Session session, JsonObject message) {
+        try {
             session.getBasicRemote().sendText(message.toString());
-        } catch(IOException ex){
+        } catch (IOException ex) {
             sessions.remove(session);
             Logger.getLogger(ejbCustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
         }

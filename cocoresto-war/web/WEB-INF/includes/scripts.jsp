@@ -2,4 +2,4 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="js/scripts.js"></script>
 <script src="js/helpwebsocket.js"></script>
-<script srv="js/alertwebsocket.js"></script>
+<script src="js/alertwebsocket.js"></script>
