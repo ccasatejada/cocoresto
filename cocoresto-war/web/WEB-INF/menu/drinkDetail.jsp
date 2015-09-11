@@ -13,21 +13,13 @@
                 <p class="lead">${drink.description}</p>
             </c:if>
                 
-            <c:if test="${not empty drink.formats}">
+            <c:if test="${not empty drink.format}">
                 <hr />
-                <ol>
-                    <c:forEach var="format" items="${drink.formats}" varStatus="loop">
-                        <li>${format}</li>
-                    </c:forEach>
-                </ol>
+                <p>${format}</p>
             </c:if>
 
             <hr />
-            <h2 class="text-info">
-                <c:forEach var="price" items="${drink.prices}" varStatus="loop">
-                    ${price} € <c:if test="${not empty drink.discount}"><span class="label label-success">Promo : - ${drink.discount}%</span></c:if>&nbsp;/
-                </c:forEach>
-            </h2>
+            <h2 class="text-info">${drink.totalPrice} € <c:if test="${not empty drink.discount}"><span class="label label-success">Promo : ${drink.discount}</span></c:if></h2>
         </div>
 
     </div>
