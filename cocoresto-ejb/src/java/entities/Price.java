@@ -13,7 +13,7 @@ public class Price implements Serializable {
     private Long id;
     
     private Double price;
-    @ManyToMany(mappedBy = "prices")
+    @OneToMany(mappedBy = "price")
     private Collection<Drink> drinks;
     @OneToMany(mappedBy = "price")
     private Collection<Combo> combos;

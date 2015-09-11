@@ -21,7 +21,7 @@ public class Drink implements Serializable {
     @Transient
     private Integer status;
 
-    @OneToOne
+    @ManyToOne
     private Price price;
 
     @ManyToOne
@@ -32,7 +32,7 @@ public class Drink implements Serializable {
 
     @ManyToOne
     private Category category;
-    @OneToOne
+    @ManyToOne
     private Format format;
 
     @ManyToMany(mappedBy = "drinks")
