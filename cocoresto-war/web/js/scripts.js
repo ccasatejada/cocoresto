@@ -143,7 +143,7 @@
                 data: 'task=cart&action=add&type=' + type + '&id=' + id,
                 dataType: 'html',
                 success: function (html) {
-                    $(html).appendTo("#cart tbody");
+                    $("#cart tbody").empty().html(html);
                     $("#cartTotal").empty().html(total.toFixed(2));
                 }
             });

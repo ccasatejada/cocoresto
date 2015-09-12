@@ -47,6 +47,31 @@ public class dashboardController implements IController {
 
         if (groupId == 0) { // return customer dashboard
 
+            Double cartTotal = 0.00;
+
+            if (session.getAttribute("cartDishes") != null) {
+                List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
+                request.setAttribute("cartDishes", cartDishes);
+                for (Dish d : cartDishes) {
+                    cartTotal += d.getTotalPrice();
+                }
+            }
+            if (session.getAttribute("cartDrinks") != null) {
+                List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
+                request.setAttribute("cartDrinks", cartDrinks);
+                for (Drink dr : cartDrinks) {
+                    cartTotal += dr.getTotalPrice();
+                }
+            }
+            if (session.getAttribute("cartCombos") != null) {
+                List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
+                request.setAttribute("cartCombos", cartCombos);
+                for (Combo c : cartCombos) {
+                    cartTotal += c.getTotalPrice();
+                }
+            }
+
+            request.setAttribute("cartTotal", cartTotal);
 
             return "/WEB-INF/dashboardCustomer.jsp";
         } else if (groupId == 1) { // return waiter dashboard

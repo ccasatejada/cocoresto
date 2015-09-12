@@ -40,18 +40,13 @@ public class Ajax extends HttpServlet {
             if ("cart".equals(request.getParameter("task"))) {
 
                 if (session.getAttribute("cartDishes") == null) {
-                    List<Dish> cartDishes = new ArrayList();
-                    session.setAttribute("cartDishes", cartDishes);
+                    session.setAttribute("cartDishes", new ArrayList());
                 }
-
                 if (session.getAttribute("cartDrinks") == null) {
-                    List<Drink> cartDrinks = new ArrayList();
-                    session.setAttribute("cartDrinks", cartDrinks);
+                    session.setAttribute("cartDrinks", new ArrayList());
                 }
-
                 if (session.getAttribute("cartCombos") == null) {
-                    List<Combo> cartCombos = new ArrayList();
-                    session.setAttribute("cartCombos", cartCombos);
+                    session.setAttribute("cartCombos", new ArrayList());
                 }
 
                 beanDish bdish = new beanDish();
@@ -61,76 +56,98 @@ public class Ajax extends HttpServlet {
                 Long id = Long.valueOf(request.getParameter("id"));
                 String type = request.getParameter("type");
 
-                // REMOVE
-                if ("remove".equals(request.getParameter("action"))) {
-                    switch (type) {
-                        case "Boisson":
-                            Drink dr = bdrink.findById(id);
-                            List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
-                            cartDrinks.remove(dr);
-                            session.setAttribute("cartDrinks", cartDrinks);
-                            break;
-                        case "Menu":
-                            Combo c = bcombo.findById(id);
-                            List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
-                            cartCombos.remove(c);
-                            session.setAttribute("cartCombos", cartCombos);
-                            break;
-                        default:
-                            Dish d = bdish.findById(id);
-                            List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
-                            cartDishes.remove(d);
-                            session.setAttribute("cartDishes", cartDishes);
+                switch (type) {
+                    case "Boisson":
+                        Drink dr = bdrink.findById(id);
+                        List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
+                        if (null != request.getParameter("action")) {
+                            switch (request.getParameter("action")) {
+                                case "remove":
+                                    cartDrinks.remove(dr);
+                                    break;
+                                case "add":
+                                    cartDrinks.add(dr);
+                                    break;
+                            }
+                        }
+                        session.setAttribute("cartDrinks", cartDrinks);
+                        break;
+                    case "Menu":
+                        Combo c = bcombo.findById(id);
+                        List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
+                        if (null != request.getParameter("action")) {
+                            switch (request.getParameter("action")) {
+                                case "remove":
+                                    cartCombos.remove(c);
+                                    break;
+                                case "add":
+                                    cartCombos.add(c);
+                                    break;
+                            }
+                        }
+                        session.setAttribute("cartCombos", cartCombos);
+                        break;
+                    default:
+                        Dish d = bdish.findById(id);
+                        List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
+                        if (null != request.getParameter("action")) {
+                            switch (request.getParameter("action")) {
+                                case "remove":
+                                    cartDishes.remove(d);
+                                    break;
+                                case "add":
+                                    cartDishes.add(d);
+                                    break;
+                            }
+                        }
+                        session.setAttribute("cartDishes", cartDishes);
+                }
+
+                List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
+                List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
+                List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
+                Double total = 0.00;
+
+                if (cartDishes.size() > 0) {
+                    out.println("<tr><th class=\"bg-info\" colspan=\"3\">Plats</th></tr>");
+                    for (Dish d : cartDishes) {
+                        total += d.getTotalPrice();
+                        out.println("<tr>\n"
+                                + "<td>" + d.getName() + "</td>\n"
+                                + "<td>" + d.getTotalPrice() + "</td>\n"
+                                + "<td>\n"
+                                + "<a data-task=\"remove\" data-id=\"" + d.getId() + "\" data-price=\"" + d.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                + "</td>\n"
+                                + "</tr>");
                     }
                 }
 
-                // ADD
-                if ("add".equals(request.getParameter("action"))) {
-
-                    switch (type) {
-                        case "Boisson":
-                            Drink dr = bdrink.findById(id);
-                            List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
-                            cartDrinks.add(dr);
-                            session.setAttribute("cartDrinks", cartDrinks);
-
-                            out.println("<tr>\n"
-                                    + "<td>" + dr.getName() + "</td>\n"
-                                    + "<td>" + dr.getTotalPrice() + "</td>\n"
-                                    + "<td>\n"
-                                    + "<a data-task=\"remove\" data-id=\"" + dr.getId() + "\" data-price=\"" + dr.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
-                                    + "</td>\n"
-                                    + "</tr>");
-                            break;
-                        case "Menu":
-                            Combo c = bcombo.findById(id);
-                            List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
-                            cartCombos.add(c);
-                            session.setAttribute("cartCombos", cartCombos);
-
-                            out.println("<tr>\n"
-                                    + "<td>" + c.getName() + "</td>\n"
-                                    + "<td>" + c.getTotalPrice() + "</td>\n"
-                                    + "<td>\n"
-                                    + "<a data-task=\"remove\" data-id=\"" + c.getId() + "\" data-price=\"" + c.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
-                                    + "</td>\n"
-                                    + "</tr>");
-                            break;
-                        default:
-                            Dish d = bdish.findById(id);
-                            List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
-                            cartDishes.add(d);
-                            session.setAttribute("cartDishes", cartDishes);
-
-                            out.println("<tr>\n"
-                                    + "<td>" + d.getName() + "</td>\n"
-                                    + "<td>" + d.getTotalPrice() + "</td>\n"
-                                    + "<td>\n"
-                                    + "<a data-task=\"remove\" data-id=\"" + d.getId() + "\" data-price=\"" + d.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
-                                    + "</td>\n"
-                                    + "</tr>");
+                if (cartDrinks.size() > 0) {
+                    out.println("<tr><th class=\"bg-info\" colspan=\"3\">Boissons</th></tr>");
+                    for (Drink dr : cartDrinks) {
+                        total += dr.getTotalPrice();
+                        out.println("<tr>\n"
+                                + "<td>" + dr.getName() + "</td>\n"
+                                + "<td>" + dr.getTotalPrice() + "</td>\n"
+                                + "<td>\n"
+                                + "<a data-task=\"remove\" data-id=\"" + dr.getId() + "\" data-price=\"" + dr.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                + "</td>\n"
+                                + "</tr>");
                     }
+                }
 
+                if (cartCombos.size() > 0) {
+                    out.println("<tr><th class=\"bg-info\" colspan=\"3\">Menus</th></tr>");
+                    for (Combo c : cartCombos) {
+                        total += c.getTotalPrice();
+                        out.println("<tr>\n"
+                                + "<td>" + c.getName() + "</td>\n"
+                                + "<td>" + c.getTotalPrice() + "</td>\n"
+                                + "<td>\n"
+                                + "<a data-task=\"remove\" data-id=\"" + c.getId() + "\" data-price=\"" + c.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                + "</td>\n"
+                                + "</tr>");
+                    }
                 }
 
             }
