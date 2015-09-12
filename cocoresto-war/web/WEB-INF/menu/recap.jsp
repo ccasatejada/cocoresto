@@ -19,6 +19,14 @@
     <div class="tile-body p-0">
 
         <table class="table table-striped">
+<!--
+            <tfoot>
+                <tr>
+                    <th class="bg-default">Total</th>
+                    <td colspan="2"><span id="cartTotal">${cartTotal}</span> &euro;</td>
+                </tr>
+            </tfoot>
+-->
             <tbody>     
                 <c:if test="${not empty cartDishes}">
                     <tr class="bg-slategray">
@@ -52,13 +60,13 @@
                             <td>
                                 <c:forEach var="dish" items="${combo.dishes}" varStatus="loop">
                                     <span>${dish.name}<span>&nbsp;/&nbsp;
-                                        </c:forEach>                                
-                                        </td>
-                                        <td>${combo.totalPrice}</td>
-                                        </tr>
-                                    </c:forEach>
-                                </c:if>
-                                </tbody>
-                                </table>
-                                </div>
-                                </section>
+                                </c:forEach>                                
+                            </td>
+                            <td>${combo.totalPrice}</td>
+                        </tr>
+                    </c:forEach>
+                </c:if>
+            </tbody>
+        </table>
+    </div>
+</section>
