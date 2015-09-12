@@ -20,34 +20,37 @@
                 </thead>
                 <tbody>                    
                     <c:forEach var="co" items="${cos}" varStatus="loop">
-                        <c:forEach var="dish" items="${co.dishes}" varStatus="loop">
-                            <c:if test="${dish.status == 1}">
+                        <c:forEach var="dishOrderLine" items="${co.dishes}" varStatus="loop">
+                            <c:if test="${dishOrderLine.status == 1}">
                                 <tr class="text-center">
                                     <td><span class="bg-primary text-center mt-5">${co.number}</span></td>
                                     <td><span class="mt-5"><fmt:formatDate value="${co.orderDate}" pattern="dd/MM à hh:MM" /></span></td>
                                     <td>
                                         <span class="label label-${co.status} mt-5">${co.status.name}</span>
                                     </td>
-                                    <td><span class="text-lg text-strong mt-5">${dish.name}</span></td>
-                                    <td><a class="btn btn-primary center-block status" data-order="${co.id}" data-dish="${dish.id}" href="FrontController?option=customerOrder&task=swap&id=${co.id}&dNb=${dish.id}">Préparer</a></td>
+                                    <td><span class="text-lg text-strong mt-5">${dishOrderLine.dish.name}</span></td>
+                                    <td><a class="btn btn-primary center-block status" data-order="${co.id}" data-dish="${dishOrderLine.id}" href="FrontController?option=customerOrder&task=swap&id=${co.id}&dNb=${dishOrderLine.id}">Préparer</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
-                        <c:forEach var="combo" items="${co.combos}" varStatus="loop">
-                            <c:forEach var="dishCombo" items="${combo.dishes}" varStatus="loop">
-                                <c:if test="${dishCombo.status == 1}">
+                        <c:forEach var="comboOrderLine" items="${co.combos}">
+                            <c:forEach var="cDishOrderLine" items="${comboOrderLine.dishes}" varStatus="loop">
+                                <c:if test="${cDishOrderLine.status == 1}">
                                     <tr class="text-center">
                                         <td><span class="bg-primary text-center mt-5">${co.number}</span></td>
                                         <td><span class="mt-5"><fmt:formatDate value="${co.orderDate}" pattern="dd/MM à hh:MM" /></span></td>
                                         <td>
                                             <span class="label label-${co.status} mt-5">${co.status.name}</span>
                                         </td>
-                                        <td><span class="text-lg text-strong mt-5">${dishCombo.name}</span></td>
-                                        <td><a class="btn btn-primary center-block status" data-order="${co.id}" data-combo="${combo.id}" data-dishcombo="${dishCombo.id}" href="FrontController?option=customerOrder&task=swap&id=${co.id}&dcNb=${dishCombo.id}&cId=${combo.id}">Préparer</a></td>
+                                        <td><span class="text-lg text-strong mt-5">${cDishOrderLine.dish.name}</span></td>
+                                        <td><a class="btn btn-primary center-block status" data-order="${co.id}" data-combo="${comboOrderLine.id}" data-dishcombo="${cDishOrderLine.dish.id}" href="FrontController?option=customerOrder&task=swap&id=${co.id}&dcNb=${cDishOrderLine.id}&cId=${comboOrderLine.id}">Préparer</a></td>
                                     </tr>
                                 </c:if>
+
                             </c:forEach>
+
                         </c:forEach>
+
                     </c:forEach>
                 </tbody>
             </table>
@@ -70,16 +73,16 @@
                 </thead>
                 <tbody>                    
                     <c:forEach var="co" items="${cos}" varStatus="loop">
-                        <c:forEach var="drink" items="${co.drinks}" varStatus="loop">
-                            <c:if test="${drink.status == 1}">
+                        <c:forEach var="drinkOrderLine" items="${co.drinks}" varStatus="loop">
+                            <c:if test="${drinkOrderLine.status == 1}">
                                 <tr class="text-center">
                                     <td><span class="bg-primary text-center mt-5">${co.number}</span></td>
                                     <td><span class="mt-5"><fmt:formatDate value="${co.orderDate}" pattern="dd/MM à hh:MM" /></span></td>
                                     <td>
                                         <span class="label label-${co.status} mt-5">${co.status.name}</span>
                                     </td>
-                                    <td><span class="text-lg text-strong mt-5">${drink.name}</span></td>
-                                    <td><a class="btn btn-primary center-block status" data-order="${co.id}" data-drink="${drink.id}" href="FrontController?option=customerOrder&task=swap&id=${co.id}&drNb=${drink.id}">Préparer</a></td>
+                                    <td><span class="text-lg text-strong mt-5">${drinkOrderLine.drink.name}</span></td>
+                                    <td><a class="btn btn-primary center-block status" data-order="${co.id}" data-drink="${drinkOrderLine.id}" href="FrontController?option=customerOrder&task=swap&id=${co.id}&drNb=${drinkOrderLine.id}">Préparer</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
@@ -107,37 +110,41 @@
                         <th>Choisir</th>
                     </tr>
                 </thead>
-                <tbody>                    
+                <tbody>
                     <c:forEach var="cOrder" items="${cos}" varStatus="loop">
-                        <c:forEach var="dishOnPrep" items="${cOrder.dishes}" varStatus="loop">
-                            <c:if test="${dishOnPrep.status == 2}">
+                        <c:forEach var="dopOrderLine" items="${cOrder.dishes}" varStatus="loop">
+                            <c:if test="${dopOrderLine.status == 2}">
                                 <tr class="text-center">
                                     <td><span class="bg-primary text-center mt-5">${cOrder.number}</span></td>
                                     <td><span class="mt-5"><fmt:formatDate value="${cOrder.orderDate}" pattern="dd/MM à hh:MM" /></span></td>
                                     <td>
                                         <span class="label label-${cOrder.status} mt-5">${cOrder.status.name}</span>
                                     </td>
-                                    <td><span class="text-lg text-strong mt-5">${dishOnPrep.name}</span></td>
-                                    <td><a class="btn btn-primary center-block status" data-corder="${cOrder.id}" data-dishonprep="${dishOnPrep.id}" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&dNb=${dishOnPrep.id}">Prêt!</a></td>
+                                    <td><span class="text-lg text-strong mt-5">${dopOrderLine.dish.name}</span></td>
+                                    <td><a class="btn btn-primary center-block status" data-order="${cOrder.id}" data-dish="${dopOrderLine.id}" href="FrontController?option=customerOrder&task=swap&id=${cOrder.id}&dNb=${dopOrderLine.id}">Préparer</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
-                        <c:forEach var="comboOnPrep" items="${cOrder.combos}" varStatus="loop">
-                            <c:forEach var="dishComboOnPrep" items="${comboOnPrep.dishes}" varStatus="loop">
-                                <c:if test="${dishComboOnPrep.status == 2}">
+                        <c:forEach var="copOrderLine" items="${cOrder.combos}">
+                            <c:forEach var="copDishOrderLine" items="${copOrderLine.dishes}" varStatus="loop">
+                                <c:if test="${copDishOrderLine.status == 2}">
                                     <tr class="text-center">
                                         <td><span class="bg-primary text-center mt-5">${cOrder.number}</span></td>
                                         <td><span class="mt-5"><fmt:formatDate value="${cOrder.orderDate}" pattern="dd/MM à hh:MM" /></span></td>
                                         <td>
                                             <span class="label label-${cOrder.status} mt-5">${cOrder.status.name}</span>
                                         </td>
-                                        <td><span class="text-lg text-strong mt-5">${dishComboOnPrep.name}</span></td>
-                                        <td><a class="btn btn-primary center-block status" data-corder="${cOrder.id}" data-comboonprep="${comboOnPrep.id}" data-dishcomboonprep="${dishComboOnPrep.id}" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&dcNb=${dishComboOnPrep.id}&cId=${combo.id}">Prêt!</a></td>
+                                        <td><span class="text-lg text-strong mt-5">${copDishOrderLine.dish.name}</span></td>
+                                        <td><a class="btn btn-primary center-block status" data-order="${cOrder.id}" data-combo="${copOrderLine.id}" data-dishcombo="${copDishOrderLine.dish.id}" href="FrontController?option=customerOrder&task=swap&id=${cOrder.id}&dcNb=${copDishOrderLine.id}&cId=${copOrderLine.id}">Préparer</a></td>
                                     </tr>
                                 </c:if>
+
                             </c:forEach>
+
                         </c:forEach>
+
                     </c:forEach>
+                    
                 </tbody>
             </table>
         </div>
@@ -159,23 +166,26 @@
                 </thead>
                 <tbody>
                     <c:forEach var="cOrder" items="${cos}" varStatus="loop">
-                        <c:forEach var="drinkOnPrep" items="${cOrder.drinks}" varStatus="loop">
-                            <c:if test="${drinkOnPrep.status == 2}">
+                        <c:forEach var="dropOrderLine" items="${cOrder.drinks}" varStatus="loop">
+                            <c:if test="${dropOrderLine.status == 2}">
                                 <tr class="text-center">
                                     <td><span class="bg-primary text-center mt-5">${cOrder.number}</span></td>
                                     <td><span class="mt-5"><fmt:formatDate value="${cOrder.orderDate}" pattern="dd/MM à hh:MM" /></span></td>
                                     <td>
                                         <span class="label label-${cOrder.status} mt-5">${cOrder.status.name}</span>
                                     </td>
-                                    <td><span class="text-lg text-strong mt-5">${drinkOnPrep.name}</span></td>
-                                    <td><a class="btn btn-primary center-block status" data-corder="${cOrder.id}" data-drinkonprep="${drinkOnPrep.id}" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&drNb=${drinkOnPrep.id}">Prêt!</a></td>
+                                    <td><span class="text-lg text-strong mt-5">${dropOrderLine.drink.name}</span></td>
+                                    <td><a class="btn btn-primary center-block status" data-corder="${cOrder.id}" data-drinkonprep="${dropOrderLine.id}" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&drNb=${dropOrderLine.id}">Prêt!</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
                     </c:forEach>
+                    
                 </tbody>
             </table>
         </div>
 
     </div>
+
+
 </section>
