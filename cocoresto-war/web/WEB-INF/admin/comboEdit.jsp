@@ -4,7 +4,7 @@
                     <section class="tile">
 
                         <div class="tile-header dvd dvd-btm bg-greensea">
-                            <h1 class="custom-font"><strong>Commandes</strong></h1>
+                            <h1 class="custom-font"><strong>Menus</strong></h1>
                         </div>
                         <form action="FrontController?option=combo" method="post">
                             <div class="tile-body">

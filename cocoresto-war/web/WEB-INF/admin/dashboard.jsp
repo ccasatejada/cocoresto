@@ -201,7 +201,7 @@
                         <a href="FrontController?option=combo"><i class="fa fa-list fa-2x"></i> Voir la liste</a>
                     </div>
                     <div class="col-xs-6">
-                        <a href="FrontController?option=combo&task=add"><i class="fa fa-plus fa-2x"></i> Ajouter</a>
+                        <a href="FrontController?option=combo&task=edit"><i class="fa fa-plus fa-2x"></i> Ajouter</a>
                     </div>
                 </div>
             </div>
