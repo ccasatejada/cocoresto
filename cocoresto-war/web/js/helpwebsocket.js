@@ -1,6 +1,6 @@
 var wsUri = "ws://" + document.location.host + document.location.pathname + "/actions";
-var socket = new WebSocket(wsUri);
-socket.onmessage = onMessage;
+var socketHelp = new WebSocket(wsUri);
+socketHelp.onmessage = onMessage;
 
 function onMessage(event) {
     var help = JSON.parse(event.data);
@@ -17,7 +17,7 @@ function addHelp(table) {
         action: "add",
         id: table
     };
-    socket.send(JSON.stringify(HelpAction));
+    socketHelp.send(JSON.stringify(HelpAction));
 }
 
 function removeHelp(element) {
@@ -26,7 +26,7 @@ function removeHelp(element) {
         action: "remove",
         id: table
     };
-    socket.send(JSON.stringify(HelpAction));
+    socketHelp.send(JSON.stringify(HelpAction));
 }
 
 function printHelpElement(help) {
