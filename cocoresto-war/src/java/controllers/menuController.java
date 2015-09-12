@@ -82,39 +82,43 @@ public class menuController implements IController {
                             dishOrderLine.setDish(dish);
                             dishOrderLine.setStatus(1);
                             co.getDishes().add(dishOrderLine);
-                            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+co.getDishes());
+                            co.getDishes().size();
                         }
                     }
                     
-//                    if (cartDrinks != null && cartDrinks.size() > 0) {
-//                        for (Drink drink : cartDrinks) {
-//                            DrinkOrderLine drinkOrderLine = new DrinkOrderLine();
-//                            drinkOrderLine.setCustomerOrders(co);
-//                            drinkOrderLine.setDrink(drink);
-//                            drinkOrderLine.setStatus(1);
-//                            co.getDrinks().add(drinkOrderLine);
-//                        }
-//                    }
+                    if (cartDrinks != null && cartDrinks.size() > 0) {
+                        for (Drink drink : cartDrinks) {
+                            DrinkOrderLine drinkOrderLine = new DrinkOrderLine();
+                            drinkOrderLine.setCustomerOrders(co);
+                            drinkOrderLine.setDrink(drink);
+                            drinkOrderLine.setStatus(1);
+                            co.getDrinks().add(drinkOrderLine);
+                            co.getDrinks().size();
+                        }
+                    }
                     
-//                    if (cartCombos != null && cartCombos.size() > 0) {
-//                        for (Combo combo : cartCombos) {
-//                            ComboOrderLine comboOrderLine = new ComboOrderLine();
-//                            comboOrderLine.setCombo(combo);
-//                            // add dishOrderLines
-//                            List <DishOrderLine> dishOrderLines = new ArrayList();
-//                            for(Dish dish : combo.getDishes()){
-//                                DishOrderLine dishOrderLine = new DishOrderLine();
-//                                dishOrderLine.setDish(dish);
-//                                dishOrderLine.setStatus(1);
-//                                dishOrderLines.add(dishOrderLine);
-//                            }
-//                            comboOrderLine.setDishes(dishOrderLines);
-//                            co.getCombos().add(comboOrderLine);
-//                        }
-//                    }
+                    if (cartCombos != null && cartCombos.size() > 0) {
+                        for (Combo combo : cartCombos) {
+                            ComboOrderLine comboOrderLine = new ComboOrderLine();
+                            comboOrderLine.setCustomerOrders(co);
+                            comboOrderLine.setCombo(combo);
+                            // add dishOrderLines
+                            List <DishOrderLine> dishOrderLines = new ArrayList();
+                            for(Dish dish : combo.getDishes()){
+                                DishOrderLine dishOrderLine = new DishOrderLine();
+                                dishOrderLine.setDish(dish);
+                                dishOrderLine.setComboOrderLine(comboOrderLine);
+                                dishOrderLine.setStatus(1);
+                                dishOrderLines.add(dishOrderLine);
+                            }
+                            comboOrderLine.setDishes(dishOrderLines);
+                            co.getCombos().add(comboOrderLine);
+                            co.getCombos().size();
+                        }
+                    }
                     
                     // TODO : persist only if all carts has been validated
-                    //boc.update(co);
+                    boc.update(co);
 
                 }
 
