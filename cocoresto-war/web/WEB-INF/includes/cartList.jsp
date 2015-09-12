@@ -4,7 +4,7 @@
     </div>
 
     <div class="tile-body p-0">
-        <form action="" method="POST">
+        <form action="FrontController?option=menu&task=recap" method="POST">
             <table id="cart" class="table table-striped scroll">
                 <thead>
                     <tr class="bg-slategray">
