@@ -149,6 +149,10 @@ public class loginController implements IController {
                 co.setCurrentTablets(co.getCurrentTablets() - 1);
                 session.removeAttribute("table");
             }
+            
+            if(session.getAttribute("order") != null) {
+                session.removeAttribute("order");
+            }
         }
 
         return "/WEB-INF/login.jsp";

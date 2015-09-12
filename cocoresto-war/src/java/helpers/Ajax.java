@@ -39,17 +39,17 @@ public class Ajax extends HttpServlet {
 
             if ("cart".equals(request.getParameter("task"))) {
                 
-                if(session.getAttribute("cartDishes") != null) {
+                if(session.getAttribute("cartDishes") == null) {
                     List<Dish> cartDishes = new ArrayList();
                     session.setAttribute("cartDishes", cartDishes);
                 }
                 
-                if(session.getAttribute("cartDrinks") != null) {
+                if(session.getAttribute("cartDrinks") == null) {
                     List<Drink> cartDrinks = new ArrayList();
                     session.setAttribute("cartDrinks", cartDrinks);
                 }
                 
-                if(session.getAttribute("cartCombos") != null) {
+                if(session.getAttribute("cartCombos") == null) {
                     List<Combo> cartCombos = new ArrayList();
                     session.setAttribute("cartCombos", cartCombos);
                 }
@@ -78,6 +78,11 @@ public class Ajax extends HttpServlet {
                             break;
                         case "Menu":
                             Combo c = bcombo.findById(id);
+                            
+                            List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
+                            cartCombos.add(c);
+                            session.setAttribute("cartCombos", cartCombos);
+                            
                             out.println("<tr>\n"
                                     + "<td>" + c.getName() + "</td>\n"
                                     + "<td>" + c.getTotalPrice() + "</td>\n"
@@ -146,7 +151,7 @@ public class Ajax extends HttpServlet {
                                 out.println("<div class=\"col-sm-6 col-md-4\"><div class=\"thumbnail\">");
                                 out.println("<img src=\"images/products/" + drink.getImage() + "\" alt=\"" + drink.getName() + "\">");
                                 out.println("<div class=\"caption\">"
-                                        + "<h3>" + drink.getName() + "</h3>");
+                                        + "<h3>" + drink.getName() + " <small>" + drink.getFormat() + "</small></h3>");
                                 out.println("<h4>" + price + " €</h4>");
                                 out.println("<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
                                         + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" data-link=\"FrontController?option=menu&task=detail&id=" + drink.getId() + "&type=" + type + "&layout=component\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
