@@ -1,13 +1,16 @@
 package controllers;
 
-import ejb.ejbRestaurant;
 import ejb.ejbRestaurantLocal;
 import entities.Combo;
+import entities.ComboOrderLine;
 import entities.CustomerOrder;
 import entities.Dish;
+import entities.DishOrderLine;
 import entities.Drink;
+import entities.DrinkOrderLine;
 import helpers.Alert;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +25,12 @@ import javax.servlet.http.HttpSession;
 import models.beanCombo;
 import models.beanDish;
 import models.beanDrink;
+import models.beanOrderCustomer;
 
 public class menuController implements IController {
+
     ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
+    private final beanOrderCustomer boc = new beanOrderCustomer();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -46,7 +52,8 @@ public class menuController implements IController {
                 List<Dish> cartDishes = null;
                 List<Drink> cartDrinks = null;
                 List<Combo> cartCombos = null;
-
+                
+                // set cart lists with session
                 if (session.getAttribute("cartDishes") != null) {
                     cartDishes = (List<Dish>) session.getAttribute("cartDishes");
                 }
@@ -58,27 +65,56 @@ public class menuController implements IController {
                 }
 
                 // control empty cart
-                boolean emptyCart = true;
-
-                if (cartDishes != null && cartDishes.size() > 0) {
-                    emptyCart = false;
-                }
-                if (cartDrinks != null && cartDrinks.size() > 0) {
-                    emptyCart = false;
-                }
-                if (cartCombos != null && cartCombos.size() > 0) {
-                    emptyCart = false;
-                }
-
-                if (emptyCart) {
+                if ((cartDishes == null || 0 >= cartDishes.size()) && (cartDrinks == null || 0 >= cartDrinks.size()) && (cartCombos == null || 0 >= cartCombos.size())) {
                     redirectToDashboard(request, response);
                 }
 
                 // cart validation and customerorder setting
-                if (request.getParameter("confirm") != null) {
+                if (null != request.getParameter("confirmCart")) {
 
-                    //get order
+                    //get current order
                     CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(session.getAttribute("table").toString()));
+
+                    if (cartDishes != null && cartDishes.size() > 0) {
+                        for (Dish dish : cartDishes) {
+                            DishOrderLine dishOrderLine = new DishOrderLine();
+                            dishOrderLine.setCustomerOrders(co);
+                            dishOrderLine.setDish(dish);
+                            dishOrderLine.setStatus(1);
+                            co.getDishes().add(dishOrderLine);
+                            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+co.getDishes());
+                        }
+                    }
+                    
+//                    if (cartDrinks != null && cartDrinks.size() > 0) {
+//                        for (Drink drink : cartDrinks) {
+//                            DrinkOrderLine drinkOrderLine = new DrinkOrderLine();
+//                            drinkOrderLine.setCustomerOrders(co);
+//                            drinkOrderLine.setDrink(drink);
+//                            drinkOrderLine.setStatus(1);
+//                            co.getDrinks().add(drinkOrderLine);
+//                        }
+//                    }
+                    
+//                    if (cartCombos != null && cartCombos.size() > 0) {
+//                        for (Combo combo : cartCombos) {
+//                            ComboOrderLine comboOrderLine = new ComboOrderLine();
+//                            comboOrderLine.setCombo(combo);
+//                            // add dishOrderLines
+//                            List <DishOrderLine> dishOrderLines = new ArrayList();
+//                            for(Dish dish : combo.getDishes()){
+//                                DishOrderLine dishOrderLine = new DishOrderLine();
+//                                dishOrderLine.setDish(dish);
+//                                dishOrderLine.setStatus(1);
+//                                dishOrderLines.add(dishOrderLine);
+//                            }
+//                            comboOrderLine.setDishes(dishOrderLines);
+//                            co.getCombos().add(comboOrderLine);
+//                        }
+//                    }
+                    
+                    // TODO : persist only if all carts has been validated
+                    //boc.update(co);
 
                 }
 
