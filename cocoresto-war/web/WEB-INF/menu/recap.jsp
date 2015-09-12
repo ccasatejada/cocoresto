@@ -10,7 +10,7 @@
             <form method="POST">
                 <div class="col-xs-12 text-right">
                     <a href="FrontController?option=dashboard" class="btn btn-darkgray btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-remove"></i> <span>Annuler</span></a>
-                    <button type="submit" name="confirm" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-save"></i> <span>Valider</span></button>
+                    <button type="submit" name="confirmCart" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-save"></i> <span>Valider</span></button>
                 </div>
             </form>
         </div>
@@ -33,7 +33,7 @@
                         <th colspan="3">Plats</th>
                     </tr>
                     <c:forEach var="dish" items="${cartDishes}" varStatus="loop">
-                        <tr>
+                        <tr data-id="${dish.id}">
                             <td colspan="2">${dish.name}</td>
                             <td>${dish.totalPrice}</td>
                         </tr>
@@ -44,7 +44,7 @@
                         <th colspan="3">Boissons</th>
                     </tr>
                     <c:forEach var="drink" items="${cartDrinks}" varStatus="loop">
-                        <tr>
+                        <tr data-id="${drink.id}">
                             <td colspan="2">${drink.name}</td>
                             <td>${drink.totalPrice}</td>
                         </tr>
@@ -55,7 +55,7 @@
                         <th colspan="3">Menus</th>
                     </tr>
                     <c:forEach var="combo" items="${cartCombos}" varStatus="loop">
-                        <tr>
+                        <tr data-id="${combo.id}">
                             <td>${combo.name}</td>
                             <td>
                                 <c:forEach var="dish" items="${combo.dishes}" varStatus="loop">
