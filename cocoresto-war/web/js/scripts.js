@@ -144,7 +144,7 @@
                 dataType: 'html',
                 success: function (html) {
                     $("#cart tbody").empty().html(html);
-                    $("#cartTotal").empty().html(total.toFixed(2));
+                    $("#cartTotal").empty().html(total);
                 }
             });
         });

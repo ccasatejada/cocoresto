@@ -1,12 +1,20 @@
 package controllers;
 
+import ejb.ejbRestaurant;
+import ejb.ejbRestaurantLocal;
 import entities.Combo;
+import entities.CustomerOrder;
 import entities.Dish;
 import entities.Drink;
 import helpers.Alert;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJBException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +24,7 @@ import models.beanDish;
 import models.beanDrink;
 
 public class menuController implements IController {
+    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -33,33 +42,44 @@ public class menuController implements IController {
 
             if ("recap".equals(request.getParameter("task"))) {
 
-                boolean emptyCart = true;
+                // init cart lists
+                List<Dish> cartDishes = null;
+                List<Drink> cartDrinks = null;
+                List<Combo> cartCombos = null;
 
-                // load carts in session
                 if (session.getAttribute("cartDishes") != null) {
-                    List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
-                    request.setAttribute("cartDishes", cartDishes);
-                    if (cartDishes.size() > 0) {
-                        emptyCart = false;
-                    }
+                    cartDishes = (List<Dish>) session.getAttribute("cartDishes");
                 }
                 if (session.getAttribute("cartDrinks") != null) {
-                    List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
-                    request.setAttribute("cartDrinks", cartDrinks);
-                    if (cartDrinks.size() > 0) {
-                        emptyCart = false;
-                    }
+                    cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
                 }
                 if (session.getAttribute("cartCombos") != null) {
-                    List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
-                    request.setAttribute("cartCombos", cartCombos);
-                    if (cartCombos.size() > 0) {
-                        emptyCart = false;
-                    }
+                    cartCombos = (List<Combo>) session.getAttribute("cartCombos");
+                }
+
+                // control empty cart
+                boolean emptyCart = true;
+
+                if (cartDishes != null && cartDishes.size() > 0) {
+                    emptyCart = false;
+                }
+                if (cartDrinks != null && cartDrinks.size() > 0) {
+                    emptyCart = false;
+                }
+                if (cartCombos != null && cartCombos.size() > 0) {
+                    emptyCart = false;
                 }
 
                 if (emptyCart) {
                     redirectToDashboard(request, response);
+                }
+
+                // cart validation and customerorder setting
+                if (request.getParameter("confirm") != null) {
+
+                    //get order
+                    CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(session.getAttribute("table").toString()));
+
                 }
 
                 return "/WEB-INF/menu/recap.jsp";
@@ -117,6 +137,16 @@ public class menuController implements IController {
             response.sendRedirect("FrontController?option=dashboard");
         } catch (IOException | IllegalStateException ex) {
             request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
+        }
+    }
+
+    private ejbRestaurantLocal lookupejbRestaurantLocal() {
+        try {
+            Context c = new InitialContext();
+            return (ejbRestaurantLocal) c.lookup("java:global/cocoresto/cocoresto-ejb/ejbRestaurant!ejb.ejbRestaurantLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
         }
     }
 }
