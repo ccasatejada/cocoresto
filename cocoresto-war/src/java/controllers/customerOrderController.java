@@ -16,7 +16,9 @@ import helpers.Pagination;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -73,7 +75,7 @@ public class customerOrderController implements IController {
             }
 
             getList(request, "option=customerOrder");
-            
+
             return listUrl;
 
         } else if (logged && groupId == 1) { // waiter
@@ -220,33 +222,41 @@ public class customerOrderController implements IController {
                     if (cOrder.getId().equals(co.getId())) {
                         co = cOrder;
                         co.setStatus(OrderStatus.PREPARED);
+                        break;
                     }
                 }
-
-                if (request.getParameter("dNb") != null) {
-                    for (DishOrderLine d : co.getDishes()) {
-                        if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))
-                                && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
-                            d.setStatus(2);
+                if (request.getParameter("id") != null) {
+                    if (request.getParameter("dNb") != null && request.getParameter("cId") == null
+                            && request.getParameter("dcNb") == null) {
+                        for (DishOrderLine d : co.getDishes()) {
+                            if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))
+                                    && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                d.setStatus(2);
+                                break;
+                            }
                         }
                     }
-                }
-                if (request.getParameter("drNb") != null) {
-                    for (DrinkOrderLine dr : co.getDrinks()) {
-                        if (dr.getId().equals(Long.valueOf(request.getParameter("drNb")))
-                                && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
-                            dr.setStatus(2);
+                    if (request.getParameter("drNb") != null) {
+                        for (DrinkOrderLine dr : co.getDrinks()) {
+                            if (dr.getId().equals(Long.valueOf(request.getParameter("drNb")))
+                                    && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                dr.setStatus(2);
+                                break;
+                            }
                         }
                     }
-                }
-                if (request.getParameter("dcNb") != null) {
-                    if (co.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                    if (request.getParameter("dcNb") != null && request.getParameter("dNb") == null
+                            && request.getParameter("cId") != null) {
+                        Integer currentStatus;
                         for (ComboOrderLine c : co.getCombos()) {
                             if (c.getId().equals(Long.valueOf(request.getParameter("cId")))) {
+
                                 for (DishOrderLine di : c.getDishes()) {
                                     if (di.getId().equals(Long.valueOf(request.getParameter("dcNb")))
                                             && !di.getStatus().equals(2)) {
-                                        di.setStatus(2);
+                                        currentStatus = c.getStatus().get(di.getId());
+
+                                        c.getStatus().replace(di.getId(), currentStatus, 2);
                                         break;
                                     }
                                 }
@@ -272,8 +282,97 @@ public class customerOrderController implements IController {
 
             if ("ready".equals(request.getParameter("task"))) {
 
+                boolean dishReady = true;
+                boolean drinkReady = true;
+                boolean comboReady = true;
                 CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
-                co.setStatus(OrderStatus.FINISHED);
+                List<CustomerOrder> cos = (List) session.getAttribute("cos");
+                
+                for (CustomerOrder cOrder : cos) {
+                    if (cOrder.getId().equals(co.getId())) {
+                        co = cOrder;
+                        break;
+                    }
+                }
+
+                if (request.getParameter("id") != null) {
+                    if (request.getParameter("dNb") != null && request.getParameter("cId") == null
+                            && request.getParameter("dcNb") == null) {
+                        for (DishOrderLine d : co.getDishes()) {
+                            if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))
+                                    && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                d.setStatus(3);
+                                break;
+                            }
+                        }
+                    }
+                    if (request.getParameter("drNb") != null) {
+                        for (DrinkOrderLine dr : co.getDrinks()) {
+                            if (dr.getId().equals(Long.valueOf(request.getParameter("drNb")))
+                                    && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                dr.setStatus(3);
+                                break;
+                            }
+                        }
+                    }
+                    if (request.getParameter("dcNb") != null && request.getParameter("dNb") == null
+                            && request.getParameter("cId") != null) {
+                        Integer currentStatus;
+                        for (ComboOrderLine c : co.getCombos()) {
+                            if (c.getId().equals(Long.valueOf(request.getParameter("cId")))) {
+                                for (DishOrderLine di : c.getDishes()) {
+                                    if (di.getId().equals(Long.valueOf(request.getParameter("dcNb")))
+                                            && !di.getStatus().equals(3)) {
+                                        currentStatus = c.getStatus().get(di.getId());
+
+                                        c.getStatus().replace(di.getId(), currentStatus, 3);
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                for (DrinkOrderLine dr : co.getDrinks()) {
+                    if (dr.getStatus() < 3) {
+                        drinkReady = false;
+                        break;
+                    }
+                }
+                for (DishOrderLine d : co.getDishes()) {
+                    if (d.getStatus() < 3) {
+                        dishReady = false;
+                        break;
+                    }
+                }
+                for (ComboOrderLine c : co.getCombos()) {
+                    for (Map.Entry<Long, Integer> m : c.getStatus().entrySet()) {
+                        if (m.getValue() < 3) {
+                            comboReady = false;
+                            break;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < cos.size(); i++) {
+                    if (cos.get(i).getId().equals(co.getId())) {
+                        cos.remove(i);
+                        break;
+                    }
+                }
+
+                if (dishReady && drinkReady && comboReady) {
+                    co.setStatus(OrderStatus.FINISHED);
+                    boc.update(co);
+
+                } else {
+                    cos.add(co);
+                }
+
+                session.setAttribute("cos", cos);
+
+                return cookUrl;
             }
 
         } else { // not logged or wrong groupId

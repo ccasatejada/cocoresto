@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class ComboOrderLine implements Serializable {
@@ -21,6 +23,9 @@ public class ComboOrderLine implements Serializable {
     private List<DishOrderLine> dishes;
     @ManyToOne
     private CustomerOrder customerOrder;
+    
+    @Transient
+    private HashMap<Long, Integer> status;
 
     public ComboOrderLine() {
     }
@@ -56,6 +61,18 @@ public class ComboOrderLine implements Serializable {
     public void setCustomerOrders(CustomerOrder customerOrder) {
         this.customerOrder = customerOrder;
     }
+
+    public HashMap<Long, Integer> getStatus() {
+        return status;
+    }
+
+    public void setStatus(HashMap<Long, Integer> status) {
+        this.status = status;
+    }
+
+    
+    
+    
     
     @Override
     public int hashCode() {

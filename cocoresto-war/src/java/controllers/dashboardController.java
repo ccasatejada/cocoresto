@@ -10,7 +10,7 @@ import entities.DrinkOrderLine;
 import entities.Employee;
 import entities.OrderStatus;
 import helpers.Pagination;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -97,8 +97,9 @@ public class dashboardController implements IController {
                         d.setStatus(1);
                     }
                     for (ComboOrderLine c : co.getCombos()) {
+                        c.setStatus(new HashMap());
                         for (DishOrderLine di : c.getDishes()) {
-                            di.setStatus(1);
+                            c.getStatus().put(di.getId(), 1);
                         }
                     }
                 }
