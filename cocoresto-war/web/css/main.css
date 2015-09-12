@@ -17670,3 +17670,18 @@ iframe{
 #cart td{
     vertical-align: middle;
 }
+
+
+table.scroll {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table.scroll tbody { display: block; }
+
+table.scroll tbody {
+    max-height: 370px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

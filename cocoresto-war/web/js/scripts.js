@@ -24,6 +24,7 @@
         $('[data-toggle="tooltip"]').tooltip();
 
 
+        // close window event
         $(window).bind('click', function (event) {
             if (event.target.href) {
                 $(window).unbind('beforeunload');
