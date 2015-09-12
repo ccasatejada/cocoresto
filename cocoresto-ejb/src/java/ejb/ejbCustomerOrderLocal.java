@@ -1,10 +1,10 @@
 package ejb;
 
 import entities.CustomerOrder;
-import entities.Employee;
 import entities.OrderStatus;
 import java.util.List;
 import javax.ejb.Local;
+import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 @Local
@@ -30,9 +30,9 @@ public interface ejbCustomerOrderLocal {
     
     public List<CustomerOrder> findOrdersByStatus(OrderStatus status1, OrderStatus status2);
     
-    public void addSession(Session session);
+    public void addSession(Session session, HttpSession httpSession);
     public void removeSession(Session session);
-    public void sendToWaiter();
-    public void sendToCustomer();
+    public void sendOnPrep(CustomerOrder order);
+    public void sendReady(CustomerOrder order);
 
 }

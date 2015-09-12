@@ -1,7 +1,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:if test="${nbHelp > 0}">
+
     <div class="btn-group btn-group-justified mb-20 mt-40" role="group">
         <div class="btn-group" role="group">
             <div id="helpDiv">
@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-</c:if>
+
 
 <section class="tile">
 

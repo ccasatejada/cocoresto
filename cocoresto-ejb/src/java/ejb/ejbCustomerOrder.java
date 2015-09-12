@@ -15,6 +15,7 @@ import javax.json.spi.JsonProvider;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 @Stateless
@@ -25,6 +26,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     private ejbRestaurant ejbRestaurant = new ejbRestaurant();
     private final Set sessions = new HashSet<>();
+    private final Set httpSessions = new HashSet<>();
 
     @Override
     public void create(CustomerOrder customerOrder) {
@@ -102,7 +104,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     }
 
     @Override
-    public void addSession(Session session) {
+    public void addSession(Session session, HttpSession httpSession) {
         sessions.add(session);
         for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
             Integer key = entry.getKey();
@@ -112,14 +114,15 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @Override
     public void removeSession(Session session) {
+        sessions.remove(session);
     }
 
     @Override
-    public void sendToWaiter() {
+    public void sendOnPrep(CustomerOrder order) {
     }
 
     @Override
-    public void sendToCustomer() {
+    public void sendReady(CustomerOrder order) {
     }
 
     private JsonObject createAddMessage(CustomerOrder order) {

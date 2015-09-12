@@ -73,7 +73,7 @@ public class customerOrderController implements IController {
             }
 
             getList(request, "option=customerOrder");
-
+            
             return listUrl;
 
         } else if (logged && groupId == 1) { // waiter

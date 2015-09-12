@@ -35,6 +35,8 @@ public class HelpWebSocketServer implements Serializable {
     
 
     public HelpWebSocketServer() {
+        ejbRestaurant = lookupejbRestaurantLocal();
+        ejbHelp = lookupejbHelpLocal();
     }
 
     @OnOpen
