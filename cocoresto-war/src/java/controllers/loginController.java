@@ -154,7 +154,7 @@ public class loginController implements IController {
                 session.removeAttribute("order");
             }
 
-            session.invalidate();
+            //session.invalidate();
         }
 
         return "/WEB-INF/login.jsp";
