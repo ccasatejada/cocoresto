@@ -4,22 +4,25 @@
     </div>
 
     <div class="tile-body p-0">
-        <table id="cart" class="table table-striped">
-            <thead>
-                <tr class="bg-slategray">
-                    <th>Nom</th>
-                    <th>Prix</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th class="bg-default">Total</th>
-                    <td colspan="2"><span id="cartTotal">0</span> &euro;</td>
-                </tr>
-            </tfoot>
-            <tbody>
-            </tbody>
-        </table>
+        <form action="FrontController?option=menu&task=recap" method="POST">
+            <table id="cart" class="table table-striped scroll">
+                <thead>
+                    <tr class="bg-slategray">
+                        <th>Nom</th>
+                        <th>Prix</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th class="bg-default">Total</th>
+                        <td colspan="2"><span id="cartTotal">0</span> &euro;</td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-greensea pull-right mt-10 mb-10" name="confirm">Valider</button>
+        </form>
     </div>
 </div>
