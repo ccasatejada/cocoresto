@@ -121,6 +121,7 @@ public class loginController implements IController {
             }
 
             session.setAttribute("table", numberTable);
+            session.setAttribute("order", co);
             session.setAttribute("logged", true);
             session.setAttribute("group", 0L); // client group
 

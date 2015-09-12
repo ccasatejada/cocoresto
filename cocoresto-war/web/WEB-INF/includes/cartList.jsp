@@ -1,6 +1,6 @@
 <div class="tile">
     <div class="tile-header dvd dvd-btm bg-greensea">
-        <h1 class="custom-font"><strong>Votre panier</strong></h1>
+        <h1 class="custom-font"><strong>Votre panier</strong> <small class="text-white text-right">Commande n°${order.number}</small></h1>
     </div>
 
     <div class="tile-body p-0">
