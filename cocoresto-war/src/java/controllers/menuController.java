@@ -39,17 +39,23 @@ public class menuController implements IController {
                 if (session.getAttribute("cartDishes") != null) {
                     List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
                     request.setAttribute("cartDishes", cartDishes);
-                    emptyCart = false;
+                    if (cartDishes.size() > 0) {
+                        emptyCart = false;
+                    }
                 }
                 if (session.getAttribute("cartDrinks") != null) {
                     List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
                     request.setAttribute("cartDrinks", cartDrinks);
-                    emptyCart = false;
+                    if (cartDrinks.size() > 0) {
+                        emptyCart = false;
+                    }
                 }
                 if (session.getAttribute("cartCombos") != null) {
                     List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
                     request.setAttribute("cartCombos", cartCombos);
-                    emptyCart = false;
+                    if (cartCombos.size() > 0) {
+                        emptyCart = false;
+                    }
                 }
 
                 if (emptyCart) {
