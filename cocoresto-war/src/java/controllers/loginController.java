@@ -26,7 +26,7 @@ public class loginController implements IController {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        
+
         HttpSession session = request.getSession();
 
         beanLogin bLogin = (beanLogin) session.getAttribute("bLogin");
@@ -35,7 +35,7 @@ public class loginController implements IController {
             bLogin = new beanLogin();
             session.setAttribute("bLogin", bLogin);
         }
-        
+
         // redirect to dashboar if already logged
         boolean logged = false;
         if (session.getAttribute("logged") != null) {
@@ -134,25 +134,27 @@ public class loginController implements IController {
 
         // Disconnect
         if ("disconnect".equals(request.getParameter("task"))) {
-            
+
             session.removeAttribute("logged");
             session.removeAttribute("group");
-                
-            if(session.getAttribute("loggedEmployee") != null) {
+
+            if (session.getAttribute("loggedEmployee") != null) {
                 ejbRestaurant.removeEmployee((Employee) session.getAttribute("loggedEmployee"));
-                session.removeAttribute("loggedEmployee");            
+                session.removeAttribute("loggedEmployee");
             }
-            
+
             // customer disconnect
-            if(session.getAttribute("table") != null) {
+            if (session.getAttribute("table") != null) {
                 CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(session.getAttribute("table").toString()));
                 co.setCurrentTablets(co.getCurrentTablets() - 1);
                 session.removeAttribute("table");
             }
-            
-            if(session.getAttribute("order") != null) {
+
+            if (session.getAttribute("order") != null) {
                 session.removeAttribute("order");
             }
+
+            session.invalidate();
         }
 
         return "/WEB-INF/login.jsp";

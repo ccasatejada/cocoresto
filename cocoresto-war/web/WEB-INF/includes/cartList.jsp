@@ -15,7 +15,7 @@
             <tfoot>
                 <tr>
                     <th class="bg-default">Total</th>
-                    <td colspan="2">0 &euro;</td>
+                    <td colspan="2"><span id="cartTotal">0</span> &euro;</td>
                 </tr>
             </tfoot>
             <tbody>

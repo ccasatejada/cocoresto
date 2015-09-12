@@ -17664,6 +17664,7 @@ iframe{
 
 .w100, .thumbnail a>img, .thumbnail>img {
     width:100%;
+    max-height: 240px;
 }
 
 #cart td{

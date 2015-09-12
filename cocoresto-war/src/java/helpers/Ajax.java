@@ -32,77 +32,101 @@ public class Ajax extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         HttpSession session = request.getSession();
-        
+
         try (PrintWriter out = response.getWriter()) {
 
             if ("cart".equals(request.getParameter("task"))) {
-                
-                if(session.getAttribute("cartDishes") == null) {
+
+                if (session.getAttribute("cartDishes") == null) {
                     List<Dish> cartDishes = new ArrayList();
                     session.setAttribute("cartDishes", cartDishes);
                 }
-                
-                if(session.getAttribute("cartDrinks") == null) {
+
+                if (session.getAttribute("cartDrinks") == null) {
                     List<Drink> cartDrinks = new ArrayList();
                     session.setAttribute("cartDrinks", cartDrinks);
                 }
-                
-                if(session.getAttribute("cartCombos") == null) {
+
+                if (session.getAttribute("cartCombos") == null) {
                     List<Combo> cartCombos = new ArrayList();
                     session.setAttribute("cartCombos", cartCombos);
                 }
-                
-                
 
+                beanDish bdish = new beanDish();
+                beanDrink bdrink = new beanDrink();
+                beanCombo bcombo = new beanCombo();
+
+                Long id = Long.valueOf(request.getParameter("id"));
+                String type = request.getParameter("type");
+
+                // REMOVE
+                if ("remove".equals(request.getParameter("action"))) {
+                    switch (type) {
+                        case "Boisson":
+                            Drink dr = bdrink.findById(id);
+                            List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
+                            cartDrinks.remove(dr);
+                            session.setAttribute("cartDrinks", cartDrinks);
+                            break;
+                        case "Menu":
+                            Combo c = bcombo.findById(id);
+                            List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
+                            cartCombos.remove(c);
+                            session.setAttribute("cartCombos", cartCombos);
+                            break;
+                        default:
+                            Dish d = bdish.findById(id);
+                            List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
+                            cartDishes.remove(d);
+                            session.setAttribute("cartDishes", cartDishes);
+                    }
+                }
+
+                // ADD
                 if ("add".equals(request.getParameter("action"))) {
-
-                    beanDish bdish = new beanDish();
-                    beanDrink bdrink = new beanDrink();
-                    beanCombo bcombo = new beanCombo();
-
-                    Long id = Long.valueOf(request.getParameter("id"));
-                    String type = request.getParameter("type");
 
                     switch (type) {
                         case "Boisson":
                             Drink dr = bdrink.findById(id);
+                            List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
+                            cartDrinks.add(dr);
+                            session.setAttribute("cartDrinks", cartDrinks);
+
                             out.println("<tr>\n"
-                                    + "<td>"+dr.getName()+"</td>\n"
-                                    + "<td>"+dr.getTotalPrice()+"</td>\n"
+                                    + "<td>" + dr.getName() + "</td>\n"
+                                    + "<td>" + dr.getTotalPrice() + "</td>\n"
                                     + "<td>\n"
-                                    + "<a data-task=\"remove\" data-id=\"" + dr.getId() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "<a data-task=\"remove\" data-id=\"" + dr.getId() + "\" data-price=\"" + dr.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
                                     + "</td>\n"
                                     + "</tr>");
                             break;
                         case "Menu":
                             Combo c = bcombo.findById(id);
-                            
                             List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
                             cartCombos.add(c);
                             session.setAttribute("cartCombos", cartCombos);
-                            
+
                             out.println("<tr>\n"
                                     + "<td>" + c.getName() + "</td>\n"
                                     + "<td>" + c.getTotalPrice() + "</td>\n"
                                     + "<td>\n"
-                                    + "<a data-task=\"remove\" data-id=\"" + c.getId() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "<a data-task=\"remove\" data-id=\"" + c.getId() + "\" data-price=\"" + c.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
                                     + "</td>\n"
                                     + "</tr>");
                             break;
                         default:
                             Dish d = bdish.findById(id);
-                            
                             List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
                             cartDishes.add(d);
                             session.setAttribute("cartDishes", cartDishes);
-                            
+
                             out.println("<tr>\n"
                                     + "<td>" + d.getName() + "</td>\n"
                                     + "<td>" + d.getTotalPrice() + "</td>\n"
                                     + "<td>\n"
-                                    + "<a data-task=\"remove\" data-id=\"" + d.getId() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
+                                    + "<a data-task=\"remove\" data-id=\"" + d.getId() + "\" data-price=\"" + d.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-lightred btn-rounded btn-ef\" name=\"deleteIt\"><i class=\"fa fa-minus-circle\"></i></a>\n"
                                     + "</td>\n"
                                     + "</tr>");
                     }
@@ -153,7 +177,7 @@ public class Ajax extends HttpServlet {
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + drink.getName() + " <small>" + drink.getFormat() + "</small></h3>");
                                 out.println("<h4>" + price + " €</h4>");
-                                out.println("<p><a data-task=\"add\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
+                                out.println("<p><a data-task=\"add\" data-id=\"" + drink.getId() + "\" data-price=\"" + drink.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
                                         + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" data-link=\"FrontController?option=menu&task=detail&id=" + drink.getId() + "&type=" + type + "&layout=component\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
@@ -166,7 +190,7 @@ public class Ajax extends HttpServlet {
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + combo.getName() + "</h3>"
                                         + "<h4>" + combo.getTotalPrice() + " €</h4>"
-                                        + "<p><a data-task=\"add\" data-id=\"" + combo.getId() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
+                                        + "<p><a data-task=\"add\" data-id=\"" + combo.getId() + "\" data-price=\"" + combo.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
                                         + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" data-link=\"FrontController?option=menu&task=detail&id=" + combo.getId() + "&type=" + type + "&layout=component\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
@@ -180,7 +204,7 @@ public class Ajax extends HttpServlet {
                                 out.println("<div class=\"caption\">"
                                         + "<h3>" + dish.getName() + "</h3>"
                                         + "<h4>" + dish.getTotalPrice() + " €</h4>"
-                                        + "<p><a data-task=\"add\" data-id=\"" + dish.getId() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
+                                        + "<p><a data-task=\"add\" data-id=\"" + dish.getId() + "\" data-price=\"" + dish.getTotalPrice() + "\" data-type=\"" + type + "\" href=\"#\" class=\"btn btn-primary\" role=\"button\">Ajouter</a> "
                                         + "<a data-task=\"show\" data-toggle=\"modal\" data-target=\"#detailModal\" data-link=\"FrontController?option=menu&task=detail&id=" + dish.getId() + "&type=" + type + "&layout=component\" class=\"btn btn-default\" role=\"button\">Détail</a></p>"
                                         + "</div>");
                                 out.println("</div></div>");
