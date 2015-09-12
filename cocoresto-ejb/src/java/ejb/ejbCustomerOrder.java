@@ -106,6 +106,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     @Override
     public void addSession(Session session, HttpSession httpSession) {
         sessions.add(session);
+        httpSessions.add(httpSession);
         for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
             Integer key = entry.getKey();
             CustomerOrder order = entry.getValue();
@@ -119,22 +120,38 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @Override
     public void sendOnPrep(CustomerOrder order) {
+        JsonObject onPrepMessage = createOnPrepMessage(order);
+        sendToAllConnectedSessions(onPrepMessage);
     }
 
     @Override
     public void sendReady(CustomerOrder order) {
+        JsonObject readyMessage = createReadyMessage(order);
+        sendToAllConnectedSessions(readyMessage);
     }
 
-    private JsonObject createAddMessage(CustomerOrder order) {
+    private JsonObject createOnPrepMessage(CustomerOrder order) {
         JsonProvider provider = JsonProvider.provider();
-        JsonObject addMessage = provider.createObjectBuilder()
-                .add("", "")
+        JsonObject onPrepMessage = provider.createObjectBuilder()
+                .add("action", "onprep")
                 .add("", "")
                 .add("", "")
                 .add("", "")
                 .build();
 
-        return addMessage;
+        return onPrepMessage;
+    }
+
+    private JsonObject createReadyMessage(CustomerOrder order) {
+        JsonProvider provider = JsonProvider.provider();
+        JsonObject readyMessage = provider.createObjectBuilder()
+                .add("action", "ready")
+                .add("", "")
+                .add("", "")
+                .add("", "")
+                .build();
+
+        return readyMessage;
     }
 
     private void sendToAllConnectedSessions(JsonObject message) {
