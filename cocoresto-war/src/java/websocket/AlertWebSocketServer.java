@@ -3,7 +3,14 @@ package websocket;
 import ejb.ejbCustomerOrderLocal;
 import ejb.ejbEmployeeLocal;
 import ejb.ejbRestaurantLocal;
+import entities.Combo;
+import entities.ComboOrderLine;
 import entities.CustomerOrder;
+import entities.Dish;
+import entities.DishOrderLine;
+import entities.Drink;
+import entities.DrinkOrderLine;
+import entities.Employee;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,6 +65,7 @@ public class AlertWebSocketServer {
         System.out.println("table : " + httpSession.getAttribute("table"));
         System.out.println("========================================");
         System.out.println("========================================");
+        Employee e = (Employee)httpSession.getAttribute("loggedEmployee");
 
         ejbCustomerOrder.addSession(session, httpSession);
     }
@@ -78,20 +86,52 @@ public class AlertWebSocketServer {
             JsonObject jsonMessage = reader.readObject();
             if ("onprep".equals(jsonMessage.getString("action"))) {
                 CustomerOrder order = ejbRestaurant.getOrder(Integer.valueOf(jsonMessage.getString("order")));
-                
-                if (jsonMessage.getString("dish") != null) {
-                    Integer id = Integer.valueOf(jsonMessage.getString("dish"));
+                if ("dish".equals(jsonMessage.getString("element"))) {
+                    Long id = Long.valueOf(jsonMessage.getString("dish"));
+                    for(DishOrderLine dol : order.getDishes()){
+                        if(dol.getId() == id){
+                            Dish d = dol.getDish();
+                            System.out.println(d.getName());
+                        }
+                    }
                 }
-                if(jsonMessage.getString("combo") != null){
-                    Integer idCombo = Integer.valueOf(jsonMessage.getString("combo"));
-                    Integer id = Integer.valueOf(jsonMessage.getString("dishcombo"));
+                if ("combo".equals(jsonMessage.getString("element"))) {
+                    Long idCombo = Long.valueOf(jsonMessage.getString("combo"));
+                    Long id = Long.valueOf(jsonMessage.getString("dishcombo"));
+                    for(ComboOrderLine col : order.getCombos()){
+                        if(col.getId() == idCombo){
+                            Combo c = col.getCombo();
+                            System.out.println(c.getName());
+                            for(DishOrderLine dol : col.getDishes()){
+                                if(dol.getId() == id){
+                                    Dish d = dol.getDish();
+                                    System.out.println(d.getName());
+                                }
+                            }
+                        }
+                    }
                 }
-                if(jsonMessage.getString("drink") != null){
-                    Integer id = Integer.valueOf(jsonMessage.getString("drink"));
+                if ("drink".equals(jsonMessage.getString("element"))) {
+                    Long id = Long.valueOf(jsonMessage.getString("drink"));
+                    for(DrinkOrderLine dol : order.getDrinks()){
+                        if(dol.getId() == id){
+                            Drink d = dol.getDrink();
+                            System.out.println(d.getName());
+                        }
+                    }
                 }
             }
             if ("ready".equals(jsonMessage.getString("action"))) {
-
+                if ("dish".equals(jsonMessage.getString("element"))) {
+                    Integer id = Integer.valueOf(jsonMessage.getString("dish"));
+                }
+                if ("combo".equals(jsonMessage.getString("element"))) {
+                    Integer idCombo = Integer.valueOf(jsonMessage.getString("combo"));
+                    Integer id = Integer.valueOf(jsonMessage.getString("dishcombo"));
+                }
+                if ("drink".equals(jsonMessage.getString("element"))) {
+                    Integer id = Integer.valueOf(jsonMessage.getString("drink"));
+                }
             }
         }
     }

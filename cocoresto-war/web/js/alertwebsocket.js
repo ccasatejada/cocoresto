@@ -20,7 +20,6 @@ function formListener() {
     for (var i = 0; i < formOnPrep.length; i++) {
         formOnPrep[i].addEventListener('click', function (e) {
             var product = e.target;
-            alert(product);
             // id order
             var order = product.dataset.order;
             // id dish, combo/dishcombo, drink, validate to on prep
@@ -29,7 +28,6 @@ function formListener() {
             var dishcombo = product.dataset.dishcombo;
             var drink = product.dataset.drink;
             sendOnPrep(order, dish, combo, dishcombo, drink);
-            alert(order + " dish : " + dish + " / combo : " + combo + " / dishcombo : " + dishcombo + " / drink : " + drink);
         });
     }
 
@@ -38,7 +36,6 @@ function formListener() {
     for (var i = 0; i < formReady.length; i++) {
         formReady[i].addEventListener('click', function (e) {
             var product = e.target;
-            alert(product);
             // id order 
             var corder = product.dataset.order;
             // id dish, combo/dishcombo, drink, on prep to ready
@@ -47,38 +44,74 @@ function formListener() {
             var dishcomboonprep = product.dataset.dishcombo;
             var drinkonprep = product.dataset.drink;
             sendReady(corder, dishonprep, comboonprep, dishcomboonprep, drinkonprep);
-            alert(corder + " dishop : " + dishonprep + " / comboop : " + comboonprep + " / dishcomboop : " + dishcomboonprep + " / drink : " + drinkonprep);
         });
     }
 }
 
-function formReadyListener() {
-
-}
 
 function sendOnPrep(order, dish, combo, dishcombo, drink) {
-    var AlertAction = {
-        action: "onprep",
-        order: order,
-        dish: dish,
-        combo: combo,
-        dishcombo: dishcombo,
-        drink: drink
-    };
-    alert(AlertAction);
-    socketAlert.send(JSON.stringify(AlertAction));
+    if (typeof dish !== "undefined") {
+        var AlertAction = {
+            action: "onprep",
+            element: "dish",
+            order: order,
+            dish: dish
+        };
+        alert("if dish" + order + dish);
+        socketAlert.send(JSON.stringify(AlertAction));
+    }
+    if (typeof drink !== "undefined") {
+        var AlertAction = {
+            action: "onprep",
+            element: "drink",
+            order: order,
+            drink: drink
+        };
+        alert(order + drink);
+        socketAlert.send(JSON.stringify(AlertAction));
+    }
+    if (typeof combo !== "undefined") {
+        var AlertAction = {
+            action: "onprep",
+            element: "combo",
+            order: order,
+            combo: combo,
+            dishcombo: dishcombo
+        };
+        alert(order + combo + dishcombo);
+        socketAlert.send(JSON.stringify(AlertAction));
+    }
 }
 
 function sendReady(corder, dishonprep, comboonprep, dishcomboonprep, drinkonprep) {
-    var AlertAction = {
-        action: "ready",
-        order: corder,
-        dish: dishonprep,
-        combo: comboonprep,
-        dishcombo: dishcomboonprep,
-        drink: drinkonprep
-    };
-    socketAlert.send(JSON.stringify(AlertAction));
+    if (typeof dishonprep !== "undefined") {
+        var AlertAction = {
+            action: "ready",
+            element: "dish",
+            order: corder,
+            dish: dishonprep
+        };
+        socketAlert.send(JSON.stringify(AlertAction));
+    }
+    if (typeof drinkonprep !== "undefined") {
+        var AlertAction = {
+            action: "ready",
+            element: "drink",
+            order: corder,
+            drink: drinkonprep
+        };
+        socketAlert.send(JSON.stringify(AlertAction));
+    }
+    if (typeof comboonprep !== "undefined") {
+        var AlertAction = {
+            action: "ready",
+            element: "combo",
+            order: corder,
+            combo: comboonprep,
+            dishcombo: dishcomboonprep
+        };
+        socketAlert.send(JSON.stringify(AlertAction));
+    }
 }
 
 function printAlertElement(alert) {
