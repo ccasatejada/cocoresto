@@ -70,7 +70,6 @@ public class dashboardController implements IController {
                 request.setAttribute("alert", Alert.setAlert("Attention", "Commande introuvable", "danger"));
                 return "/WEB-INF/login.jsp";
             }
-            System.out.println(">>>>>>>>>>>>>>>>>>>>" + ejbRestaurant);
 
             // session cart already validated
             if ((boolean) session.getAttribute("validatedCart") == true) {
