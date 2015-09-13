@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section class="tile">
     <div class="tile-header dvd dvd-btm bg-greensea">
-        <h1 class="custom-font"><strong>Suivi de votre commande</strong></h1>
+        <h1 class="custom-font"><strong>Suivi de votre commande n°${customerOrder.number}</strong></h1>
     </div>
     <div class="tile-body p-0">
         <table class="table table-striped">
@@ -16,7 +16,11 @@
                         <tr data-id="${orderline.id}">
                             <td>${orderline.dish.name}</td>
                             <td>${orderline.dish.category}</td>
-                            <td>${orderline.status}</td>
+                            <td>
+                                <c:if test="${orderline.status == 1}"><span class="label label-default">En attente</span></c:if>
+                                <c:if test="${orderline.status == 2}"><span class="label label-info">En préparation</span></c:if>
+                                <c:if test="${orderline.status == 3}"><span class="label label-success">Prêt</span></c:if>
+                            </td>
                         </tr>
                     </c:forEach>
                 </c:if>
@@ -30,7 +34,11 @@
                         <tr data-id="${orderline.id}">
                             <td>${orderline.drink.name}</td>
                             <td>${orderline.drink.category}</td>
-                            <td>${orderline.status}</td>
+                            <td>
+                                <c:if test="${orderline.status == 1}"><span class="label label-default">En attente</span></c:if>
+                                <c:if test="${orderline.status == 2}"><span class="label label-info">En préparation</span></c:if>
+                                <c:if test="${orderline.status == 3}"><span class="label label-success">Prêt</span></c:if>
+                            </td>
                         </tr>
                     </c:forEach>
                 </c:if>
@@ -48,7 +56,11 @@
                                 <tr data-id="${orderline.id}">
                                     <td>${orderline.dish.name}</td>
                                     <td>${orderline.dish.category}</td>
-                                    <td>${orderline.status}</td>
+                                    <td>
+                                        <c:if test="${orderline.status == 1}"><span class="label label-default">En attente</span></c:if>
+                                        <c:if test="${orderline.status == 2}"><span class="label label-info">En préparation</span></c:if>
+                                        <c:if test="${orderline.status == 3}"><span class="label label-success">Prêt</span></c:if>
+                                    </td>
                                 </tr>
                             </c:forEach>                                
                     </c:forEach>
