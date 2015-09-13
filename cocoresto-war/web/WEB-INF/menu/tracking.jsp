@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section class="tile">
     <div class="tile-header dvd dvd-btm bg-greensea">
-        <h1 class="custom-font"><strong>Suivi de votre commande n°${customerOrder.number}</strong></h1>
+        <h1 class="custom-font"><strong>Suivi de votre commande n°${order.number}</strong></h1>
     </div>
     <div class="tile-body p-0">
         <table class="table table-striped">
@@ -50,7 +50,7 @@
                     </tr>
                     <c:forEach var="orderline" items="${comboOrderLines}" varStatus="loop">
                         <tr data-id="${orderline.id}">
-                            <td colspan="3">Plats du menu : ${orderline.combo.name}</td>
+                            <td class="bg-info" colspan="3">Plats du menu : ${orderline.combo.name}</td>
                         </tr>
                             <c:forEach var="orderline" items="${orderline.dishes}" varStatus="loop">
                                 <tr data-id="${orderline.id}">

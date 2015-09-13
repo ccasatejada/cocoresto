@@ -57,22 +57,27 @@ public class dashboardController implements IController {
 
         if (groupId == 0) { // return customer dashboard
 
-            if (session.getAttribute("validatedCart") == null) {
+            if (session.getAttribute("order") == null || session.getAttribute("validatedCart") == null) {
+                return "/WEB-INF/login.jsp";
+            }
+
+            CustomerOrder co = null;
+
+            try {
+                Integer table = (Integer) session.getAttribute("table");
+                co = ejbRestaurant.getOrder(table);
+            } catch (Exception e) {
+                request.setAttribute("alert", Alert.setAlert("Attention", "Commande introuvable", "danger"));
+                return "/WEB-INF/login.jsp";
+            }
+
+            if (co.getStatus().equals(OrderStatus.CANCELLED)) {
+                request.setAttribute("alert", Alert.setAlert("Désolé", "La commande a été annulée", "danger"));
                 return "/WEB-INF/login.jsp";
             }
 
             // session cart already validated
             if ((boolean) session.getAttribute("validatedCart") == true) {
-
-                CustomerOrder co = null;
-                
-                try {
-                    Integer table = (Integer) session.getAttribute("table");
-                    co = ejbRestaurant.getOrder(table);
-                } catch (Exception e) {
-                    request.setAttribute("alert", Alert.setAlert("Attention", "Commande introuvable", "danger"));
-                    return "/WEB-INF/login.jsp";
-                }
 
                 Collection<DishOrderLine> dishOrderLines = co.getDishes();
                 request.setAttribute("dishOrderLines", dishOrderLines);
