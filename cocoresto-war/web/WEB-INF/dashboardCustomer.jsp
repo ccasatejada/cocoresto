@@ -37,5 +37,5 @@
 </c:if>
 
 <c:if test="${validatedCart}">
-    suivi de commande
+    <%@include file="menu/tracking.jsp" %>
 </c:if>
