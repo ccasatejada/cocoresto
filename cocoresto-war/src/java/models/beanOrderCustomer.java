@@ -111,11 +111,24 @@ public class beanOrderCustomer implements Serializable {
 
         return i;
     }
-    
-    public void saveCart(CustomerOrder customerOrder) {
-        
+
+    public boolean saveCart(CustomerOrder customerOrder) {
+
+        // test if there is still carts to validate
+        if (customerOrder.getSavedCarts() >= customerOrder.getNbTablet()) {
+            return false;
+        } else { // increase savedCarts 
+            customerOrder.setSavedCarts(customerOrder.getSavedCarts() + 1);
+        }
+
+        // persist cart in order if all carts have been saved
+        if (customerOrder.getSavedCarts() == customerOrder.getNbTablet()) {
+            customerOrder.setStatus(OrderStatus.VALIDATE);
+            update(customerOrder);
+        }
+
+        return true;
     }
-    
 
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {
         try {

@@ -1,5 +1,6 @@
 package controllers;
 
+import ejb.ejbRestaurantLocal;
 import entities.Combo;
 import entities.ComboOrderLine;
 import entities.CustomerOrder;
@@ -9,9 +10,16 @@ import entities.Drink;
 import entities.DrinkOrderLine;
 import entities.Employee;
 import entities.OrderStatus;
+import helpers.Alert;
 import helpers.Pagination;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +34,8 @@ import models.beanRate;
 import models.beanTableCustomer;
 
 public class dashboardController implements IController {
+
+    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -47,33 +57,63 @@ public class dashboardController implements IController {
 
         if (groupId == 0) { // return customer dashboard
 
-            Double cartTotal = 0.00;
-
-            if (session.getAttribute("cartDishes") != null) {
-                List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
-                request.setAttribute("cartDishes", cartDishes);
-                for (Dish d : cartDishes) {
-                    cartTotal += d.getTotalPrice();
-                }
-            }
-            if (session.getAttribute("cartDrinks") != null) {
-                List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
-                request.setAttribute("cartDrinks", cartDrinks);
-                for (Drink dr : cartDrinks) {
-                    cartTotal += dr.getTotalPrice();
-                }
-            }
-            if (session.getAttribute("cartCombos") != null) {
-                List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
-                request.setAttribute("cartCombos", cartCombos);
-                for (Combo c : cartCombos) {
-                    cartTotal += c.getTotalPrice();
-                }
+            if (session.getAttribute("order") == null || session.getAttribute("validatedCart") == null) {
+                return "/WEB-INF/login.jsp";
             }
 
-            request.setAttribute("cartTotal", String.format("%.2f", cartTotal));
+            CustomerOrder co = null;
+
+            try {
+                Integer table = (Integer) session.getAttribute("table");
+                co = ejbRestaurant.getOrder(table);
+            } catch (Exception e) {
+                request.setAttribute("alert", Alert.setAlert("Attention", "Commande introuvable", "danger"));
+                return "/WEB-INF/login.jsp";
+            }
+
+            // session cart already validated
+            if ((boolean) session.getAttribute("validatedCart") == true) {
+
+                Collection<DishOrderLine> dishOrderLines = co.getDishes();
+                request.setAttribute("dishOrderLines", dishOrderLines);
+
+                Collection<DrinkOrderLine> drinkOrderLines = co.getDrinks();
+                request.setAttribute("drinkOrderLines", drinkOrderLines);
+
+                Collection<ComboOrderLine> comboOrderLines = co.getCombos();
+                request.setAttribute("comboOrderLines", comboOrderLines);
+
+            } else { // get current cart
+
+                Double cartTotal = 0.00;
+
+                if (session.getAttribute("cartDishes") != null) {
+                    List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
+                    request.setAttribute("cartDishes", cartDishes);
+                    for (Dish d : cartDishes) {
+                        cartTotal += d.getTotalPrice();
+                    }
+                }
+                if (session.getAttribute("cartDrinks") != null) {
+                    List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
+                    request.setAttribute("cartDrinks", cartDrinks);
+                    for (Drink dr : cartDrinks) {
+                        cartTotal += dr.getTotalPrice();
+                    }
+                }
+                if (session.getAttribute("cartCombos") != null) {
+                    List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
+                    request.setAttribute("cartCombos", cartCombos);
+                    for (Combo c : cartCombos) {
+                        cartTotal += c.getTotalPrice();
+                    }
+                }
+
+                request.setAttribute("cartTotal", String.format("%.2f", cartTotal));
+            }
 
             return "/WEB-INF/dashboardCustomer.jsp";
+
         } else if (groupId == 1) { // return waiter dashboard
 
             Pagination pagination = new Pagination("option=dashboard", request.getParameter("page"), 10, boc.count());
@@ -127,6 +167,16 @@ public class dashboardController implements IController {
     @Override
     public String execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) {
         return null;
+    }
+
+    private ejbRestaurantLocal lookupejbRestaurantLocal() {
+        try {
+            Context c = new InitialContext();
+            return (ejbRestaurantLocal) c.lookup("java:global/cocoresto/cocoresto-ejb/ejbRestaurant!ejb.ejbRestaurantLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
     }
 
 }

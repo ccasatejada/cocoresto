@@ -44,7 +44,7 @@ public class menuController implements IController {
             groupId = (Long) session.getAttribute("group");
         }
 
-        if (logged && groupId < 2) {
+        if (logged && groupId < 1) {
 
             if ("recap".equals(request.getParameter("task"))) {
 
@@ -52,7 +52,7 @@ public class menuController implements IController {
                 List<Dish> cartDishes = null;
                 List<Drink> cartDrinks = null;
                 List<Combo> cartCombos = null;
-                
+
                 // set cart lists with session
                 if (session.getAttribute("cartDishes") != null) {
                     cartDishes = (List<Dish>) session.getAttribute("cartDishes");
@@ -75,6 +75,12 @@ public class menuController implements IController {
                     //get current order
                     CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(session.getAttribute("table").toString()));
 
+                    // test if there is still carts to validate
+                    if (co.getSavedCarts() >= co.getNbTablet()) {
+                        request.setAttribute("alert", Alert.setAlert("Erreur", "Tous les paniers de la commande ont déjà été validés", "danger"));
+                        return "/WEB-INF/menu/recap.jsp";
+                    }
+
                     if (cartDishes != null && cartDishes.size() > 0) {
                         for (Dish dish : cartDishes) {
                             DishOrderLine dishOrderLine = new DishOrderLine();
@@ -85,7 +91,7 @@ public class menuController implements IController {
                             co.getDishes().size();
                         }
                     }
-                    
+
                     if (cartDrinks != null && cartDrinks.size() > 0) {
                         for (Drink drink : cartDrinks) {
                             DrinkOrderLine drinkOrderLine = new DrinkOrderLine();
@@ -96,15 +102,15 @@ public class menuController implements IController {
                             co.getDrinks().size();
                         }
                     }
-                    
+
                     if (cartCombos != null && cartCombos.size() > 0) {
                         for (Combo combo : cartCombos) {
                             ComboOrderLine comboOrderLine = new ComboOrderLine();
                             comboOrderLine.setCustomerOrders(co);
                             comboOrderLine.setCombo(combo);
                             // add dishOrderLines
-                            List <DishOrderLine> dishOrderLines = new ArrayList();
-                            for(Dish dish : combo.getDishes()){
+                            List<DishOrderLine> dishOrderLines = new ArrayList();
+                            for (Dish dish : combo.getDishes()) {
                                 DishOrderLine dishOrderLine = new DishOrderLine();
                                 dishOrderLine.setDish(dish);
                                 dishOrderLine.setComboOrderLine(comboOrderLine);
@@ -116,8 +122,15 @@ public class menuController implements IController {
                             co.getCombos().size();
                         }
                     }
-                    
-                    boc.saveCart(co);
+
+                    boolean saved = boc.saveCart(co);
+
+                    if (saved) {
+                        session.setAttribute("validatedCart", true);
+                        redirectToDashboard(request, response);
+                    } else {
+                        request.setAttribute("alert", Alert.setAlert("Erreur", "Tous les paniers de la commande ont déjà été validés", "danger"));
+                    }
 
                 }
 
