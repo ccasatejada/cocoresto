@@ -111,6 +111,11 @@ public class beanOrderCustomer implements Serializable {
 
         return i;
     }
+    
+    public void saveCart(CustomerOrder customerOrder) {
+        
+    }
+    
 
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {
         try {

@@ -28,6 +28,8 @@ public class CustomerOrder implements Serializable {
     private Integer nbTablet;
     @Transient
     private Integer currentTablets = 0;
+    @Transient
+    private Integer savedCarts = 0;
     @ManyToOne
     @JoinColumn(nullable = false)
     private Employee employee;

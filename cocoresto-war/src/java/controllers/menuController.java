@@ -117,8 +117,7 @@ public class menuController implements IController {
                         }
                     }
                     
-                    // TODO : persist only if all carts has been validated
-                    boc.update(co);
+                    boc.saveCart(co);
 
                 }
 
