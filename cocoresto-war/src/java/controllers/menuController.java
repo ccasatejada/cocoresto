@@ -39,13 +39,15 @@ public class menuController implements IController {
         HttpSession session = request.getSession();
         boolean logged = false;
         Long groupId = 0L;
+        boolean cartValidated = false;
 
-        if (session.getAttribute("logged") != null && session.getAttribute("group") != null) {
+        if (session.getAttribute("logged") != null && session.getAttribute("group") != null && session.getAttribute("validatedCart") != null) {
             logged = (boolean) session.getAttribute("logged");
             groupId = (Long) session.getAttribute("group");
+            cartValidated = (boolean) session.getAttribute("cartValidated");
         }
 
-        if (logged && groupId < 2) {
+        if (logged && groupId < 1 && !cartValidated) {
 
             if ("recap".equals(request.getParameter("task"))) {
 
@@ -75,9 +77,9 @@ public class menuController implements IController {
 
                     //get current order
                     CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(session.getAttribute("table").toString()));
-                    
+
                     // test if there is still carts to validate
-                    if (Objects.equals(co.getNbTablet(), co.getSavedCarts())) {
+                    if (co.getSavedCarts() >= co.getNbTablet()) {
                         request.setAttribute("alert", Alert.setAlert("Erreur", "Tous les paniers de la commande ont déjà été validés", "danger"));
                         return "/WEB-INF/menu/recap.jsp";
                     }
@@ -124,7 +126,13 @@ public class menuController implements IController {
                         }
                     }
 
-                    boc.saveCart(co);
+                    boolean saved = boc.saveCart(co);
+
+                    if (saved) {
+                        session.setAttribute("validatedCart", true);
+                    } else {
+                        request.setAttribute("alert", Alert.setAlert("Erreur", "Tous les paniers de la commande ont déjà été validés", "danger"));
+                    }
 
                 }
 

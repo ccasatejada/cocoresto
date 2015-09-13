@@ -124,6 +124,7 @@ public class loginController implements IController {
             session.setAttribute("order", co);
             session.setAttribute("logged", true);
             session.setAttribute("group", 0L); // client group
+            session.setAttribute("validatedCart", false);
 
             try {
                 response.sendRedirect("FrontController?option=dashboard");
