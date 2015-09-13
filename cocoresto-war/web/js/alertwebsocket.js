@@ -1,20 +1,8 @@
 var wsUri = "ws://" + document.location.host + document.location.pathname + "/alert";
+//var wsUri2 = "ws://" + document.location.host + "/cocoresto-war/FrontController/alert";
 var socketAlert = new WebSocket(wsUri);
 socketAlert.onmessage = onMessage;
-
-//function GetURLParameter(sParam) {
-//    var sPageURL = window.location.search.substring(1);
-//    var sURLVariables = sPageURL.split('&');
-//    for (var i = 0; i < sURLVariables.length; i++) {
-//        var sParameterName = sURLVariables[i].split('=');
-//        if (sParameterName[0] === sParam) {
-//            return sParameterName[1];
-//        }
-//    }
-//};
-// example of usage for : "http://dummy.com/?technology=jquery&blog=jquerybyexample". 
-// var tech = GetURLParameter('technology');
-// var blog = GetURLParameter('blog');
+window.onload = formListener;
 
 function onMessage(e) {
     var alert = JSON.parse(e.data);
@@ -27,31 +15,45 @@ function onMessage(e) {
 
 }
 
-function eventListener(){
-document.querySelectorAll('#ordersToDo .btn.status').addEventListener('click', function () {
-    var product = e.target;
-    alert(product);
-    // id order
-    var order = product.dataset.order;
-    // id dish, combo/dishcombo, drink, validate to on prep
-    var dish = product.dataset.dish;
-    var combo = product.dataset.combo;
-    var dishcombo = product.dataset.dishcombo;
-    var drink = product.dataset.drink;
-    sendOnPrep(order, dish, combo, dishcombo, drink);
-    alert(order + " dish : " + dish + " / combo : " + combo + " / dishcombo : " + dishcombo + " / drink : " + drink);
+function formListener() {
+    var formOnPrep = document.querySelectorAll('#ordersToDo .btn.status');
+    for (var i = 0; i < formOnPrep.length; i++) {
+        formOnPrep[i].addEventListener('click', function (e) {
+            var product = e.target;
+            alert(product);
+            // id order
+            var order = product.dataset.order;
+            // id dish, combo/dishcombo, drink, validate to on prep
+            var dish = product.dataset.dish;
+            var combo = product.dataset.combo;
+            var dishcombo = product.dataset.dishcombo;
+            var drink = product.dataset.drink;
+            sendOnPrep(order, dish, combo, dishcombo, drink);
+            alert(order + " dish : " + dish + " / combo : " + combo + " / dishcombo : " + dishcombo + " / drink : " + drink);
+        });
+    }
 
-    // id order 
-    var corder = product.dataset.corder;
-    // id dish, combo/dishcombo, drink, on prep to ready
-    var dishonprep = product.dataset.dishonprep;
-    var comboonprep = product.dataset.comboonprep;
-    var dishcomboonprep = product.dataset.dishcomboonprep;
-    var drinkonprep = product.dataset.drinkonprep;
-    sendReady(corder, dishonprep, comboonprep, dishcomboonprep, drinkonprep);
-    alert(corder + " dishop : " + dishonprep + " / comboop : " + comboonprep + " / dishcomboop : " + dishcomboonprep + " / drink : " + drinkonprep);
 
-});
+    var formReady = document.querySelectorAll('#ordersInProcess .btn.status');
+    for (var i = 0; i < formReady.length; i++) {
+        formReady[i].addEventListener('click', function (e) {
+            var product = e.target;
+            alert(product);
+            // id order 
+            var corder = product.dataset.order;
+            // id dish, combo/dishcombo, drink, on prep to ready
+            var dishonprep = product.dataset.dish;
+            var comboonprep = product.dataset.combo;
+            var dishcomboonprep = product.dataset.dishcombo;
+            var drinkonprep = product.dataset.drink;
+            sendReady(corder, dishonprep, comboonprep, dishcomboonprep, drinkonprep);
+            alert(corder + " dishop : " + dishonprep + " / comboop : " + comboonprep + " / dishcomboop : " + dishcomboonprep + " / drink : " + drinkonprep);
+        });
+    }
+}
+
+function formReadyListener() {
+
 }
 
 function sendOnPrep(order, dish, combo, dishcombo, drink) {
@@ -63,6 +65,7 @@ function sendOnPrep(order, dish, combo, dishcombo, drink) {
         dishcombo: dishcombo,
         drink: drink
     };
+    alert(AlertAction);
     socketAlert.send(JSON.stringify(AlertAction));
 }
 
