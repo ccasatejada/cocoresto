@@ -8,7 +8,9 @@
             <tbody>     
                 <c:if test="${not empty dishOrderLines}">
                     <tr class="bg-slategray">
-                        <th colspan="3">Plats</th>
+                        <th>Plats</th>
+                        <th>Catégorie</th>
+                        <th>Statut</th>
                     </tr>
                     <c:forEach var="orderline" items="${dishOrderLines}" varStatus="loop">
                         <tr data-id="${orderline.id}">
@@ -20,7 +22,9 @@
                 </c:if>
                 <c:if test="${not empty drinkOrderLines}">
                     <tr class="bg-slategray">
-                        <th colspan="3">Boissons</th>
+                        <th>Boissons</th>
+                        <th>Catégorie</th>
+                        <th>Statut</th>
                     </tr>
                     <c:forEach var="orderline" items="${drinkOrderLines}" varStatus="loop">
                         <tr data-id="${orderline.id}">
@@ -28,11 +32,13 @@
                             <td>${orderline.drink.category}</td>
                             <td>${orderline.status}</td>
                         </tr>
-                    </c:forEach>drink
+                    </c:forEach>
                 </c:if>
-                <c:if test="${not empty orderCombos}">
+                <c:if test="${not empty comboOrderLines}">
                     <tr class="bg-slategray">
-                        <th colspan="3">Menus</th>
+                        <th>Menus</th>
+                        <th>Catégorie</th>
+                        <th>Statut</th>
                     </tr>
                     <c:forEach var="orderline" items="${comboOrderLines}" varStatus="loop">
                         <tr data-id="${orderline.id}">
