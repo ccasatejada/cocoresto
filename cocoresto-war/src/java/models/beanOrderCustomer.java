@@ -79,7 +79,6 @@ public class beanOrderCustomer implements Serializable {
 
         // remove order in active orders collection
         ejbRestaurant.removeCustomerOrder(customerOrder.getNbTablet());
-
     }
 
     public void restoreCurrentOrders() {
