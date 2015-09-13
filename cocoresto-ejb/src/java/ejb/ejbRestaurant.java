@@ -64,5 +64,9 @@ public class ejbRestaurant implements ejbRestaurantLocal {
         return employees.contains(employee);
     }
 
+    @Override
+    public String toString() {
+        return "orders=" + orders;
+    }
 
 }
