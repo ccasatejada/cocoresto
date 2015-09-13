@@ -117,10 +117,10 @@ public class beanOrderCustomer implements Serializable {
         // test if there is still carts to validate
         if (customerOrder.getSavedCarts() >= customerOrder.getNbTablet()) {
             return false;
-        } else { // increase savedCarts order
+        } else { // increase savedCarts 
             customerOrder.setSavedCarts(customerOrder.getSavedCarts() + 1);
         }
-        
+
         // persist cart in order if all carts have been saved
         if (customerOrder.getSavedCarts() == customerOrder.getNbTablet()) {
             customerOrder.setStatus(OrderStatus.VALIDATE);

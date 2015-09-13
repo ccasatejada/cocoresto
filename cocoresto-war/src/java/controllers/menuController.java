@@ -12,7 +12,6 @@ import helpers.Alert;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -39,15 +38,13 @@ public class menuController implements IController {
         HttpSession session = request.getSession();
         boolean logged = false;
         Long groupId = 0L;
-        boolean cartValidated = false;
 
-        if (session.getAttribute("logged") != null && session.getAttribute("group") != null && session.getAttribute("validatedCart") != null) {
+        if (session.getAttribute("logged") != null && session.getAttribute("group") != null) {
             logged = (boolean) session.getAttribute("logged");
             groupId = (Long) session.getAttribute("group");
-            cartValidated = (boolean) session.getAttribute("cartValidated");
         }
 
-        if (logged && groupId < 1 && !cartValidated) {
+        if (logged && groupId < 1) {
 
             if ("recap".equals(request.getParameter("task"))) {
 
@@ -130,6 +127,7 @@ public class menuController implements IController {
 
                     if (saved) {
                         session.setAttribute("validatedCart", true);
+                        redirectToDashboard(request, response);
                     } else {
                         request.setAttribute("alert", Alert.setAlert("Erreur", "Tous les paniers de la commande ont déjà été validés", "danger"));
                     }
