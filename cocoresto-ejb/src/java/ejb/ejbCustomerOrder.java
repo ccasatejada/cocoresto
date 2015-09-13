@@ -1,10 +1,19 @@
 package ejb;
 
+import entities.Combo;
 import entities.CustomerOrder;
+import entities.CustomerTable;
+import entities.Dish;
+import entities.Drink;
+import entities.Employee;
 import entities.OrderStatus;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
@@ -25,8 +34,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     private EntityManager em;
 
     private ejbRestaurant ejbRestaurant = new ejbRestaurant();
-    private final Set sessions = new HashSet<>();
-    private final Set httpSessions = new HashSet<>();
+    private Map sessions = new HashMap<Session, HttpSession>();
 
     @Override
     public void create(CustomerOrder customerOrder) {
@@ -105,8 +113,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @Override
     public void addSession(Session session, HttpSession httpSession) {
-        sessions.add(session);
-        httpSessions.add(httpSession);
+        sessions.put(session, httpSession);
         for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
             Integer key = entry.getKey();
             CustomerOrder order = entry.getValue();
@@ -119,42 +126,86 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     }
 
     @Override
-    public void sendOnPrep(CustomerOrder order) {
-        JsonObject onPrepMessage = createOnPrepMessage(order);
-        sendToAllConnectedSessions(onPrepMessage);
+    public void sendOnPrepDish(CustomerOrder order, Dish dish) {
+        JsonObject onPrepMessage = createOnPrepMessage(dish, null, null);
+        sendToAllConnectedSessions(onPrepMessage, order);
     }
 
     @Override
-    public void sendReady(CustomerOrder order) {
-        JsonObject readyMessage = createReadyMessage(order);
-        sendToAllConnectedSessions(readyMessage);
+    public void sendOnPrepDrink(CustomerOrder order, Drink drink) {
+        JsonObject onPrepMessage = createOnPrepMessage(null, null, drink);
+        sendToAllConnectedSessions(onPrepMessage, order);
     }
 
-    private JsonObject createOnPrepMessage(CustomerOrder order) {
+    @Override
+    public void sendOnPrepCombo(CustomerOrder order, Combo combo, Dish dish) {
+        JsonObject onPrepMessage = createOnPrepMessage(dish, combo, null);
+        sendToAllConnectedSessions(onPrepMessage, order);
+    }
+
+    @Override
+    public void sendReadyDish(CustomerOrder order, Dish dish) {
+        JsonObject readyMessage = createReadyMessage(dish, null, null);
+        sendToAllConnectedSessions(readyMessage, order);
+    }
+
+    @Override
+    public void sendReadyDrink(CustomerOrder order, Drink drink) {
+        JsonObject readyMessage = createReadyMessage(null, null, drink);
+        sendToAllConnectedSessions(readyMessage, order);
+    }
+
+    @Override
+    public void sendReadyCombo(CustomerOrder order, Combo combo, Dish dish) {
+        JsonObject readyMessage = createReadyMessage(dish, combo, null);
+        sendToAllConnectedSessions(readyMessage, order);
+    }
+
+    private JsonObject createOnPrepMessage(Dish dish, Combo combo, Drink drink) {
         JsonProvider provider = JsonProvider.provider();
         JsonObject onPrepMessage = provider.createObjectBuilder()
                 .add("action", "onprep")
-                .add("", "")
-                .add("", "")
-                .add("", "")
+                .add("status", "En préparation")
+                .add("dish", dish.getName())
+                .add("drink", drink.getName())
+                .add("combo", combo.getName())
                 .build();
 
         return onPrepMessage;
     }
 
-    private JsonObject createReadyMessage(CustomerOrder order) {
+    private JsonObject createReadyMessage(Dish dish, Combo combo, Drink drink) {
         JsonProvider provider = JsonProvider.provider();
         JsonObject readyMessage = provider.createObjectBuilder()
                 .add("action", "ready")
-                .add("", "")
-                .add("", "")
-                .add("", "")
+                .add("status", "Terminé")
+                .add("dish", dish.getName())
+                .add("drink", drink.getName())
+                .add("combo", combo.getName())
                 .build();
 
         return readyMessage;
     }
 
-    private void sendToAllConnectedSessions(JsonObject message) {
+    private void sendToAllConnectedSessions(JsonObject message, CustomerOrder order) {
+        for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
+            Entry entry = (Entry) entries.next();
+            Session s = (Session) entry.getKey();
+            HttpSession hs = (HttpSession) entry.getValue();
+            if (hs.getAttribute("loggedEmployee") != null) {
+                Employee e = (Employee) hs.getAttribute("loggedEmployee");
+                if (order.getEmployee().getId() == e.getId()) {
+                    sendToSession(s, message);
+                }
+            }
+            if (hs.getAttribute("table") != null) {
+                CustomerTable ct = (CustomerTable) hs.getAttribute("table");
+                if (order.getCustomerTable().getId() == ct.getId()) {
+                    sendToSession(s, message);
+                }
+            }
+        }
+
         for (Session session : (HashSet<Session>) sessions) {
             sendToSession(session, message);
         }
