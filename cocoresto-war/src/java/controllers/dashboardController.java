@@ -71,11 +71,6 @@ public class dashboardController implements IController {
                 return "/WEB-INF/login.jsp";
             }
 
-            if (co.getStatus().equals(OrderStatus.CANCELLED)) {
-                request.setAttribute("alert", Alert.setAlert("Désolé", "La commande a été annulée", "danger"));
-                return "/WEB-INF/login.jsp";
-            }
-
             // session cart already validated
             if ((boolean) session.getAttribute("validatedCart") == true) {
 
