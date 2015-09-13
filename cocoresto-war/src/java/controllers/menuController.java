@@ -12,6 +12,7 @@ import helpers.Alert;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -52,7 +53,7 @@ public class menuController implements IController {
                 List<Dish> cartDishes = null;
                 List<Drink> cartDrinks = null;
                 List<Combo> cartCombos = null;
-                
+
                 // set cart lists with session
                 if (session.getAttribute("cartDishes") != null) {
                     cartDishes = (List<Dish>) session.getAttribute("cartDishes");
@@ -74,6 +75,12 @@ public class menuController implements IController {
 
                     //get current order
                     CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(session.getAttribute("table").toString()));
+                    
+                    // test if there is still carts to validate
+                    if (Objects.equals(co.getNbTablet(), co.getSavedCarts())) {
+                        request.setAttribute("alert", Alert.setAlert("Erreur", "Tous les paniers de la commande ont déjà été validés", "danger"));
+                        return "/WEB-INF/menu/recap.jsp";
+                    }
 
                     if (cartDishes != null && cartDishes.size() > 0) {
                         for (Dish dish : cartDishes) {
@@ -85,7 +92,7 @@ public class menuController implements IController {
                             co.getDishes().size();
                         }
                     }
-                    
+
                     if (cartDrinks != null && cartDrinks.size() > 0) {
                         for (Drink drink : cartDrinks) {
                             DrinkOrderLine drinkOrderLine = new DrinkOrderLine();
@@ -96,15 +103,15 @@ public class menuController implements IController {
                             co.getDrinks().size();
                         }
                     }
-                    
+
                     if (cartCombos != null && cartCombos.size() > 0) {
                         for (Combo combo : cartCombos) {
                             ComboOrderLine comboOrderLine = new ComboOrderLine();
                             comboOrderLine.setCustomerOrders(co);
                             comboOrderLine.setCombo(combo);
                             // add dishOrderLines
-                            List <DishOrderLine> dishOrderLines = new ArrayList();
-                            for(Dish dish : combo.getDishes()){
+                            List<DishOrderLine> dishOrderLines = new ArrayList();
+                            for (Dish dish : combo.getDishes()) {
                                 DishOrderLine dishOrderLine = new DishOrderLine();
                                 dishOrderLine.setDish(dish);
                                 dishOrderLine.setComboOrderLine(comboOrderLine);
@@ -116,7 +123,7 @@ public class menuController implements IController {
                             co.getCombos().size();
                         }
                     }
-                    
+
                     boc.saveCart(co);
 
                 }

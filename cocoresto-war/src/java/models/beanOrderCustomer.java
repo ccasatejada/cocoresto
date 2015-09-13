@@ -112,8 +112,13 @@ public class beanOrderCustomer implements Serializable {
         return i;
     }
     
-    public void saveCart(CustomerOrder customerOrder) {
+    public boolean saveCart(CustomerOrder customerOrder) {
         
+        if(customerOrder.getSavedCarts() == customerOrder.getNbTablet()) {
+            return false;
+        }
+        
+        return true;
     }
     
 

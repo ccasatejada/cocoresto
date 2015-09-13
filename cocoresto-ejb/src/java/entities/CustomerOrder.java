@@ -113,6 +113,14 @@ public class CustomerOrder implements Serializable {
         this.currentTablets = currentTablets;
     }
 
+    public Integer getSavedCarts() {
+        return savedCarts;
+    }
+
+    public void setSavedCarts(Integer savedCarts) {
+        this.savedCarts = savedCarts;
+    }
+    
     public Employee getEmployee() {
         return employee;
     }
