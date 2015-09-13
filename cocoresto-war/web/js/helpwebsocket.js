@@ -1,5 +1,5 @@
-var wsUri = "ws://" + document.location.host + document.location.pathname + "/actions";
-var socketHelp = new WebSocket(wsUri);
+var wsUri1 = "ws://" + document.location.host + document.location.pathname + "/actions";
+var socketHelp = new WebSocket(wsUri1);
 socketHelp.onmessage = onMessage;
 
 function onMessage(event) {

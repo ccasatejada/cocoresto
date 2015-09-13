@@ -1,6 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <section class="tile">
     <div id="ordersToDo" class="col-lg-6 col-md-6 col-sm-6">
         <div class="tile-header dvd dvd-btm bg-greensea">
@@ -175,7 +174,7 @@
                                         <span class="label label-${cOrder.status} mt-5">${cOrder.status.name}</span>
                                     </td>
                                     <td><span class="text-lg text-strong mt-5">${dropOrderLine.drink.name}</span></td>
-                                    <td><a class="btn btn-primary center-block status" data-corder="${cOrder.id}" data-drinkonprep="${dropOrderLine.id}" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&drNb=${dropOrderLine.id}">Prêt!</a></td>
+                                    <td><a class="btn btn-primary center-block status" data-order="${cOrder.id}" data-drink="${dropOrderLine.id}" href="FrontController?option=customerOrder&task=ready&id=${cOrder.id}&drNb=${dropOrderLine.id}">Prêt!</a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
