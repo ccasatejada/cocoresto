@@ -36,7 +36,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -51,7 +50,6 @@
                         </div>
                     </div>
                 </div>
-
             </fieldset>
             <fieldset>
                 <legend>Détails</legend>
@@ -59,7 +57,7 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="people">Nombre de couverts : <span>*</span></label>
-                            <input type="number" min="1" max="${customerOrder.customerTable.capacity}" class="form-control input-lg" id="people" name="people" value="${customerOrder.people}" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly </c:if>required />
+                            <input type="number" min="1" max="${customerOrder.customerTable.capacity}" class="form-control input-lg" id="people" name="people" value="${customerOrder.people}" <c:if test="${customerOrder.status != 'OPENED'}">readonly </c:if>required />
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -71,65 +69,78 @@
                     <div class="col-sm-4">
                         <div id="nbTabletGroup" class="form-group">
                             <label for="nbTablet">Nombre de tablettes : <span>*</span></label>
-                            <input type="number" min="1" max="${customerOrder.customerTable.nbTablet}" class="form-control input-lg" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" <c:if test="${customerOrder.status == 'CANCELLED'}">readonly </c:if>required />
+                            <input type="number" min="1" max="${customerOrder.customerTable.nbTablet}" class="form-control input-lg" id="nbTablet" name="nbTablet" value="${customerOrder.nbTablet}" <c:if test="${customerOrder.status != 'OPENED'}">readonly </c:if>required />
                         </div>
                     </div>
                 </div>
-
             </fieldset>
-            <fieldset>
-                <legend>Panier</legend>
-
-                <c:if test="${not empty customerOrder.drinks}">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Boissons</div>
-                        <div class="panel-body">    
-                            <c:forEach items="${customerOrder.drinks}" var="drink" varStatus="loop">
-
-                            </c:forEach>
+            <c:if test="${not empty customerOrder.drinks or not empty customerOrder.dishes or not empty customerOrder.combos}">
+                <fieldset>
+                    <legend>Contenu de la commande</legend>
+                    <c:if test="${not empty customerOrder.drinks}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Boissons</div>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <c:forEach items="${customerOrder.drinks}" var="drinkOrderLine" varStatus="loop">
+                                        <tr data-id="${drinkOrderLine.id}">
+                                            <td>${drinkOrderLine.drink.name} <small>${drinkOrderLine.drink.format.name}</small></td>
+                                            <td>${drinkOrderLine.drink.category}</td>
+                                            <td>${drinkOrderLine.status}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </div>
                         </div>
-                        <div class="panel-footer">
-                            <a class="btn btn-primary" href="">Ajouter une boisson</a>
+                    </c:if>
+                    <c:if test="${not empty customerOrder.dishes}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Plats</div>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <c:forEach items="${customerOrder.dishes}" var="dishOrderLine" varStatus="loop">
+                                        <tr data-id="${dishOrderLine.id}">
+                                            <td>${dishOrderLine.dish.name}</td>
+                                            <td>${dishOrderLine.dish.category}</td>
+                                            <td>${dishOrderLine.status}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </c:if>
-
-                <c:if test="${not empty customerOrder.dishes}">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Plats</div>
-                        <div class="panel-body">    
-                            <c:forEach items="${customerOrder.dishes}" var="drink" varStatus="loop">
-
-                            </c:forEach>
+                    </c:if>
+                    <c:if test="${not empty customerOrder.combos}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Menus</div>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <c:forEach items="${customerOrder.combos}" var="orderline" varStatus="loop">
+                                        <thead>
+                                            <tr data-id="${orderline.id}">
+                                                <th colspan="3">Plats du menu : ${orderline.combo.name}</th>
+                                            </tr>
+                                        </thead>
+                                        <c:forEach var="orderline" items="${orderline.dishes}" varStatus="loop">
+                                            <tr data-id="${orderline.id}">
+                                                <td>${orderline.dish.name}</td>
+                                                <td>${orderline.dish.category}</td>
+                                                <td>${orderline.status}</td>
+                                            </tr>
+                                        </c:forEach>                                
+                                    </c:forEach>
+                                </table>
+                            </div>
                         </div>
-                        <div class="panel-footer">
-                            <a class="btn btn-primary" href="">Ajouter un plat</a>
-                        </div>
-                    </div>
-                </c:if>
-
-                <c:if test="${not empty customerOrder.combos}">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Menus</div>
-                        <div class="panel-body">    
-                            <c:forEach items="${customerOrder.combos}" var="drink" varStatus="loop">
-
-                            </c:forEach>
-                        </div>
-                        <div class="panel-footer">
-                            <a class="btn btn-primary" href="">Ajouter une boisson</a>
-                        </div>
-                    </div>
-                </c:if>
-
-            </fieldset>
+                    </c:if>
+                </fieldset>
+            </c:if>            
         </div>
 
         <div class="tile-footer dvd dvd-top">
             <div class="row">
                 <div class="col-xs-12 text-right">
                     <a href="FrontController?option=dashboard" class="btn btn-darkgray btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-remove"></i> <span>Annuler</a></button>
-                    <c:if test="${customerOrder.status != 'CANCELLED'}">
+                    <c:if test="${customerOrder.status == 'OPENED'}">
                         <button type="submit" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="confirm"><i class="fa fa-save"></i> <span>Valider</span></button>
                     </c:if>                    
                 </div>
