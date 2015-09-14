@@ -72,7 +72,7 @@ public class dashboardController implements IController {
             }
 
             // session cart already validated
-            if ((boolean) session.getAttribute("validatedCart") == true) {
+            if ((boolean) session.getAttribute("validatedCart") == true || (!co.getStatus().equals(OrderStatus.OPENED) && !co.getStatus().equals(OrderStatus.CANCELLED))) {
 
                 Collection<DishOrderLine> dishOrderLines = co.getDishes();
                 request.setAttribute("dishOrderLines", dishOrderLines);
@@ -82,6 +82,8 @@ public class dashboardController implements IController {
 
                 Collection<ComboOrderLine> comboOrderLines = co.getCombos();
                 request.setAttribute("comboOrderLines", comboOrderLines);
+
+                return "/WEB-INF/menu/tracking.jsp";
 
             } else { // get current cart
 

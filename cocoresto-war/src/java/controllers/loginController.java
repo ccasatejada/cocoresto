@@ -129,6 +129,9 @@ public class loginController implements IController {
             if (session.getAttribute("validatedCart") == null) {
                 session.setAttribute("validatedCart", false);
             }
+            
+            // 2 hours session for client
+            session.setMaxInactiveInterval(2*(60*60));
 
             try {
                 response.sendRedirect("FrontController?option=dashboard");
