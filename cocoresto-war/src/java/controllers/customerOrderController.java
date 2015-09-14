@@ -205,8 +205,25 @@ public class customerOrderController implements IController {
 
             if ("help".equals(request.getParameter("task"))) {
                 request.setAttribute("customerHelpOrders", boc.getNeedHelpOrders());
-
                 return helpUrl;
+            }
+
+            if ("menu".equals(request.getParameter("task"))) {
+
+                Integer table;
+                try {
+                    table = Integer.valueOf(request.getParameter("table"));
+                } catch (NumberFormatException e) {
+                    try {
+                        response.sendRedirect("FrontController?option=customerOrder&task=help");
+                    } catch (IOException ex) {
+                        request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
+                    }
+                }
+                
+                
+
+                return "/WEB-INF/dashboardCustomer.jsp";
             }
 
         } else if (logged && groupId == 2) {
@@ -239,7 +256,7 @@ public class customerOrderController implements IController {
                         }
                         for (DishOrderLine d : ejbCo.getDishes()) {
                             if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))
-                                      && ejbCo.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                    && ejbCo.getId().equals(Long.valueOf(request.getParameter("id")))) {
                                 d.setStatus(2);
                                 break;
                             }
@@ -255,7 +272,7 @@ public class customerOrderController implements IController {
                         }
                         for (DrinkOrderLine dr : ejbCo.getDrinks()) {
                             if (dr.getId().equals(Long.valueOf(request.getParameter("drNb")))
-                                     && ejbCo.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                    && ejbCo.getId().equals(Long.valueOf(request.getParameter("id")))) {
                                 dr.setStatus(2);
                                 break;
                             }
@@ -318,7 +335,7 @@ public class customerOrderController implements IController {
                         break;
                     }
                 }
-                
+
                 if (request.getParameter("id") != null) {
                     if (request.getParameter("dNb") != null && request.getParameter("cId") == null
                             && request.getParameter("dcNb") == null) {
@@ -460,7 +477,7 @@ public class customerOrderController implements IController {
             request.setAttribute("alert", Alert.setAlert("Attention", "Commande introuvable", "danger"));
             return false;
         }
-        
+
         co.setPeople(Integer.valueOf(request.getParameter("people")));
         co.setNbTablet(Integer.valueOf(request.getParameter("nbTablet")));
 
