@@ -460,7 +460,7 @@ public class customerOrderController implements IController {
             request.setAttribute("alert", Alert.setAlert("Attention", "Commande introuvable", "danger"));
             return false;
         }
-
+        
         co.setPeople(Integer.valueOf(request.getParameter("people")));
         co.setNbTablet(Integer.valueOf(request.getParameter("nbTablet")));
 
