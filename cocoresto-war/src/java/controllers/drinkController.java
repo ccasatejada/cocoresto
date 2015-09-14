@@ -190,8 +190,9 @@ public class drinkController implements IController {
                 drink.setInventory(Integer.valueOf(request.getParameter("inventory")));
                 drink.setImage(request.getParameter("image"));
                 for (Format fo : formats) {
-                    if (fo.getName().equals(request.getParameter("formatCombo"))) {
+                    if (fo.getId().equals(Long.valueOf(request.getParameter("comboFormat")))) {
                         drink.setFormat(fo);
+                        break;
                     }
                 }
                 price = new Price();
@@ -250,22 +251,22 @@ public class drinkController implements IController {
                     drink.setImage(request.getParameter("image"));
                 }
                 for (Format fo : formats) {
-                    if (fo.getName().equals(request.getParameter("formatCombo"))) {
+                    if (fo.getId().equals(Long.valueOf(request.getParameter("comboFormat")))) {
                         drink.setFormat(fo);
+                        break;
                     }
                 }
                 price = new Price();
                 price.setPrice(Double.valueOf(request.getParameter("price")));
+                System.out.println("Prix HT : " + request.getParameter("price"));
                 for (Price p : prices) {
                     if (p.getPrice().equals(price.getPrice())) {
                         price = p;
                         drink.setPrice(price);
                         break;
-                    } else {
-                        price = null;
                     }
                 }
-                if (price == null) {
+                if (price.getId() == null) {
                     price = new Price();
                     price.setPrice(Double.valueOf(request.getParameter("price")));
                     bPrice.create(price);
