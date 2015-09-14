@@ -54,19 +54,6 @@ public class AlertWebSocketServer {
     public void open(Session session, EndpointConfig config) {
         this.wsSession = session;
         this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        System.out.println("getId: " + wsSession.getId());
-        System.out.println("getContainer : " + wsSession.getContainer());
-        for (Session s : wsSession.getOpenSessions()) {
-            System.out.println("getIdsession : " + s.getId());
-        }
-        System.out.println("group : " + httpSession.getAttribute("group"));
-        System.out.println("loggedEmployee : " + httpSession.getAttribute("loggedEmployee"));
-        System.out.println("userName : " + httpSession.getAttribute("userName"));
-        System.out.println("table : " + httpSession.getAttribute("table"));
-        System.out.println("========================================");
-        System.out.println("========================================");
-        Employee e = (Employee)httpSession.getAttribute("loggedEmployee");
-
         ejbCustomerOrder.addSession(session, httpSession);
     }
 
