@@ -12,11 +12,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
 import javax.persistence.EntityManager;
@@ -33,10 +32,17 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     private EntityManager em;
 
     private ejbRestaurant ejbRestaurant = new ejbRestaurant();
-    private final Map sessions = new HashMap<Session, HttpSession>();
+    private Map sessions;
+    HttpServletRequest request;
+    HttpSession session = request.getSession();
     
 
     public ejbCustomerOrder() {
+    }
+    
+    @PostConstruct
+    public void init(){
+        sessions = new HashMap<Session, HttpSession>();
     }
 
     @Override
