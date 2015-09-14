@@ -258,7 +258,6 @@ public class drinkController implements IController {
                 }
                 price = new Price();
                 price.setPrice(Double.valueOf(request.getParameter("price")));
-                System.out.println("Prix HT : " + request.getParameter("price"));
                 for (Price p : prices) {
                     if (p.getPrice().equals(price.getPrice())) {
                         price = p;
