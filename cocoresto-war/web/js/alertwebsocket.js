@@ -57,7 +57,6 @@ function sendOnPrep(order, dish, combo, dishcombo, drink) {
             order: order,
             dish: dish
         };
-        alert("if dish" + order + dish);
         socketAlert.send(JSON.stringify(AlertAction));
     }
     if (typeof drink !== "undefined") {
@@ -67,7 +66,6 @@ function sendOnPrep(order, dish, combo, dishcombo, drink) {
             order: order,
             drink: drink
         };
-        alert(order + drink);
         socketAlert.send(JSON.stringify(AlertAction));
     }
     if (typeof combo !== "undefined") {
@@ -78,7 +76,6 @@ function sendOnPrep(order, dish, combo, dishcombo, drink) {
             combo: combo,
             dishcombo: dishcombo
         };
-        alert(order + combo + dishcombo);
         socketAlert.send(JSON.stringify(AlertAction));
     }
 }
