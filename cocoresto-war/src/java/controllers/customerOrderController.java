@@ -214,7 +214,9 @@ public class customerOrderController implements IController {
             if ("swap".equals(request.getParameter("task"))) {
 
                 CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
+                CustomerOrder ejbCo = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("tNb")));
                 co.setStatus(OrderStatus.PREPARED);
+                ejbCo.setStatus(OrderStatus.PREPARED);
                 boc.update(co);
                 List<CustomerOrder> cos = (List) session.getAttribute("cos");
                 co = boc.findById(Long.valueOf(request.getParameter("id")));
@@ -235,6 +237,13 @@ public class customerOrderController implements IController {
                                 break;
                             }
                         }
+                        for (DishOrderLine d : ejbCo.getDishes()) {
+                            if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))
+                                      && ejbCo.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                d.setStatus(2);
+                                break;
+                            }
+                        }
                     }
                     if (request.getParameter("drNb") != null) {
                         for (DrinkOrderLine dr : co.getDrinks()) {
@@ -244,19 +253,33 @@ public class customerOrderController implements IController {
                                 break;
                             }
                         }
+                        for (DrinkOrderLine dr : ejbCo.getDrinks()) {
+                            if (dr.getId().equals(Long.valueOf(request.getParameter("drNb")))
+                                     && ejbCo.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                dr.setStatus(2);
+                                break;
+                            }
+                        }
                     }
                     if (request.getParameter("dcNb") != null && request.getParameter("dNb") == null
                             && request.getParameter("cId") != null) {
-                        Integer currentStatus;
                         for (ComboOrderLine c : co.getCombos()) {
                             if (c.getId().equals(Long.valueOf(request.getParameter("cId")))) {
-
                                 for (DishOrderLine di : c.getDishes()) {
                                     if (di.getId().equals(Long.valueOf(request.getParameter("dcNb")))
                                             && !di.getStatus().equals(2)) {
-                                        currentStatus = c.getStatus().get(di.getId());
-
-                                        c.getStatus().replace(di.getId(), currentStatus, 2);
+                                        di.setStatus(2);
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        for (ComboOrderLine c : ejbCo.getCombos()) {
+                            if (c.getId().equals(Long.valueOf(request.getParameter("cId")))) {
+                                for (DishOrderLine di : c.getDishes()) {
+                                    if (di.getId().equals(Long.valueOf(request.getParameter("dcNb")))) {
+                                        di.setStatus(2);
                                         break;
                                     }
                                 }
@@ -286,21 +309,29 @@ public class customerOrderController implements IController {
                 boolean drinkReady = true;
                 boolean comboReady = true;
                 CustomerOrder co = boc.findById(Long.valueOf(request.getParameter("id")));
+                CustomerOrder ejbCo = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("tNb")));
                 List<CustomerOrder> cos = (List) session.getAttribute("cos");
-                
+
                 for (CustomerOrder cOrder : cos) {
                     if (cOrder.getId().equals(co.getId())) {
                         co = cOrder;
                         break;
                     }
                 }
-
+                
                 if (request.getParameter("id") != null) {
                     if (request.getParameter("dNb") != null && request.getParameter("cId") == null
                             && request.getParameter("dcNb") == null) {
                         for (DishOrderLine d : co.getDishes()) {
                             if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))
                                     && co.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                d.setStatus(3);
+                                break;
+                            }
+                        }
+                        for (DishOrderLine d : ejbCo.getDishes()) {
+                            if (d.getId().equals(Long.valueOf(request.getParameter("dNb")))
+                                    && ejbCo.getId().equals(Long.valueOf(request.getParameter("id")))) {
                                 d.setStatus(3);
                                 break;
                             }
@@ -314,18 +345,33 @@ public class customerOrderController implements IController {
                                 break;
                             }
                         }
+                        for (DrinkOrderLine dr : ejbCo.getDrinks()) {
+                            if (dr.getId().equals(Long.valueOf(request.getParameter("drNb")))
+                                    && ejbCo.getId().equals(Long.valueOf(request.getParameter("id")))) {
+                                dr.setStatus(3);
+                                break;
+                            }
+                        }
                     }
                     if (request.getParameter("dcNb") != null && request.getParameter("dNb") == null
                             && request.getParameter("cId") != null) {
-                        Integer currentStatus;
                         for (ComboOrderLine c : co.getCombos()) {
                             if (c.getId().equals(Long.valueOf(request.getParameter("cId")))) {
                                 for (DishOrderLine di : c.getDishes()) {
                                     if (di.getId().equals(Long.valueOf(request.getParameter("dcNb")))
                                             && !di.getStatus().equals(3)) {
-                                        currentStatus = c.getStatus().get(di.getId());
-
-                                        c.getStatus().replace(di.getId(), currentStatus, 3);
+                                        di.setStatus(3);
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        for (ComboOrderLine c : ejbCo.getCombos()) {
+                            if (c.getId().equals(Long.valueOf(request.getParameter("cId")))) {
+                                for (DishOrderLine di : c.getDishes()) {
+                                    if (di.getId().equals(Long.valueOf(request.getParameter("dcNb")))) {
+                                        di.setStatus(3);
                                         break;
                                     }
                                 }
@@ -347,8 +393,8 @@ public class customerOrderController implements IController {
                     }
                 }
                 for (ComboOrderLine c : co.getCombos()) {
-                    for (Map.Entry<Long, Integer> m : c.getStatus().entrySet()) {
-                        if (m.getValue() < 3) {
+                    for (DishOrderLine di : c.getDishes()) {
+                        if (di.getStatus() < 3) {
                             comboReady = false;
                             break;
                         }
@@ -364,6 +410,7 @@ public class customerOrderController implements IController {
 
                 if (dishReady && drinkReady && comboReady) {
                     co.setStatus(OrderStatus.FINISHED);
+                    ejbCo.setStatus(OrderStatus.FINISHED);
                     boc.update(co);
 
                 } else {

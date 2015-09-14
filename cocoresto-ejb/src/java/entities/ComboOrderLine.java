@@ -23,9 +23,6 @@ public class ComboOrderLine implements Serializable {
     private List<DishOrderLine> dishes;
     @ManyToOne
     private CustomerOrder customerOrder;
-    
-    @Transient
-    private HashMap<Long, Integer> status;
 
     public ComboOrderLine() {
     }
@@ -62,18 +59,6 @@ public class ComboOrderLine implements Serializable {
         this.customerOrder = customerOrder;
     }
 
-    public HashMap<Long, Integer> getStatus() {
-        return status;
-    }
-
-    public void setStatus(HashMap<Long, Integer> status) {
-        this.status = status;
-    }
-
-    
-    
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
