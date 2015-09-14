@@ -14,6 +14,8 @@ import entities.Employee;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -30,31 +32,29 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+@ApplicationScoped
 @ServerEndpoint(value = "/FrontController/alert", configurator = GetHttpSessionConfigurator.class)
 public class AlertWebSocketServer {
 
     @Inject
     ejbEmployeeLocal ejbEmployee;
 
-    @Inject
-    ejbCustomerOrderLocal ejbCustomerOrder;
+    @EJB
+    ejbCustomerOrderLocal ejbCustomerOrder = lookupejbCustomerOrderLocal();
 
-    @Inject
-    ejbRestaurantLocal ejbRestaurant;
-
-    private Session wsSession;
-    private HttpSession httpSession;
+    @EJB
+    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
 
     public AlertWebSocketServer() {
-        ejbCustomerOrder = lookupejbCustomerOrderLocal();
-        ejbRestaurant = lookupejbRestaurantLocal();
     }
 
     @OnOpen
     public void open(Session session, EndpointConfig config) {
-        this.wsSession = session;
-        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         ejbCustomerOrder.addSession(session, httpSession);
+//        System.out.println(session.getId());
+//        System.out.println(httpSession.getAttribute("table"));
+//        System.out.println(httpSession.getAttribute("loggedEmployee"));
     }
 
     @OnClose
@@ -71,13 +71,14 @@ public class AlertWebSocketServer {
     public void handleMessage(String message, Session session) {
         try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
+            CustomerOrder order = ejbRestaurant.getOrder(Integer.valueOf(jsonMessage.getString("order")));
             if ("onprep".equals(jsonMessage.getString("action"))) {
-                CustomerOrder order = ejbRestaurant.getOrder(Integer.valueOf(jsonMessage.getString("order")));
                 if ("dish".equals(jsonMessage.getString("element"))) {
                     Long id = Long.valueOf(jsonMessage.getString("dish"));
-                    for(DishOrderLine dol : order.getDishes()){
-                        if(dol.getId() == id){
+                    for (DishOrderLine dol : order.getDishes()) {
+                        if (dol.getId() == id) {
                             Dish d = dol.getDish();
+                            ejbCustomerOrder.sendOnPrepDish(order, d);
                             System.out.println(d.getName());
                         }
                     }
@@ -85,13 +86,14 @@ public class AlertWebSocketServer {
                 if ("combo".equals(jsonMessage.getString("element"))) {
                     Long idCombo = Long.valueOf(jsonMessage.getString("combo"));
                     Long id = Long.valueOf(jsonMessage.getString("dishcombo"));
-                    for(ComboOrderLine col : order.getCombos()){
-                        if(col.getId() == idCombo){
+                    for (ComboOrderLine col : order.getCombos()) {
+                        if (col.getId() == idCombo) {
                             Combo c = col.getCombo();
                             System.out.println(c.getName());
-                            for(DishOrderLine dol : col.getDishes()){
-                                if(dol.getId() == id){
+                            for (DishOrderLine dol : col.getDishes()) {
+                                if (dol.getId() == id) {
                                     Dish d = dol.getDish();
+                                    ejbCustomerOrder.sendOnPrepCombo(order, c, d);
                                     System.out.println(d.getName());
                                 }
                             }
@@ -100,9 +102,10 @@ public class AlertWebSocketServer {
                 }
                 if ("drink".equals(jsonMessage.getString("element"))) {
                     Long id = Long.valueOf(jsonMessage.getString("drink"));
-                    for(DrinkOrderLine dol : order.getDrinks()){
-                        if(dol.getId() == id){
+                    for (DrinkOrderLine dol : order.getDrinks()) {
+                        if (dol.getId() == id) {
                             Drink d = dol.getDrink();
+                            ejbCustomerOrder.sendOnPrepDrink(order, d);
                             System.out.println(d.getName());
                         }
                     }
@@ -110,14 +113,39 @@ public class AlertWebSocketServer {
             }
             if ("ready".equals(jsonMessage.getString("action"))) {
                 if ("dish".equals(jsonMessage.getString("element"))) {
-                    Integer id = Integer.valueOf(jsonMessage.getString("dish"));
+                    Long id = Long.valueOf(jsonMessage.getString("dish"));
+                    for (DishOrderLine dol : order.getDishes()) {
+                        Dish d = dol.getDish();
+                        ejbCustomerOrder.sendReadyDish(order, d);
+                        System.out.println(d.getName());
+                    }
                 }
                 if ("combo".equals(jsonMessage.getString("element"))) {
-                    Integer idCombo = Integer.valueOf(jsonMessage.getString("combo"));
-                    Integer id = Integer.valueOf(jsonMessage.getString("dishcombo"));
+                    Long idCombo = Long.valueOf(jsonMessage.getString("combo"));
+                    Long id = Long.valueOf(jsonMessage.getString("dishcombo"));
+                    for (ComboOrderLine col : order.getCombos()) {
+                        if (col.getId() == idCombo) {
+                            Combo c = col.getCombo();
+                            for (DishOrderLine dol : col.getDishes()) {
+                                if (dol.getId() == id) {
+                                    Dish d = dol.getDish();
+                                    ejbCustomerOrder.sendReadyCombo(order, c, d);
+                                    System.out.println(c.getName());
+                                    System.out.println(d.getName());
+                                }
+                            }
+                        }
+                    }
                 }
                 if ("drink".equals(jsonMessage.getString("element"))) {
-                    Integer id = Integer.valueOf(jsonMessage.getString("drink"));
+                    Long id = Long.valueOf(jsonMessage.getString("drink"));
+                    for (DrinkOrderLine dol : order.getDrinks()) {
+                        if (dol.getId() == id) {
+                            Drink d = dol.getDrink();
+                            ejbCustomerOrder.sendReadyDrink(order, d);
+                            System.out.println(d.getName());
+                        }
+                    }
                 }
             }
         }

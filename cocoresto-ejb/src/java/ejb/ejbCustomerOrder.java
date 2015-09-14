@@ -2,15 +2,12 @@ package ejb;
 
 import entities.Combo;
 import entities.CustomerOrder;
-import entities.CustomerTable;
 import entities.Dish;
 import entities.Drink;
 import entities.Employee;
 import entities.OrderStatus;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,11 +16,13 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
@@ -34,7 +33,11 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     private EntityManager em;
 
     private ejbRestaurant ejbRestaurant = new ejbRestaurant();
-    private Map sessions = new HashMap<Session, HttpSession>();
+    private final Map sessions = new HashMap<Session, HttpSession>();
+    
+
+    public ejbCustomerOrder() {
+    }
 
     @Override
     public void create(CustomerOrder customerOrder) {
@@ -113,11 +116,11 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @Override
     public void addSession(Session session, HttpSession httpSession) {
+        System.out.println("add session : " + session.getId());
+        System.out.println("add httpSession : " + httpSession.getAttribute("table"));
+        System.out.println("add httpSession : " + httpSession.getAttribute("loggedEmployee"));
         sessions.put(session, httpSession);
-        for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
-            Integer key = entry.getKey();
-            CustomerOrder order = entry.getValue();
-        }
+
     }
 
     @Override
@@ -163,57 +166,90 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     private JsonObject createOnPrepMessage(Dish dish, Combo combo, Drink drink) {
         JsonProvider provider = JsonProvider.provider();
-        JsonObject onPrepMessage = provider.createObjectBuilder()
-                .add("action", "onprep")
-                .add("status", "En préparation")
-                .add("dish", dish.getName())
-                .add("drink", drink.getName())
-                .add("combo", combo.getName())
-                .build();
+//        JsonObject onPrepMessage = provider.createObjectBuilder()
+//                .add("action", "onprep")
+//                .add("status", "En préparation")
+//                .add("dish", dish.getName())
+//                .add("drink", drink.getName())
+//                .add("combo", combo.getName())
+//                .build();
 
-        return onPrepMessage;
+//        return onPrepMessage;
+        return null;
     }
 
     private JsonObject createReadyMessage(Dish dish, Combo combo, Drink drink) {
         JsonProvider provider = JsonProvider.provider();
-        JsonObject readyMessage = provider.createObjectBuilder()
-                .add("action", "ready")
-                .add("status", "Terminé")
-                .add("dish", dish.getName())
-                .add("drink", drink.getName())
-                .add("combo", combo.getName())
-                .build();
-
-        return readyMessage;
+//        JsonObject readyMessage = provider.createObjectBuilder()
+//                .add("action", "ready")
+//                .add("status", "Terminé")
+//                .add("dish", dish.getName())
+//                .add("drink", drink.getName())
+//                .add("combo", combo.getName())
+//                .build();
+//
+//        return readyMessage;
+        return null;
     }
 
     private void sendToAllConnectedSessions(JsonObject message, CustomerOrder order) {
-        for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
-            Entry entry = (Entry) entries.next();
-            Session s = (Session) entry.getKey();
-            HttpSession hs = (HttpSession) entry.getValue();
-            if (hs.getAttribute("loggedEmployee") != null) {
-                Employee e = (Employee) hs.getAttribute("loggedEmployee");
-                if (order.getEmployee().getId() == e.getId()) {
-                    sendToSession(s, message);
-                }
-            }
-            if (hs.getAttribute("table") != null) {
-                CustomerTable ct = (CustomerTable) hs.getAttribute("table");
-                if (order.getCustomerTable().getId() == ct.getId()) {
-                    sendToSession(s, message);
-                }
-            }
-        }
-
-        for (Session session : (HashSet<Session>) sessions) {
-            sendToSession(session, message);
-        }
+        sessions.forEach((Session, HttpSession) -> sendToSession((Session) Session, (HttpSession)HttpSession, message, order));
+//        sendToSession(null, message, order);
+//        for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
+//            System.out.println("debut hashmap");
+//            Entry entry = (Entry) entries.next();
+//            Session s = (Session) entry.getKey();
+//            HttpSession hs = (HttpSession) entry.getValue();
+//            if (hs.getAttribute("loggedEmployee") != null) {
+//                Employee e = (Employee) hs.getAttribute("loggedEmployee");
+//                if (order.getEmployee().getId() == e.getId()) {
+//                    sendToSession(s, message, order);
+//                    System.out.println("sessionEmployee = " + s.getId());
+//                    System.out.println("httpSession employee = " + e.getLastName() + " " + e.getFirstName());
+//                }
+//            }
+//            if (hs.getAttribute("table") != null) {
+//
+//                Integer ct = (Integer) hs.getAttribute("table");
+//                if (order.getCustomerTable().getNumber() == ct) {
+//                    sendToSession(s, message, order);
+//                    System.out.println("sessionTable = " + s.getId());
+//                    System.out.println("httpSessionTable = " + order.getCustomerTable().getNumber());
+//                    System.out.println("num table = " + ct);
+//                }
+//            }
+//        }
     }
 
-    private void sendToSession(Session session, JsonObject message) {
+    private void sendToSession(Session session, HttpSession httpSession, JsonObject message, CustomerOrder order) {
         try {
-            session.getBasicRemote().sendText(message.toString());
+            for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
+                System.out.println("debut hashmap");
+                Entry entry = (Entry) entries.next();
+                Session s = (Session) entry.getKey();
+                HttpSession hs = (HttpSession) entry.getValue();
+                Employee e = (Employee) hs.getAttribute("loggedEmployee");
+                Integer ct = (Integer) hs.getAttribute("table");
+                System.out.println("order employee:" + order.getEmployee().getId());
+                System.out.println("employee:" + e.getId());
+                if (hs.getAttribute("loggedEmployee") != null) {
+                    if (order.getEmployee().getId() == e.getId()) {
+                        System.out.println("sessionEmployee = " + s.getId());
+                        System.out.println("httpSession employee = " + e.getLastName() + " " + e.getFirstName());
+                        s.getBasicRemote().sendText(message.toString());
+                    }
+                }
+                if (hs.getAttribute("table") != null) {
+                    System.out.println(order.getCustomerTable().getNumber());
+                    if (order.getCustomerTable().getNumber() == ct) {
+                        System.out.println("sessionTable = " + s.getId());
+                        System.out.println("httpSessionTable = " + order.getCustomerTable().getNumber());
+                        System.out.println("num table = " + ct);
+                        s.getBasicRemote().sendText(message.toString());
+                    }
+                }
+            }
+//            session.getBasicRemote().sendText(message.toString());
         } catch (IOException ex) {
             sessions.remove(session);
             Logger.getLogger(ejbCustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
