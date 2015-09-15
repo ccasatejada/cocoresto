@@ -1,5 +1,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<c:if test="${group == 1}">
+    <div class="row mb-20">
+        <section class="col-xs-12">
+            <a class="btn btn-lightred text-right" href="FrontController?option=customerOrder&task=help" onClick="removeHelp(${order.customerTable.number})">Annuler la demande d'aide</a>
+        </section>
+    </div>
+</c:if>
+
 <div id="menu">
     <div class="row">
         <section class="col-sm-8">
