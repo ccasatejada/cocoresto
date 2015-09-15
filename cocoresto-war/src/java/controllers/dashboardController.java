@@ -130,17 +130,6 @@ public class dashboardController implements IController {
         } else if (groupId == 2) { // return cooker dashboard
 
             List<CustomerOrder> cos = (List) session.getAttribute("cos");
-//            List<CustomerOrder> cos = new ArrayList();
-            HashMap<Integer, CustomerOrder> orders = ejbRestaurant.getOrders();
-
-//            for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
-//                if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
-//                        || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
-//                    cos.add(e.getValue());
-//                    System.out.println("Commandes : " + cos);
-//                }
-//            }
-
             if (cos == null) {
                 cos = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
                 for (CustomerOrder co : cos) {
