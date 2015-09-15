@@ -16,7 +16,7 @@
                         <tr data-id="${orderline.id}">
                             <td>${orderline.dish.name}</td>
                             <td>${orderline.dish.category}</td>
-                            <td data-dish="${orderline.dish.id}" id="statusDishOrderLine">
+                            <td data-dish="${orderline.id}" class="statusDishOrderLine">
                                 <c:if test="${orderline.status == 1}"><span class="label label-default">En attente</span></c:if>
                                 <c:if test="${orderline.status == 2}"><span class="label label-info">En préparation</span></c:if>
                                 <c:if test="${orderline.status == 3}"><span class="label label-success">Prêt</span></c:if>
@@ -34,7 +34,7 @@
                         <tr data-id="${orderline.id}">
                             <td>${orderline.drink.name}</td>
                             <td>${orderline.drink.category}</td>
-                            <td data-drink="${orderline.drink.id}" id="statusDrinkOrderLine">
+                            <td data-drink="${orderline.id}" class="statusDrinkOrderLine">
                                 <c:if test="${orderline.status == 1}"><span class="label label-default">En attente</span></c:if>
                                 <c:if test="${orderline.status == 2}"><span class="label label-info">En préparation</span></c:if>
                                 <c:if test="${orderline.status == 3}"><span class="label label-success">Prêt</span></c:if>
@@ -56,7 +56,7 @@
                                 <tr data-id="${orderline.id}">
                                     <td>${orderline.dish.name}</td>
                                     <td>${orderline.dish.category}</td>
-                                    <td>
+                                    <td data-dishCombo="${orderline.id}" class="statusDishComboOrderLine">
                                         <c:if test="${orderline.status == 1}"><span class="label label-default">En attente</span></c:if>
                                         <c:if test="${orderline.status == 2}"><span class="label label-info">En préparation</span></c:if>
                                         <c:if test="${orderline.status == 3}"><span class="label label-success">Prêt</span></c:if>

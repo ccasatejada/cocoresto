@@ -43,7 +43,6 @@ public class AlertWebSocketServer {
     @Inject
     ejbRestaurantLocal ejbRestaurant;
 
-    
     public AlertWebSocketServer() {
         ejbCustomerOrder = lookupejbCustomerOrderLocal();
         ejbRestaurant = lookupejbRestaurantLocal();
@@ -71,56 +70,39 @@ public class AlertWebSocketServer {
     public void handleMessage(String message, Session session) {
         try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
-            CustomerOrder order = ejbRestaurant.getOrder(Integer.valueOf(jsonMessage.getString("order")));
+            CustomerOrder order = ejbCustomerOrder.findById(Long.valueOf(jsonMessage.getString("order")));
             if ("onprep".equals(jsonMessage.getString("action"))) {
                 if ("dish".equals(jsonMessage.getString("element"))) {
                     Long id = Long.valueOf(jsonMessage.getString("dish"));
                     for (DishOrderLine dol : order.getDishes()) {
-                        if (dol.getId() == id) {
-                            Dish d = dol.getDish();
+                        if (dol.getId().equals(id)) {
+                            DishOrderLine d = dol;
                             ejbCustomerOrder.sendOnPrepDish(order, d);
-                            System.out.println(d.getName());
+                            break;
                         }
                     }
                 }
                 if ("combo".equals(jsonMessage.getString("element"))) {
-                    Long idCombo = Long.valueOf(jsonMessage.getString("combo"));
-                    System.out.println(idCombo);
                     Long id = Long.valueOf(jsonMessage.getString("dishcombo"));
-                    System.out.println(id);
-//                    for (ComboOrderLine col : order.getCombos()) {
-//                        if (col.getId() == idCombo) {                            
-//                            Combo c = col.getCombo(); 
-//                            System.out.println(c.getName());
-//                            for (DishOrderLine dol : col.getDishes()) {
-//                                
-//                                if (dol.getId() == id) {
-//                                    Dish d = dol.getDish();
-//                                    ejbCustomerOrder.sendOnPrepCombo(order, c, d);
-//                                }
-//                            }
-//                        }
-//                    }
-                    for(DishOrderLine dol : order.getDishes()){
-                        if(dol.getComboOrderLine().getId() == idCombo){
-                            Combo c = dol.getComboOrderLine().getCombo();
-                            System.out.println(c.getName());
-                            for(DishOrderLine dd : dol.getComboOrderLine().getDishes()){
-                                if(dd.getId() == id){
-                                    Dish d = dd.getDish();
-                                    System.out.println(d.getName());
-                                    ejbCustomerOrder.sendOnPrepCombo(order, c, d);
-                                }
+                    for (ComboOrderLine col : order.getCombos()) {
+                        for (DishOrderLine dol : col.getDishes()) {
+                            if (dol.getId().equals(id)) {
+                                ComboOrderLine c = dol.getComboOrderLine();
+                                DishOrderLine d = dol;
+                                ejbCustomerOrder.sendOnPrepCombo(order, c, d);
+                                break;
                             }
                         }
                     }
                 }
+
                 if ("drink".equals(jsonMessage.getString("element"))) {
                     Long id = Long.valueOf(jsonMessage.getString("drink"));
                     for (DrinkOrderLine dol : order.getDrinks()) {
-                        if (dol.getId() == id) {
-                            Drink d = dol.getDrink();
+                        if (dol.getId().equals(id)) {
+                            DrinkOrderLine d = dol;
                             ejbCustomerOrder.sendOnPrepDrink(order, d);
+                            break;
                         }
                     }
                 }
@@ -129,21 +111,22 @@ public class AlertWebSocketServer {
                 if ("dish".equals(jsonMessage.getString("element"))) {
                     Long id = Long.valueOf(jsonMessage.getString("dish"));
                     for (DishOrderLine dol : order.getDishes()) {
-                        Dish d = dol.getDish();
-                        ejbCustomerOrder.sendReadyDish(order, d);
+                        if (dol.getId().equals(id)) {
+                            DishOrderLine d = dol;
+                            ejbCustomerOrder.sendReadyDish(order, d);
+                            break;
+                        }
                     }
                 }
                 if ("combo".equals(jsonMessage.getString("element"))) {
-                    Long idCombo = Long.valueOf(jsonMessage.getString("combo"));
                     Long id = Long.valueOf(jsonMessage.getString("dishcombo"));
                     for (ComboOrderLine col : order.getCombos()) {
-                        if (col.getId() == idCombo) {
-                            Combo c = col.getCombo();
-                            for (DishOrderLine dol : col.getDishes()) {
-                                if (dol.getId() == id) {
-                                    Dish d = dol.getDish();
-                                    ejbCustomerOrder.sendReadyCombo(order, c, d);
-                                }
+                        for (DishOrderLine dol : col.getDishes()) {
+                            if (dol.getId().equals(id)) {
+                                ComboOrderLine c = dol.getComboOrderLine();
+                                DishOrderLine d = dol;
+                                ejbCustomerOrder.sendReadyCombo(order, c, d);
+                                break;
                             }
                         }
                     }
@@ -151,9 +134,10 @@ public class AlertWebSocketServer {
                 if ("drink".equals(jsonMessage.getString("element"))) {
                     Long id = Long.valueOf(jsonMessage.getString("drink"));
                     for (DrinkOrderLine dol : order.getDrinks()) {
-                        if (dol.getId() == id) {
-                            Drink d = dol.getDrink();
+                        if (dol.getId().equals(id)) {
+                            DrinkOrderLine d = dol;
                             ejbCustomerOrder.sendReadyDrink(order, d);
+                            break;
                         }
                     }
                 }
