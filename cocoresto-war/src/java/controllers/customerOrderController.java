@@ -15,8 +15,8 @@ import helpers.Alert;
 import helpers.Pagination;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -230,8 +230,70 @@ public class customerOrderController implements IController {
                     }
                 }
                 
-                request.setAttribute("order", order);
+                session.setAttribute("order", order);
+                
+                Double cartTotal = 0.00;
+                
+                if (session.getAttribute("cartDishes") == null) {
+                    session.setAttribute("cartDishes", new ArrayList());
+                }
+                if (session.getAttribute("cartDrinks") == null) {
+                    session.setAttribute("cartDrinks", new ArrayList());
+                }
+                if (session.getAttribute("cartCombos") == null) {
+                    session.setAttribute("cartCombos", new ArrayList());
+                }
 
+                List<Dish> dishes = new ArrayList();
+                List<Drink> drinks = new ArrayList();
+                List<Combo> combos = new ArrayList();
+                
+                // get dishes already in order
+                Collection<DishOrderLine> dishOrderLines = order.getDishes();
+                if(dishOrderLines != null && dishOrderLines.size() > 0) {
+                    for(DishOrderLine orderline : dishOrderLines) {
+                        dishes.add(orderline.getDish());
+                        cartTotal += orderline.getDish().getTotalPrice();
+                    }
+                }
+                
+                List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
+                cartDishes.addAll(dishes);
+                session.setAttribute("cartDishes", cartDishes);
+                
+                
+                // get drinks already in order
+                Collection<DrinkOrderLine> drinkOrderLines = order.getDrinks();
+                if(drinkOrderLines != null && drinkOrderLines.size() > 0) {
+                    for(DrinkOrderLine orderline : drinkOrderLines) {
+                        drinks.add(orderline.getDrink());
+                        cartTotal += orderline.getDrink().getTotalPrice();
+                    }
+                }
+                
+                List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
+                cartDrinks.addAll(drinks);
+                session.setAttribute("cartDrinks", cartDrinks);
+                
+                
+                // get combos already in order
+                Collection<ComboOrderLine> comboOrderLines = order.getCombos();
+                if(comboOrderLines != null && comboOrderLines.size() > 0) {
+                    for(ComboOrderLine orderline : comboOrderLines) {
+                        combos.add(orderline.getCombo());
+                        cartTotal += orderline.getCombo().getTotalPrice();
+                    }
+                }
+                
+                List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
+                cartCombos.addAll(combos);
+                session.setAttribute("cartCombos", cartCombos);
+                
+                
+                request.setAttribute("cartTotal", String.format("%.2f", cartTotal));
+                
+                
+                
                 return "/WEB-INF/dashboardCustomer.jsp";
             }
 
