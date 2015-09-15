@@ -44,7 +44,7 @@ public class menuController implements IController {
             groupId = (Long) session.getAttribute("group");
         }
 
-        if (logged && groupId < 1) {
+        if (logged && groupId < 2) {
 
             if ("recap".equals(request.getParameter("task"))) {
 
