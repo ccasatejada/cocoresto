@@ -14,27 +14,25 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 @Stateless
 public class ejbCustomerOrder implements ejbCustomerOrderLocal {
+    @EJB
+    private ejbRestaurantLocal ejbRestaurant;
 
     @PersistenceContext(unitName = "cocoresto-ejbPU")
     private EntityManager em;
 
-    private ejbRestaurant ejbRestaurant = new ejbRestaurant();
     private final Map sessions = new HashMap();
-
-    
 
     public ejbCustomerOrder() {
     }
@@ -166,34 +164,72 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     private JsonObject createOnPrepMessage(Dish dish, Combo combo, Drink drink) {
         JsonProvider provider = JsonProvider.provider();
-//        JsonObject onPrepMessage = provider.createObjectBuilder()
-//                .add("action", "onprep")
-//                .add("status", "En préparation")
-//                .add("dish", dish.getName())
-//                .add("drink", drink.getName())
-//                .add("combo", combo.getName())
-//                .build();
-
-//        return onPrepMessage;
-        return null;
+        JsonObject onPrepMessage = null;
+        if (dish != null && combo == null) {
+            onPrepMessage = provider.createObjectBuilder()
+                    .add("action", "onprep")
+                    .add("status", "En préparation")
+                    .add("idDish", dish.getId())
+                    .add("dish", dish.getName())
+                    .build();
+        }
+        if (drink != null) {
+            onPrepMessage = provider.createObjectBuilder()
+                    .add("action", "onprep")
+                    .add("status", "En préparation")
+                    .add("idDrink", drink.getId())
+                    .add("drink", drink.getName())
+                    .build();
+        }
+        if (combo != null && dish != null) {
+            onPrepMessage = provider.createObjectBuilder()
+                    .add("action", "onprep")
+                    .add("status", "En préparation")
+                    .add("idDish", dish.getId())
+                    .add("dish", dish.getName())
+                    .add("idCombo", combo.getId())
+                    .add("combo", combo.getName())
+                    .build();
+        }
+        return onPrepMessage;
     }
 
     private JsonObject createReadyMessage(Dish dish, Combo combo, Drink drink) {
         JsonProvider provider = JsonProvider.provider();
-//        JsonObject readyMessage = provider.createObjectBuilder()
-//                .add("action", "ready")
-//                .add("status", "Terminé")
-//                .add("dish", dish.getName())
-//                .add("drink", drink.getName())
-//                .add("combo", combo.getName())
-//                .build();
-//
-//        return readyMessage;
-        return null;
+        JsonObject readyMessage = null;
+        if (dish != null && combo == null) {
+            readyMessage = provider.createObjectBuilder()
+                    .add("action", "onprep")
+                    .add("status", "En préparation")
+                    .add("idDish", dish.getId())
+                    .add("dish", dish.getName())
+                    .build();
+        }
+        if (drink != null) {
+            readyMessage = provider.createObjectBuilder()
+                    .add("action", "onprep")
+                    .add("status", "En préparation")
+                    .add("idDrink", drink.getId())
+                    .add("drink", drink.getName())
+                    .build();
+        }
+        if (combo != null && dish != null) {
+            readyMessage = provider.createObjectBuilder()
+                    .add("action", "onprep")
+                    .add("status", "En préparation")
+                    .add("idDish", dish.getId())
+                    .add("dish", dish.getName())
+                    .add("idCombo", combo.getId())
+                    .add("combo", combo.getName())
+                    .build();
+        }
+
+        return readyMessage;
+
     }
 
     private void sendToAllConnectedSessions(JsonObject message, CustomerOrder order) {
-        sessions.forEach((Session, HttpSession) -> sendToSession((Session) Session, (HttpSession)HttpSession, message, order));
+        sessions.forEach((Session, HttpSession) -> sendToSession((Session) Session, (HttpSession) HttpSession, message, order));
 //        sendToSession(null, message, order);
 //        for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
 //            System.out.println("debut hashmap");
@@ -224,31 +260,38 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     private void sendToSession(Session session, HttpSession httpSession, JsonObject message, CustomerOrder order) {
         try {
             for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
-                System.out.println("debut hashmap");
                 Entry entry = (Entry) entries.next();
                 Session s = (Session) entry.getKey();
                 HttpSession hs = (HttpSession) entry.getValue();
                 Employee e = (Employee) hs.getAttribute("loggedEmployee");
                 Integer ct = (Integer) hs.getAttribute("table");
-                System.out.println("order employee:" + order.getEmployee().getId());
-                System.out.println("employee:" + e.getId());
                 if (hs.getAttribute("loggedEmployee") != null && order.getEmployee().getId() == e.getId()) {
-                        System.out.println("sessionEmployee = " + s.getId());
-                        System.out.println("httpSession employee = " + e.getLastName() + " " + e.getFirstName());
-                        s.getBasicRemote().sendText(message.toString());                   
+                    System.out.println("sessionEmployee = " + s.getId());
+                    System.out.println("httpSession employee = " + e.getLastName() + " " + e.getFirstName());
+                    try {
+                        s.getBasicRemote().sendText(message.toString());
+                    } catch (NullPointerException npe) {
+                    }
                 }
                 if (hs.getAttribute("table") != null && order.getCustomerTable().getNumber() == ct) {
                     System.out.println(order.getCustomerTable().getNumber());
-                        System.out.println("sessionTable = " + s.getId());
-                        System.out.println("httpSessionTable = " + order.getCustomerTable().getNumber());
-                        System.out.println("num table = " + ct);
-                        s.getBasicRemote().sendText(message.toString());                    
+                    System.out.println("sessionTable = " + s.getId());
+                    System.out.println("httpSessionTable = " + order.getCustomerTable().getNumber());
+                    System.out.println("num table = " + ct);
+                    try {
+                        s.getBasicRemote().sendText(message.toString());
+                    } catch (NullPointerException npe) {
+                    }
                 }
             }
 //            session.getBasicRemote().sendText(message.toString());
         } catch (IOException ex) {
             sessions.remove(session);
-            Logger.getLogger(ejbCustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger
+                    .getLogger(ejbCustomerOrder.class
+                            .getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 }
