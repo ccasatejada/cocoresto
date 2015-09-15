@@ -42,9 +42,8 @@ public class CustomerOrder implements Serializable {
     private Collection<DrinkOrderLine> drinks;
     @OneToMany(mappedBy = "customerOrder")
     private Collection<ComboOrderLine> combos;
-
     @Transient
-    private boolean needHelp;
+    private boolean needHelp = false;
 
     public CustomerOrder() {
     }

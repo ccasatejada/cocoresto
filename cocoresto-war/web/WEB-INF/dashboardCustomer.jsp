@@ -1,5 +1,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<c:if test="${group eq 1}">
+    <div class="row mb-20">
+        <section class="col-xs-12">
+            <a class="btn btn-lightred text-right" href="FrontController?option=customerOrder&task=help" onClick="removeHelp(${order.customerTable.number})">Annuler la demande d'aide</a>
+        </section>
+    </div>
+</c:if>
+
 <div id="menu">
     <div class="row">
         <section class="col-sm-8">
@@ -7,11 +15,11 @@
             <div id="menuContent"></div>
         </section>
         <section id="cartContent" class="col-sm-4">
-            <c:if test="${group eq 0}">
+            <c:if test="${group eq 0 && !order.needHelp}">
                 <div id="addHelp" class="mb-20">
-                    <form id="addHelpForm">
+                    <form id="addHelpForm" action="" method="POST">
                         <input type="hidden" id="table" value="${table}">
-                        <button type="button" class="btn btn-lg btn-lightred" onclick="formSubmit();"><i class="fa fa-bell"></i>&nbsp;Demander de l'aide</button>
+                        <button type="submit" name="needHelp" class="btn btn-lg btn-lightred" onclick="formSubmit();"><i class="fa fa-bell"></i>&nbsp;Demander de l'aide</button>
                     </form>
                 </div>
             </c:if>   

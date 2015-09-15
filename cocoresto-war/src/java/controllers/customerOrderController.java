@@ -210,7 +210,7 @@ public class customerOrderController implements IController {
 
             if ("menu".equals(request.getParameter("task"))) {
 
-                Integer table;
+                Integer table = null;
                 try {
                     table = Integer.valueOf(request.getParameter("table"));
                 } catch (NumberFormatException e) {
@@ -220,6 +220,17 @@ public class customerOrderController implements IController {
                         request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
                     }
                 }
+                
+                CustomerOrder order = ejbRestaurant.getOrder(table);
+                if(order == null) {
+                    try {
+                        response.sendRedirect("FrontController?option=customerOrder&task=help");
+                    } catch (IOException ex) {
+                        request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
+                    }
+                }
+                
+                request.setAttribute("order", order);
 
                 return "/WEB-INF/dashboardCustomer.jsp";
             }
