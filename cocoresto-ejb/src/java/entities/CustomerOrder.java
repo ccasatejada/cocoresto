@@ -190,7 +190,7 @@ public class CustomerOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.CustomerOrder[ id=" + id + " ]";
+        return "CustomerOrder : " + customerTable.getNumber();
     }
 
 }
