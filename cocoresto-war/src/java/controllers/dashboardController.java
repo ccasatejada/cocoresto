@@ -114,10 +114,6 @@ public class dashboardController implements IController {
                 request.setAttribute("cartTotal", String.format("%.2f", cartTotal));
             }
             
-            if (request.getParameter("needHelp") != null) {
-                co.setNeedHelp(true);
-            }
-
             return "/WEB-INF/dashboardCustomer.jsp";
 
         } else if (groupId == 1) { // return waiter dashboard
