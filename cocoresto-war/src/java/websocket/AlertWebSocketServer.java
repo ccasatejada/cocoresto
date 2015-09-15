@@ -14,6 +14,7 @@ import entities.Employee;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -37,24 +38,23 @@ import javax.websocket.server.ServerEndpoint;
 public class AlertWebSocketServer {
 
     @Inject
-    ejbEmployeeLocal ejbEmployee;
+    ejbCustomerOrderLocal ejbCustomerOrder;
 
-    @EJB
-    ejbCustomerOrderLocal ejbCustomerOrder = lookupejbCustomerOrderLocal();
+    @Inject
+    ejbRestaurantLocal ejbRestaurant;
 
-    @EJB
-    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
-
+    
     public AlertWebSocketServer() {
+        ejbCustomerOrder = lookupejbCustomerOrderLocal();
+        ejbRestaurant = lookupejbRestaurantLocal();
     }
 
     @OnOpen
     public void open(Session session, EndpointConfig config) {
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        System.out.println(session.getId());
         ejbCustomerOrder.addSession(session, httpSession);
-//        System.out.println(session.getId());
-//        System.out.println(httpSession.getAttribute("table"));
-//        System.out.println(httpSession.getAttribute("loggedEmployee"));
+
     }
 
     @OnClose

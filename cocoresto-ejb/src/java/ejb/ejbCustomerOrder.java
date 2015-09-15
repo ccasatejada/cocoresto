@@ -32,17 +32,11 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     private EntityManager em;
 
     private ejbRestaurant ejbRestaurant = new ejbRestaurant();
-    private Map sessions;
-    HttpServletRequest request;
-    HttpSession session = request.getSession();
+    private final Map sessions = new HashMap();
+
     
 
     public ejbCustomerOrder() {
-    }
-    
-    @PostConstruct
-    public void init(){
-        sessions = new HashMap<Session, HttpSession>();
     }
 
     @Override
@@ -238,21 +232,17 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
                 Integer ct = (Integer) hs.getAttribute("table");
                 System.out.println("order employee:" + order.getEmployee().getId());
                 System.out.println("employee:" + e.getId());
-                if (hs.getAttribute("loggedEmployee") != null) {
-                    if (order.getEmployee().getId() == e.getId()) {
+                if (hs.getAttribute("loggedEmployee") != null && order.getEmployee().getId() == e.getId()) {
                         System.out.println("sessionEmployee = " + s.getId());
                         System.out.println("httpSession employee = " + e.getLastName() + " " + e.getFirstName());
-                        s.getBasicRemote().sendText(message.toString());
-                    }
+                        s.getBasicRemote().sendText(message.toString());                   
                 }
-                if (hs.getAttribute("table") != null) {
+                if (hs.getAttribute("table") != null && order.getCustomerTable().getNumber() == ct) {
                     System.out.println(order.getCustomerTable().getNumber());
-                    if (order.getCustomerTable().getNumber() == ct) {
                         System.out.println("sessionTable = " + s.getId());
                         System.out.println("httpSessionTable = " + order.getCustomerTable().getNumber());
                         System.out.println("num table = " + ct);
-                        s.getBasicRemote().sendText(message.toString());
-                    }
+                        s.getBasicRemote().sendText(message.toString());                    
                 }
             }
 //            session.getBasicRemote().sendText(message.toString());
