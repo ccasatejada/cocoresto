@@ -12,9 +12,11 @@ import entities.Employee;
 import entities.OrderStatus;
 import helpers.Alert;
 import helpers.Pagination;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -128,6 +130,16 @@ public class dashboardController implements IController {
         } else if (groupId == 2) { // return cooker dashboard
 
             List<CustomerOrder> cos = (List) session.getAttribute("cos");
+//            List<CustomerOrder> cos = new ArrayList();
+            HashMap<Integer, CustomerOrder> orders = ejbRestaurant.getOrders();
+
+//            for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
+//                if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
+//                        || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
+//                    cos.add(e.getValue());
+//                    System.out.println("Commandes : " + cos);
+//                }
+//            }
 
             if (cos == null) {
                 cos = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
@@ -145,7 +157,6 @@ public class dashboardController implements IController {
                     }
                 }
             }
-
             session.setAttribute("cos", cos);
 
             return "/WEB-INF/dashboardCooker.jsp";
