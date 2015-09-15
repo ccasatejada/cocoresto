@@ -42,6 +42,13 @@ public class ejbHelp implements ejbHelpLocal {
 
     @Override
     public void addHelp(CustomerOrder order) {
+        int i = 0;
+        for (Entry<Integer, CustomerOrder> entry : ejbRestaurant.getOrders().entrySet()) {
+            CustomerOrder o = entry.getValue();
+            if (order.isNeedHelp() == true) {
+                i++;
+            }
+        }
         helpCount += 1;
         JsonObject addMessage = createAddMessage(order, helpCount);
         sendToAllConnectedSessions(addMessage);
