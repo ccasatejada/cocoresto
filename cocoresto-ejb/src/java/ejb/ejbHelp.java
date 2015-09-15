@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
@@ -14,11 +15,11 @@ import javax.websocket.Session;
 
 @Stateless
 public class ejbHelp implements ejbHelpLocal {
-
+    @EJB
+    private ejbRestaurantLocal ejbRestaurant;
     private int helpCount = 0;
-    private ejbRestaurant ejbRestaurant = new ejbRestaurant();
     private final Set sessions = new HashSet<>();
-
+    
     public ejbHelp() {
     }
 

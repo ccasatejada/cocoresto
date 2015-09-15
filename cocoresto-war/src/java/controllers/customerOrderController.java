@@ -210,7 +210,7 @@ public class customerOrderController implements IController {
 
             if ("menu".equals(request.getParameter("task"))) {
 
-                Integer table;
+                Integer table = null;
                 try {
                     table = Integer.valueOf(request.getParameter("table"));
                 } catch (NumberFormatException e) {
@@ -221,7 +221,16 @@ public class customerOrderController implements IController {
                     }
                 }
                 
+                CustomerOrder order = ejbRestaurant.getOrder(table);
+                if(order == null) {
+                    try {
+                        response.sendRedirect("FrontController?option=customerOrder&task=help");
+                    } catch (IOException ex) {
+                        request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
+                    }
+                }
                 
+                request.setAttribute("order", order);
 
                 return "/WEB-INF/dashboardCustomer.jsp";
             }
@@ -311,8 +320,15 @@ public class customerOrderController implements IController {
                         break;
                     }
                 }
+                for (Map.Entry<Integer, CustomerOrder> e : ejbRestaurant.getOrders().entrySet()) {
+                    if (e.getValue().getId().equals(ejbCo.getId())) {
+                        ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
+                        break;
+                    }
+                }
 
                 cos.add(co);
+                ejbRestaurant.addCustomerOrder(ejbCo);
 
                 session.setAttribute("cos", cos);
 
@@ -424,6 +440,15 @@ public class customerOrderController implements IController {
                         break;
                     }
                 }
+                
+                for (Map.Entry<Integer, CustomerOrder> e : ejbRestaurant.getOrders().entrySet()) {
+                    if (e.getValue().getId().equals(ejbCo.getId())) {
+                        ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
+                        break;
+                    }
+                }
+
+                ejbRestaurant.addCustomerOrder(ejbCo);
 
                 if (dishReady && drinkReady && comboReady) {
                     co.setStatus(OrderStatus.FINISHED);

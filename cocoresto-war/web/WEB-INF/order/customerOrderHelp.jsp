@@ -17,7 +17,6 @@
                     <th>Couverts</th>
                     <th>Table</th>
                     <th>Tablettes</th>
-                    <th>Supprimer</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -31,7 +30,6 @@
                 <td>${customerOrder.people} personnes</td>
                 <td>Table n°${customerOrder.customerTable.number}</td>
                 <td>${customerOrder.nbTablet} tablettes</td>
-                <td><a class="btn btn-lightred" href="FrontController?option=customerOrder&task=help" onClick="removeHelp(${customerOrder.customerTable.number})">Supprimer</a>
                 </tr>
             </c:forEach>
             </tbody>

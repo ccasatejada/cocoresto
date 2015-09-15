@@ -7,13 +7,12 @@
     <div class="tile-header dvd dvd-btm bg-greensea">
         <h1 class="custom-font"><strong>Commande n°${customerOrder.number}</strong></h1>
     </div>
-    <!-- <form id="editOrder" class="edit" action="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}" method="post"> -->
     <form action="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}" method="post">
 
         <div class="tile-body">
 
             <div class="text-right">
-                <c:if test="${customerOrder.status != 'CANCELLED'}">
+                <c:if test="${customerOrder.status == 'OPENED'}">
                     <button class="btn btn-danger" type="submit" name="cancel" onclick="if(!window.confirm('Voulez-vous vraiment annuler cette commande ?')){return false;}">Annuler la commande</button>
                 </c:if>
             </div>
