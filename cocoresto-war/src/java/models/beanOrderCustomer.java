@@ -69,8 +69,6 @@ public class beanOrderCustomer implements Serializable {
         return ejbCustomerOrder.findOrdersByStatus(status1, status2);
     }
 
-    ;
-
     public void cancelCustomerOrder(CustomerOrder customerOrder) {
 
         // update order status and persist
@@ -123,6 +121,7 @@ public class beanOrderCustomer implements Serializable {
         // persist cart in order if all carts have been saved
         if (customerOrder.getSavedCarts() == customerOrder.getNbTablet()) {
             customerOrder.setStatus(OrderStatus.VALIDATE);
+            customerOrder.setNeedHelp(false);
             update(customerOrder);
         }
 
