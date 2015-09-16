@@ -44,10 +44,18 @@ public class menuController implements IController {
             groupId = (Long) session.getAttribute("group");
         }
 
-        if (logged && groupId < 1) {
+        if (logged && groupId < 2) {
 
             if ("recap".equals(request.getParameter("task"))) {
+                
+                //get current order
+                CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(session.getAttribute("table").toString()));
 
+                if(co.isNeedHelp()) {
+                    request.setAttribute("alert", Alert.setAlert("Patientez", "Votre table a demandé l'aide d'un serveur. Celui-ci ne va pas tarder.", "info"));
+                    return "/WEB-INF/dashboardCustomer.jsp";
+                }
+                
                 // init cart lists
                 List<Dish> cartDishes = null;
                 List<Drink> cartDrinks = null;
@@ -71,9 +79,6 @@ public class menuController implements IController {
 
                 // cart validation and customerorder setting
                 if (null != request.getParameter("confirmCart")) {
-
-                    //get current order
-                    CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(session.getAttribute("table").toString()));
 
                     // test if there is still carts to validate
                     if (co.getSavedCarts() >= co.getNbTablet()) {
