@@ -115,7 +115,7 @@ public class dashboardController implements IController {
 
                 request.setAttribute("cartTotal", String.format("%.2f", cartTotal));
             }
-            
+
             return "/WEB-INF/dashboardCustomer.jsp";
 
         } else if (groupId == 1) { // return waiter dashboard
@@ -130,6 +130,15 @@ public class dashboardController implements IController {
         } else if (groupId == 2) { // return cooker dashboard
 
             List<CustomerOrder> cos = (List) session.getAttribute("cos");
+            HashMap<Integer, CustomerOrder> orders = ejbRestaurant.getOrders();
+            List<CustomerOrder> cOrders = new ArrayList();
+            for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
+                if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
+                        || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
+                    cOrders.add(e.getValue());
+                }
+            }
+
             if (cos == null) {
                 cos = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
                 for (CustomerOrder co : cos) {
@@ -146,7 +155,24 @@ public class dashboardController implements IController {
                     }
                 }
             }
+
+            for (CustomerOrder co : cOrders) {
+                for (DrinkOrderLine dr : co.getDrinks()) {
+                    dr.setStatus(1);
+                }
+                for (DishOrderLine d : co.getDishes()) {
+                    d.setStatus(1);
+                }
+                for (ComboOrderLine c : co.getCombos()) {
+                    for (DishOrderLine di : c.getDishes()) {
+                        di.setStatus(1);
+                    }
+                }
+            }
+            cos = cOrders;
+
             session.setAttribute("cos", cos);
+            session.setAttribute("cOrders", cOrders);
 
             return "/WEB-INF/dashboardCooker.jsp";
         }
