@@ -52,7 +52,7 @@
                         <tr data-id="${comboorderline.id}">
                             <td class="bg-info" colspan="3">Plats du menu : ${comboorderline.combo.name}</td>
                         </tr>
-                            <c:forEach var="orderline" items="${orderline.dishes}" varStatus="loop">
+                            <c:forEach var="orderline" items="${comboorderline.dishes}" varStatus="loop">
                                 <tr data-id="${orderline.id}">
                                     <td>${orderline.dish.name}</td>
                                     <td>${orderline.dish.category}</td>
