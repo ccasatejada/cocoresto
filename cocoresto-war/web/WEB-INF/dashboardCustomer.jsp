@@ -3,7 +3,7 @@
 <c:if test="${group eq 1}">
     <div class="row mb-20">
         <section class="col-xs-12">
-            <a class="btn btn-lightred text-right" href="FrontController?option=customerOrder&task=help" onClick="removeHelp(${order.customerTable.number})">Annuler la demande d'aide</a>
+            <a class="btn btn-lightred text-right" href="FrontController?option=customerOrder&task=help&action=remove" onClick="removeHelp(${order.customerTable.number})">Annuler la demande d'aide</a>
         </section>
     </div>
 </c:if>
