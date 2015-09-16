@@ -223,6 +223,7 @@ public class customerOrderController implements IController {
                 Integer table = null;
                 try {
                     table = Integer.valueOf(request.getParameter("table"));
+                    session.setAttribute("table", table);
                 } catch (NumberFormatException e) {
                     try {
                         response.sendRedirect("FrontController?option=customerOrder&task=help");
