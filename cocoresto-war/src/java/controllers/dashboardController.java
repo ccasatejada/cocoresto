@@ -133,13 +133,15 @@ public class dashboardController implements IController {
             HashMap<Integer, CustomerOrder> orders = ejbRestaurant.getOrders();
             if (cOrders == null) {
                 cOrders = new ArrayList();
-            }
-            cOrders.removeAll(cOrders);
-            for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
-                if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
-                        || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
+                cOrders = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
+            } else {
+                cOrders.removeAll(cOrders);
+                for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
+                    if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
+                            || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
 
-                    cOrders.add(e.getValue());
+                        cOrders.add(e.getValue());
+                    }
                 }
             }
 
