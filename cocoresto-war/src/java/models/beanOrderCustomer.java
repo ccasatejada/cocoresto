@@ -127,6 +127,13 @@ public class beanOrderCustomer implements Serializable {
 
         return true;
     }
+    
+    public void saveCartOverride(CustomerOrder customerOrder){
+        customerOrder.setSavedCarts(customerOrder.getNbTablet());
+        customerOrder.setStatus(OrderStatus.VALIDATE);
+        customerOrder.setNeedHelp(false);
+        update(customerOrder);
+    }
 
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {
         try {

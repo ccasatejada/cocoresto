@@ -207,6 +207,13 @@ public class customerOrderController implements IController {
             }
 
             if ("help".equals(request.getParameter("task"))) {
+                
+                if("remove".equals(request.getParameter("action"))){
+                    session.removeAttribute("cartDishes");
+                    session.removeAttribute("cartDrinks");
+                    session.removeAttribute("cartCombos");
+                }
+                
                 request.setAttribute("customerHelpOrders", boc.getNeedHelpOrders());
                 return helpUrl;
             }
@@ -216,6 +223,7 @@ public class customerOrderController implements IController {
                 Integer table = null;
                 try {
                     table = Integer.valueOf(request.getParameter("table"));
+                    session.setAttribute("table", table);
                 } catch (NumberFormatException e) {
                     try {
                         response.sendRedirect("FrontController?option=customerOrder&task=help");
@@ -237,61 +245,45 @@ public class customerOrderController implements IController {
                 
                 Double cartTotal = 0.00;
                 
-                if (session.getAttribute("cartDishes") == null) {
-                    session.setAttribute("cartDishes", new ArrayList());
-                }
-                if (session.getAttribute("cartDrinks") == null) {
-                    session.setAttribute("cartDrinks", new ArrayList());
-                }
-                if (session.getAttribute("cartCombos") == null) {
-                    session.setAttribute("cartCombos", new ArrayList());
-                }
-
-                List<Dish> dishes = new ArrayList();
-                List<Drink> drinks = new ArrayList();
-                List<Combo> combos = new ArrayList();
-                
                 // get dishes already in order
-                Collection<DishOrderLine> dishOrderLines = order.getDishes();
-                if(dishOrderLines != null && dishOrderLines.size() > 0) {
-                    for(DishOrderLine orderline : dishOrderLines) {
-                        dishes.add(orderline.getDish());
-                        cartTotal += orderline.getDish().getTotalPrice();
+                if (session.getAttribute("cartDishes") == null) {
+                    List<Dish> dishes = new ArrayList();
+                    Collection<DishOrderLine> dishOrderLines = order.getDishes();
+                    if(dishOrderLines != null && dishOrderLines.size() > 0) {
+                        for(DishOrderLine orderline : dishOrderLines) {
+                            dishes.add(orderline.getDish());
+                            cartTotal += orderline.getDish().getTotalPrice();
+                        }
                     }
+                    session.setAttribute("cartDishes", dishes);
                 }
-                
-                List<Dish> cartDishes = (List<Dish>) session.getAttribute("cartDishes");
-                cartDishes.addAll(dishes);
-                session.setAttribute("cartDishes", cartDishes);
-                
                 
                 // get drinks already in order
-                Collection<DrinkOrderLine> drinkOrderLines = order.getDrinks();
-                if(drinkOrderLines != null && drinkOrderLines.size() > 0) {
-                    for(DrinkOrderLine orderline : drinkOrderLines) {
-                        drinks.add(orderline.getDrink());
-                        cartTotal += orderline.getDrink().getTotalPrice();
+                if (session.getAttribute("cartDrinks") == null) {
+                    List<Drink> drinks = new ArrayList();
+                    Collection<DrinkOrderLine> drinkOrderLines = order.getDrinks();
+                    if(drinkOrderLines != null && drinkOrderLines.size() > 0) {
+                        for(DrinkOrderLine orderline : drinkOrderLines) {
+                            drinks.add(orderline.getDrink());
+                            cartTotal += orderline.getDrink().getTotalPrice();
+                        }
                     }
+                    session.setAttribute("cartDrinks", drinks);
                 }
-                
-                List<Drink> cartDrinks = (List<Drink>) session.getAttribute("cartDrinks");
-                cartDrinks.addAll(drinks);
-                session.setAttribute("cartDrinks", cartDrinks);
-                
                 
                 // get combos already in order
-                Collection<ComboOrderLine> comboOrderLines = order.getCombos();
-                if(comboOrderLines != null && comboOrderLines.size() > 0) {
-                    for(ComboOrderLine orderline : comboOrderLines) {
-                        combos.add(orderline.getCombo());
-                        cartTotal += orderline.getCombo().getTotalPrice();
+                if (session.getAttribute("cartCombos") == null) {
+                    List<Combo> combos = new ArrayList();
+                    Collection<ComboOrderLine> comboOrderLines = order.getCombos();
+                    if(comboOrderLines != null && comboOrderLines.size() > 0) {
+                        for(ComboOrderLine orderline : comboOrderLines) {
+                            combos.add(orderline.getCombo());
+                            cartTotal += orderline.getCombo().getTotalPrice();
+                        }
                     }
+                    session.setAttribute("cartCombos", combos);                
                 }
-                
-                List<Combo> cartCombos = (List<Combo>) session.getAttribute("cartCombos");
-                cartCombos.addAll(combos);
-                session.setAttribute("cartCombos", cartCombos);
-                
+
                 
                 request.setAttribute("cartTotal", String.format("%.2f", cartTotal));
                 
