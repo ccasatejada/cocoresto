@@ -29,35 +29,39 @@ import javax.websocket.server.ServerEndpoint;
 @ApplicationScoped
 @ServerEndpoint(value = "/FrontController/alert", configurator = GetHttpSessionConfigurator.class)
 public class AlertWebSocketServer {
-
+    
     @Inject
     ejbCustomerOrderLocal ejbCustomerOrder;
-
+    
     @Inject
     ejbRestaurantLocal ejbRestaurant;
-
+    
     public AlertWebSocketServer() {
         ejbCustomerOrder = lookupejbCustomerOrderLocal();
         ejbRestaurant = lookupejbRestaurantLocal();
     }
-
+    
     @OnOpen
     public void open(Session session, EndpointConfig config) {
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        ejbCustomerOrder.addSession(session, httpSession);
-
+        if (httpSession.getAttribute("table") != null) {
+            ejbCustomerOrder.addSession(session, httpSession.getAttribute("table"));
+        }
+        if (httpSession.getAttribute("loggedEmployee") != null) {
+            ejbCustomerOrder.addSession(session, httpSession.getAttribute("loggedEmployee"));
+        }
     }
-
+    
     @OnClose
     public void close(Session session) {
         ejbCustomerOrder.removeSession(session);
     }
-
+    
     @OnError
     public void onError(Throwable error) {
         Logger.getLogger(AlertWebSocketServer.class.getName()).log(Level.SEVERE, null, error);
     }
-
+    
     @OnMessage
     public void handleMessage(String message, Session session) {
         try (JsonReader reader = Json.createReader(new StringReader(message))) {
@@ -87,7 +91,7 @@ public class AlertWebSocketServer {
                         }
                     }
                 }
-
+                
                 if ("drink".equals(jsonMessage.getString("element"))) {
                     Long id = Long.valueOf(jsonMessage.getString("drink"));
                     for (DrinkOrderLine dol : order.getDrinks()) {
@@ -136,7 +140,7 @@ public class AlertWebSocketServer {
             }
         }
     }
-
+    
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {
         try {
             Context c = new InitialContext();
@@ -146,7 +150,7 @@ public class AlertWebSocketServer {
             throw new RuntimeException(ne);
         }
     }
-
+    
     private ejbRestaurantLocal lookupejbRestaurantLocal() {
         try {
             Context c = new InitialContext();
@@ -156,5 +160,5 @@ public class AlertWebSocketServer {
             throw new RuntimeException(ne);
         }
     }
-
+    
 }
