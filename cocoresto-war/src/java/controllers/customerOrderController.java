@@ -207,6 +207,13 @@ public class customerOrderController implements IController {
             }
 
             if ("help".equals(request.getParameter("task"))) {
+                
+                if("remove".equals(request.getParameter("action"))){
+                    session.removeAttribute("cartDishes");
+                    session.removeAttribute("cartDrinks");
+                    session.removeAttribute("cartCombos");
+                }
+                
                 request.setAttribute("customerHelpOrders", boc.getNeedHelpOrders());
                 return helpUrl;
             }
