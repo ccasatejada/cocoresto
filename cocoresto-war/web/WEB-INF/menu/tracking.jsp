@@ -48,9 +48,9 @@
                         <th>Catégorie</th>
                         <th>Statut</th>
                     </tr>
-                    <c:forEach var="orderline" items="${comboOrderLines}" varStatus="loop">
-                        <tr data-id="${orderline.id}">
-                            <td class="bg-info" colspan="3">Plats du menu : ${orderline.combo.name}</td>
+                    <c:forEach var="comboorderline" items="${comboOrderLines}" varStatus="loop">
+                        <tr data-id="${comboorderline.id}">
+                            <td class="bg-info" colspan="3">Plats du menu : ${comboorderline.combo.name}</td>
                         </tr>
                             <c:forEach var="orderline" items="${orderline.dishes}" varStatus="loop">
                                 <tr data-id="${orderline.id}">

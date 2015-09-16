@@ -6,12 +6,16 @@ window.onload = formListener;
 
 function onMessage(e) {
     var alertStatus = JSON.parse(e.data);
-
+//    alert(alertStatus.idDish);
+//    alert(alertStatus.idDishCombo);
+//    alert(alertStatus.idDrink);
+    
     if (alertStatus.action === "onprep") {
         var tdOP = printAlertElement(alertStatus);
         var spanOP = document.createElement("span");
         spanOP.className = "label label-info";
         spanOP.innerHTML = alertStatus.status;
+        tdOP.removeChild(tdOP.children[0]);
         tdOP.removeChild(tdOP.firstChild);
         tdOP.appendChild(spanOP);
     }
@@ -20,6 +24,8 @@ function onMessage(e) {
         var spanR = document.createElement("span");
         spanR.className = "label label-success";
         spanR.innerHTML = alertStatus.status;
+        tdR.removeChild(tdR.children[0]);
+        tdR.removeChild(tdR.lastChild);
         tdR.removeChild(tdR.firstChild);
         tdR.appendChild(spanR);
     }
@@ -123,33 +129,30 @@ function sendReady(corder, dishonprep, comboonprep, dishcomboonprep, drinkonprep
 }
 
 function printAlertElement(alertStatus) {
-    var tdDish = document.getElementsByClassName(".statusDishOrderLine");
-    if (tdDish) {
+    
+    
+    var tdDish = document.getElementsByClassName("statusDishOrderLine");
         for (var i = 0; i < tdDish.length; i++) {
-            if (tdDish[i].dataset.dish === String.valueOf(alertStatus.idDish)) {
+            if (tdDish[i].dataset.dish == alertStatus.idDish) {
                 return tdDish[i];
             }
-        }
     }
 
 
-    var tdDrink = document.getElementsByClassName(".statusDrinkOrderLine");
-    if (tdDrink) {
+    var tdDrink = document.getElementsByClassName("statusDrinkOrderLine");
         for (var j = 0; j < tdDrink.length; j++) {
-            if (tdDrink[j].dataset.drink === String.valueOf(alertStatus.idDrink)) {
+            if (tdDrink[j].dataset.drink == alertStatus.idDrink) {
                 return tdDrink[j];
             }
-        }
+        
     }
 
-    var tdDishCombo = document.getElementsByClassName(".statusDishComboOrderLine");
-    if (tdDishCombo) {
+    var tdDishCombo = document.getElementsByClassName("statusDishComboOrderLine");
         for (var k = 0; k < tdDishCombo.length; k++) {
-            if (tdDishCombo[k].dataset.dishCombo === String.valueOf(alertStatus.idDishCombo)) {
+            if (tdDishCombo[k].dataset.dishCombo == alertStatus.idDishCombo) {
                 return tdDishCombo[k];
             }
-        }
-    }
+        }  
 }
 
 
