@@ -51,7 +51,7 @@ public class menuController implements IController {
                 //get current order
                 CustomerOrder co = ejbRestaurant.getOrder(Integer.valueOf(session.getAttribute("table").toString()));
 
-                if(co.isNeedHelp()) {
+                if(co.isNeedHelp() && groupId == 0) {
                     request.setAttribute("alert", Alert.setAlert("Patientez", "Votre table a demandé l'aide d'un serveur. Celui-ci ne va pas tarder.", "info"));
                     return "/WEB-INF/dashboardCustomer.jsp";
                 }
@@ -128,13 +128,20 @@ public class menuController implements IController {
                         }
                     }
 
-                    boolean saved = boc.saveCart(co);
-
-                    if (saved) {
-                        session.setAttribute("validatedCart", true);
+                    if(groupId == 0) { // customer save cart : load in ejb
+                        boolean saved = boc.saveCart(co);
+                        if (saved) {
+                            session.setAttribute("validatedCart", true);
+                            redirectToDashboard(request, response);
+                        } else {
+                            request.setAttribute("alert", Alert.setAlert("Erreur", "Tous les paniers de la commande ont déjà été validés", "danger"));
+                        }
+                    } else if (groupId == 1) { // waiter save cart : load in ejb and persist immédiately
+                        boc.saveCartOverride(co);
+                        session.removeAttribute("cartDishes");
+                        session.removeAttribute("cartDrinks");
+                        session.removeAttribute("cartCombos");
                         redirectToDashboard(request, response);
-                    } else {
-                        request.setAttribute("alert", Alert.setAlert("Erreur", "Tous les paniers de la commande ont déjà été validés", "danger"));
                     }
 
                 }

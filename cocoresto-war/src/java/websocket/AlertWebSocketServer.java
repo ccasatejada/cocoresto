@@ -1,21 +1,14 @@
 package websocket;
 
 import ejb.ejbCustomerOrderLocal;
-import ejb.ejbEmployeeLocal;
 import ejb.ejbRestaurantLocal;
-import entities.Combo;
 import entities.ComboOrderLine;
 import entities.CustomerOrder;
-import entities.Dish;
 import entities.DishOrderLine;
-import entities.Drink;
 import entities.DrinkOrderLine;
-import entities.Employee;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -51,7 +44,6 @@ public class AlertWebSocketServer {
     @OnOpen
     public void open(Session session, EndpointConfig config) {
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        System.out.println(session.getId());
         ejbCustomerOrder.addSession(session, httpSession);
 
     }
