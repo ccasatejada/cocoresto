@@ -129,19 +129,22 @@ public class dashboardController implements IController {
             return "/WEB-INF/dashboardWaiter.jsp";
         } else if (groupId == 2) { // return cooker dashboard
 
-            List<CustomerOrder> cos = (List) session.getAttribute("cos");
+            List<CustomerOrder> cOrders = (List) session.getAttribute("cOrders");
             HashMap<Integer, CustomerOrder> orders = ejbRestaurant.getOrders();
-            List<CustomerOrder> cOrders = new ArrayList();
+            if (cOrders == null) {
+                cOrders = new ArrayList();
+            }
+            cOrders.removeAll(cOrders);
             for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
                 if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
                         || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
+
                     cOrders.add(e.getValue());
                 }
             }
 
-            if (cos == null) {
-                cos = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
-                for (CustomerOrder co : cos) {
+            for (CustomerOrder co : cOrders) {
+                if (co.getStatus().equals(OrderStatus.VALIDATE)) {
                     for (DrinkOrderLine dr : co.getDrinks()) {
                         dr.setStatus(1);
                     }
@@ -156,22 +159,6 @@ public class dashboardController implements IController {
                 }
             }
 
-            for (CustomerOrder co : cOrders) {
-                for (DrinkOrderLine dr : co.getDrinks()) {
-                    dr.setStatus(1);
-                }
-                for (DishOrderLine d : co.getDishes()) {
-                    d.setStatus(1);
-                }
-                for (ComboOrderLine c : co.getCombos()) {
-                    for (DishOrderLine di : c.getDishes()) {
-                        di.setStatus(1);
-                    }
-                }
-            }
-            cos = cOrders;
-
-            session.setAttribute("cos", cos);
             session.setAttribute("cOrders", cOrders);
 
             return "/WEB-INF/dashboardCooker.jsp";

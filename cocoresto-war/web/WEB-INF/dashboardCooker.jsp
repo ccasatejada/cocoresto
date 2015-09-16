@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>                    
-                    <c:forEach var="co" items="${cos}" varStatus="loop">
+                    <c:forEach var="co" items="${cOrders}" varStatus="loop">
                         <c:forEach var="dishOrderLine" items="${co.dishes}" varStatus="loop">
                             <c:if test="${dishOrderLine.status == 1}">
                                 <tr class="text-center">
@@ -69,7 +69,7 @@
                     </tr>
                 </thead>
                 <tbody>                    
-                    <c:forEach var="co" items="${cos}" varStatus="loop">
+                    <c:forEach var="co" items="${cOrders}" varStatus="loop">
                         <c:forEach var="drinkOrderLine" items="${co.drinks}" varStatus="loop">
                             <c:if test="${drinkOrderLine.status == 1}">
                                 <tr class="text-center">
@@ -108,7 +108,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="cOrder" items="${cos}" varStatus="loop">
+                    <c:forEach var="cOrder" items="${cOrders}" varStatus="loop">
                         <c:forEach var="dopOrderLine" items="${cOrder.dishes}" varStatus="loop">
                             <c:if test="${dopOrderLine.status == 2}">
                                 <tr class="text-center">
@@ -160,7 +160,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="cOrder" items="${cos}" varStatus="loop">
+                    <c:forEach var="cOrder" items="${cOrders}" varStatus="loop">
                         <c:forEach var="dropOrderLine" items="${cOrder.drinks}" varStatus="loop">
                             <c:if test="${dropOrderLine.status == 2}">
                                 <tr class="text-center">
