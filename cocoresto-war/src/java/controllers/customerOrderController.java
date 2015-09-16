@@ -17,8 +17,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -220,9 +223,9 @@ public class customerOrderController implements IController {
                         request.setAttribute("alert", Alert.setAlert("Erreur", "Impossible d'afficher la page", "danger"));
                     }
                 }
-                
+
                 CustomerOrder order = ejbRestaurant.getOrder(table);
-                if(order == null) {
+                if (order == null) {
                     try {
                         response.sendRedirect("FrontController?option=customerOrder&task=help");
                     } catch (IOException ex) {
@@ -296,6 +299,8 @@ public class customerOrderController implements IController {
                     if (cOrder.getId().equals(co.getId())) {
                         co = cOrder;
                         co.setStatus(OrderStatus.PREPARED);
+                        ejbCo = cOrder;
+                        ejbCo.setStatus(OrderStatus.PREPARED);
                         break;
                     }
                 }
@@ -366,12 +371,27 @@ public class customerOrderController implements IController {
                         break;
                     }
                 }
-                for (Map.Entry<Integer, CustomerOrder> e : ejbRestaurant.getOrders().entrySet()) {
-                    if (e.getValue().getId().equals(ejbCo.getId())) {
+
+                Set ord = ejbRestaurant.getOrders().keySet();
+                Iterator it = ord.iterator();
+                while (it.hasNext()) {
+                    Integer cle = (Integer) it.next();
+                    CustomerOrder valeur = ejbRestaurant.getOrders().get(cle);
+                    if (valeur.getId().equals(ejbCo.getId())) {
                         ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
                         break;
                     }
                 }
+//                for (int i = 0; i < ejbRestaurant.getOrders().keySet().size(); i++) {
+//                    for (Map.Entry<Integer, CustomerOrder> e : ejbRestaurant.getOrders().entrySet()) {
+//                        if (ejbRestaurant.getOrders().get) {
+//                            if (e.getValue().getId().equals(ejbCo.getId())) {
+//                                ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
 
                 cos.add(co);
                 ejbRestaurant.addCustomerOrder(ejbCo);
@@ -486,7 +506,7 @@ public class customerOrderController implements IController {
                         break;
                     }
                 }
-                
+
                 for (Map.Entry<Integer, CustomerOrder> e : ejbRestaurant.getOrders().entrySet()) {
                     if (e.getValue().getId().equals(ejbCo.getId())) {
                         ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));

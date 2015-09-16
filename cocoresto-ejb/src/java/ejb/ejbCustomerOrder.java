@@ -1,9 +1,12 @@
 package ejb;
 
 import entities.Combo;
+import entities.ComboOrderLine;
 import entities.CustomerOrder;
 import entities.Dish;
+import entities.DishOrderLine;
 import entities.Drink;
+import entities.DrinkOrderLine;
 import entities.Employee;
 import entities.OrderStatus;
 import java.io.IOException;
@@ -127,42 +130,42 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     }
 
     @Override
-    public void sendOnPrepDish(CustomerOrder order, Dish dish) {
+    public void sendOnPrepDish(CustomerOrder order, DishOrderLine dish) {
         JsonObject onPrepMessage = createOnPrepMessage(dish, null, null);
         sendToAllConnectedSessions(onPrepMessage, order);
     }
 
     @Override
-    public void sendOnPrepDrink(CustomerOrder order, Drink drink) {
+    public void sendOnPrepDrink(CustomerOrder order, DrinkOrderLine drink) {
         JsonObject onPrepMessage = createOnPrepMessage(null, null, drink);
         sendToAllConnectedSessions(onPrepMessage, order);
     }
 
     @Override
-    public void sendOnPrepCombo(CustomerOrder order, Combo combo, Dish dish) {
+    public void sendOnPrepCombo(CustomerOrder order, ComboOrderLine combo, DishOrderLine dish) {
         JsonObject onPrepMessage = createOnPrepMessage(dish, combo, null);
         sendToAllConnectedSessions(onPrepMessage, order);
     }
 
     @Override
-    public void sendReadyDish(CustomerOrder order, Dish dish) {
+    public void sendReadyDish(CustomerOrder order, DishOrderLine dish) {
         JsonObject readyMessage = createReadyMessage(dish, null, null);
         sendToAllConnectedSessions(readyMessage, order);
     }
 
     @Override
-    public void sendReadyDrink(CustomerOrder order, Drink drink) {
+    public void sendReadyDrink(CustomerOrder order, DrinkOrderLine drink) {
         JsonObject readyMessage = createReadyMessage(null, null, drink);
         sendToAllConnectedSessions(readyMessage, order);
     }
 
     @Override
-    public void sendReadyCombo(CustomerOrder order, Combo combo, Dish dish) {
+    public void sendReadyCombo(CustomerOrder order, ComboOrderLine combo, DishOrderLine dish) {
         JsonObject readyMessage = createReadyMessage(dish, combo, null);
         sendToAllConnectedSessions(readyMessage, order);
     }
 
-    private JsonObject createOnPrepMessage(Dish dish, Combo combo, Drink drink) {
+    private JsonObject createOnPrepMessage(DishOrderLine dish, ComboOrderLine combo, DrinkOrderLine drink) {
         JsonProvider provider = JsonProvider.provider();
         JsonObject onPrepMessage = null;
         if (dish != null && combo == null) {
@@ -170,7 +173,6 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
                     .add("action", "onprep")
                     .add("status", "En préparation")
                     .add("idDish", dish.getId())
-                    .add("dish", dish.getName())
                     .build();
         }
         if (drink != null) {
@@ -178,49 +180,40 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
                     .add("action", "onprep")
                     .add("status", "En préparation")
                     .add("idDrink", drink.getId())
-                    .add("drink", drink.getName())
                     .build();
         }
         if (combo != null && dish != null) {
             onPrepMessage = provider.createObjectBuilder()
                     .add("action", "onprep")
                     .add("status", "En préparation")
-                    .add("idDish", dish.getId())
-                    .add("dish", dish.getName())
-                    .add("idCombo", combo.getId())
-                    .add("combo", combo.getName())
+                    .add("idDishCombo", dish.getId())
                     .build();
         }
         return onPrepMessage;
     }
 
-    private JsonObject createReadyMessage(Dish dish, Combo combo, Drink drink) {
+    private JsonObject createReadyMessage(DishOrderLine dish, ComboOrderLine combo, DrinkOrderLine drink) {
         JsonProvider provider = JsonProvider.provider();
         JsonObject readyMessage = null;
         if (dish != null && combo == null) {
             readyMessage = provider.createObjectBuilder()
-                    .add("action", "onprep")
-                    .add("status", "En préparation")
+                    .add("action", "ready")
+                    .add("status", "Prêt")
                     .add("idDish", dish.getId())
-                    .add("dish", dish.getName())
                     .build();
         }
         if (drink != null) {
             readyMessage = provider.createObjectBuilder()
-                    .add("action", "onprep")
-                    .add("status", "En préparation")
+                    .add("action", "ready")
+                    .add("status", "Prêt")
                     .add("idDrink", drink.getId())
-                    .add("drink", drink.getName())
                     .build();
         }
         if (combo != null && dish != null) {
             readyMessage = provider.createObjectBuilder()
-                    .add("action", "onprep")
-                    .add("status", "En préparation")
-                    .add("idDish", dish.getId())
-                    .add("dish", dish.getName())
-                    .add("idCombo", combo.getId())
-                    .add("combo", combo.getName())
+                    .add("action", "ready")
+                    .add("status", "Prêt")
+                    .add("idDishCombo", dish.getId())
                     .build();
         }
 
