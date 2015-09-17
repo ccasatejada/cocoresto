@@ -229,72 +229,40 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     }
 
     private void sendToAllConnectedSessions(JsonObject message, CustomerOrder order) {
-        sessions.forEach((session, httpSession) -> sendToSession((Session) session, message, order));
-//        sendToSession(null, message, order);
-//        for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
-//            System.out.println("debut hashmap");
-//            Entry entry = (Entry) entries.next();
-//            Session s = (Session) entry.getKey();
-//            HttpSession hs = (HttpSession) entry.getValue();
-//            if (hs.getAttribute("loggedEmployee") != null) {
-//                Employee e = (Employee) hs.getAttribute("loggedEmployee");
-//                if (order.getEmployee().getId() == e.getId()) {
-//                    sendToSession(s, message, order);
-//                    System.out.println("sessionEmployee = " + s.getId());
-//                    System.out.println("httpSession employee = " + e.getLastName() + " " + e.getFirstName());
-//                }
-//            }
-//            if (hs.getAttribute("table") != null) {
-//
-//                Integer ct = (Integer) hs.getAttribute("table");
-//                if (order.getCustomerTable().getNumber() == ct) {
-//                    sendToSession(s, message, order);
-//                    System.out.println("sessionTable = " + s.getId());
-//                    System.out.println("httpSessionTable = " + order.getCustomerTable().getNumber());
-//                    System.out.println("num table = " + ct);
-//                }
-//            }
-//        }
+        sendToSession(message, order);
     }
 
-    private void sendToSession(Session session, JsonObject message, CustomerOrder order) {
-//        try {
-            for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
-                Entry entry = (Entry) entries.next();
-                Session s = (Session) entry.getKey();
-                if (s.isOpen()) {
-                    System.out.println("coucou after isOpen");
-//                    HttpSession hs = (HttpSession) entry.getValue();
+    private void sendToSession(JsonObject message, CustomerOrder order) {
+        for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
+            Entry entry = (Entry) entries.next();
+            Session s = (Session) entry.getKey();
+            if (s.isOpen()) {
+                System.out.println("coucou after isOpen");
+                try {
+                    Employee e = (Employee) entry.getValue();
+                    if (e != null && order.getEmployee().getId().equals(e.getId())) {
+                        System.out.println("coucou je suis l'employé " + e.getLastName());
+                        s.getBasicRemote().sendText(message.toString());
+                    }
+                } catch (IOException | ClassCastException x) {
+                    System.out.println("je n'étais pas un employé");
                     try {
-                        Employee e = (Employee) entry.getValue();
-                        if (e != null && order.getEmployee().getId().equals(e.getId())) {
-                            System.out.println("coucou je suis l'employé " + e.getLastName());
+                        Integer ct = (Integer) entry.getValue();
+                        if (ct != null && order.getCustomerTable().getNumber().equals(ct)) {
+                            System.out.println("mais une table");
                             s.getBasicRemote().sendText(message.toString());
                         }
-                    } catch (ClassCastException x) {
-                        System.out.println("je n'étais pas un employé");
-                        try {
-                            Integer ct = (Integer) entry.getValue();
-                            if (ct != null && order.getCustomerTable().getNumber().equals(ct)) {
-                                System.out.println("mais une table");
-                                s.getBasicRemote().sendText(message.toString());
-                            }
-                        } catch (Exception ex) {
-                            System.out.println("je n'étais rien de tout ça donc je me supprime");
-                            sessions.remove(s);
-                        } finally{
-                            System.out.println("finalement je continue 1ere partie");
-                            continue;
-                        }
+                    } catch (IOException | ClassCastException ex) {
+                        System.out.println("je n'étais rien de tout ça donc je sais pas quoi faire");
                     } finally {
-                        System.out.println("finalement je continue 2e partie");
+                        System.out.println("finalement je continue 1ere partie");
                         continue;
                     }
+                } finally {
+                    System.out.println("finalement je continue 2e partie");
+                    continue;
                 }
             }
-//        } catch (IOException ex) {
-//            sessions.remove(session);
-//            Logger.getLogger(ejbCustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        }
     }
 }

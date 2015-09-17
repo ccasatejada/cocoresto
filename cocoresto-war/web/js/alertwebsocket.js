@@ -16,7 +16,7 @@ function onMessage(e) {
         spanOP.className = "label label-info";
         spanOP.innerHTML = alertStatus.status;
         tdOP.removeChild(tdOP.children[0]);
-        tdOP.removeChild(tdOP.firstChild);
+//        tdOP.removeChild(tdOP.firstChild);
         tdOP.appendChild(spanOP);
     }
     if (alertStatus.action === "ready") {
@@ -26,7 +26,7 @@ function onMessage(e) {
         spanR.innerHTML = alertStatus.status;
         tdR.removeChild(tdR.children[0]);
         tdR.removeChild(tdR.lastChild);
-        tdR.removeChild(tdR.firstChild);
+//        tdR.removeChild(tdR.firstChild);
         tdR.appendChild(spanR);
     }
 
