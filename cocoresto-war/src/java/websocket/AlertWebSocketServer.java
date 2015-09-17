@@ -6,6 +6,7 @@ import entities.ComboOrderLine;
 import entities.CustomerOrder;
 import entities.DishOrderLine;
 import entities.DrinkOrderLine;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,8 +18,6 @@ import javax.json.JsonReader;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.http.HttpSession;
-import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -27,41 +26,35 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 @ApplicationScoped
-@ServerEndpoint(value = "/FrontController/alert", configurator = GetHttpSessionConfigurator.class)
-public class AlertWebSocketServer {
-    
+@ServerEndpoint(value = "/FrontController/alert")
+public class AlertWebSocketServer implements Serializable {
+
     @EJB
-    ejbCustomerOrderLocal ejbCustomerOrder = lookupejbCustomerOrderLocal();
-    
+    ejbCustomerOrderLocal ejbCustomerOrder;
+
     @EJB
-    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
-    
+    ejbRestaurantLocal ejbRestaurant;
+
     public AlertWebSocketServer() {
-//        ejbCustomerOrder = lookupejbCustomerOrderLocal();
-//        ejbRestaurant = lookupejbRestaurantLocal();
+        ejbCustomerOrder = lookupejbCustomerOrderLocal();
+        ejbRestaurant = lookupejbRestaurantLocal();
     }
-    
+
     @OnOpen
-    public void open(Session session, EndpointConfig config) {
-        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        if (httpSession.getAttribute("table") != null) {
-            ejbCustomerOrder.addSession(session, httpSession.getAttribute("table"));
-        }
-        if (httpSession.getAttribute("loggedEmployee") != null) {
-            ejbCustomerOrder.addSession(session, httpSession.getAttribute("loggedEmployee"));
-        }
+    public void open(Session session) {
+        ejbCustomerOrder.addSession(session);
     }
-    
+
     @OnClose
     public void close(Session session) {
         ejbCustomerOrder.removeSession(session);
     }
-    
+
     @OnError
     public void onError(Throwable error) {
         Logger.getLogger(AlertWebSocketServer.class.getName()).log(Level.SEVERE, null, error);
     }
-    
+
     @OnMessage
     public void handleMessage(String message, Session session) {
         try (JsonReader reader = Json.createReader(new StringReader(message))) {
@@ -91,7 +84,7 @@ public class AlertWebSocketServer {
                         }
                     }
                 }
-                
+
                 if ("drink".equals(jsonMessage.getString("element"))) {
                     Long id = Long.valueOf(jsonMessage.getString("drink"));
                     for (DrinkOrderLine dol : order.getDrinks()) {
@@ -140,7 +133,7 @@ public class AlertWebSocketServer {
             }
         }
     }
-    
+
     private ejbCustomerOrderLocal lookupejbCustomerOrderLocal() {
         try {
             Context c = new InitialContext();
@@ -150,7 +143,7 @@ public class AlertWebSocketServer {
             throw new RuntimeException(ne);
         }
     }
-    
+
     private ejbRestaurantLocal lookupejbRestaurantLocal() {
         try {
             Context c = new InitialContext();
@@ -160,5 +153,5 @@ public class AlertWebSocketServer {
             throw new RuntimeException(ne);
         }
     }
-    
+
 }

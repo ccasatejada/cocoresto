@@ -48,7 +48,9 @@ function printHelpElement(help) {
 //        divSpan.innerHTML = help.count;
 //    }
     var helpSpan = document.getElementById("helpSpan");
-    helpSpan.innerHTML = help.count;
+    if (helpSpan !== null) {
+        helpSpan.innerHTML = help.count;
+    }
 }
 
 function hideForm() {

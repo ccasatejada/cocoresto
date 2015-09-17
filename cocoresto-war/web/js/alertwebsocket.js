@@ -4,27 +4,48 @@ var socketAlert = new WebSocket(wsUri);
 socketAlert.onmessage = onMessage;
 window.onload = formListener;
 
-function onMessage(e) {
-    var alertStatus = JSON.parse(e.data);
+function onMessage(event) {
+    var alertStatus = JSON.parse(event.data);
+    printAlertElement(alertStatus);
+    printOrderStatusElement(alertStatus);
+    //tdOP.appendChild(spanOP);
+}
+
+function printAlertElement(alertStatus) {
     var tdOP = null;
     var tds = document.getElementsByTagName("td");
     for (var i = 0; i < tds.length; i++) {
-        console.log(parseInt(tds[i].dataset.idorderline) + " : " + alertStatus.idOrderLineAlert)
-        
         if (parseInt(tds[i].dataset.idorderline) == alertStatus.idOrderLineAlert) {
-            console.log("coucou");
             tdOP = tds[i];
         }
     }
-
-    if (alertStatus.action === "onprep") {
-        tdOP.innerHTML = "<span class=\"label label-info\">" + alertStatus.status + "</span>";
+    if (tdOP !== null) {
+        if (alertStatus.action === "onprep") {
+            tdOP.innerHTML = "<span class=\"label label-info\">" + alertStatus.status + "</span>";
+        }
+        if (alertStatus.action === "ready") {
+            tdOP.innerHTML = "<span class=\"label label-success\">" + alertStatus.status + "</span>";
+        }
     }
-    if (alertStatus.action === "ready") {
-        tdOP.innerHTML = "<span class=\"label label-success\">" + alertStatus.status + "</span>";
 
+}
+
+function printOrderStatusElement(alertStatus) {
+    if (document.getElementById("helpDiv") !== null) {
+        var divOP = null;
+        var divs = document.getElementsByTagName("div");
+        for (var i = 0; i < divs.length; i++) {
+            if (parseInt(divs[i].dataset.idcustomerorder) == alertStatus.idCustomerOrder) {
+                divOP = divs[i];
+            }
+        }
+
+        if (divOP !== null) {
+//            var classbystatus = "label label-"+alertStatus.statusOrderEnum;
+//            divOP.className(classbystatus);
+            divOP.innerHTML = alertStatus.statusOrder;
+        }
     }
-    //tdOP.appendChild(spanOP);
 }
 
 function formListener() {
@@ -42,12 +63,10 @@ function formListener() {
             sendOnPrep(order, dish, combo, dishcombo, drink);
         });
     }
-
-
     var formReady = document.querySelectorAll('#ordersInProcess .btn.status');
     for (var i = 0; i < formReady.length; i++) {
-        formReady[i].addEventListener('click', function (e) {
-            var product = e.target;
+        formReady[i].addEventListener('click', function (f) {
+            var product = f.target;
             // id order 
             var corder = product.dataset.order;
             // id dish, combo/dishcombo, drink, on prep to ready
@@ -59,7 +78,6 @@ function formListener() {
         });
     }
 }
-
 
 function sendOnPrep(order, dish, combo, dishcombo, drink) {
     if (typeof dish !== "undefined") {

@@ -7,7 +7,6 @@ import entities.DrinkOrderLine;
 import entities.OrderStatus;
 import java.util.List;
 import javax.ejb.Local;
-import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 @Local
@@ -33,7 +32,7 @@ public interface ejbCustomerOrderLocal {
     
     public List<CustomerOrder> findOrdersByStatus(OrderStatus status1, OrderStatus status2);
     
-    public void addSession(Session session, Object httpSession);
+    public void addSession(Session session);
     public void removeSession(Session session);
     public void sendOnPrepDish(CustomerOrder order, DishOrderLine dish);
     public void sendOnPrepDrink(CustomerOrder order, DrinkOrderLine drink);

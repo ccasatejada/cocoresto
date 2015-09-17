@@ -16,7 +16,7 @@
                         <tr data-id="${orderline.id}">
                             <td>${orderline.dish.name}</td>
                             <td>${orderline.dish.category}</td>
-                            <td data-idorderline="${orderline.id}" class="statusOrderLineAlert">
+                            <td data-idorderline="${orderline.id}">
                                 <span class="label label-default">En attente</span>
                             </td>
                         </tr>
@@ -32,7 +32,7 @@
                         <tr data-id="${orderline.id}">
                             <td>${orderline.drink.name}</td>
                             <td>${orderline.drink.category}</td>
-                            <td data-idorderline="${orderline.id}" class="statusOrderLineAlert">
+                            <td data-idorderline="${orderline.id}">
                                 <span class="label label-default">En attente</span>
                             </td>
                         </tr>
@@ -52,7 +52,7 @@
                                 <tr data-idorderline="${orderline.id}">
                                     <td>${orderline.dish.name}</td>
                                     <td>${orderline.dish.category}</td>
-                                    <td data-idorderline="${orderline.id}" class="statusOrderLineAlert">
+                                    <td data-idorderline="${orderline.id}">
                                         <span class="label label-default">En attente</span>
                                     </td>
                                 </tr>

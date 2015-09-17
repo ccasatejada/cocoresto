@@ -40,7 +40,7 @@
                         <td><a class="btn btn-primary" href="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}">Commande n°${customerOrder.number}</a></td>
                         <td><fmt:formatDate value="${customerOrder.orderDate}" pattern="dd MMM yyyy à hh:MM" /></td>
                         <td>
-                            <div class="label label-${customerOrder.status}">${customerOrder.status.name}</div>
+                            <div class="label label-${customerOrder.status}" data-idcustomerorder="${customerOrder.id}">${customerOrder.status.name}</div>
                         </td>
                         <td>${customerOrder.people} personnes</td>
                         <td>Table n°${customerOrder.customerTable.number}</td>

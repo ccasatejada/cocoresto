@@ -4,15 +4,10 @@ import entities.ComboOrderLine;
 import entities.CustomerOrder;
 import entities.DishOrderLine;
 import entities.DrinkOrderLine;
-import entities.Employee;
 import entities.OrderStatus;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
@@ -27,7 +22,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     @PersistenceContext(unitName = "cocoresto-ejbPU")
     private EntityManager em;
 
-    private final Map<Session, Object> sessions = new HashMap();
+    private final Set<Session> sessions = new HashSet();
 
     public ejbCustomerOrder() {
     }
@@ -108,8 +103,8 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     }
 
     @Override
-    public void addSession(Session session, Object httpSession) {
-        sessions.put(session, httpSession);
+    public void addSession(Session session) {
+        sessions.add(session);
 
     }
 
@@ -121,37 +116,37 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     @Override
     public void sendOnPrepDish(CustomerOrder order, DishOrderLine dish) {
         JsonObject onPrepMessage = createOnPrepMessage(order, dish, null, null);
-        sendToAllConnectedSessions(onPrepMessage, order);
+        sendToAllConnectedSessions(onPrepMessage);
     }
 
     @Override
     public void sendOnPrepDrink(CustomerOrder order, DrinkOrderLine drink) {
         JsonObject onPrepMessage = createOnPrepMessage(order, null, null, drink);
-        sendToAllConnectedSessions(onPrepMessage, order);
+        sendToAllConnectedSessions(onPrepMessage);
     }
 
     @Override
     public void sendOnPrepCombo(CustomerOrder order, ComboOrderLine combo, DishOrderLine dish) {
         JsonObject onPrepMessage = createOnPrepMessage(order, dish, combo, null);
-        sendToAllConnectedSessions(onPrepMessage, order);
+        sendToAllConnectedSessions(onPrepMessage);
     }
 
     @Override
     public void sendReadyDish(CustomerOrder order, DishOrderLine dish) {
         JsonObject readyMessage = createReadyMessage(order, dish, null, null);
-        sendToAllConnectedSessions(readyMessage, order);
+        sendToAllConnectedSessions(readyMessage);
     }
 
     @Override
     public void sendReadyDrink(CustomerOrder order, DrinkOrderLine drink) {
         JsonObject readyMessage = createReadyMessage(order, null, null, drink);
-        sendToAllConnectedSessions(readyMessage, order);
+        sendToAllConnectedSessions(readyMessage);
     }
 
     @Override
     public void sendReadyCombo(CustomerOrder order, ComboOrderLine combo, DishOrderLine dish) {
         JsonObject readyMessage = createReadyMessage(order, dish, combo, null);
-        sendToAllConnectedSessions(readyMessage, order);
+        sendToAllConnectedSessions(readyMessage);
     }
 
     private JsonObject createOnPrepMessage(CustomerOrder order, DishOrderLine dish, ComboOrderLine combo, DrinkOrderLine drink) {
@@ -164,6 +159,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
                     .add("status", "En préparation")
                     .add("idOrderLineAlert", dish.getId())
                     .add("statusOrder", order.getStatus().getName())
+                    .add("statusOrderEnum", String.valueOf(order.getStatus()))
                     .add("idCustomerOrder", order.getId())
                     .build();
         }
@@ -174,6 +170,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
                     .add("status", "En préparation")
                     .add("idOrderLineAlert", drink.getId())
                     .add("statusOrder", order.getStatus().getName())
+                    .add("statusOrderEnum", String.valueOf(order.getStatus()))
                     .add("idCustomerOrder", order.getId())
                     .build();
         }
@@ -184,6 +181,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
                     .add("status", "En préparation")
                     .add("idOrderLineAlert", dish.getId())
                     .add("statusOrder", order.getStatus().getName())
+                    .add("statusOrderEnum", String.valueOf(order.getStatus()))
                     .add("idCustomerOrder", order.getId())
                     .build();
         }
@@ -200,6 +198,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
                     .add("status", "Prêt")
                     .add("idOrderLineAlert", dish.getId())
                     .add("statusOrder", order.getStatus().getName())
+                    .add("statusOrderEnum", String.valueOf(order.getStatus()))
                     .add("idCustomerOrder", order.getId())
                     .build();
         }
@@ -210,6 +209,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
                     .add("status", "Prêt")
                     .add("idOrderLineAlert", drink.getId())
                     .add("statusOrder", order.getStatus().getName())
+                    .add("statusOrderEnum", String.valueOf(order.getStatus()))
                     .add("idCustomerOrder", order.getId())
                     .build();
         }
@@ -220,6 +220,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
                     .add("status", "Prêt")
                     .add("idOrderLineAlert", dish.getId())
                     .add("statusOrder", order.getStatus().getName())
+                    .add("statusOrderEnum", String.valueOf(order.getStatus()))
                     .add("idCustomerOrder", order.getId())
                     .build();
         }
@@ -228,34 +229,37 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     }
 
-    private void sendToAllConnectedSessions(JsonObject message, CustomerOrder order) {
-        sendToSession(message, order);
-    }
-
-    private void sendToSession(JsonObject message, CustomerOrder order) {
-        for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
-            Entry entry = (Entry) entries.next();
-            Session s = (Session) entry.getKey();
-            if (s.isOpen()) {
-                try {
-                    Employee e = (Employee) entry.getValue();
-                    if (e != null && order.getEmployee().getId().equals(e.getId())) {
-                        s.getBasicRemote().sendText(message.toString());
-                    }
-                } catch (IOException | ClassCastException x) {
-                    try {
-                        Integer ct = (Integer) entry.getValue();
-                        if (ct != null && order.getCustomerTable().getNumber().equals(ct)) {
-                            s.getBasicRemote().sendText(message.toString());
-                        }
-                    } catch (IOException | ClassCastException ex) {
-                    } finally {
-                        continue;
-                    }
-                } finally {
-                    continue;
-                }
+    private void sendToAllConnectedSessions(JsonObject message) {
+        for (Session session : (HashSet<Session>) sessions) {
+            if (session.isOpen()) {
+                sendToSession(session, message);
             }
         }
+    }
+
+    private void sendToSession(Session session, JsonObject message) {
+        try {
+            session.getBasicRemote().sendText(message.toString());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+//        for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
+//            Entry entry = (Entry) entries.next();
+//            Session s = (Session) entry.getKey();
+//            HttpSession hs = (HttpSession) entry.getValue();
+//            if (hs.getAttribute("table") != null || hs.getAttribute("employee") != null) {
+//                if (s.isOpen()) {
+//                    try {
+//                        s.getBasicRemote().sendText(message.toString());
+//                    } catch (IOException ex) {
+//                        Logger.getLogger(ejbCustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+//                        sessions.remove(s);
+//                        continue;
+//                    }
+//                }
+//            } else {
+//                sessions.remove(s);
+//            }
+//        }
     }
 }
