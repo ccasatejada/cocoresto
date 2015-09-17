@@ -42,7 +42,7 @@ public class beanOrderCustomer implements Serializable {
 
     public void update(CustomerOrder customerOrder) throws EJBException {
         ejbCustomerOrder.update(customerOrder);
-
+        ejbRestaurant.getOrders().replace(customerOrder.getCustomerTable().getNumber(), findById(customerOrder.getId()));
     }
 
     public void delete(CustomerOrder customerOrder) throws EJBException {

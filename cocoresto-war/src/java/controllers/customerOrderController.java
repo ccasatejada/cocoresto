@@ -249,9 +249,10 @@ public class customerOrderController implements IController {
                         for (DishOrderLine orderline : dishOrderLines) {
                             dishes.add(orderline.getDish());
                             cartTotal += orderline.getDish().getTotalPrice();
-                           // order.getDishes().remove(orderline); // remove in ejb to avoid duplicate content
+                            // order.getDishes().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
+                    order.getDishes().removeAll(dishOrderLines);
                     session.setAttribute("cartDishes", dishes);
                 }
 
@@ -263,9 +264,10 @@ public class customerOrderController implements IController {
                         for (DrinkOrderLine orderline : drinkOrderLines) {
                             drinks.add(orderline.getDrink());
                             cartTotal += orderline.getDrink().getTotalPrice();
-                           // order.getDrinks().remove(orderline); // remove in ejb to avoid duplicate content
+                            // order.getDrinks().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
+                    order.getDrinks().removeAll(drinkOrderLines);
                     session.setAttribute("cartDrinks", drinks);
                 }
 
@@ -277,9 +279,10 @@ public class customerOrderController implements IController {
                         for (ComboOrderLine orderline : comboOrderLines) {
                             combos.add(orderline.getCombo());
                             cartTotal += orderline.getCombo().getTotalPrice();
-                           // order.getCombos().remove(orderline); // remove in ejb to avoid duplicate content
+                            // order.getCombos().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
+                    order.getCombos().removeAll(comboOrderLines);
                     session.setAttribute("cartCombos", combos);
                 }
 
@@ -291,17 +294,16 @@ public class customerOrderController implements IController {
         } else if (logged && groupId == 2) {
 
             if ("swap".equals(request.getParameter("task"))) {
-                List<CustomerOrder> cOrders = (List) session.getAttribute("cOrders");
+                Collection<CustomerOrder> cOrders = (Collection) session.getAttribute("cOrders");
                 CustomerOrder ejbCo = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("tNb")));
-                for(CustomerOrder cc : cOrders) {
-                    if(cc.getId().equals(ejbCo.getId())) {
+                for (CustomerOrder cc : cOrders) {
+                    if (cc.getId().equals(ejbCo.getId())) {
                         ejbCo = cc;
                     }
                 }
                 ejbCo.setStatus(OrderStatus.PREPARED);
                 boc.update(ejbCo);
-                
-                
+
                 if (request.getParameter("id") != null) {
                     if (request.getParameter("dNb") != null && request.getParameter("cId") == null
                             && request.getParameter("dcNb") == null) {
@@ -337,18 +339,16 @@ public class customerOrderController implements IController {
                         }
                     }
                 }
-                
-                ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
 
-                for (int i = 0; i < cOrders.size(); i++) {
-                    if (cOrders.get(i).getId().equals(ejbCo.getId())) {
-                        cOrders.remove(i);
-                        break;
-                    }
-                }
-                cOrders.add(ejbCo);
-                ejbRestaurant.addCustomerOrder(ejbCo);
-
+//                ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
+//                for (int i = 0; i < cOrders.size(); i++) {
+//                    if (cOrders.get(i).getId().equals(ejbCo.getId())) {
+//                        cOrders.remove(i);
+//                        break;
+//                    }
+//                }
+//                cOrders.add(ejbCo);
+//                ejbRestaurant.addCustomerOrder(ejbCo);
                 session.setAttribute("cOrders", cOrders);
 
                 return cookUrl;
@@ -362,8 +362,8 @@ public class customerOrderController implements IController {
                 boolean dishReady = true;
                 boolean drinkReady = true;
                 boolean comboReady = true;
-                
-                List<CustomerOrder> cOrders = (List) session.getAttribute("cOrders");
+
+                Collection<CustomerOrder> cOrders = (Collection) session.getAttribute("cOrders");
                 CustomerOrder ejbCo = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("tNb")));
 
                 if (request.getParameter("id") != null) {
@@ -401,32 +401,54 @@ public class customerOrderController implements IController {
                         }
                     }
                 }
-                for (int i = 0; i < cOrders.size(); i++) {
-                    if (cOrders.get(i).getId().equals(ejbCo.getId())) {
-                        cOrders.remove(i);
-                        break;
+//                for (int i = 0; i < cOrders.size(); i++) {
+//                    if (cOrders.get(i).getId().equals(ejbCo.getId())) {
+//                        cOrders.remove(i);
+//                        break;
+//                    }
+//                }
+//                cOrders.add(ejbCo);
+//                ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
+//                ejbRestaurant.addCustomerOrder(ejbCo);
+
+//                for (CustomerOrder co : cOrders) {
+
+                    for (DrinkOrderLine dr : ejbCo.getDrinks()) {
+                        if (!dr.getStatus().equals(3)) {
+                            drinkReady = false;
+                        }
                     }
-                }
-                cOrders.add(ejbCo);
-                ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
-                ejbRestaurant.addCustomerOrder(ejbCo);
+                    for (DishOrderLine d : ejbCo.getDishes()) {
+                        if (!d.getStatus().equals(3)) {
+                            dishReady = false;
+                        }
+                    }
+                    for (ComboOrderLine c : ejbCo.getCombos()) {
+                        for (DishOrderLine di : c.getDishes()) {
+                            if (!di.getStatus().equals(3)) {
+                                comboReady = false;
+                            }
+                        }
+                    }
+
+//                }
 
                 if (dishReady && drinkReady && comboReady) {
                     ejbCo.setStatus(OrderStatus.FINISHED);
                     boc.update(ejbCo);
-                    ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
-                    ejbRestaurant.addCustomerOrder(ejbCo);
+//                    ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
+//                    ejbRestaurant.addCustomerOrder(ejbCo);
                 }
 
                 session.setAttribute("cOrders", cOrders);
-                
+
                 return cookUrl;
             } else {
                 redirectToDashboard(request, response);
             }
-            
-            if("dashboard".equals(request.getParameter("option"))) {
-                
+
+            if ("dashboard".equals(request.getParameter("option"))) {
+
                 try {
                     response.sendRedirect(cookUrl);
                 } catch (IOException ex) {
