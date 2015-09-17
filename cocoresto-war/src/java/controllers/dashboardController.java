@@ -148,21 +148,28 @@ public class dashboardController implements IController {
 //                }
 //            }
 //            
-//            for (CustomerOrder co : cOrders) {
-//                if (co.getStatus().equals(OrderStatus.VALIDATE)) {
-//                    for (DrinkOrderLine dr : co.getDrinks()) {
-//                        dr.setStatus(1);
-//                    }
-//                    for (DishOrderLine d : co.getDishes()) {
-//                        d.setStatus(1);
-//                    }
-//                    for (ComboOrderLine c : co.getCombos()) {
-//                        for (DishOrderLine di : c.getDishes()) {
-//                            di.setStatus(1);
-//                        }
-//                    }
-//                }
-//            }
+
+            for (CustomerOrder co : cOrders) {
+                    for (DrinkOrderLine dr : co.getDrinks()) {
+                        if (dr.getStatus() == null) {
+                            dr.setStatus(1);
+                        }
+                    }
+                    for (DishOrderLine d : co.getDishes()) {
+                        if (d.getStatus() == null) {
+                            d.setStatus(1);
+                        }
+                        System.out.println("DishOrderLine : " + d.getStatus());
+                    }
+                    for (ComboOrderLine c : co.getCombos()) {
+                        for (DishOrderLine di : c.getDishes()) {
+                            if (di.getStatus() == null) {
+                                di.setStatus(1);
+                            }
+                        }
+                    }
+                
+            }
 
             session.setAttribute("cOrders", cOrders);
 
