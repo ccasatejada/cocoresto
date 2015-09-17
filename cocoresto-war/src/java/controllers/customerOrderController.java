@@ -292,13 +292,13 @@ public class customerOrderController implements IController {
         } else if (logged && groupId == 2) {
 
             if ("swap".equals(request.getParameter("task"))) {
-                Collection<CustomerOrder> cOrders = (Collection) session.getAttribute("cOrders");
+                Collection<CustomerOrder> cOrders = ejbRestaurant.getOrders().values();
                 CustomerOrder ejbCo = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("tNb")));
-                for (CustomerOrder cc : cOrders) {
-                    if (cc.getId().equals(ejbCo.getId())) {
-                        ejbCo = cc;
-                    }
-                }
+//                for (CustomerOrder cc : cOrders) {
+//                    if (cc.getId().equals(ejbCo.getId())) {
+//                        ejbCo = cc;
+//                    }
+//                }
                 ejbCo.setStatus(OrderStatus.PREPARED);
                 boc.update(ejbCo);
 
@@ -361,7 +361,7 @@ public class customerOrderController implements IController {
                 boolean drinkReady = true;
                 boolean comboReady = true;
 
-                Collection<CustomerOrder> cOrders = (Collection) session.getAttribute("cOrders");
+                Collection<CustomerOrder> cOrders = ejbRestaurant.getOrders().values();
                 CustomerOrder ejbCo = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("tNb")));
 
                 if (request.getParameter("id") != null) {
@@ -410,27 +410,28 @@ public class customerOrderController implements IController {
 //                ejbRestaurant.addCustomerOrder(ejbCo);
 
 //                for (CustomerOrder co : cOrders) {
-
-                    for (DrinkOrderLine dr : ejbCo.getDrinks()) {
-                        if (!dr.getStatus().equals(3)) {
-                            drinkReady = false;
+                for (DrinkOrderLine dr : ejbCo.getDrinks()) {
+                    if (!dr.getStatus().equals(3)) {
+                        drinkReady = false;
+                        break;
+                    }
+                }
+                for (DishOrderLine d : ejbCo.getDishes()) {
+                    if (!d.getStatus().equals(3)) {
+                        dishReady = false;
+                        break;
+                    }
+                }
+                for (ComboOrderLine c : ejbCo.getCombos()) {
+                    for (DishOrderLine di : c.getDishes()) {
+                        if (!di.getStatus().equals(3)) {
+                            comboReady = false;
+                            break;
                         }
                     }
-                    for (DishOrderLine d : ejbCo.getDishes()) {
-                        if (!d.getStatus().equals(3)) {
-                            dishReady = false;
-                        }
-                    }
-                    for (ComboOrderLine c : ejbCo.getCombos()) {
-                        for (DishOrderLine di : c.getDishes()) {
-                            if (!di.getStatus().equals(3)) {
-                                comboReady = false;
-                            }
-                        }
-                    }
+                }
 
 //                }
-
                 if (dishReady && drinkReady && comboReady) {
                     ejbCo.setStatus(OrderStatus.FINISHED);
                     boc.update(ejbCo);
