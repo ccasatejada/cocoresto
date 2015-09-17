@@ -9,19 +9,22 @@ function onMessage(e) {
     var tdOP = null;
     var tds = document.getElementsByTagName("td");
     for (var i = 0; i < tds.length; i++) {
-        if (tds[i].dataset.idorderline == alertStatus.idOrderLineAlert) {
+        console.log(parseInt(tds[i].dataset.idorderline) + " : " + alertStatus.idOrderLineAlert)
+        
+        if (parseInt(tds[i].dataset.idorderline) == alertStatus.idOrderLineAlert) {
+            console.log("coucou");
             tdOP = tds[i];
         }
     }
-    var spanOP = tdOP.firstChild;
+
     if (alertStatus.action === "onprep") {
-        spanOP.innerHTML = "<span class=\"label label-info\">" + alertStatus.status + "</span>";
+        tdOP.innerHTML = "<span class=\"label label-info\">" + alertStatus.status + "</span>";
     }
     if (alertStatus.action === "ready") {
-        spanOP.innerHTML = "<span class=\"label label-success\">" + alertStatus.status + "</span>";
+        tdOP.innerHTML = "<span class=\"label label-success\">" + alertStatus.status + "</span>";
 
     }
-    tdOP.appendChild(spanOP);
+    //tdOP.appendChild(spanOP);
 }
 
 function formListener() {

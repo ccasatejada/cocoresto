@@ -52,7 +52,7 @@
                                 <tr data-idorderline="${orderline.id}">
                                     <td>${orderline.dish.name}</td>
                                     <td>${orderline.dish.category}</td>
-                                    <td data-dishCombo="${orderline.id}" class="statusOrderLineAlert">
+                                    <td data-idorderline="${orderline.id}" class="statusOrderLineAlert">
                                         <span class="label label-default">En attente</span>
                                     </td>
                                 </tr>
