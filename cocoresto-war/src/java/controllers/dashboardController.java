@@ -129,7 +129,9 @@ public class dashboardController implements IController {
             return "/WEB-INF/dashboardWaiter.jsp";
         } else if (groupId == 2) { // return cooker dashboard
 
-            Collection<CustomerOrder> cOrders = ejbRestaurant.getOrders().values();
+//            Collection<CustomerOrder> cOrders = ejbRestaurant.getOrders().values();
+            List<CustomerOrder> cOrders = (List) session.getAttribute("cOrders");
+            List<CustomerOrder> newOrders = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
 //            HashMap<Integer, CustomerOrder> orders = ejbRestaurant.getOrders();
 //            if (cOrders == null) {
 //                cOrders = new ArrayList();
@@ -148,8 +150,11 @@ public class dashboardController implements IController {
 //                }
 //            }
 //            
-
-            for (CustomerOrder co : cOrders) {
+            
+            if (cOrders == null || cOrders.size() != newOrders.size()) {
+//                cOrders = new ArrayList();
+                cOrders = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
+                for (CustomerOrder co : cOrders) {
                     for (DrinkOrderLine dr : co.getDrinks()) {
                         if (dr.getStatus() == null) {
                             dr.setStatus(1);
@@ -168,8 +173,29 @@ public class dashboardController implements IController {
                             }
                         }
                     }
-                
+                }
             }
+//            for (CustomerOrder co : cOrders) {
+//                for (DrinkOrderLine dr : co.getDrinks()) {
+//                    if (dr.getStatus() == null) {
+//                        dr.setStatus(1);
+//                    }
+//                }
+//                for (DishOrderLine d : co.getDishes()) {
+//                    if (d.getStatus() == null) {
+//                        d.setStatus(1);
+//                    }
+//                    System.out.println("DishOrderLine : " + d.getStatus());
+//                }
+//                for (ComboOrderLine c : co.getCombos()) {
+//                    for (DishOrderLine di : c.getDishes()) {
+//                        if (di.getStatus() == null) {
+//                            di.setStatus(1);
+//                        }
+//                    }
+//                }
+//
+//            }
 
             session.setAttribute("cOrders", cOrders);
 
