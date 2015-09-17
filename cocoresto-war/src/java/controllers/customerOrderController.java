@@ -252,6 +252,7 @@ public class customerOrderController implements IController {
                             // order.getDishes().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
+                    order.getDishes().removeAll(dishOrderLines);
                     session.setAttribute("cartDishes", dishes);
                 }
 
@@ -266,6 +267,7 @@ public class customerOrderController implements IController {
                             // order.getDrinks().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
+                    order.getDrinks().removeAll(drinkOrderLines);
                     session.setAttribute("cartDrinks", drinks);
                 }
 
@@ -280,6 +282,7 @@ public class customerOrderController implements IController {
                             // order.getCombos().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
+                    order.getCombos().removeAll(comboOrderLines);
                     session.setAttribute("cartCombos", combos);
                 }
 

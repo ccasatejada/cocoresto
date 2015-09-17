@@ -41,6 +41,7 @@ public class beanOrderCustomer implements Serializable {
     }
 
     public void update(CustomerOrder customerOrder) throws EJBException {
+        ejbRestaurant.getOrders().replace(customerOrder.getCustomerTable().getNumber(), customerOrder);
         ejbCustomerOrder.update(customerOrder);
 
     }
