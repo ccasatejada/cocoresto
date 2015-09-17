@@ -1,49 +1,43 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <%@include file="../includes/head.jsp" %>
-        <title>Gérer les employés</title>
-    </head>
-    <body>
-        <div class="container-fluid">
-        <h1>Liste des employés</h1>
+
+
+<section class="tile">
+
+    <div class="tile-header dvd dvd-btm bg-greensea">
+        <h1 class="custom-font"><strong>Employ�s</strong></h1>
+        <ul class="controls">
+            <li>
+                <a href="FrontController?option=employee&task=edit" role="button" tabindex="0" id="add-entry" name="addEmployee"><i class="fa fa-plus mr-5"></i> Ajouter</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tile-body p-0">
         <table class="table table-striped">
-            <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Poste</th>
-                <th></th>
-                <th></th>
-            </tr>
-            <c:forEach var="employee" items="${employees}" varStatus="loop">
-                <tr>
-                    <td>${employee.lastName}</td>
-                    <td>${employee.firstName}</td>
-                    <td>${employee.employeeGroup}</td>
-                    <td>
-                    <div class="btn btn-default">
-                        <a href="FrontController?option=employee&task=modify&id=${employee.id}" name="modifyIt">Modifier</a>
-                    </div>
-                    </td>
-                    <td>
-                    <div class="btn btn-default">
-                        <a href="FrontController?option=employee&task=delete&id=${employee.id}" name="deleteIt">Supprimer</a>
-                    </div>
-                    </td>
-                </tr>                   
-            </c:forEach>
-
+            <thead>
+                <tr class="bg-slategray">
+                    <th>Nom</th>
+                    <th>Pr�nom</th>
+                    <th>Poste</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="employee" items="${employees}" varStatus="loop">
+                    <tr>
+                        <td>${employee.lastName}</td>
+                        <td>${employee.firstName}</td>
+                        <td>${employee.employeeGroup}</td>
+                        <td>
+                            <a href="FrontController?option=employee&task=modify&id=${employee.id}" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="modifyIt">Modifier</a>
+                            <a href="FrontController?option=employee&task=delete&id=${employee.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="deleteIt">Supprimer</a>
+                        </td>
+                    </tr>                   
+                </c:forEach>
+            </tbody>
         </table>
+    </div>
 
-        <div class="btn btn-default">
-            <a href="FrontController?option=employee&task=edit" name="addEmp">Ajouter</a>
-        </div>
-        
-        </div>
+    ${pagination}
 
-        <%@include file="../includes/scripts.jsp" %>
-    </body>
-</html>
+</section>

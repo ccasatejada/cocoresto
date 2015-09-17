@@ -15,10 +15,10 @@
 <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
 <link rel="manifest" href="images/favicons/manifest.json">
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300,600' rel='stylesheet' type='text/css'>
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" >
-<link rel="stylesheet" href="css/bootstrap-variation.css" media="screen">
-<link rel="stylesheet" href="css/theme.css" media="screen">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css">
+<link rel="stylesheet" href="css/main.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 
 <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>

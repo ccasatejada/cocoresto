@@ -129,37 +129,99 @@ public class dashboardController implements IController {
             return "/WEB-INF/dashboardWaiter.jsp";
         } else if (groupId == 2) { // return cooker dashboard
 
+//            Collection<CustomerOrder> cOrders = ejbRestaurant.getOrders().values();
             List<CustomerOrder> cOrders = (List) session.getAttribute("cOrders");
-            HashMap<Integer, CustomerOrder> orders = ejbRestaurant.getOrders();
+            List<CustomerOrder> newOrders = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
+//            HashMap<Integer, CustomerOrder> orders = ejbRestaurant.getOrders();
+//            if (cOrders == null) {
+//                cOrders = new ArrayList();
+//                cOrders = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
+//                for (CustomerOrder corrr : cOrders) {
+//                    System.out.println("recup bean : " + corrr.getDishes());
+//                }
+//            } else {
+//                cOrders.removeAll(cOrders);
+//                for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
+//                    if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
+//                            || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
+//                        System.out.println("recup ejb: " + e.getValue().getDishes());
+//                        cOrders.add(e.getValue());
+//                    }
+//                }
+//            }
+//            
+
             if (cOrders == null) {
-                cOrders = new ArrayList();
+//                cOrders = new ArrayList();
                 cOrders = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
-            } else {
-                cOrders.removeAll(cOrders);
-                for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
-                    if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
-                            || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
-
-                        cOrders.add(e.getValue());
-                    }
-                }
-            }
-
-            for (CustomerOrder co : cOrders) {
-                if (co.getStatus().equals(OrderStatus.VALIDATE)) {
+                for (CustomerOrder co : cOrders) {
                     for (DrinkOrderLine dr : co.getDrinks()) {
-                        dr.setStatus(1);
+                        if (dr.getStatus() == null) {
+                            dr.setStatus(1);
+                        }
                     }
                     for (DishOrderLine d : co.getDishes()) {
-                        d.setStatus(1);
+                        if (d.getStatus() == null) {
+                            d.setStatus(1);
+                        }
                     }
                     for (ComboOrderLine c : co.getCombos()) {
                         for (DishOrderLine di : c.getDishes()) {
-                            di.setStatus(1);
+                            if (di.getStatus() == null) {
+                                di.setStatus(1);
+                            }
                         }
                     }
                 }
             }
+            if (cOrders.size() != newOrders.size()) {
+                for (CustomerOrder cc : newOrders) {
+                    if (!cOrders.contains(cc)) {
+                        cOrders.add(cc);
+                    }
+                }
+                for (CustomerOrder co : cOrders) {
+                    for (DrinkOrderLine dr : co.getDrinks()) {
+                        if (dr.getStatus() == null) {
+                            dr.setStatus(1);
+                        }
+                    }
+                    for (DishOrderLine d : co.getDishes()) {
+                        if (d.getStatus() == null) {
+                            d.setStatus(1);
+                        }
+                    }
+                    for (ComboOrderLine c : co.getCombos()) {
+                        for (DishOrderLine di : c.getDishes()) {
+                            if (di.getStatus() == null) {
+                                di.setStatus(1);
+                            }
+                        }
+                    }
+                }
+
+            }
+//            for (CustomerOrder co : cOrders) {
+//                for (DrinkOrderLine dr : co.getDrinks()) {
+//                    if (dr.getStatus() == null) {
+//                        dr.setStatus(1);
+//                    }
+//                }
+//                for (DishOrderLine d : co.getDishes()) {
+//                    if (d.getStatus() == null) {
+//                        d.setStatus(1);
+//                    }
+//                    System.out.println("DishOrderLine : " + d.getStatus());
+//                }
+//                for (ComboOrderLine c : co.getCombos()) {
+//                    for (DishOrderLine di : c.getDishes()) {
+//                        if (di.getStatus() == null) {
+//                            di.setStatus(1);
+//                        }
+//                    }
+//                }
+//
+//            }
 
             session.setAttribute("cOrders", cOrders);
 

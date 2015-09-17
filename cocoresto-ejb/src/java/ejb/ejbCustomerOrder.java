@@ -7,6 +7,7 @@ import entities.DrinkOrderLine;
 import entities.Employee;
 import entities.OrderStatus;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -119,105 +120,107 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
     @Override
     public void sendOnPrepDish(CustomerOrder order, DishOrderLine dish) {
-        JsonObject onPrepMessage = createOnPrepMessage(dish, null, null);
+        JsonObject onPrepMessage = createOnPrepMessage(order, dish, null, null);
         sendToAllConnectedSessions(onPrepMessage, order);
     }
 
     @Override
     public void sendOnPrepDrink(CustomerOrder order, DrinkOrderLine drink) {
-        JsonObject onPrepMessage = createOnPrepMessage(null, null, drink);
+        JsonObject onPrepMessage = createOnPrepMessage(order, null, null, drink);
         sendToAllConnectedSessions(onPrepMessage, order);
     }
 
     @Override
     public void sendOnPrepCombo(CustomerOrder order, ComboOrderLine combo, DishOrderLine dish) {
-        JsonObject onPrepMessage = createOnPrepMessage(dish, combo, null);
+        JsonObject onPrepMessage = createOnPrepMessage(order, dish, combo, null);
         sendToAllConnectedSessions(onPrepMessage, order);
     }
 
     @Override
     public void sendReadyDish(CustomerOrder order, DishOrderLine dish) {
-        JsonObject readyMessage = createReadyMessage(dish, null, null);
+        JsonObject readyMessage = createReadyMessage(order, dish, null, null);
         sendToAllConnectedSessions(readyMessage, order);
     }
 
     @Override
     public void sendReadyDrink(CustomerOrder order, DrinkOrderLine drink) {
-        JsonObject readyMessage = createReadyMessage(null, null, drink);
+        JsonObject readyMessage = createReadyMessage(order, null, null, drink);
         sendToAllConnectedSessions(readyMessage, order);
     }
 
     @Override
     public void sendReadyCombo(CustomerOrder order, ComboOrderLine combo, DishOrderLine dish) {
-        JsonObject readyMessage = createReadyMessage(dish, combo, null);
+        JsonObject readyMessage = createReadyMessage(order, dish, combo, null);
         sendToAllConnectedSessions(readyMessage, order);
     }
 
-    private JsonObject createOnPrepMessage(DishOrderLine dish, ComboOrderLine combo, DrinkOrderLine drink) {
+    private JsonObject createOnPrepMessage(CustomerOrder order, DishOrderLine dish, ComboOrderLine combo, DrinkOrderLine drink) {
         JsonProvider provider = JsonProvider.provider();
         JsonObject onPrepMessage = null;
         if (dish != null && combo == null) {
-            System.out.println("dish: " + dish.getDish().getName());
             onPrepMessage = provider.createObjectBuilder()
                     .add("action", "onprep")
                     .add("typeAlert", "dish")
                     .add("status", "En préparation")
-                    .add("idDish", dish.getId())
+                    .add("idOrderLineAlert", dish.getId())
+                    .add("statusOrder", order.getStatus().getName())
+                    .add("idCustomerOrder", order.getId())
                     .build();
         }
         if (drink != null) {
-            System.out.println("drink : " + drink.getDrink().getName());
             onPrepMessage = provider.createObjectBuilder()
                     .add("action", "onprep")
                     .add("typeAlert", "drink")
                     .add("status", "En préparation")
-                    .add("idDrink", drink.getId())
+                    .add("idOrderLineAlert", drink.getId())
+                    .add("statusOrder", order.getStatus().getName())
+                    .add("idCustomerOrder", order.getId())
                     .build();
         }
         if (combo != null && dish != null) {
-            System.out.println("combo : " + combo.getId());
-            System.out.println("combo : " + combo.getCombo().getName());
-            System.out.println("dish : " + dish.getId());
-            System.out.println("dish : " + dish.getDish().getName());
             onPrepMessage = provider.createObjectBuilder()
                     .add("action", "onprep")
                     .add("typeAlert", "combo")
                     .add("status", "En préparation")
-                    .add("idDishCombo", dish.getId())
+                    .add("idOrderLineAlert", dish.getId())
+                    .add("statusOrder", order.getStatus().getName())
+                    .add("idCustomerOrder", order.getId())
                     .build();
         }
         return onPrepMessage;
     }
 
-    private JsonObject createReadyMessage(DishOrderLine dish, ComboOrderLine combo, DrinkOrderLine drink) {
+    private JsonObject createReadyMessage(CustomerOrder order, DishOrderLine dish, ComboOrderLine combo, DrinkOrderLine drink) {
         JsonProvider provider = JsonProvider.provider();
         JsonObject readyMessage = null;
         if (dish != null && combo == null) {
-            System.out.println(dish.getDish().getName());
             readyMessage = provider.createObjectBuilder()
                     .add("action", "ready")
                     .add("typeAlert", "dish")
                     .add("status", "Prêt")
-                    .add("idDish", dish.getId())
+                    .add("idOrderLineAlert", dish.getId())
+                    .add("statusOrder", order.getStatus().getName())
+                    .add("idCustomerOrder", order.getId())
                     .build();
         }
         if (drink != null) {
-            System.out.println(drink.getDrink().getName());
             readyMessage = provider.createObjectBuilder()
                     .add("action", "ready")
                     .add("typeAlert", "drink")
                     .add("status", "Prêt")
-                    .add("idDrink", drink.getId())
+                    .add("idOrderLineAlert", drink.getId())
+                    .add("statusOrder", order.getStatus().getName())
+                    .add("idCustomerOrder", order.getId())
                     .build();
         }
         if (combo != null && dish != null) {
-            System.out.println("combo:" + combo.getCombo().getName());
-            System.out.println("dish:" + dish.getDish().getId());
             readyMessage = provider.createObjectBuilder()
                     .add("action", "ready")
                     .add("typeAlert", "combo")
                     .add("status", "Prêt")
-                    .add("idDishCombo", dish.getId())
+                    .add("idOrderLineAlert", dish.getId())
+                    .add("statusOrder", order.getStatus().getName())
+                    .add("idCustomerOrder", order.getId())
                     .build();
         }
 
@@ -234,29 +237,22 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
             Entry entry = (Entry) entries.next();
             Session s = (Session) entry.getKey();
             if (s.isOpen()) {
-                System.out.println("coucou after isOpen");
                 try {
                     Employee e = (Employee) entry.getValue();
                     if (e != null && order.getEmployee().getId().equals(e.getId())) {
-                        System.out.println("coucou je suis l'employé " + e.getLastName());
                         s.getBasicRemote().sendText(message.toString());
                     }
                 } catch (IOException | ClassCastException x) {
-                    System.out.println("je n'étais pas un employé");
                     try {
                         Integer ct = (Integer) entry.getValue();
                         if (ct != null && order.getCustomerTable().getNumber().equals(ct)) {
-                            System.out.println("mais une table");
                             s.getBasicRemote().sendText(message.toString());
                         }
                     } catch (IOException | ClassCastException ex) {
-                        System.out.println("je n'étais rien de tout ça donc je continue");
                     } finally {
-                        System.out.println("finalement je continue 1ere partie");
                         continue;
                     }
                 } finally {
-                    System.out.println("finalement je continue 2e partie");
                     continue;
                 }
             }

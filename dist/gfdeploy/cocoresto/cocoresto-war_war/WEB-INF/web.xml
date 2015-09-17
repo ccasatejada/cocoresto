@@ -17,7 +17,7 @@
         </init-param>
         <init-param>
             <param-name>employee</param-name>
-            <param-value>controllers.EmployeeController</param-value>
+            <param-value>controllers.employeeController</param-value>
         </init-param>
         <init-param>
             <param-name>category</param-name>
@@ -34,6 +34,22 @@
         <init-param>
             <param-name>rate</param-name>
             <param-value>controllers.rateController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>drink</param-name>
+            <param-value>controllers.drinkController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>customerOrder</param-name>
+            <param-value>controllers.customerOrderController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>combo</param-name>
+            <param-value>controllers.comboController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>menu</param-name>
+            <param-value>controllers.menuController</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

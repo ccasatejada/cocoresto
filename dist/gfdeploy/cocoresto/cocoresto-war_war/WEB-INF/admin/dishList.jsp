@@ -1,36 +1,35 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <%@include file="../includes/head.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-        <title>Gestion des plats</title>
-    </head>
-    <body>
-        <h1>Gestion des plats</h1>
 
-        <a href="FrontController?option=dish&task=edit">Ajouter un plat</a>
+<section class="tile">
+
+    <div class="tile-header dvd dvd-btm bg-greensea">
+        <h1 class="custom-font"><strong>Plats</strong></h1>
+        <ul class="controls">
+            <li>
+                <a href="FrontController?option=dish&task=edit" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
+            </li>
+        </ul>
+    </div>
+    <div class="tile-body p-0">
         <table class="table table-striped">
-            <caption>Plats</caption>
-            <thead class="bg-info">
-                <tr>
+            <thead>
+                <tr class="bg-slategray">
                     <th hidden>Id</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">RÃ©gion</th>
-                    <th scope="col">Poids</th>
-                    <th scope="col">CatÃ©gorie</th>
-                    <th scope="col">Prix</th>
-                    <th scope="col">Taxe</th>
-                    <th scope="col">Promotion</th>
-                    <th scope="col">Modifier</th>
-                    <th scope="col">Supprimer</th>
+                    <th>Nom</th>
+                    <th>Stock</th>
+                    <th>Région</th>
+                    <th>Poids</th>
+                    <th>Catégorie</th>
+                    <th>Prix HT</th>
+                    <th>Prix TTC</th>
+                    <th>Promotion</th>                    
+                    <th>Prix Affiché</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="dBody">
+            <tbody>
                 <c:forEach var="dish" items="${dishes}" varStatus="loop">
                     <tr>
                         <td hidden>${dish.id}</td>
@@ -40,13 +39,19 @@
                         <td>${dish.weight}</td>
                         <td>${dish.category.name}</td>
                         <td>${dish.price.price}</td>
-                        <td>${dish.tax.rate}</td>
-                        <td>${dish.discount.rate} (${dish.discount.beginDate} - ${dish.discount.endDate})</td>
-                        <td><a href="FrontController?option=dish&task=edit&id=${dish.id}">Modifier</a></td>
-                        <td><a href="FrontController?option=dish&task=delete&id=${dish.id}">Supprimer</a></td>
+                        <td>${dish.priceWithTax}</td>
+                        <td><c:if test="${not empty dish.discount}">${dish.discount.rate} (<fmt:formatDate value="${dish.discount.beginDate}" pattern="dd-MM-yyyy"/> - <fmt:formatDate value="${dish.discount.endDate}" pattern="dd-MM-yyyy"/>)</c:if></td>
+                        <td>${dish.totalPrice}</td>
+                        <td>
+                            <a href="FrontController?option=dish&task=edit&id=${dish.id}"  class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-edit"></i> <span>Modifier</span></a>
+                            <a href="FrontController?option=dish&task=delete&id=${dish.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-trash"></i> <span>Supprimer</span></a>
+                        </td>                                           
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
-    </body>
-</html>
+    </div>
+
+    ${pagination}   
+</section>
+

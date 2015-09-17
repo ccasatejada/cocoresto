@@ -9,8 +9,8 @@ import entities.DrinkOrderLine;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
@@ -30,15 +30,15 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/FrontController/alert", configurator = GetHttpSessionConfigurator.class)
 public class AlertWebSocketServer {
     
-    @Inject
-    ejbCustomerOrderLocal ejbCustomerOrder;
+    @EJB
+    ejbCustomerOrderLocal ejbCustomerOrder = lookupejbCustomerOrderLocal();
     
-    @Inject
-    ejbRestaurantLocal ejbRestaurant;
+    @EJB
+    ejbRestaurantLocal ejbRestaurant = lookupejbRestaurantLocal();
     
     public AlertWebSocketServer() {
-        ejbCustomerOrder = lookupejbCustomerOrderLocal();
-        ejbRestaurant = lookupejbRestaurantLocal();
+//        ejbCustomerOrder = lookupejbCustomerOrderLocal();
+//        ejbRestaurant = lookupejbRestaurantLocal();
     }
     
     @OnOpen

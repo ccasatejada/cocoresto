@@ -1,40 +1,43 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <%@include file="../includes/head.jsp" %>
 
-        <title>Gestion des catégories</title>
-    </head>
-    <body>
-        <h1>Gestion des catégories</h1>
+                    <section class="tile">
 
-        <a href="FrontController?option=category&task=edit">Ajouter une catégorie</a>
-        <table class ="table table-striped">
-            <caption>Catégories</caption>
-            <thead class="bg-info">
-                <tr>
-                    <th hidden>Id</th>
-                    <th scope="col">Catégorie</th>
-                    <th scope="col">Modifier</th>
-                    <th scope="col">Supprimer</th>
-                </tr>
-            </thead>
-            <tbody id="cBody">
-                <c:forEach var="category" items="${categories}" varStatus="loop">
-                    <tr>
-                        <td hidden>${category.id}</td>
-                        <td>${category.name}</td>
-                        <td><a href="FrontController?option=category&task=edit&id=${category.id}">Modifier</a></td>
-                        <td><a href="FrontController?option=category&task=delete&id=${category.id}">Supprimer</a></td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-        <%@include file="../includes/scripts.jsp" %>
+                        <div class="tile-header dvd dvd-btm bg-greensea">
+                            <h1 class="custom-font"><strong>Cat�gories</strong></h1>
+                            <ul class="controls">
+                                <li>
+                                    <a href="FrontController?option=category&task=edit" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
+                                </li>
+                            </ul>
+                        </div>
 
-    </body>
-</html>
+                        <div class="tile-body p-0">
+                            <table class ="table table-striped">
+                                <thead>
+                                    <tr class="bg-slategray">
+                                        <th hidden>Id</th>
+                                        <th>Cat�gorie</th>
+                                        <th>Type</th>
+                                        <th>Actions</th>                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="category" items="${categories}" varStatus="loop">
+                                        <tr>
+                                            <td hidden>${category.id}</td>
+                                            <td>${category.name}</td>
+                                            <td>${category.type}</td>
+                                            <td>
+                                                <a href="FrontController?option=category&task=edit&id=${category.id}" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-edit"></i> <span>Modifier</span></a>
+                                                <a href="FrontController?option=category&task=delete&id=${category.id}" class="btn btn-lightred btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-trash"></i> <span>Supprimer</span></a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        ${pagination}
+                    </section>
+

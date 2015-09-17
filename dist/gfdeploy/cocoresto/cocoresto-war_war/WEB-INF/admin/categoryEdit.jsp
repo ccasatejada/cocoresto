@@ -1,27 +1,38 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <%@include file="../includes/head.jsp" %>
-        <title>Administration Cat√©gorie</title>
-    </head>
-    <body>
-        <h1>Administration Cat√©gorie</h1>
-        <div class="container-fluid">
-            ${alert}
-            <form action="FrontController?option=category" method="post" class="well form-horizontal">
-                <div class="form-group">
-                    <label for="name"  class="col-sm-2 control-label">Nom de la cat√©gorie :</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name" name="nameCategory" value="${category.name}">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-default" name="confirm">OK</button>
-            </form>
+<section class="tile">
+
+    <div class="tile-header dvd dvd-btm bg-greensea">
+        <h1 class="custom-font"><strong>CatÈgories</strong></h1>
+    </div>
+    <form action="FrontController?option=category" method="post">
+
+        <div class="tile-body">
+
+            <input type="hidden" value="${category.id}" name="id" /> 
+            <div class="form-group">
+                <label for="name">Nom de la catÈgorie :</label>
+                <input type="text" class="form-control" id="name" name="nameCategory" value="${category.name}">
+            </div>
+            <div class="form-group">
+                <label for="categoryType">Type :</label>
+                <select id="categoryType" name="categoryType"> 
+                    <option value="Plat" <c:if test="${category.type == 'Plat'}"> selected </c:if>> Plat</option>
+                    <option value="Boisson"  <c:if test="${category.type == 'Boisson'}"> selected </c:if>> Boisson</option>
+                    <option value="Menu"  <c:if test="${category.type == 'Menu'}"> selected </c:if>> Menu</option>
+                </select>
+            </div>
 
         </div>
-        <%@include file="../includes/scripts.jsp" %>
-    </body>
-</html>
+
+        <div class="tile-footer dvd dvd-top">
+            <div class="row">
+                <div class="col-xs-12 text-right">
+                    <a href="FrontController?option=category" class="btn btn-darkgray btn-rounded btn-ef btn-ef-5 btn-ef-5a"><i class="fa fa-remove"></i> <span>Annuler</span></a>
+                    <button type="submit" class="btn btn-greensea btn-rounded btn-ef btn-ef-5 btn-ef-5a" name="confirm"><i class="fa fa-save"></i> <span>Valider</span></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+

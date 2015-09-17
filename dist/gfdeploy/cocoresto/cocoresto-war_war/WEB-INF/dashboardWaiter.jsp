@@ -1,90 +1,56 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <%@include file="includes/head.jsp" %>
-        <title>Panneau d'administration : Serveur</title>
-    </head>
-    <body>
-        <div class="container-fluid">
-
-            <h1>Bonjour ${name}</h1>
-
-            ${alert}
-            
-
-            <a href="#" class="btn btn-success">Nouvelle commande</a>
-
-            <table class="table">
-                <caption>Commandes en cours</caption>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>NumÃ©ro</th>
-                        <th>Table</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="active">
-                        <th scope="row">1</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr class="success">
-                        <th scope="row">3</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr class="info">
-                        <th scope="row">5</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">6</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr class="warning">
-                        <th scope="row">7</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">8</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr class="danger">
-                        <th scope="row">9</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                </tbody>
-            </table>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
+    <div class="btn-group btn-group-justified mb-20 mt-40" role="group">
+        <div class="btn-group" role="group">
+            <div id="helpDiv">
+                <a href="FrontController?option=customerOrder&task=help" class="btn btn-lg btn-lightred"><i class="fa fa-bell"></i> <strong><span id="helpSpan">${nbHelp}</span></strong> demande(s) d'aide en attente</a>
+            </div>
         </div>
-        <%@include file="includes/scripts.jsp" %>
-    </body>
-</html>
+    </div>
+
+
+<section class="tile">
+
+    <div class="tile-header dvd dvd-btm bg-greensea">
+        <h1 class="custom-font"><strong>Commandes en cours pour ${userName}</strong></h1>
+        <ul class="controls">
+            <li>
+                <a href="FrontController?option=customerOrder&task=new" role="button" tabindex="0" id="add-entry"><i class="fa fa-plus mr-5"></i> Ajouter</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tile-body p-0">
+        <table class="table table-striped">
+            <thead>
+                <tr class="bg-slategray">
+                    <th>Numéro de la commande</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>Couverts</th>
+                    <th>Table</th>
+                    <th>Tablettes</th>
+                </tr>
+            </thead>
+            <tbody>                    
+                <c:forEach var="customerOrder" items="${customerOrders}" varStatus="loop">
+                    <tr>
+                        <td><a class="btn btn-primary" href="FrontController?option=customerOrder&task=edit&id=${customerOrder.id}">Commande n°${customerOrder.number}</a></td>
+                        <td><fmt:formatDate value="${customerOrder.orderDate}" pattern="dd MMM yyyy à hh:MM" /></td>
+                        <td>
+                            <div class="label label-${customerOrder.status}" data-idcustomerorder="${customerOrder.id}">${customerOrder.status.name}</div>
+                        </td>
+                        <td>${customerOrder.people} personnes</td>
+                        <td>Table n°${customerOrder.customerTable.number}</td>
+                        <td>${customerOrder.nbTablet} tablettes</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
+    ${pagination}
+
+</section>
