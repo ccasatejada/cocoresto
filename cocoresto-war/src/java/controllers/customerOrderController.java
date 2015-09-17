@@ -17,11 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -297,8 +293,14 @@ public class customerOrderController implements IController {
             if ("swap".equals(request.getParameter("task"))) {
                 List<CustomerOrder> cOrders = (List) session.getAttribute("cOrders");
                 CustomerOrder ejbCo = ejbRestaurant.getOrder(Integer.valueOf(request.getParameter("tNb")));
+                for(CustomerOrder cc : cOrders) {
+                    if(cc.getId().equals(ejbCo.getId())) {
+                        ejbCo = cc;
+                    }
+                }
                 ejbCo.setStatus(OrderStatus.PREPARED);
                 boc.update(ejbCo);
+                
                 
                 if (request.getParameter("id") != null) {
                     if (request.getParameter("dNb") != null && request.getParameter("cId") == null
