@@ -1,26 +1,19 @@
 package ejb;
 
-import entities.Combo;
 import entities.ComboOrderLine;
 import entities.CustomerOrder;
-import entities.Dish;
 import entities.DishOrderLine;
-import entities.Drink;
 import entities.DrinkOrderLine;
 import entities.Employee;
 import entities.OrderStatus;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
@@ -33,13 +26,10 @@ import javax.websocket.Session;
 @Stateless
 public class ejbCustomerOrder implements ejbCustomerOrderLocal {
 
-    @EJB
-    private ejbRestaurantLocal ejbRestaurant;
-
     @PersistenceContext(unitName = "cocoresto-ejbPU")
     private EntityManager em;
 
-    private final Map<Session, HttpSession> sessions = new HashMap();
+    private final Map<Session, Object> sessions = new HashMap();
 
     public ejbCustomerOrder() {
     }
@@ -120,7 +110,7 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     }
 
     @Override
-    public void addSession(Session session, HttpSession httpSession) {
+    public void addSession(Session session, Object httpSession) {
         sessions.put(session, httpSession);
 
     }
@@ -268,34 +258,43 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
     }
 
     private void sendToSession(Session session, JsonObject message, CustomerOrder order) {
-        try {
+//        try {
             for (Iterator entries = sessions.entrySet().iterator(); entries.hasNext();) {
                 Entry entry = (Entry) entries.next();
                 Session s = (Session) entry.getKey();
-
-                HttpSession hs = (HttpSession) entry.getValue();
-                Employee e = (Employee) hs.getAttribute("loggedEmployee");
-                Integer ct = (Integer) hs.getAttribute("table");
-                if (hs.getAttribute("loggedEmployee") != null && order.getEmployee().getId().equals(e.getId())) {
+                if (s.isOpen()) {
+                    System.out.println("coucou after isOpen");
+//                    HttpSession hs = (HttpSession) entry.getValue();
                     try {
-                        if (s.isOpen()) {
+                        Employee e = (Employee) entry.getValue();
+                        if (e != null && order.getEmployee().getId().equals(e.getId())) {
+                            System.out.println("coucou je suis l'employé " + e.getLastName());
                             s.getBasicRemote().sendText(message.toString());
                         }
-                    } catch (NullPointerException npe) {
-                    }
-                }
-                if (hs.getAttribute("table") != null && order.getCustomerTable().getNumber().equals(ct)) {
-                    try {
-                        if (s.isOpen()) {
-                            s.getBasicRemote().sendText(message.toString());
+                    } catch (ClassCastException x) {
+                        System.out.println("je n'étais pas un employé");
+                        try {
+                            Integer ct = (Integer) entry.getValue();
+                            if (ct != null && order.getCustomerTable().getNumber().equals(ct)) {
+                                System.out.println("mais une table");
+                                s.getBasicRemote().sendText(message.toString());
+                            }
+                        } catch (Exception ex) {
+                            System.out.println("je n'étais rien de tout ça donc je me supprime");
+                            sessions.remove(s);
+                        } finally{
+                            System.out.println("finalement je continue 1ere partie");
+                            continue;
                         }
-                    } catch (NullPointerException npe) {
+                    } finally {
+                        System.out.println("finalement je continue 2e partie");
+                        continue;
                     }
                 }
             }
-        } catch (IOException ex) {
-            sessions.remove(session);
-            Logger.getLogger(ejbCustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        } catch (IOException ex) {
+//            sessions.remove(session);
+//            Logger.getLogger(ejbCustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

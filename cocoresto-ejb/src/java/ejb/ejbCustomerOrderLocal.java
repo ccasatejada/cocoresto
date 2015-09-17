@@ -1,11 +1,8 @@
 package ejb;
 
-import entities.Combo;
 import entities.ComboOrderLine;
 import entities.CustomerOrder;
-import entities.Dish;
 import entities.DishOrderLine;
-import entities.Drink;
 import entities.DrinkOrderLine;
 import entities.OrderStatus;
 import java.util.List;
@@ -36,7 +33,7 @@ public interface ejbCustomerOrderLocal {
     
     public List<CustomerOrder> findOrdersByStatus(OrderStatus status1, OrderStatus status2);
     
-    public void addSession(Session session, HttpSession httpSession);
+    public void addSession(Session session, Object httpSession);
     public void removeSession(Session session);
     public void sendOnPrepDish(CustomerOrder order, DishOrderLine dish);
     public void sendOnPrepDrink(CustomerOrder order, DrinkOrderLine drink);

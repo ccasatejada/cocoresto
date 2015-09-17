@@ -249,7 +249,7 @@ public class customerOrderController implements IController {
                         for (DishOrderLine orderline : dishOrderLines) {
                             dishes.add(orderline.getDish());
                             cartTotal += orderline.getDish().getTotalPrice();
-                            order.getDishes().remove(orderline); // remove in ejb to avoid duplicate content
+                           // order.getDishes().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
                     session.setAttribute("cartDishes", dishes);
@@ -263,7 +263,7 @@ public class customerOrderController implements IController {
                         for (DrinkOrderLine orderline : drinkOrderLines) {
                             drinks.add(orderline.getDrink());
                             cartTotal += orderline.getDrink().getTotalPrice();
-                            order.getDrinks().remove(orderline); // remove in ejb to avoid duplicate content
+                           // order.getDrinks().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
                     session.setAttribute("cartDrinks", drinks);
@@ -277,7 +277,7 @@ public class customerOrderController implements IController {
                         for (ComboOrderLine orderline : comboOrderLines) {
                             combos.add(orderline.getCombo());
                             cartTotal += orderline.getCombo().getTotalPrice();
-                            order.getCombos().remove(orderline); // remove in ejb to avoid duplicate content
+                           // order.getCombos().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
                     session.setAttribute("cartCombos", combos);
