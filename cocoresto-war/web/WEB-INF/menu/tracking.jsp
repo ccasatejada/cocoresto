@@ -35,9 +35,7 @@
                             <td>${orderline.drink.name}</td>
                             <td>${orderline.drink.category}</td>
                             <td data-idorderline="${orderline.id}" class="statusOrderLineAlert">
-                                <c:if test="${orderline.status == 1}"><span class="label label-default">En attente</span></c:if>
-                                <c:if test="${orderline.status == 2}"><span class="label label-info">En préparation</span></c:if>
-                                <c:if test="${orderline.status == 3}"><span class="label label-success">Prêt</span></c:if>
+                                <span class="label label-default">En attente</span>
                             </td>
                         </tr>
                     </c:forEach>
