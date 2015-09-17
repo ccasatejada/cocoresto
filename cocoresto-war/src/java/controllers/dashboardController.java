@@ -129,40 +129,40 @@ public class dashboardController implements IController {
             return "/WEB-INF/dashboardWaiter.jsp";
         } else if (groupId == 2) { // return cooker dashboard
 
-            List<CustomerOrder> cOrders = (List) session.getAttribute("cOrders");
-            HashMap<Integer, CustomerOrder> orders = ejbRestaurant.getOrders();
-            if (cOrders == null) {
-                cOrders = new ArrayList();
-                cOrders = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
-                for (CustomerOrder corrr : cOrders) {
-                    System.out.println("recup bean : " + corrr.getDishes());
-                }
-            } else {
-                cOrders.removeAll(cOrders);
-                for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
-                    if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
-                            || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
-                        System.out.println("recup ejb: " + e.getValue().getDishes());
-                        cOrders.add(e.getValue());
-                    }
-                }
-            }
-
-            for (CustomerOrder co : cOrders) {
-                if (co.getStatus().equals(OrderStatus.VALIDATE)) {
-                    for (DrinkOrderLine dr : co.getDrinks()) {
-                        dr.setStatus(1);
-                    }
-                    for (DishOrderLine d : co.getDishes()) {
-                        d.setStatus(1);
-                    }
-                    for (ComboOrderLine c : co.getCombos()) {
-                        for (DishOrderLine di : c.getDishes()) {
-                            di.setStatus(1);
-                        }
-                    }
-                }
-            }
+            Collection<CustomerOrder> cOrders = ejbRestaurant.getOrders().values();
+//            HashMap<Integer, CustomerOrder> orders = ejbRestaurant.getOrders();
+//            if (cOrders == null) {
+//                cOrders = new ArrayList();
+//                cOrders = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
+//                for (CustomerOrder corrr : cOrders) {
+//                    System.out.println("recup bean : " + corrr.getDishes());
+//                }
+//            } else {
+//                cOrders.removeAll(cOrders);
+//                for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
+//                    if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
+//                            || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
+//                        System.out.println("recup ejb: " + e.getValue().getDishes());
+//                        cOrders.add(e.getValue());
+//                    }
+//                }
+//            }
+//            
+//            for (CustomerOrder co : cOrders) {
+//                if (co.getStatus().equals(OrderStatus.VALIDATE)) {
+//                    for (DrinkOrderLine dr : co.getDrinks()) {
+//                        dr.setStatus(1);
+//                    }
+//                    for (DishOrderLine d : co.getDishes()) {
+//                        d.setStatus(1);
+//                    }
+//                    for (ComboOrderLine c : co.getCombos()) {
+//                        for (DishOrderLine di : c.getDishes()) {
+//                            di.setStatus(1);
+//                        }
+//                    }
+//                }
+//            }
 
             session.setAttribute("cOrders", cOrders);
 
