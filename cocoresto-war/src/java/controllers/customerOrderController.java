@@ -350,7 +350,7 @@ public class customerOrderController implements IController {
 //                ejbRestaurant.addCustomerOrder(ejbCo);
                 session.setAttribute("cOrders", cOrders);
 
-                return cookUrl;
+                redirectToDashboard(request, response);
 
             } else {
                 redirectToDashboard(request, response);
@@ -448,7 +448,7 @@ public class customerOrderController implements IController {
 
                 session.setAttribute("cOrders", cOrders);
 
-                return cookUrl;
+                redirectToDashboard(request, response);
             } else {
                 redirectToDashboard(request, response);
             }

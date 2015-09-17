@@ -150,8 +150,8 @@ public class dashboardController implements IController {
 //                }
 //            }
 //            
-            
-            if (cOrders == null || cOrders.size() != newOrders.size()) {
+
+            if (cOrders == null) {
 //                cOrders = new ArrayList();
                 cOrders = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
                 for (CustomerOrder co : cOrders) {
@@ -164,7 +164,6 @@ public class dashboardController implements IController {
                         if (d.getStatus() == null) {
                             d.setStatus(1);
                         }
-                        System.out.println("DishOrderLine : " + d.getStatus());
                     }
                     for (ComboOrderLine c : co.getCombos()) {
                         for (DishOrderLine di : c.getDishes()) {
@@ -174,6 +173,33 @@ public class dashboardController implements IController {
                         }
                     }
                 }
+            }
+            if (cOrders.size() != newOrders.size()) {
+                for (CustomerOrder cc : newOrders) {
+                    if (!cOrders.contains(cc)) {
+                        cOrders.add(cc);
+                    }
+                }
+                for (CustomerOrder co : cOrders) {
+                    for (DrinkOrderLine dr : co.getDrinks()) {
+                        if (dr.getStatus() == null) {
+                            dr.setStatus(1);
+                        }
+                    }
+                    for (DishOrderLine d : co.getDishes()) {
+                        if (d.getStatus() == null) {
+                            d.setStatus(1);
+                        }
+                    }
+                    for (ComboOrderLine c : co.getCombos()) {
+                        for (DishOrderLine di : c.getDishes()) {
+                            if (di.getStatus() == null) {
+                                di.setStatus(1);
+                            }
+                        }
+                    }
+                }
+
             }
 //            for (CustomerOrder co : cOrders) {
 //                for (DrinkOrderLine dr : co.getDrinks()) {
