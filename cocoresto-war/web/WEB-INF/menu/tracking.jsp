@@ -16,7 +16,7 @@
                         <tr data-id="${orderline.id}">
                             <td>${orderline.dish.name}</td>
                             <td>${orderline.dish.category}</td>
-                            <td data-dish="${orderline.id}" class="statusDishOrderLine">
+                            <td data-idorderline="${orderline.id}" class="statusOrderLineAlert">
                                 <c:if test="${orderline.status == 1}"><span class="label label-default">En attente</span></c:if>
                                 <c:if test="${orderline.status == 2}"><span class="label label-info">En préparation</span></c:if>
                                 <c:if test="${orderline.status == 3}"><span class="label label-success">Prêt</span></c:if>
@@ -34,7 +34,7 @@
                         <tr data-id="${orderline.id}">
                             <td>${orderline.drink.name}</td>
                             <td>${orderline.drink.category}</td>
-                            <td data-drink="${orderline.id}" class="statusDrinkOrderLine">
+                            <td data-idorderline="${orderline.id}" class="statusOrderLineAlert">
                                 <c:if test="${orderline.status == 1}"><span class="label label-default">En attente</span></c:if>
                                 <c:if test="${orderline.status == 2}"><span class="label label-info">En préparation</span></c:if>
                                 <c:if test="${orderline.status == 3}"><span class="label label-success">Prêt</span></c:if>
@@ -53,10 +53,10 @@
                             <td class="bg-info" colspan="3">Plats du menu : ${comboorderline.combo.name}</td>
                         </tr>
                             <c:forEach var="orderline" items="${comboorderline.dishes}" varStatus="loop">
-                                <tr data-id="${orderline.id}">
+                                <tr data-idorderline="${orderline.id}">
                                     <td>${orderline.dish.name}</td>
                                     <td>${orderline.dish.category}</td>
-                                    <td data-dishCombo="${orderline.id}" class="statusDishComboOrderLine">
+                                    <td data-dishCombo="${orderline.id}" class="statusOrderLineAlert">
                                         <c:if test="${orderline.status == 1}"><span class="label label-default">En attente</span></c:if>
                                         <c:if test="${orderline.status == 2}"><span class="label label-info">En préparation</span></c:if>
                                         <c:if test="${orderline.status == 3}"><span class="label label-success">Prêt</span></c:if>

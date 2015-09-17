@@ -6,30 +6,22 @@ window.onload = formListener;
 
 function onMessage(e) {
     var alertStatus = JSON.parse(e.data);
-//    alert(alertStatus.idDish);
-//    alert(alertStatus.idDishCombo);
-//    alert(alertStatus.idDrink);
-    
+    var tdOP = null;
+    var tds = document.getElementsByTagName("td");
+    for (var i = 0; i < tds.length; i++) {
+        if (tds[i].dataset.idorderline == alertStatus.idOrderLineAlert) {
+            tdOP = tds[i];
+        }
+    }
+    var spanOP = tdOP.firstChild;
     if (alertStatus.action === "onprep") {
-        var tdOP = printAlertElement(alertStatus);
-        var spanOP = document.createElement("span");
-        spanOP.className = "label label-info";
-        spanOP.innerHTML = alertStatus.status;
-        tdOP.removeChild(tdOP.children[0]);
-//        tdOP.removeChild(tdOP.firstChild);
-        tdOP.appendChild(spanOP);
+        spanOP.innerHTML = "<span class=\"label label-info\">" + alertStatus.status + "</span>";
     }
     if (alertStatus.action === "ready") {
-        var tdR = printAlertElement(alertStatus);
-        var spanR = document.createElement("span");
-        spanR.className = "label label-success";
-        spanR.innerHTML = alertStatus.status;
-        tdR.removeChild(tdR.children[0]);
-        tdR.removeChild(tdR.lastChild);
-//        tdR.removeChild(tdR.firstChild);
-        tdR.appendChild(spanR);
-    }
+        spanOP.innerHTML = "<span class=\"label label-success\">" + alertStatus.status + "</span>";
 
+    }
+    tdOP.appendChild(spanOP);
 }
 
 function formListener() {
@@ -128,31 +120,5 @@ function sendReady(corder, dishonprep, comboonprep, dishcomboonprep, drinkonprep
     }
 }
 
-function printAlertElement(alertStatus) {
-    
-    
-    var tdDish = document.getElementsByClassName("statusDishOrderLine");
-        for (var i = 0; i < tdDish.length; i++) {
-            if (tdDish[i].dataset.dish == alertStatus.idDish) {
-                return tdDish[i];
-            }
-    }
-
-
-    var tdDrink = document.getElementsByClassName("statusDrinkOrderLine");
-        for (var j = 0; j < tdDrink.length; j++) {
-            if (tdDrink[j].dataset.drink == alertStatus.idDrink) {
-                return tdDrink[j];
-            }
-        
-    }
-
-    var tdDishCombo = document.getElementsByClassName("statusDishComboOrderLine");
-        for (var k = 0; k < tdDishCombo.length; k++) {
-            if (tdDishCombo[k].dataset.dishCombo == alertStatus.idDishCombo) {
-                return tdDishCombo[k];
-            }
-        }  
-}
 
 
