@@ -6,50 +6,22 @@ window.onload = formListener;
 
 function onMessage(e) {
     var alertStatus = JSON.parse(e.data);
-    alert("alertStatus " + alertStatus.idOrderLineAlert);
     var tdOP = null;
-//    var tdOrderLine = document.getElementsByClassName('statusOrderLineAlert');
-//    for (var i = 0; i < tdOrderLine.length; i++) {
-//        alert(tdOrderLine[i]);
-//        alert("dataset idorderline " + tdOrderLine[i].dataset.idorderline);
-//        alert(alertStatus.idOrderLineAlert);
-//        if (tdOrderLine[i].dataset.idorderline == alertStatus.idOrderLineAlert) {
-//            return tdOrderLine[i];
-//        }
-//    }
     var tds = document.getElementsByTagName("td");
     for (var i = 0; i < tds.length; i++) {
         if (tds[i].dataset.idorderline == alertStatus.idOrderLineAlert) {
             tdOP = tds[i];
         }
     }
-
-//    if (alertStatus.action === "onprep") {
-//    var spanOP = document.createElement("span");
     var spanOP = tdOP.firstChild;
     if (alertStatus.action === "onprep") {
-//    spanOP.className = "label label-info";
         spanOP.innerHTML = "<span class=\"label label-info\">" + alertStatus.status + "</span>";
     }
     if (alertStatus.action === "ready") {
         spanOP.innerHTML = "<span class=\"label label-success\">" + alertStatus.status + "</span>";
 
     }
-//        tdOP.removeChild(tdOP.children[0]);
-//    tdOP.removeChild(tdOP.firstChild);
     tdOP.appendChild(spanOP);
-//    }
-//    if (alertStatus.action === "ready") {
-//        var tdR = printAlertElement(alertStatus);
-//        var spanR = document.createElement("span");
-//        spanR.className = "label label-success";
-//        spanR.innerHTML = alertStatus.status;
-////        tdR.removeChild(tdR.children[0]);
-////        tdR.removeChild(tdR.lastChild);
-////        tdR.removeChild(tdR.firstChild);
-//        tdR.appendChild(spanR);
-//    }
-
 }
 
 function formListener() {
@@ -148,38 +120,5 @@ function sendReady(corder, dishonprep, comboonprep, dishcomboonprep, drinkonprep
     }
 }
 
-function printAlertElement(alertStatus) {
-//    var tdOrderLine = document.getElementsByClassName("statusOrderLineAlert");
-//    for(var i = 0; i < tdOrderLine.length; i++){
-//        alert("dataset idorderline " + tdOrderLine[i].dataset.idorderline);
-//        alert(alertStatus.idOrderLineAlert);
-//        if(tdOrderLine[i].dataset.idorderline == alertStatus.idOrderLineAlert){
-//            return tdOrderLine[i];
-//        }
-//    }
-
-//    var tdDish = document.getElementsByClassName("statusDishOrderLine");
-//        for (var i = 0; i < tdDish.length; i++) {
-//            if (tdDish[i].dataset.dish == alertStatus.idDish) {
-//                return tdDish[i];
-//            }
-//    }
-//
-//
-//    var tdDrink = document.getElementsByClassName("statusDrinkOrderLine");
-//        for (var j = 0; j < tdDrink.length; j++) {
-//            if (tdDrink[j].dataset.drink == alertStatus.idDrink) {
-//                return tdDrink[j];
-//            }
-//        
-//    }
-//
-//    var tdDishCombo = document.getElementsByClassName("statusDishComboOrderLine");
-//        for (var k = 0; k < tdDishCombo.length; k++) {
-//            if (tdDishCombo[k].dataset.dishCombo == alertStatus.idDishCombo) {
-//                return tdDishCombo[k];
-//            }
-//        }  
-}
 
 
