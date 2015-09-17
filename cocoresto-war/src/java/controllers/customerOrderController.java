@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -249,10 +250,9 @@ public class customerOrderController implements IController {
                         for (DishOrderLine orderline : dishOrderLines) {
                             dishes.add(orderline.getDish());
                             cartTotal += orderline.getDish().getTotalPrice();
-                            // order.getDishes().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
-                    //order.getDishes().removeAll(dishOrderLines);
+                    order.setDishes(new ArrayList());
                     session.setAttribute("cartDishes", dishes);
                 }
 
@@ -264,10 +264,9 @@ public class customerOrderController implements IController {
                         for (DrinkOrderLine orderline : drinkOrderLines) {
                             drinks.add(orderline.getDrink());
                             cartTotal += orderline.getDrink().getTotalPrice();
-                            // order.getDrinks().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
-                    order.getDrinks().removeAll(drinkOrderLines);
+                    order.setDrinks(new ArrayList());
                     session.setAttribute("cartDrinks", drinks);
                 }
 
@@ -279,10 +278,9 @@ public class customerOrderController implements IController {
                         for (ComboOrderLine orderline : comboOrderLines) {
                             combos.add(orderline.getCombo());
                             cartTotal += orderline.getCombo().getTotalPrice();
-                            // order.getCombos().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
-                    order.getCombos().removeAll(comboOrderLines);
+                    order.setCombos(new ArrayList());
                     session.setAttribute("cartCombos", combos);
                 }
 
