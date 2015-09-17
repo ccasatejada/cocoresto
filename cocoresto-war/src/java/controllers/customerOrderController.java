@@ -336,7 +336,7 @@ public class customerOrderController implements IController {
                     }
                 }
                 
-                ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
+//                ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
 
                 for (int i = 0; i < cOrders.size(); i++) {
                     if (cOrders.get(i).getId().equals(ejbCo.getId())) {
@@ -345,7 +345,7 @@ public class customerOrderController implements IController {
                     }
                 }
                 cOrders.add(ejbCo);
-                ejbRestaurant.addCustomerOrder(ejbCo);
+//                ejbRestaurant.addCustomerOrder(ejbCo);
 
                 session.setAttribute("cOrders", cOrders);
 
@@ -406,14 +406,14 @@ public class customerOrderController implements IController {
                     }
                 }
                 cOrders.add(ejbCo);
-                ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
-                ejbRestaurant.addCustomerOrder(ejbCo);
+//                ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
+//                ejbRestaurant.addCustomerOrder(ejbCo);
 
                 if (dishReady && drinkReady && comboReady) {
                     ejbCo.setStatus(OrderStatus.FINISHED);
                     boc.update(ejbCo);
-                    ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
-                    ejbRestaurant.addCustomerOrder(ejbCo);
+//                    ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
+//                    ejbRestaurant.addCustomerOrder(ejbCo);
                 }
 
                 session.setAttribute("cOrders", cOrders);
