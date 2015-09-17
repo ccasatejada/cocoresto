@@ -411,19 +411,19 @@ public class customerOrderController implements IController {
 //                ejbRestaurant.getOrders().remove(Integer.valueOf(request.getParameter("tNb")));
 //                ejbRestaurant.addCustomerOrder(ejbCo);
 
-                for (CustomerOrder co : cOrders) {
+//                for (CustomerOrder co : cOrders) {
 
-                    for (DrinkOrderLine dr : co.getDrinks()) {
+                    for (DrinkOrderLine dr : ejbCo.getDrinks()) {
                         if (!dr.getStatus().equals(3)) {
                             drinkReady = false;
                         }
                     }
-                    for (DishOrderLine d : co.getDishes()) {
+                    for (DishOrderLine d : ejbCo.getDishes()) {
                         if (!d.getStatus().equals(3)) {
                             dishReady = false;
                         }
                     }
-                    for (ComboOrderLine c : co.getCombos()) {
+                    for (ComboOrderLine c : ejbCo.getCombos()) {
                         for (DishOrderLine di : c.getDishes()) {
                             if (!di.getStatus().equals(3)) {
                                 comboReady = false;
@@ -431,7 +431,7 @@ public class customerOrderController implements IController {
                         }
                     }
 
-                }
+//                }
 
                 if (dishReady && drinkReady && comboReady) {
                     ejbCo.setStatus(OrderStatus.FINISHED);
