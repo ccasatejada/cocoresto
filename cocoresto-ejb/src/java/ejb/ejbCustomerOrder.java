@@ -160,33 +160,27 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
         JsonProvider provider = JsonProvider.provider();
         JsonObject onPrepMessage = null;
         if (dish != null && combo == null) {
-            System.out.println("dish: " + dish.getDish().getName());
             onPrepMessage = provider.createObjectBuilder()
                     .add("action", "onprep")
                     .add("typeAlert", "dish")
                     .add("status", "En préparation")
-                    .add("idDish", dish.getId())
+                    .add("idOrderLineAlert", dish.getId())
                     .build();
         }
         if (drink != null) {
-            System.out.println("drink : " + drink.getDrink().getName());
             onPrepMessage = provider.createObjectBuilder()
                     .add("action", "onprep")
                     .add("typeAlert", "drink")
                     .add("status", "En préparation")
-                    .add("idDrink", drink.getId())
+                    .add("idOrderLineAlert", drink.getId())
                     .build();
         }
         if (combo != null && dish != null) {
-            System.out.println("combo : " + combo.getId());
-            System.out.println("combo : " + combo.getCombo().getName());
-            System.out.println("dish : " + dish.getId());
-            System.out.println("dish : " + dish.getDish().getName());
             onPrepMessage = provider.createObjectBuilder()
                     .add("action", "onprep")
                     .add("typeAlert", "combo")
                     .add("status", "En préparation")
-                    .add("idDishCombo", dish.getId())
+                    .add("idOrderLineAlert", dish.getId())
                     .build();
         }
         return onPrepMessage;
@@ -196,31 +190,27 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
         JsonProvider provider = JsonProvider.provider();
         JsonObject readyMessage = null;
         if (dish != null && combo == null) {
-            System.out.println(dish.getDish().getName());
             readyMessage = provider.createObjectBuilder()
                     .add("action", "ready")
                     .add("typeAlert", "dish")
                     .add("status", "Prêt")
-                    .add("idDish", dish.getId())
+                    .add("idOrderLineAlert", dish.getId())
                     .build();
         }
         if (drink != null) {
-            System.out.println(drink.getDrink().getName());
             readyMessage = provider.createObjectBuilder()
                     .add("action", "ready")
                     .add("typeAlert", "drink")
                     .add("status", "Prêt")
-                    .add("idDrink", drink.getId())
+                    .add("idOrderLineAlert", drink.getId())
                     .build();
         }
         if (combo != null && dish != null) {
-            System.out.println("combo:" + combo.getCombo().getName());
-            System.out.println("dish:" + dish.getDish().getId());
             readyMessage = provider.createObjectBuilder()
                     .add("action", "ready")
                     .add("typeAlert", "combo")
                     .add("status", "Prêt")
-                    .add("idDishCombo", dish.getId())
+                    .add("idOrderLineAlert", dish.getId())
                     .build();
         }
 
@@ -237,29 +227,22 @@ public class ejbCustomerOrder implements ejbCustomerOrderLocal {
             Entry entry = (Entry) entries.next();
             Session s = (Session) entry.getKey();
             if (s.isOpen()) {
-                System.out.println("coucou after isOpen");
                 try {
                     Employee e = (Employee) entry.getValue();
                     if (e != null && order.getEmployee().getId().equals(e.getId())) {
-                        System.out.println("coucou je suis l'employé " + e.getLastName());
                         s.getBasicRemote().sendText(message.toString());
                     }
                 } catch (IOException | ClassCastException x) {
-                    System.out.println("je n'étais pas un employé");
                     try {
                         Integer ct = (Integer) entry.getValue();
                         if (ct != null && order.getCustomerTable().getNumber().equals(ct)) {
-                            System.out.println("mais une table");
                             s.getBasicRemote().sendText(message.toString());
                         }
                     } catch (IOException | ClassCastException ex) {
-                        System.out.println("je n'étais rien de tout ça donc je sais pas quoi faire");
                     } finally {
-                        System.out.println("finalement je continue 1ere partie");
                         continue;
                     }
                 } finally {
-                    System.out.println("finalement je continue 2e partie");
                     continue;
                 }
             }
