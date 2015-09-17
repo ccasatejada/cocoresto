@@ -134,12 +134,15 @@ public class dashboardController implements IController {
             if (cOrders == null) {
                 cOrders = new ArrayList();
                 cOrders = boc.findOrdersByStatus(OrderStatus.VALIDATE, OrderStatus.PREPARED);
+                for (CustomerOrder corrr : cOrders) {
+                    System.out.println("recup bean : " + corrr.getDishes());
+                }
             } else {
                 cOrders.removeAll(cOrders);
                 for (Map.Entry<Integer, CustomerOrder> e : orders.entrySet()) {
                     if (e.getValue().getStatus().equals(OrderStatus.VALIDATE)
                             || e.getValue().getStatus().equals(OrderStatus.PREPARED)) {
-
+                        System.out.println("recup ejb: " + e.getValue().getDishes());
                         cOrders.add(e.getValue());
                     }
                 }
