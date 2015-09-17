@@ -252,7 +252,7 @@ public class customerOrderController implements IController {
                             // order.getDishes().remove(orderline); // remove in ejb to avoid duplicate content
                         }
                     }
-                    order.getDishes().removeAll(dishOrderLines);
+                    //order.getDishes().removeAll(dishOrderLines);
                     session.setAttribute("cartDishes", dishes);
                 }
 
