@@ -7,7 +7,6 @@ window.onload = formListener;
 function onMessage(event) {
     var alertStatus = JSON.parse(event.data);
     printAlertElement(alertStatus);
-    printOrderStatusElement(alertStatus);
     //tdOP.appendChild(spanOP);
 }
 
@@ -28,14 +27,12 @@ function printAlertElement(alertStatus) {
         }
     }
 
-}
-
-function printOrderStatusElement(alertStatus) {
     if (document.getElementById("helpDiv") !== null) {
         var divOP = null;
         var divs = document.getElementsByTagName("div");
         for (var i = 0; i < divs.length; i++) {
             if (parseInt(divs[i].dataset.idcustomerorder) == alertStatus.idCustomerOrder) {
+                console.log("coucou");
                 divOP = divs[i];
             }
         }
@@ -43,10 +40,13 @@ function printOrderStatusElement(alertStatus) {
         if (divOP !== null) {
 //            var classbystatus = "label label-"+alertStatus.statusOrderEnum;
 //            divOP.className(classbystatus);
+            console.log(divOP);
             divOP.innerHTML = alertStatus.statusOrder;
         }
     }
+
 }
+
 
 function formListener() {
     var formOnPrep = document.querySelectorAll('#ordersToDo .btn.status');
