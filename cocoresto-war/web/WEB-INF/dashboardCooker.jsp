@@ -184,3 +184,12 @@
 
 
 </section>
+
+<script>
+
+    setInterval(function () {
+        location.reload();
+    }, 8000);
+
+</script>
+
