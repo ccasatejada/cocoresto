@@ -2,13 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-    <div class="btn-group btn-group-justified mb-20 mt-40" role="group">
-        <div class="btn-group" role="group">
-            <div id="helpDiv">
-                <a href="FrontController?option=customerOrder&task=help" class="btn btn-lg btn-lightred"><i class="fa fa-bell"></i> <strong><span id="helpSpan">${nbHelp}</span></strong> demande(s) d'aide en attente</a>
-            </div>
+<div class="btn-group btn-group-justified mb-20 mt-40" role="group">
+    <div class="btn-group" role="group">
+        <div id="helpDiv">
+            <a href="FrontController?option=customerOrder&task=help" class="btn btn-lg btn-lightred"><i class="fa fa-bell"></i> <strong><span id="helpSpan">${nbHelp}</span></strong> demande(s) d'aide en attente</a>
         </div>
     </div>
+</div>
 
 
 <section class="tile">
@@ -54,3 +54,11 @@
     ${pagination}
 
 </section>
+
+<script>
+
+    setInterval(function () {
+        location.reload();
+    }, 8000);
+
+</script>
